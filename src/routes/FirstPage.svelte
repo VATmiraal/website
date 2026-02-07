@@ -33,6 +33,10 @@
 		animation-delay: var(--intro-animation-duration);
 	}
 
+	#join-beta:hover {
+	background-color: #ed2939;
+	}
+
 	@keyframes shake {
 		0%,
 		100% {
