@@ -13,21 +13,9 @@
 		event.preventDefault();
 
 		const form = event.target as HTMLFormElement;
-		const formData = new FormData(form);
-		const entries: [string, string][] = [];
-		for (const [key, value] of formData.entries()) {
-			if (typeof value === 'string') {
-				entries.push([key, value]);
-			} else {
-				console.error(`the form value ${key}:${value} is not a string`);
-				popupTitle = 'Oops!';
-				popupMessage =
-					'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
-				showPopup = true;
-				return;
-			}
-		}
-		const params = new URLSearchParams(entries);
+		const formData = <any> new FormData(form);
+
+		const params = new URLSearchParams(formData);
 
 		if (data?.devMode ?? dev) {
 			popupTitle = 'Thank You! (Dev Mode)';
@@ -78,11 +66,11 @@
 		id="beta-form"
 		data-testid="beta-form"
 		name="beta-signup"
-		method="POST"
 		data-netlify="true"
 		onsubmit={handleSubmit}
+		netlify-honeypot="bot-field"
 	>
-		<input type="hidden" name="form-name" value="beta-signup" />
+	<input type="hidden" name="form-name" value="beta-signup" />
 
 		<div class="form-group">
 			<label for="email">Email</label>
