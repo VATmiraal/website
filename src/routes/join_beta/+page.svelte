@@ -34,7 +34,8 @@
 
 			popupTitle = 'Thank You!';
 			popupMessage = "You've been added to the beta waitlist. We'll be in touch soon.";
-		} catch {
+		} catch (e: unknown) {
+			console.error(`there was an error sending data to the form: ${e}`);
 			popupTitle = 'Oops!';
 			popupMessage =
 				'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
@@ -57,7 +58,7 @@
 	<h1>Join the Beta Waitlist</h1>
 	<p id="subtitle">Be among the first to experience the future of VAT compliance.</p>
 
-	<form id="beta-form" data-testid="beta-form" onsubmit={handleSubmit}>
+	<form id="beta-form" data-testid="beta-form"  action="https://formspree.io/f/mreagrzq" method="POST" onsubmit={handleSubmit}>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input type="email" id="email" name="email" placeholder="your.email@company.com" required />
