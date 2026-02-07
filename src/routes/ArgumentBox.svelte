@@ -43,4 +43,29 @@
 		align-items: center;
 		justify-content: center;
 	}
+
+	@media (max-width: 768px) {
+		div {
+			width: 85vw;
+			height: auto;
+			padding-bottom: 1.5em;
+		}
+
+		h1 {
+			font-size: 1.3em;
+			min-height: 2em;
+		}
+	}
+
+	@media (min-width: 769px) and (max-width: 1024px) {
+		div {
+			width: 28vw;
+			height: auto;
+			padding-bottom: 1.5em;
+		}
+
+		h1 {
+			font-size: 1.4em;
+		}
+	}
 </style>

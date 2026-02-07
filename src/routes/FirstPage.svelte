@@ -129,4 +129,39 @@
 		padding-top: 12vh;
 		height: calc(100vh - var(--header-total-height));
 	}
+
+	@media (max-width: 768px) {
+		p {
+			width: 85vw;
+			font-size: 1.2em;
+		}
+
+		#join-beta {
+			font-size: 1.3em;
+		}
+
+		#page {
+			gap: 8%;
+			padding-top: 8vh;
+		}
+
+		#arrow {
+			--arrow-height: 12vh;
+		}
+	}
+
+	@media (min-width: 400px) and (max-width: 1024px) {
+		p {
+			width: 60vw;
+			font-size: 1.3em;
+		}
+
+		#page {
+			gap: 12%;
+		}
+
+		#arrow {
+			--arrow-height: 15vh;
+		}
+	}
 </style>

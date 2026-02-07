@@ -5,9 +5,8 @@
 </script>
 
 <svelte:head>
-     <title>VATmiraal</title>
+	<title>VATmiraal</title>
 </svelte:head>
-
 
 <Header />
 

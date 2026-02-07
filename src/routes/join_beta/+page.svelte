@@ -13,9 +13,7 @@
 		event.preventDefault();
 
 		const form = event.target as HTMLFormElement;
-		const formData = <any> new FormData(form);
-
-		const params = new URLSearchParams(formData);
+		const formData = new FormData(form);
 
 		if (data?.devMode ?? dev) {
 			popupTitle = 'Thank You! (Dev Mode)';
@@ -25,17 +23,18 @@
 			return;
 		}
 
-		const response = await fetch('/', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			body: params.toString()
-		});
+		try {
+			await fetch('https://formspree.io/f/mreagrzq', {
+				method: form.method,
+				body: formData,
+				headers: {
+					Accept: 'application/json'
+				}
+			});
 
-		if (response.ok) {
 			popupTitle = 'Thank You!';
 			popupMessage = "You've been added to the beta waitlist. We'll be in touch soon.";
-		} else {
-		    console.error(`the response is not ok it returns ${JSON.stringify(await response.json(), null, 2)}`);
+		} catch {
 			popupTitle = 'Oops!';
 			popupMessage =
 				'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
@@ -48,27 +47,17 @@
 		showPopup = false;
 		goto(resolve('/'));
 	}
-
 </script>
 
 <svelte:head>
-     <title>Join the Beta Waitlist</title>
+	<title>Join the Beta Waitlist</title>
 </svelte:head>
 
 <div id="page">
 	<h1>Join the Beta Waitlist</h1>
 	<p id="subtitle">Be among the first to experience the future of VAT compliance.</p>
 
-	<form
-		id="beta-form"
-		data-testid="beta-form"
-		name="beta-signup"
-		data-netlify="true"
-		onsubmit={handleSubmit}
-		netlify-honeypot="bot-field"
-	>
-	<input type="hidden" name="form-name" value="beta-signup" />
-
+	<form id="beta-form" data-testid="beta-form" onsubmit={handleSubmit}>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input type="email" id="email" name="email" placeholder="your.email@company.com" required />
@@ -169,9 +158,10 @@
 	select {
 		cursor: pointer;
 		appearance: none;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='black' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+		background-image: url('/chevron-down.svg');
 		background-repeat: no-repeat;
 		background-position: right 1em center;
+		background-size: 12px 12px;
 	}
 
 	button {
@@ -232,5 +222,40 @@
 
 	.popup button {
 		margin-top: 0;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.8em;
+		}
+
+		#beta-form {
+			width: 90vw;
+			min-width: unset;
+		}
+
+		#page {
+			padding-top: 5vh;
+		}
+
+		#subtitle {
+			margin-bottom: 1.5em;
+		}
+
+		.popup {
+			padding: 1.5em;
+			max-width: 85vw;
+		}
+	}
+
+	@media (min-width: 769px) and (max-width: 1024px) {
+		#beta-form {
+			width: 50vw;
+			min-width: unset;
+		}
+
+		.popup {
+			padding: 2em;
+		}
 	}
 </style>

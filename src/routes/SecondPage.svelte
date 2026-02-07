@@ -59,4 +59,40 @@
 
 		gap: 6vw;
 	}
+
+	@media (max-width: 768px) {
+		#page {
+			height: auto;
+			gap: 5vh;
+			padding-bottom: 5vh;
+		}
+
+		#why-vatmiraal {
+			width: 85vw;
+			font-size: 1.8em;
+		}
+
+		#arguments {
+			flex-direction: column;
+			align-items: center;
+			gap: 3vh;
+		}
+	}
+
+	@media (min-width: 769px) and (max-width: 1024px) {
+		#page {
+			height: auto;
+			gap: 8vh;
+			padding-bottom: 5vh;
+		}
+
+		#why-vatmiraal {
+			width: 60vw;
+			font-size: 2.2em;
+		}
+
+		#arguments {
+			gap: 3vw;
+		}
+	}
 </style>

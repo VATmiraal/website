@@ -57,4 +57,32 @@
 		height: auto;
 		object-fit: contain;
 	}
+
+	@media (max-width: 768px) {
+		#vatmiraal {
+			font-size: 1.8em;
+		}
+
+		#social-media {
+			column-gap: 1.5em;
+		}
+
+		#social-media img {
+			width: 2em;
+		}
+	}
+
+	@media (min-width: 769px) and (max-width: 1024px) {
+		#vatmiraal {
+			font-size: 2.2em;
+		}
+
+		#social-media {
+			column-gap: 2em;
+		}
+
+		#social-media img {
+			width: 2.5em;
+		}
+	}
 </style>
