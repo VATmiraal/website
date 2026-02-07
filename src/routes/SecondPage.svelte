@@ -1,0 +1,62 @@
+<script lang="ts">
+	import type { IVatmiraalArg } from './ArgumentBox.svelte';
+	import ArgumentBox from './ArgumentBox.svelte';
+
+	const naturalInput: IVatmiraalArg = {
+		title: 'Natural Input For VAT analysis',
+		args: ['Text', 'Documents', 'Email chains']
+	};
+
+	const enterpriseProduct: IVatmiraalArg = {
+		title: 'Enterprise Product',
+		args: [
+			'Integrate your existing stack',
+			'No vendor lock-in',
+			'Processes hundreds of transactions per second'
+		]
+	};
+
+	const businessPlaning: IVatmiraalArg = {
+		title: 'Integrated with Business Planing',
+		args: ['Combine tax planning with logistic operation research', 'Numerical and soft constrains']
+	};
+
+	const vatmiraalArgs: IVatmiraalArg[] = [naturalInput, enterpriseProduct, businessPlaning];
+</script>
+
+<div id="page">
+	<p id="why-vatmiraal">Why VATmiraal</p>
+	<div id="arguments">
+		{#each vatmiraalArgs as arg (arg)}
+			<ArgumentBox {...arg} />
+		{/each}
+	</div>
+</div>
+
+<style>
+	#page {
+		height: 100vh;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+
+		gap: 13vh;
+	}
+
+	#why-vatmiraal {
+		width: 35vw;
+		font-weight: bold;
+		text-align: center;
+		font-size: 2.6em;
+		font-weight: bold;
+	}
+
+	#arguments {
+		display: flex;
+		justify-content: center;
+
+		gap: 6vw;
+	}
+</style>
