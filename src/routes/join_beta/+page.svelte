@@ -49,14 +49,11 @@
 		goto(resolve('/'));
 	}
 
-	function handleKeydown(event: KeyboardEvent) {
-		if (event.key === 'Escape') {
-			closePopup();
-		}
-	}
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:head>
+     <title>Join the Beta Waitlist</title>
+</svelte:head>
 
 <div id="page">
 	<h1>Join the Beta Waitlist</h1>
