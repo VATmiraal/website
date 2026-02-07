@@ -1,8 +1,8 @@
 <script lang="ts">
-    export interface IVatmiraalArg{
-      title:string;
-      args: string[];
-    }
+	export interface IVatmiraalArg {
+		title: string;
+		args: string[];
+	}
 
 	let { title, args }: IVatmiraalArg = $props();
 </script>
@@ -17,24 +17,24 @@
 </div>
 
 <style>
-    div{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+	div {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 
-        border: 2.5px solid;
-        height: 30vh;
-        width: 25vw;
-    }
+		border: 2.5px solid;
+		height: 30vh;
+		width: 25vw;
+	}
 
-    ul{
-        align-self: flex-start;
-        font-size: 1.17em;
-    }
+	ul {
+		align-self: flex-start;
+		font-size: 1.17em;
+	}
 
-    h1{
-        width: 80%;
-        font-weight: bold;
+	h1 {
+		width: 80%;
+		font-weight: bold;
 		text-align: center;
 		font-size: 1.6em;
 		font-weight: bold;
@@ -42,5 +42,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-    }
+	}
 </style>

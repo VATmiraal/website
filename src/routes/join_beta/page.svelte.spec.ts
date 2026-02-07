@@ -24,7 +24,7 @@ describe('/+page.svelte', () => {
 		const emailInput = page.getByLabelText('Email').element() as HTMLInputElement;
 		expect(emailInput.validity.valueMissing).toBe(true);
 		expect(emailInput.validationMessage).toBeTruthy();
-  });
+	});
 
 	it('should not submit when the email is missing', async () => {
 		render(Page);
@@ -45,13 +45,13 @@ describe('/+page.svelte', () => {
 		const emailInput = page.getByLabelText('Email').element() as HTMLInputElement;
 		expect(emailInput.validity.valueMissing).toBe(true);
 		expect(emailInput.validationMessage).toBeTruthy();
-  });
+	});
 
 	it('should not submit when the email is poorly formated', async () => {
 		render(Page);
 
 		// Fill in everything except email
-    await page.getByLabelText('Company').fill('Test Company');
+		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Email').fill('Test email');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
@@ -65,10 +65,10 @@ describe('/+page.svelte', () => {
 
 		// Email input should have a validity warning
 		const emailInput = page.getByLabelText('Email').element() as HTMLInputElement;
-    expect(emailInput.validity.valueMissing).toBe(false);
+		expect(emailInput.validity.valueMissing).toBe(false);
 		expect(emailInput.validity.valid).toBe(false);
 		expect(emailInput.validationMessage).toBeTruthy();
-  });
+	});
 
 	it('should not submit when the company is missing', async () => {
 		render(Page);
@@ -89,13 +89,13 @@ describe('/+page.svelte', () => {
 		const companyInput = page.getByLabelText('Company').element() as HTMLInputElement;
 		expect(companyInput.validity.valueMissing).toBe(true);
 		expect(companyInput.validationMessage).toBeTruthy();
-  });
+	});
 
 	it('should not submit when the role is missing', async () => {
 		render(Page);
 
 		// Fill in everything except role
-    await page.getByLabelText('Email').fill('myEmail@email.be');
+		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 
 		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
@@ -110,12 +110,12 @@ describe('/+page.svelte', () => {
 		const roleInput = page.getByLabelText('Role').element() as HTMLInputElement;
 		expect(roleInput.validity.valueMissing).toBe(true);
 		expect(roleInput.validationMessage).toBeTruthy();
-  });
+	});
 
 	it('should submit the form when it is valid', async () => {
-		const fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue(
-			new Response(null, { status: 200 })
-		);
+		const fetchSpy = vi
+			.spyOn(window, 'fetch')
+			.mockResolvedValue(new Response(null, { status: 200 }));
 
 		render(Page);
 
@@ -128,23 +128,28 @@ describe('/+page.svelte', () => {
 
 		// Verify the POST request was sent
 		expect(fetchSpy).toHaveBeenCalledOnce();
-		expect(fetchSpy).toHaveBeenCalledWith('/', expect.objectContaining({
-			method: 'POST',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}));
+		expect(fetchSpy).toHaveBeenCalledWith(
+			'/',
+			expect.objectContaining({
+				method: 'POST',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			})
+		);
 
 		// Form should still be visible
 		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
 
 		// Popup should appear with success message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
-		await expect.element(page.getByText("You've been added to the beta waitlist. We'll be in touch soon.")).toBeInTheDocument();
+		await expect
+			.element(page.getByText("You've been added to the beta waitlist. We'll be in touch soon."))
+			.toBeInTheDocument();
 	});
 
 	it('should show dev mode popup and skip fetch when dev is on', async () => {
 		const fetchSpy = vi.spyOn(window, 'fetch');
 
-    render(Page, { props: { data: { devMode: true } } });
+		render(Page, { props: { data: { devMode: true } } });
 
 		// Fill in all fields
 		await page.getByLabelText('Email').fill('myEmail@email.be');
@@ -162,13 +167,17 @@ describe('/+page.svelte', () => {
 		// Popup should appear with dev mode message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
 		await expect.element(page.getByText('Thank You! (Dev Mode)')).toBeInTheDocument();
-		await expect.element(page.getByText("Form submission skipped in development. In production, you'd be added to the waitlist.")).toBeInTheDocument();
+		await expect
+			.element(
+				page.getByText(
+					"Form submission skipped in development. In production, you'd be added to the waitlist."
+				)
+			)
+			.toBeInTheDocument();
 	});
 
 	it('should show error popup when the request fails', async () => {
-		vi.spyOn(window, 'fetch').mockResolvedValue(
-			new Response(null, { status: 500 })
-		);
+		vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 500 }));
 
 		render(Page);
 
@@ -185,6 +194,12 @@ describe('/+page.svelte', () => {
 		// Popup should appear with error message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
 		await expect.element(page.getByText('Oops!')).toBeInTheDocument();
-		await expect.element(page.getByText('Something went wrong. Please try again later or contact us at info@vatmiraal.be')).toBeInTheDocument();
+		await expect
+			.element(
+				page.getByText(
+					'Something went wrong. Please try again later or contact us at info@vatmiraal.be'
+				)
+			)
+			.toBeInTheDocument();
 	});
 });

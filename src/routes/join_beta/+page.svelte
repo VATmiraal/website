@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 
-	let { data = undefined }: { data?: {devMode:boolean} } = $props();
+	let { data = undefined }: { data?: { devMode: boolean } } = $props();
 
 	let showPopup = $state(false);
 	let popupTitle = $state('Thank You!');
