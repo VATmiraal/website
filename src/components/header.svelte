@@ -4,7 +4,7 @@
 </script>
 
 <div id="header">
-	<span id="vatmiraal">VATmiraal</span>
+	<h1 id="vatmiraal">VATmiraal</h1>
 	<div id="social-media">
 		<a href="mailto:info@vatmiraal.be"><img src={emailIcon} alt="email logo" /></a>
 		<a href="https://www.linkedin.com/company/vatmiral" target="_blank"
