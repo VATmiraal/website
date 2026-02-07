@@ -129,10 +129,12 @@ describe('/+page.svelte', () => {
 		// Verify the POST request was sent
 		expect(fetchSpy).toHaveBeenCalledOnce();
 		expect(fetchSpy).toHaveBeenCalledWith(
-			'/',
+			'https://formspree.io/f/mreagrzq',
 			expect.objectContaining({
-				method: 'POST',
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				method: 'post',
+				headers: {
+					Accept: 'application/json'
+				}
 			})
 		);
 
@@ -178,6 +180,33 @@ describe('/+page.svelte', () => {
 
 	it('should show error popup when the request fails', async () => {
 		vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 500 }));
+
+		render(Page, { props: { data: { devMode: false } } });
+
+		// Fill in all fields
+		await page.getByLabelText('Email').fill('myEmail@email.be');
+		await page.getByLabelText('Company').fill('Test Company');
+		await page.getByLabelText('Role').selectOptions('tax-advisor');
+
+		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+
+		// Form should still be visible
+		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+
+		// Popup should appear with error message
+		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
+		await expect.element(page.getByText('Oops!')).toBeInTheDocument();
+		await expect
+			.element(
+				page.getByText(
+					'Something went wrong. Please try again later or contact us at info@vatmiraal.be'
+				)
+			)
+			.toBeInTheDocument();
+	});
+
+	it('should show error popup when the request return an error', async () => {
+		vi.spyOn(window, 'fetch').mockRejectedValueOnce(new Error(''));
 
 		render(Page, { props: { data: { devMode: false } } });
 
