@@ -1,42 +1,25 @@
-# sv
+# VATmiraal
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+[![Lint](https://github.com/VATmiraal/website/actions/workflows/lint.yml/badge.svg)](https://github.com/VATmiraal/website/actions/workflows/lint.yml)
+[![Check](https://github.com/VATmiraal/website/actions/workflows/check.yml/badge.svg)](https://github.com/VATmiraal/website/actions/workflows/check.yml)
+[![Test](https://github.com/VATmiraal/website/actions/workflows/test.yml/badge.svg)](https://github.com/VATmiraal/website/actions/workflows/test.yml)
 
-## Creating a project
+The VATmiraal website.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Install
 
-```sh
-# create a new project
-npx sv create my-app
+```bash
+bun install
 ```
 
-To recreate this project with the same configuration:
+## Dev
 
-```sh
-# recreate this project
-bun x sv create --template minimal --types ts --add prettier eslint vitest="usages:unit,component" --install bun website
+```bash
+bun run dev
 ```
 
-## Developing
+## Test
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+bun run test
 ```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

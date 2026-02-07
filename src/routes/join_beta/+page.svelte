@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import {dev} from '$app/environment';
+	import { dev } from '$app/environment';
 
 	let { data }: { data?: { devMode: boolean } } = $props();
 
@@ -19,6 +19,7 @@
 			if (typeof value === 'string') {
 				entries.push([key, value]);
 			} else {
+				console.error(`the form value ${key}:${value} is not a string`);
 				popupTitle = 'Oops!';
 				popupMessage =
 					'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
@@ -46,6 +47,7 @@
 			popupTitle = 'Thank You!';
 			popupMessage = "You've been added to the beta waitlist. We'll be in touch soon.";
 		} else {
+		    console.error(`the response is not ok it returns ${JSON.stringify(await response.json(), null, 2)}`);
 			popupTitle = 'Oops!';
 			popupMessage =
 				'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
