@@ -34,7 +34,8 @@
 	}
 
 	@keyframes shake {
-		0%, 100% {
+		0%,
+		100% {
 			transform: translateX(0);
 		}
 		10% {
@@ -109,9 +110,9 @@
 				0 0 25px rgba(237, 41, 57, 0.5);
 		}
 		100% {
-			box-shadow:
-				0 0 0 0px transparent,
-				0 0 0px transparent;
+		box-shadow:
+			0 0 0 4px black,
+			0 0 25px transparent;
 		}
 	}
 

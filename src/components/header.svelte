@@ -1,10 +1,12 @@
 <script>
+	import { resolve } from '$app/paths';
+
 	import emailIcon from '$lib/assets/email-logo.svg';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 </script>
 
 <div id="header">
-	<h1 id="vatmiraal">VATmiraal</h1>
+	<h1 id="vatmiraal"><a href={resolve('/')}>VATmiraal</a></h1>
 	<div id="social-media">
 		<a href="mailto:info@vatmiraal.be"><img src={emailIcon} alt="email logo" /></a>
 		<a href="https://www.linkedin.com/company/vatmiral" target="_blank"
@@ -41,6 +43,11 @@
 		margin-left: var(--header-margin);
 		font-size: 3em;
 		font-weight: bolder;
+	}
+
+	#vatmiraal a {
+		color: black;
+		text-decoration: none;
 	}
 
 	#social-media img {
