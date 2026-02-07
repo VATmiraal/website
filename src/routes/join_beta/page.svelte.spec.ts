@@ -117,7 +117,7 @@ describe('/+page.svelte', () => {
 			.spyOn(window, 'fetch')
 			.mockResolvedValue(new Response(null, { status: 200 }));
 
-		render(Page);
+		render(Page, { props: { data: { devMode: false } } });
 
 		// Fill in all fields
 		await page.getByLabelText('Email').fill('myEmail@email.be');
@@ -179,7 +179,7 @@ describe('/+page.svelte', () => {
 	it('should show error popup when the request fails', async () => {
 		vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 500 }));
 
-		render(Page);
+		render(Page, { props: { data: { devMode: false } } });
 
 		// Fill in all fields
 		await page.getByLabelText('Email').fill('myEmail@email.be');

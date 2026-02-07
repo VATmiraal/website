@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import {dev} from '$app/environment';
 
-	let { data = undefined }: { data?: { devMode: boolean } } = $props();
+	let { data }: { data?: { devMode: boolean } } = $props();
 
 	let showPopup = $state(false);
 	let popupTitle = $state('Thank You!');
@@ -27,7 +28,7 @@
 		}
 		const params = new URLSearchParams(entries);
 
-		if (data?.devMode) {
+		if (data?.devMode ?? dev) {
 			popupTitle = 'Thank You! (Dev Mode)';
 			popupMessage =
 				"Form submission skipped in development. In production, you'd be added to the waitlist.";
