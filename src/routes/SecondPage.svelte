@@ -18,7 +18,7 @@
 
 	const businessPlaning: IVatmiraalArg = {
 		title: 'Integrated with Business Planing',
-		args: ['Combine tax planning with logistic operation research', 'Numerical and soft constrains']
+		args: ['Combine tax planning with logistic constraints', 'Just-In-Time calculation']
 	};
 
 	const vatmiraalArgs: IVatmiraalArg[] = [naturalInput, enterpriseProduct, businessPlaning];
