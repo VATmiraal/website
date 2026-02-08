@@ -34,7 +34,7 @@
 	}
 
 	#join-beta:hover {
-		transform: translateY(-12px);
+		transform: translateY(-3px);
 	}
 
 	@keyframes shake {
