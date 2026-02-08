@@ -152,6 +152,10 @@
 		#arrow {
 			--arrow-height: 12vh;
 		}
+
+		#join-beta:hover {
+			transform: translateY(0px);
+		}
 	}
 
 	@media (min-width: 400px) and (max-width: 1024px) {
@@ -166,6 +170,10 @@
 
 		#arrow {
 			--arrow-height: 15vh;
+		}
+
+		#join-beta:hover {
+			transform: translateY(0px);
 		}
 	}
 </style>
