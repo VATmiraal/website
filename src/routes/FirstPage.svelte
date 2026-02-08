@@ -82,7 +82,8 @@
 
 		position: relative;
 
-		bottom: calc(var(--arrow-height) / 2 + 2vh);
+		bottom: calc(var(--arrow-height)/1.7 );
+		margin-top: auto;
 	}
 
 	p {
@@ -168,7 +169,8 @@
 		}
 
 		#arrow {
-			--arrow-height: 15vh;
+			--arrow-height: 13vh;
+			bottom: calc(var(--arrow-height)/1.2 );
 		}
 
 		#join-beta:hover {
