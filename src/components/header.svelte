@@ -26,6 +26,7 @@
 	#header {
 		display: flex;
 		justify-content: space-between;
+		align-content: center;
 		width: 100%;
 		height: var(--header-height);
 		margin-top: var(--header-margin-top);
@@ -43,6 +44,9 @@
 		margin-left: var(--header-margin);
 		font-size: 3em;
 		font-weight: bolder;
+		text-align: center;
+		margin-top: 0px;
+		margin-bottom: 0px;
 	}
 
 	#vatmiraal a {
