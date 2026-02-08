@@ -82,7 +82,7 @@
 
 		position: relative;
 
-		bottom: calc(var(--arrow-height) / 2 + 2%);
+		bottom: calc(var(--arrow-height) / 2 + 2vh);
 	}
 
 	p {
@@ -144,7 +144,7 @@
 		}
 
 		#page {
-			gap: 8%;
+			gap: 8vh;
 			padding-top: 8vh;
 		}
 
@@ -164,7 +164,7 @@
 		}
 
 		#page {
-			gap: 12%;
+			gap: 12vh;
 		}
 
 		#arrow {
