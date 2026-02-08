@@ -73,7 +73,7 @@
 
 	#arrow {
 		--arrow-height: 20vh;
-		margin-top: auto;
+		margin-top: 0px;
 
 		display: block;
 
