@@ -34,7 +34,7 @@
 	}
 
 	#join-beta:hover {
-	background-color: #ed2939;
+		transform: translateY(-12px);
 	}
 
 	@keyframes shake {
@@ -128,7 +128,7 @@
 		align-items: center;
 		justify-content: start;
 
-		gap: 17%;
+		gap: 17vh;
 
 		padding-top: 12vh;
 		height: calc(100vh - var(--header-total-height));
