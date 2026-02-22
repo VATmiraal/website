@@ -35,22 +35,24 @@
 
 <style>
 	#page {
-		height: 100vh;
-
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: start;
+		justify-content: center;
 
-		gap: 13vh;
+		gap: 4rem;
+		padding: 6rem 2rem;
+		border-top: 1px solid rgba(0, 0, 0, 0.08);
 	}
 
 	#why-vatmiraal {
 		width: 35vw;
-		font-weight: bold;
 		text-align: center;
 		font-size: 2.6em;
-		font-weight: bold;
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+		margin: 0;
 	}
 
 	#arguments {
@@ -63,8 +65,8 @@
 	@media (max-width: 768px) {
 		#page {
 			height: auto;
-			gap: 5vh;
-			padding-bottom: 5vh;
+			gap: 2.5rem;
+			padding-bottom: 3rem;
 		}
 
 		#why-vatmiraal {
@@ -75,15 +77,15 @@
 		#arguments {
 			flex-direction: column;
 			align-items: center;
-			gap: 3vh;
+			gap: 1.5rem;
 		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
 			height: auto;
-			gap: 8vh;
-			padding-bottom: 5vh;
+			gap: 3rem;
+			padding-bottom: 3rem;
 		}
 
 		#why-vatmiraal {

@@ -7,6 +7,10 @@
 
 <div id="header">
 	<h1 id="vatmiraal"><a href={resolve('/')}>VATmiraal</a></h1>
+	<nav id="nav-links">
+		<a href={resolve('/custom_solutions')}>Custom Solutions</a>
+		<a href={resolve('/blog')}>Blog</a>
+	</nav>
 	<div id="social-media">
 		<a href="mailto:info@vatmiraal.be"><img src={emailIcon} alt="email logo" /></a>
 		<a href="https://www.linkedin.com/company/vatmiral" target="_blank"
@@ -18,53 +22,107 @@
 <style>
 	:global(:root) {
 		--header-margin: 2.5%;
-		--header-height: 3em;
-		--header-margin-top: 1.5em;
-		--header-total-height: calc(var(--header-height) + var(--header-margin-top));
+		--header-height: 3.5rem;
+		--header-margin-top: 0;
+		--header-total-height: 3.5rem;
 	}
 
 	#header {
+		position: sticky;
+		top: 0;
+		z-index: 100;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
-		align-content: center;
 		width: 100%;
 		height: var(--header-height);
-		margin-top: var(--header-margin-top);
+		margin-top: 0;
+		padding: 0 2.5%;
+		box-sizing: border-box;
+		background: rgba(248, 248, 246, 0.92);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+	}
+
+	#nav-links {
+		display: flex;
+		align-items: center;
+		gap: 2.5em;
+	}
+
+	#nav-links a {
+		color: #0f0f0f;
+		text-decoration: none;
+		font-weight: 500;
+		font-size: 1em;
+		transition: opacity 0.2s ease;
+	}
+
+	#nav-links a:hover {
+		opacity: 0.55;
 	}
 
 	#social-media {
 		display: flex;
-
-		margin-right: var(--header-margin);
-
 		column-gap: 3em;
 	}
 
 	#vatmiraal {
-		margin-left: var(--header-margin);
-		font-size: 3em;
+		font-size: 1.5em;
 		font-weight: bolder;
 		text-align: center;
-		margin-top: 0px;
-		margin-bottom: 0px;
+		margin: 0;
 	}
 
 	#vatmiraal a {
 		color: black;
 		text-decoration: none;
+		transition: opacity 0.2s ease;
+	}
+
+	#vatmiraal a:hover {
+		opacity: 0.65;
 	}
 
 	#social-media img {
 		display: block;
 
-		width: 3em;
+		width: 2em;
 		height: auto;
 		object-fit: contain;
+		transition: opacity 0.2s ease, transform 0.2s ease;
 	}
 
-	@media (max-width: 768px) {
-		#vatmiraal {
-			font-size: 1.8em;
+	#social-media a:hover img {
+		opacity: 0.65;
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: 480px) {
+		#nav-links a {
+			font-size: 0.75em;
+		}
+
+		#nav-links {
+			gap: 1em;
+		}
+
+		#social-media {
+			column-gap: 1em;
+		}
+
+		#social-media img {
+			width: 1.5em;
+		}
+	}
+
+	@media (min-width: 481px) and (max-width: 768px) {
+		#nav-links a {
+			font-size: 0.85em;
+		}
+
+		#nav-links {
+			gap: 1.5em;
 		}
 
 		#social-media {
@@ -72,15 +130,11 @@
 		}
 
 		#social-media img {
-			width: 2em;
+			width: 1.75em;
 		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
-		#vatmiraal {
-			font-size: 2.2em;
-		}
-
 		#social-media {
 			column-gap: 2em;
 		}

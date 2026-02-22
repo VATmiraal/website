@@ -4,10 +4,6 @@
 	let { children } = $props();
 </script>
 
-<svelte:head>
-	<title>VATmiraal</title>
-</svelte:head>
-
 <Header />
 
 {@render children()}
@@ -23,5 +19,9 @@
 	:global(body) {
 		font-family: 'Inter', sans-serif;
 		margin: 0;
+		background-color: #f8f8f6;
+		color: #0f0f0f;
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
 	}
 </style>

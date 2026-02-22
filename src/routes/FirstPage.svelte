@@ -4,71 +4,48 @@
 </script>
 
 <div id="page">
+	<h1 id="hero-heading">VAT compliance,<br>made intelligent.</h1>
 	<p>
-		VATmiraal is an explainable neuro-symbolic AI tool that provides VAT assistance to accountants
-		and tax professionals, enabling confident decision-making in their work.
+		Explainable AI for confident VAT decisions — built for accountants and tax professionals.
 	</p>
 	<a id="join-beta" href={resolve('/join_beta')}> Join the Beta </a>
 	<img id="arrow" src={arrowDown} alt="arrow down" />
 </div>
 
 <style>
+	#hero-heading {
+		font-size: clamp(2.2rem, 5vw, 4rem);
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		line-height: 1.05;
+		text-align: center;
+		margin: 0;
+		max-width: 700px;
+		opacity: 0;
+		animation: fade-up var(--intro-animation-duration) ease-out forwards;
+	}
+
 	#join-beta {
-		--join-beta-border-width: 2.5px;
 		font-size: 1.7em;
-		border: solid var(--join-beta-border-width);
-
-		padding-right: 25px;
-		padding-left: 25px;
-
-		padding-top: 5px;
-		padding-bottom: 5px;
-
-		color: black;
+		background-color: #0f0f0f;
+		color: #ffffff;
+		border: 2px solid #0f0f0f;
+		border-radius: 6px;
 		text-decoration: none;
-
-		font-weight: bold;
-
-		animation: shake 1s ease-out;
-		animation-delay: var(--intro-animation-duration);
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		padding: 0.45em 1.2em;
+		opacity: 0;
+		animation: fade-up var(--intro-animation-duration) ease-out forwards;
+		animation-delay: calc(var(--intro-animation-duration) * 0.8);
+		transition: background-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
 	}
 
 	#join-beta:hover {
+		background-color: #ffffff;
+		color: #0f0f0f;
 		transform: translateY(-3px);
-	}
-
-	@keyframes shake {
-		0%,
-		100% {
-			transform: translateX(0);
-		}
-		10% {
-			transform: translateX(-12px);
-		}
-		20% {
-			transform: translateX(12px);
-		}
-		30% {
-			transform: translateX(-10px);
-		}
-		40% {
-			transform: translateX(10px);
-		}
-		50% {
-			transform: translateX(-8px);
-		}
-		60% {
-			transform: translateX(8px);
-		}
-		70% {
-			transform: translateX(-5px);
-		}
-		80% {
-			transform: translateX(5px);
-		}
-		90% {
-			transform: translateX(-2px);
-		}
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 	}
 
 	#arrow {
@@ -88,35 +65,25 @@
 
 	p {
 		width: 35vw;
-		font-weight: bold;
+		font-weight: 400;
 		text-align: center;
 		font-size: 1.6em;
-		font-weight: bold;
 		padding: 1em;
-		border-radius: 8px;
-		animation: border-glow var(--intro-animation-duration) ease-out forwards;
+		letter-spacing: -0.01em;
+		line-height: 1.55;
+		opacity: 0;
+		animation: fade-up var(--intro-animation-duration) ease-out forwards;
+		animation-delay: calc(var(--intro-animation-duration) * 0.4);
 	}
 
-	@keyframes border-glow {
+	@keyframes fade-up {
 		0% {
-			box-shadow:
-				0 0 0 4px #002395,
-				0 0 30px rgba(0, 35, 149, 0.6);
-		}
-		33% {
-			box-shadow:
-				0 0 0 4px #10b981,
-				0 0 30px rgba(16, 185, 129, 0.6);
-		}
-		66% {
-			box-shadow:
-				0 0 0 4px #ed2939,
-				0 0 25px rgba(237, 41, 57, 0.5);
+			opacity: 0;
+			transform: translateY(16px);
 		}
 		100% {
-			box-shadow:
-				0 0 0 4px black,
-				0 0 25px transparent;
+			opacity: 1;
+			transform: translateY(0);
 		}
 	}
 
@@ -126,15 +93,19 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: start;
+		justify-content: center;
 
-		gap: 17vh;
+		gap: 2.5rem;
 
-		padding-top: 12vh;
+		padding-top: 0;
 		height: calc(100vh - var(--header-total-height));
 	}
 
 	@media (max-width: 768px) {
+		#hero-heading {
+			font-size: clamp(1.8rem, 8vw, 2.8rem);
+		}
+
 		p {
 			width: 85vw;
 			font-size: 1.2em;
@@ -145,8 +116,8 @@
 		}
 
 		#page {
-			gap: 8vh;
-			padding-top: 8vh;
+			gap: 2rem;
+			padding-top: 0;
 		}
 
 		#arrow {
@@ -155,6 +126,7 @@
 
 		#join-beta:hover {
 			transform: translateY(0px);
+			box-shadow: none;
 		}
 	}
 
@@ -165,15 +137,16 @@
 		}
 
 		#page {
-			gap: 12vh;
+			gap: 2rem;
 		}
 
 		#arrow {
-		    visibility: hidden;
+			visibility: hidden;
 		}
 
 		#join-beta:hover {
 			transform: translateY(0px);
+			box-shadow: none;
 		}
 	}
 </style>
