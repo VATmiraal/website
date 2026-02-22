@@ -4,10 +4,7 @@
 
 <div id="page">
 	<h1 id="hero-heading">VAT complexity,<br />made clear.</h1>
-	<div id="slogan">
-		<p>Explainable AI for confident VAT decisions</p>
-		<p>built for accountants and tax professionals.</p>
-	</div>
+	<p id="slogan">Explainable AI for confident VAT decisions<br />built for accountants and tax professionals.</p>
 	<a id="join-beta" href={resolve('/join_beta')}> Join the Beta </a>
 </div>
 
@@ -37,7 +34,7 @@
 		animation: fade-up var(--intro-animation-duration) ease-out forwards;
 	}
 
-	p {
+	#slogan {
 		width: 35vw;
 		font-weight: 400;
 		text-align: center;
@@ -45,7 +42,7 @@
 		padding: 0;
 		margin: 1.25rem 0 0;
 		letter-spacing: -0.01em;
-		line-height: 1.55;
+		line-height: 1.35;
 		opacity: 0;
 		animation: fade-up var(--intro-animation-duration) ease-out forwards;
 		animation-delay: calc(var(--intro-animation-duration) * 0.4);
@@ -99,7 +96,7 @@
 			font-size: clamp(1.8rem, 8vw, 2.8rem);
 		}
 
-		p {
+		#slogan {
 			width: 85vw;
 			font-size: 1.2em;
 			margin-top: 1rem;
@@ -121,7 +118,7 @@
 			padding-bottom: 8vh;
 		}
 
-		p {
+		#slogan {
 			width: 60vw;
 			font-size: 1.3em;
 			margin-top: 1rem;
