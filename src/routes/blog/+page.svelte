@@ -4,7 +4,7 @@
 
 <div id="page">
 	<h1>Blog</h1>
-	<p>We're working on it — check back soon.</p>
+	<p>We're working on it, check back soon.</p>
 	<a id="back-home" href={resolve('/')}>← Back to home</a>
 </div>
 

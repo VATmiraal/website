@@ -9,12 +9,13 @@
 	<h1 id="vatmiraal"><a href={resolve('/')}>VATmiraal</a></h1>
 	<nav id="nav-links">
 		<a href={resolve('/custom_solutions')}>Custom Solutions</a>
+		<a href={resolve('/join_beta')}>Join the Beta</a>
 		<a href={resolve('/blog')}>Blog</a>
 	</nav>
 	<div id="social-media">
 		<a href="mailto:info@vatmiraal.be"><img src={emailIcon} alt="email logo" /></a>
-		<a href="https://www.linkedin.com/company/vatmiral" target="_blank"
-			><img src={linkedLogo} alt="linkeding InBug-black logo" /></a
+		<a href="https://www.linkedin.com/company/vatmiraal" target="_blank" rel="noopener noreferrer"
+			><img src={linkedLogo} alt="LinkedIn logo" /></a
 		>
 	</div>
 </div>
@@ -54,7 +55,7 @@
 		color: #0f0f0f;
 		text-decoration: none;
 		font-weight: 500;
-		font-size: 1em;
+		font-size: 1.2em;
 		transition: opacity 0.2s ease;
 	}
 
@@ -68,7 +69,7 @@
 	}
 
 	#vatmiraal {
-		font-size: 1.5em;
+		font-size: 2em;
 		font-weight: bolder;
 		text-align: center;
 		margin: 0;
@@ -90,7 +91,9 @@
 		width: 2em;
 		height: auto;
 		object-fit: contain;
-		transition: opacity 0.2s ease, transform 0.2s ease;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
 	}
 
 	#social-media a:hover img {

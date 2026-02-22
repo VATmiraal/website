@@ -25,16 +25,22 @@
 		background-color: #ffffff;
 		border: 1px solid rgba(0, 0, 0, 0.09);
 		border-radius: 10px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+		box-shadow:
+			0 2px 8px rgba(0, 0, 0, 0.06),
+			0 1px 2px rgba(0, 0, 0, 0.04);
 		min-height: 220px;
 		padding: 1.5em;
 		width: 25vw;
-		transition: transform 0.22s ease, box-shadow 0.22s ease;
+		transition:
+			transform 0.22s ease,
+			box-shadow 0.22s ease;
 	}
 
 	div:hover {
 		transform: translateY(-4px);
-		box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+		box-shadow:
+			0 8px 28px rgba(0, 0, 0, 0.1),
+			0 2px 6px rgba(0, 0, 0, 0.06);
 	}
 
 	ul {
@@ -69,7 +75,9 @@
 
 		div:hover {
 			transform: none;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+			box-shadow:
+				0 2px 8px rgba(0, 0, 0, 0.06),
+				0 1px 2px rgba(0, 0, 0, 0.04);
 		}
 
 		h1 {

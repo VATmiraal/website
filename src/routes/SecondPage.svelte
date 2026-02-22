@@ -1,35 +1,29 @@
-<script lang="ts">
-	import type { IVatmiraalArg } from './ArgumentBox.svelte';
-	import ArgumentBox from './ArgumentBox.svelte';
-
-	const naturalInput: IVatmiraalArg = {
-		title: 'Natural Input For VAT analysis',
-		args: ['Text', 'Documents', 'Email chains']
-	};
-
-	const enterpriseProduct: IVatmiraalArg = {
-		title: 'Enterprise Product',
-		args: [
-			'Integrate your existing stack',
-			'No vendor lock-in',
-			'Processes hundreds of transactions per second'
-		]
-	};
-
-	const businessPlaning: IVatmiraalArg = {
-		title: 'Integrated with Business Planing',
-		args: ['Combine tax planning with logistic constraints', 'Just-In-Time calculation']
-	};
-
-	const vatmiraalArgs: IVatmiraalArg[] = [naturalInput, enterpriseProduct, businessPlaning];
-</script>
-
 <div id="page">
-	<p id="why-vatmiraal">Why VATmiraal</p>
-	<div id="arguments">
-		{#each vatmiraalArgs as arg (arg)}
-			<ArgumentBox {...arg} />
-		{/each}
+	<div id="heading">
+		<h2 id="why-vatmiraal">Why VATmiraal</h2>
+		<p id="why-subtitle">Accurate. Explainable. Ready for your stack.</p>
+	</div>
+	<div id="cards">
+		<div class="card">
+			<h3>Works with your data as-is</h3>
+			<p>
+				Upload invoices, email chains, text, or documents. No reformatting required before analysis.
+			</p>
+		</div>
+		<div class="card">
+			<h3>Fits your existing stack</h3>
+			<p>
+				Use our web application or connect to your ERP or accounting software. No vendor lock-in, no
+				proprietary formats.
+			</p>
+		</div>
+		<div class="card">
+			<h3>Explainable at every step</h3>
+			<p>
+				Every VAT decision includes a human-readable justification, built for audit trails and
+				compliance review.
+			</p>
+		</div>
 	</div>
 </div>
 
@@ -38,16 +32,21 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
 
 		gap: 4rem;
 		padding: 6rem 2rem;
 		border-top: 1px solid rgba(0, 0, 0, 0.08);
 	}
 
-	#why-vatmiraal {
-		width: 35vw;
+	#heading {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
 		text-align: center;
+	}
+
+	#why-vatmiraal {
 		font-size: 2.6em;
 		font-weight: 700;
 		letter-spacing: -0.03em;
@@ -55,46 +54,71 @@
 		margin: 0;
 	}
 
-	#arguments {
-		display: flex;
-		justify-content: center;
+	#why-subtitle {
+		font-size: 1.15em;
+		color: rgba(15, 15, 15, 0.6);
+		margin: 0;
+	}
 
-		gap: 6vw;
+	#cards {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
+		width: 100%;
+		max-width: 1200px;
+	}
+
+	.card {
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.09);
+		border-radius: 10px;
+		box-shadow:
+			0 2px 8px rgba(0, 0, 0, 0.06),
+			0 1px 2px rgba(0, 0, 0, 0.04);
+		padding: 1.75em 2em;
+	}
+
+	.card h3 {
+		font-size: 1.15em;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		margin: 0 0 0.5em;
+	}
+
+	.card p {
+		font-size: 1em;
+		color: rgba(15, 15, 15, 0.7);
+		line-height: 1.65;
+		margin: 0;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			height: auto;
 			gap: 2.5rem;
-			padding-bottom: 3rem;
+			padding: 4rem 1.5rem;
 		}
 
 		#why-vatmiraal {
-			width: 85vw;
 			font-size: 1.8em;
 		}
 
-		#arguments {
-			flex-direction: column;
-			align-items: center;
-			gap: 1.5rem;
+		#cards {
+			grid-template-columns: 1fr;
+		}
+
+		.card {
+			padding: 1.4em 1.5em;
 		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
-			height: auto;
 			gap: 3rem;
 			padding-bottom: 3rem;
 		}
 
 		#why-vatmiraal {
-			width: 60vw;
 			font-size: 2.2em;
-		}
-
-		#arguments {
-			gap: 3vw;
 		}
 	}
 </style>

@@ -1,37 +1,75 @@
 <script>
 	import { resolve } from '$app/paths';
+
+	const schema = {
+		'@context': 'https://schema.org',
+		'@type': 'Service',
+		name: 'Custom VAT Automation Solutions',
+		url: 'https://vatmiraal.be/custom_solutions',
+		description:
+			'Tailored VAT automation for organisations needing deep ERP integration, bespoke rule engines, and explainable VAT decisions.',
+		serviceType: 'Tax Technology Consulting',
+		provider: { '@id': 'https://vatmiraal.be/#organization' },
+		contactPoint: {
+			'@type': 'ContactPoint',
+			email: 'info@vatmiraal.be',
+			contactType: 'sales'
+		}
+	};
 </script>
 
 <svelte:head>
 	<title>Custom Solutions — VATmiraal</title>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
 
 <div id="page">
 	<div id="hero">
 		<h1>Custom VAT Automation Solutions</h1>
 		<p id="intro">
-			We partner directly with organisations that need VAT automation
-			tailored to their stack, jurisdiction, and scale.
+			We partner directly with organisations that need VAT automation tailored to their stack,
+			jurisdiction, and scale.
 		</p>
 	</div>
 
-	<div id="features">
-		<div class="feature">
-			<h3>Deep Integration</h3>
-			<p>Connect VATmiraal to your existing ERP, accounting software, or data pipeline — no rip-and-replace required.</p>
-		</div>
-		<div class="feature">
-			<h3>Bespoke Rule Engines</h3>
-			<p>We build jurisdiction-specific and transaction-specific VAT logic tuned to your business model.</p>
-		</div>
-		<div class="feature">
-			<h3>Explainable at Every Step</h3>
-			<p>Every VAT decision comes with a human-readable explanation — critical for audit trails and compliance teams.</p>
+	<div id="process">
+		<div id="steps">
+			<div class="step">
+				<span class="step-number">1</span>
+				<div class="step-body">
+					<h3>Discovery</h3>
+					<p>
+						We start with a call to understand your transaction types, data sources, and VAT pain
+						points, no commitment required.
+					</p>
+				</div>
+			</div>
+			<div class="step">
+				<span class="step-number">2</span>
+				<div class="step-body">
+					<h3>Scoped proposal</h3>
+					<p>
+						We define the scope, deliverables, and timeline together. Pricing is variable and tied
+						to the complexity of your use case.
+					</p>
+				</div>
+			</div>
+			<div class="step">
+				<span class="step-number">3</span>
+				<div class="step-body">
+					<h3>Build and iterate</h3>
+					<p>
+						We build alongside your team with regular reviews. You see progress at every stage and
+						can steer the direction as requirements evolve.
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 
 	<div id="cta">
-		<p>Ready to explore a custom engagement?</p>
+		<p>Pricing is scoped per engagement, reach out to start the conversation.</p>
 		<a id="contact-link" href="mailto:info@vatmiraal.be">Get in touch</a>
 		<a id="back-home" href={resolve('/')}>← Back to home</a>
 	</div>
@@ -74,29 +112,58 @@
 		margin: 0;
 	}
 
-	#features {
+	#process {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		align-items: center;
+		gap: 2rem;
+		width: 100%;
+		text-align: center;
+	}
+
+	#steps {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 		width: 100%;
 	}
 
-	.feature {
+	.step {
+		display: flex;
+		align-items: flex-start;
+		gap: 1.25em;
 		background: #ffffff;
 		border: 1px solid rgba(0, 0, 0, 0.09);
 		border-radius: 10px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+		box-shadow:
+			0 2px 8px rgba(0, 0, 0, 0.06),
+			0 1px 2px rgba(0, 0, 0, 0.04);
 		padding: 1.75em 2em;
+		text-align: left;
 	}
 
-	.feature h3 {
+	.step-number {
+		flex-shrink: 0;
+		width: 2em;
+		height: 2em;
+		border-radius: 50%;
+		background: #0f0f0f;
+		color: #f8f8f6;
+		font-size: 0.9em;
+		font-weight: 700;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.step-body h3 {
 		font-size: 1.15em;
 		font-weight: 700;
 		letter-spacing: -0.01em;
-		margin: 0 0 0.5em;
+		margin: 0 0 0.4em;
 	}
 
-	.feature p {
+	.step-body p {
 		font-size: 1em;
 		color: rgba(15, 15, 15, 0.7);
 		line-height: 1.65;
@@ -126,7 +193,9 @@
 		font-weight: 600;
 		font-size: 1em;
 		text-decoration: none;
-		transition: background-color 0.22s ease, color 0.22s ease;
+		transition:
+			background-color 0.22s ease,
+			color 0.22s ease;
 	}
 
 	#contact-link:hover {
@@ -151,7 +220,7 @@
 			gap: 3.5rem;
 		}
 
-		.feature {
+		.step {
 			padding: 1.4em 1.5em;
 		}
 	}

@@ -5,8 +5,8 @@
 <div id="page">
 	<h2 id="custom-heading">Need a custom solution?</h2>
 	<p id="custom-body">
-		We work directly with organisations that need tailored VAT automation.
-		Get in touch or explore what we offer.
+		We work directly with organisations that need tailored VAT automation. Get in touch or explore
+		what we offer.
 	</p>
 	<div id="cta-actions">
 		<a id="contact-link" href="mailto:info@vatmiraal.be">Contact us</a>
@@ -62,7 +62,9 @@
 		font-weight: 600;
 		font-size: 1em;
 		text-decoration: none;
-		transition: background-color 0.22s ease, color 0.22s ease;
+		transition:
+			background-color 0.22s ease,
+			color 0.22s ease;
 	}
 
 	#contact-link:hover {
