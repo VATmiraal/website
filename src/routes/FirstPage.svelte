@@ -4,7 +4,9 @@
 
 <div id="page">
 	<h1 id="hero-heading">VAT complexity,<br />made clear.</h1>
-	<p id="slogan">Explainable AI for confident VAT decisions<br />built for accountants and tax professionals.</p>
+	<p id="slogan">
+		Explainable AI for confident VAT decisions<br />built for accountants and tax professionals.
+	</p>
 	<a id="join-beta" href={resolve('/join_beta')}> Join the Beta </a>
 </div>
 
