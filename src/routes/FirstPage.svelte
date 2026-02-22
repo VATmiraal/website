@@ -1,179 +1,138 @@
 <script>
 	import { resolve } from '$app/paths';
-	import arrowDown from '$lib/assets/arrow-down.svg';
 </script>
 
 <div id="page">
-	<p>
-		VATmiraal is an explainable neuro-symbolic AI tool that provides VAT assistance to accountants
-		and tax professionals, enabling confident decision-making in their work.
+	<h1 id="hero-heading">VAT complexity,<br />made clear.</h1>
+	<p id="slogan">
+		Explainable AI for confident VAT decisions<br />built for accountants and tax professionals.
 	</p>
 	<a id="join-beta" href={resolve('/join_beta')}> Join the Beta </a>
-	<img id="arrow" src={arrowDown} alt="arrow down" />
 </div>
 
 <style>
-	#join-beta {
-		--join-beta-border-width: 2.5px;
-		font-size: 1.7em;
-		border: solid var(--join-beta-border-width);
-
-		padding-right: 25px;
-		padding-left: 25px;
-
-		padding-top: 5px;
-		padding-bottom: 5px;
-
-		color: black;
-		text-decoration: none;
-
-		font-weight: bold;
-
-		animation: shake 1s ease-out;
-		animation-delay: var(--intro-animation-duration);
-	}
-
-	#join-beta:hover {
-		transform: translateY(-3px);
-	}
-
-	@keyframes shake {
-		0%,
-		100% {
-			transform: translateX(0);
-		}
-		10% {
-			transform: translateX(-12px);
-		}
-		20% {
-			transform: translateX(12px);
-		}
-		30% {
-			transform: translateX(-10px);
-		}
-		40% {
-			transform: translateX(10px);
-		}
-		50% {
-			transform: translateX(-8px);
-		}
-		60% {
-			transform: translateX(8px);
-		}
-		70% {
-			transform: translateX(-5px);
-		}
-		80% {
-			transform: translateX(5px);
-		}
-		90% {
-			transform: translateX(-2px);
-		}
-	}
-
-	#arrow {
-		--arrow-height: 20vh;
-
-		display: block;
-
-		width: auto;
-		height: var(--arrow-height);
-		object-fit: contain;
-
-		position: relative;
-
-		bottom: calc(var(--arrow-height) / 1.7);
-		margin-top: auto;
-	}
-
-	p {
-		width: 35vw;
-		font-weight: bold;
-		text-align: center;
-		font-size: 1.6em;
-		font-weight: bold;
-		padding: 1em;
-		border-radius: 8px;
-		animation: border-glow var(--intro-animation-duration) ease-out forwards;
-	}
-
-	@keyframes border-glow {
-		0% {
-			box-shadow:
-				0 0 0 4px #002395,
-				0 0 30px rgba(0, 35, 149, 0.6);
-		}
-		33% {
-			box-shadow:
-				0 0 0 4px #10b981,
-				0 0 30px rgba(16, 185, 129, 0.6);
-		}
-		66% {
-			box-shadow:
-				0 0 0 4px #ed2939,
-				0 0 25px rgba(237, 41, 57, 0.5);
-		}
-		100% {
-			box-shadow:
-				0 0 0 4px black,
-				0 0 25px transparent;
-		}
-	}
-
 	#page {
 		--intro-animation-duration: 2s;
 
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: start;
+		justify-content: center;
 
-		gap: 17vh;
-
-		padding-top: 12vh;
+		padding-bottom: 14vh;
 		height: calc(100vh - var(--header-total-height));
 	}
 
+	#hero-heading {
+		font-size: clamp(2.2rem, 5vw, 4rem);
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		line-height: 1.05;
+		text-align: center;
+		margin: 0;
+		max-width: 700px;
+		opacity: 0;
+		animation: fade-up var(--intro-animation-duration) ease-out forwards;
+	}
+
+	#slogan {
+		width: 35vw;
+		font-weight: 400;
+		text-align: center;
+		font-size: 1.6em;
+		padding: 0;
+		margin: 1.25rem 0 0;
+		letter-spacing: -0.01em;
+		line-height: 1.35;
+		opacity: 0;
+		animation: fade-up var(--intro-animation-duration) ease-out forwards;
+		animation-delay: calc(var(--intro-animation-duration) * 0.4);
+	}
+
+	#join-beta {
+		font-size: 1.7em;
+		background-color: #0f0f0f;
+		color: #ffffff;
+		border: 2px solid #0f0f0f;
+		border-radius: 6px;
+		text-decoration: none;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		padding: 0.45em 1.2em;
+		margin-top: 2.5rem;
+		opacity: 0;
+		animation: fade-up var(--intro-animation-duration) ease-out forwards;
+		animation-delay: calc(var(--intro-animation-duration) * 0.8);
+		transition:
+			background-color 0.22s ease,
+			color 0.22s ease,
+			transform 0.22s ease,
+			box-shadow 0.22s ease;
+	}
+
+	#join-beta:hover {
+		background-color: #ffffff;
+		color: #0f0f0f;
+		transform: translateY(-3px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+	}
+
+	@keyframes fade-up {
+		0% {
+			opacity: 0;
+			transform: translateY(16px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
 	@media (max-width: 768px) {
-		p {
+		#page {
+			padding-bottom: 0;
+		}
+
+		#hero-heading {
+			font-size: clamp(1.8rem, 8vw, 2.8rem);
+		}
+
+		#slogan {
 			width: 85vw;
 			font-size: 1.2em;
+			margin-top: 1rem;
 		}
 
 		#join-beta {
 			font-size: 1.3em;
-		}
-
-		#page {
-			gap: 8vh;
-			padding-top: 8vh;
-		}
-
-		#arrow {
-			visibility: hidden;
+			margin-top: 2rem;
 		}
 
 		#join-beta:hover {
 			transform: translateY(0px);
+			box-shadow: none;
 		}
 	}
 
 	@media (min-width: 400px) and (max-width: 1024px) {
-		p {
+		#page {
+			padding-bottom: 8vh;
+		}
+
+		#slogan {
 			width: 60vw;
 			font-size: 1.3em;
+			margin-top: 1rem;
 		}
 
-		#page {
-			gap: 12vh;
-		}
-
-		#arrow {
-		    visibility: hidden;
+		#join-beta {
+			margin-top: 2rem;
 		}
 
 		#join-beta:hover {
 			transform: translateY(0px);
+			box-shadow: none;
 		}
 	}
 </style>
