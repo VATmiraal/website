@@ -15,6 +15,7 @@
 	<a href={resolve('/custom_solutions')} {onclick}>Custom Solutions</a>
 	<a href={resolve('/join_beta')} {onclick}>Join the Beta</a>
 	<a href={resolve('/demo')} {onclick}>Try the Demo</a>
+	<a href={resolve('/roadmap')} {onclick}>Roadmap</a>
 	<a href={resolve('/blog')} {onclick}>Blog</a>
 {/snippet}
 
@@ -29,7 +30,9 @@
 {/snippet}
 
 <div id="header">
-	<h1 id="vatmiraal"><a href={resolve('/')} onclick={closeMenu}>VATmiraal</a></h1>
+	<a id="vatmiraal" href={resolve('/')} onclick={closeMenu}>
+		<img src="/logo.svg" alt="VATmiraal" />
+	</a>
 	<nav id="nav-links">
 		{@render navLinks(undefined)}
 	</nav>
@@ -109,20 +112,19 @@
 	}
 
 	#vatmiraal {
-		font-size: 2em;
-		font-weight: bolder;
-		text-align: center;
-		margin: 0;
-	}
-
-	#vatmiraal a {
-		color: black;
+		display: flex;
+		align-items: center;
 		text-decoration: none;
 		transition: opacity 0.2s ease;
 	}
 
-	#vatmiraal a:hover {
+	#vatmiraal:hover {
 		opacity: 0.65;
+	}
+
+	#vatmiraal img {
+		height: 2.8em;
+		width: auto;
 	}
 
 	#social-media img {
@@ -246,8 +248,8 @@
 			display: flex;
 		}
 
-		#vatmiraal {
-			font-size: 1.6em;
+		#vatmiraal img {
+			height: 2.2em;
 		}
 	}
 

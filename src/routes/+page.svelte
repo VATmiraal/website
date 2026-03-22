@@ -1,6 +1,8 @@
 <script>
 	import FirstPage from './FirstPage.svelte';
 	import SecondPage from './SecondPage.svelte';
+	import HowItWorks from './HowItWorks.svelte';
+	import BuiltOnLaw from './BuiltOnLaw.svelte';
 	import ThirdPage from './ThirdPage.svelte';
 
 	const schema = {
@@ -30,4 +32,6 @@
 
 <FirstPage />
 <SecondPage />
+<HowItWorks />
+<BuiltOnLaw />
 <ThirdPage />

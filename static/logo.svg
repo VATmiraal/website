@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@800&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Ship's wheel with percent sign -->
+  <g transform="translate(140,140)" fill="#1B2A4A">
+
+    <!-- Outer ring -->
+    <circle cx="0" cy="0" r="86" fill="none" stroke="#1B2A4A" stroke-width="18"/>
+
+    <!-- Spokes: only outside the ring (from outer edge at r=95 to knob at r=122) -->
+    <!-- Spoke at 0° (3 o'clock) -->
+    <line x1="95" y1="0" x2="122" y2="0" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="122" cy="0" r="7"/>
+
+    <!-- Spoke at 45° (4:30) -->
+    <line x1="67.2" y1="67.2" x2="86.3" y2="86.3" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="86.3" cy="86.3" r="7"/>
+
+    <!-- Spoke at 90° (6 o'clock) -->
+    <line x1="0" y1="95" x2="0" y2="122" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="0" cy="122" r="7"/>
+
+    <!-- Spoke at 180° (9 o'clock) -->
+    <line x1="-95" y1="0" x2="-122" y2="0" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="-122" cy="0" r="7"/>
+
+    <!-- Spoke at 225° (10:30) -->
+    <line x1="-67.2" y1="-67.2" x2="-86.3" y2="-86.3" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="-86.3" cy="-86.3" r="7"/>
+
+    <!-- Spoke at 270° (12 o'clock) -->
+    <line x1="0" y1="-95" x2="0" y2="-122" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="0" cy="-122" r="7"/>
+
+    <!-- Percent diagonal (lower-left ↔ upper-right, replaces 135° and 315° spokes) -->
+    <line x1="-86.3" y1="86.3" x2="86.3" y2="-86.3" stroke="#1B2A4A" stroke-width="9"/>
+    <circle cx="-86.3" cy="86.3" r="7"/>
+    <circle cx="86.3" cy="-86.3" r="7"/>
+
+    <!-- Percent circles — centered on the 225° and 45° spokes -->
+    <!-- Upper-left circle on 225° spoke (radius ~40 from center) -->
+    <circle cx="-28.3" cy="-28.3" r="22" fill="white" stroke="#1B2A4A" stroke-width="10"/>
+    <!-- Lower-right circle on 45° spoke (radius ~40 from center) -->
+    <circle cx="28.3" cy="28.3" r="22" fill="white" stroke="#1B2A4A" stroke-width="10"/>
+  </g>
+
+  <!-- Text: VATmiraal -->
+  <text x="310" y="148"
+        font-family="'Nunito Sans', 'Poppins', 'Montserrat', system-ui, sans-serif"
+        font-size="80"
+        font-weight="800"
+        fill="#1B2A4A"
+        dominant-baseline="central">VATmiraal</text>
+</svg>

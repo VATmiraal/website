@@ -12,6 +12,7 @@
 			'@id': 'https://vatmiraal.be/#organization',
 			name: 'VATmiraal',
 			url: 'https://vatmiraal.be',
+			logo: 'https://vatmiraal.be/logo.svg',
 			email: 'info@vatmiraal.be',
 			description:
 				'Explainable AI for confident VAT decisions, built for accountants and tax professionals.',
@@ -29,6 +30,8 @@
 </script>
 
 <svelte:head>
+	<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+	<meta property="og:image" content="https://vatmiraal.be/logo.svg" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schemas)}<${'/script'}>`}
 </svelte:head>

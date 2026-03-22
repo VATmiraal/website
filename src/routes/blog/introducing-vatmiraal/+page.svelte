@@ -1,78 +1,82 @@
 <script>
 	import { resolve } from '$app/paths';
 
-	const DEMO_URL = 'https://demo.vatmiraal.be';
-
 	const schema = {
 		'@context': 'https://schema.org',
-		'@type': 'SoftwareApplication',
-		name: 'VATmiraal Demo',
-		applicationCategory: 'BusinessApplication',
-		operatingSystem: 'Web',
-		url: 'https://vatmiraal.be/demo',
+		'@type': 'BlogPosting',
+		headline: 'Introducing VATmiraal',
+		datePublished: '2026-03-22',
+		author: {
+			'@type': 'Person',
+			name: 'Jan De Meyer'
+		},
+		publisher: { '@id': 'https://vatmiraal.be/#organization' },
+		url: 'https://vatmiraal.be/blog/introducing-vatmiraal',
 		description:
-			'Interactive demo of the VATmiraal rules engine — analyse VAT transactions with full legal justification, entirely in the browser.',
-		provider: { '@id': 'https://vatmiraal.be/#organization' }
+			'Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates. Formal logic and constraint solving for VAT compliance.'
 	};
 </script>
 
 <svelte:head>
-	<title>Demo — VATmiraal</title>
+	<title>Introducing VATmiraal &mdash; VATmiraal Blog</title>
+	<meta
+		name="description"
+		content="Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates."
+	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
 
-<div id="page">
-	<div id="hero">
-		<h1>See VATmiraal in action</h1>
-		<p id="intro">
-			Explore how the rules engine analyses real VAT transactions &mdash; entirely in your browser.
+<article id="page">
+	<header id="hero">
+		<h1>Introducing VATmiraal</h1>
+		<p id="meta">4 min read &middot; March 2026</p>
+	</header>
+
+	<section class="prose">
+		<p>
+			Every VAT determination is a chain of legal reasoning. Transaction type, place of supply,
+			exemptions, debtor, declaration box. Each step depends on the last, and each must trace back
+			to a specific article of the law.
 		</p>
-		<div id="hero-actions">
-			<a class="btn-primary" href="/demo/coming-soon">
-				Launch the Analyser
-			</a>
-			<a class="btn-secondary" href="/demo/coming-soon">
-				Or try the guided Assistant &rarr;
-			</a>
-		</div>
-	</div>
+		<p>
+			In practice, that reasoning lives in people&rsquo;s heads. Or in spreadsheets. Or in tools
+			that give you an answer but not the &ldquo;why.&rdquo;
+		</p>
+		<p>
+			That&rsquo;s the problem we&rsquo;re solving with VATmiraal. Today we&rsquo;re announcing
+			three tools built on the same rules engine:
+		</p>
+	</section>
 
-	<div id="modes">
-		<div class="card">
-			<h3>Analyser</h3>
-			<p>
-				Select a ledger entry from the built-in dataset, run analysis, and get the full VAT
-				determination with legal references.
-			</p>
-			<ul>
-				<li>Pre-loaded realistic entries</li>
-				<li>One-click analysis</li>
-				<li>Full legal justification</li>
-			</ul>
-		</div>
-		<div class="card">
-			<h3>Assistant</h3>
-			<p>
-				Answer questions about your transaction. The engine adapts dynamically, skipping irrelevant
-				questions. At the end, you get the same detailed result.
-			</p>
-			<ul>
-				<li>Guided step-by-step</li>
-				<li>Adapts to your answers</li>
-				<li>No prior knowledge needed</li>
-			</ul>
-		</div>
-	</div>
+	<hr />
 
-	<div id="example">
-		<h2>What you get</h2>
-		<p id="example-intro">
-			Here is the actual output for a single domestic sale at 21%.
+	<section class="prose">
+		<h2>The Assistant</h2>
+		<p>
+			A guided questionnaire that walks you through a VAT scenario step by step. It adapts
+			dynamically: your answers determine which questions come next, skipping what&rsquo;s
+			irrelevant. At the end, you get a full VAT determination with legal references. No VAT
+			expertise needed to start. The engine knows which questions to ask.
+		</p>
+	</section>
+
+	<section class="prose">
+		<h2>The Analyser</h2>
+		<p>
+			Takes structured transaction data and works with what&rsquo;s there. When critical facts are
+			missing (party establishments, transport details, object classification), it asks for them.
+			Given complete input, it returns the full analysis: classification, place of supply,
+			exemption, debtor, and declaration boxes. Every conclusion cites the specific W.BTW article
+			and its EU Directive equivalent.
 		</p>
 
-		<!-- GL Entry banner -->
-		<div class="demo-full">
+		<p class="example-intro">
+			Here is what the analyser produces for a single transaction:
+		</p>
+
+		<!-- ═══ STATIC ANALYSER EXAMPLE ═══ -->
+		<div class="demo">
 			<div class="a-card a-banner">
 				<h4>GL Entry — TechParts NV</h4>
 				<p class="a-desc">Domestic sale of goods — standard 21% rate (Box 03)</p>
@@ -87,7 +91,6 @@
 			</div>
 
 			<div class="a-columns">
-				<!-- Sidebar -->
 				<aside class="a-sidebar">
 					<div class="a-sb-section">
 						<h5>Object</h5>
@@ -111,7 +114,6 @@
 					</div>
 				</aside>
 
-				<!-- Analysis cards -->
 				<div class="a-analysis">
 					<div class="a-card">
 						<h4>Transaction</h4>
@@ -165,173 +167,160 @@
 							</thead>
 							<tbody>
 								<tr><td><span class="box-num">03</span></td><td class="at-desc">Taxable at 21%</td><td class="at-amt">&euro;5,000</td></tr>
-								<tr><td><span class="box-num">54</span></td><td class="at-desc">VAT due on boxes 01–03</td><td class="at-amt">&euro;1,050</td></tr>
+								<tr><td><span class="box-num">54</span></td><td class="at-desc">VAT due on boxes 01&ndash;03</td><td class="at-amt">&euro;1,050</td></tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+	</section>
+
+	<section class="prose">
+		<h2>Advanced Booking Templates</h2>
+		<p>
+			Define linear relations between any set of accounts. Instead of fixed amounts, you express
+			the relationship as a formula: if one value changes, the others should adjust accordingly.
+			During audit, the engine checks whether the actual bookings satisfy these constraints,
+			flagging any inconsistencies. This also applies to deductibility calculations for mixed or
+			partial taxable entities. Conventional accounting software doesn&rsquo;t support this.
+		</p>
+	</section>
+
+	<hr />
+
+	<section class="prose">
+		<p>
+			All three tools run on the same foundation: formal logic and constraint solving. Not a
+			statistical model. Deterministic rules that can be reviewed, audited, and challenged. The
+			same constraint engine that powers the booking templates also supports consistency checking
+			across taxable amounts, tariffs, pro-rata deduction rates, margin scheme calculations, and
+			capital goods adjustments.
+		</p>
+	</section>
+
+	<section class="prose closing">
+		<p>
+			Beta is open. If you work in VAT compliance and want to try any of these tools,
+			<a href="mailto:info@vatmiraal.be">reach out</a>.
+		</p>
+	</section>
+
+	<div class="disclaimer">
+		Disclaimer: The tools and outputs presented on this site are for informational and demonstration
+		purposes only and do not constitute legally binding tax advice. Always consult a qualified tax
+		advisor for decisions regarding your specific situation.
 	</div>
 
-	<div id="footer-note">
-		<a id="back-home" href={resolve('/')}>&#8592; Back to home</a>
-	</div>
-</div>
+	<a id="back-blog" href={resolve('/blog')}>&larr; Back to blog</a>
+</article>
 
 <style>
 	#page {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		min-height: calc(100vh - var(--header-total-height));
-		padding: 6rem 2rem 5rem;
-		gap: 5rem;
-		max-width: 960px;
+		max-width: 700px;
 		margin: 0 auto;
+		padding: 6rem 2rem 5rem;
 		box-sizing: border-box;
 	}
 
 	#hero {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.5rem;
-		text-align: center;
+		margin-bottom: 3rem;
 	}
 
 	h1 {
-		font-size: clamp(2rem, 4.5vw, 3.2rem);
+		font-size: clamp(2rem, 4.5vw, 2.8rem);
 		font-weight: 800;
 		letter-spacing: -0.04em;
-		line-height: 1.08;
+		line-height: 1.12;
+		margin: 0 0 0.75rem;
+	}
+
+	#meta {
+		font-size: 0.95em;
+		color: rgba(15, 15, 15, 0.45);
 		margin: 0;
 	}
 
-	#intro {
-		font-size: 1.2em;
-		color: rgba(15, 15, 15, 0.65);
-		max-width: 560px;
-		line-height: 1.65;
-		margin: 0;
+	h2 {
+		font-size: 1.5em;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1.2;
+		margin: 0 0 1rem;
 	}
 
-	#hero-actions {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.75rem;
-		margin-top: 0.5rem;
+	.prose {
+		margin-bottom: 0;
 	}
 
-	.btn-primary {
-		background: #0f0f0f;
-		color: #ffffff;
-		border: 2px solid #0f0f0f;
-		border-radius: 6px;
-		padding: 0.55em 1.5em;
-		font-weight: 600;
-		font-size: 1em;
-		text-decoration: none;
-		transition:
-			background-color 0.22s ease,
-			color 0.22s ease,
-			transform 0.22s ease,
-			box-shadow 0.22s ease;
+	.prose p {
+		font-size: 1.05em;
+		line-height: 1.75;
+		color: rgba(15, 15, 15, 0.85);
+		margin: 0 0 1.25em;
 	}
 
-	.btn-primary:hover {
-		background: #ffffff;
+	.prose p:last-child {
+		margin-bottom: 0;
+	}
+
+	.prose strong {
 		color: #0f0f0f;
-		transform: translateY(-3px);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 	}
 
-	.btn-secondary {
+	.closing p {
+		font-size: 1.1em;
+		font-weight: 500;
+		color: #0f0f0f;
+	}
+
+	.closing a {
+		color: #0f0f0f;
+		font-weight: 600;
+	}
+
+	hr {
+		border: none;
+		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		margin: 2.5rem 0;
+	}
+
+	.disclaimer {
+		margin-top: 2.5rem;
+		padding: 1rem 1.25rem;
+		background: rgba(0, 0, 0, 0.03);
+		border-left: 3px solid rgba(0, 0, 0, 0.15);
+		font-size: 0.85em;
+		color: rgba(15, 15, 15, 0.5);
+		line-height: 1.6;
+	}
+
+	#back-blog {
+		display: inline-block;
+		margin-top: 2rem;
 		color: rgba(15, 15, 15, 0.5);
 		text-decoration: none;
 		font-size: 0.95em;
 		transition: color 0.2s ease;
 	}
 
-	.btn-secondary:hover {
+	#back-blog:hover {
 		color: #0f0f0f;
 	}
 
-	#modes {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1.5rem;
-		width: 100%;
+	/* ── Analyser example ── */
+	.example-intro {
+		font-style: italic;
+		color: rgba(15, 15, 15, 0.5);
 	}
 
-	.card {
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
-		padding: 1.75em 2em;
-	}
-
-	.card h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		margin: 0 0 0.5em;
-	}
-
-	.card p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
-		margin: 0 0 1em;
-	}
-
-	.card ul {
-		margin: 0;
-		padding: 0 0 0 1.2em;
-		list-style: disc;
-	}
-
-	.card li {
-		font-size: 0.95em;
-		color: rgba(15, 15, 15, 0.6);
-		line-height: 1.65;
-		padding: 0.15em 0;
-	}
-
-	#example {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.5rem;
-		width: 100%;
-	}
-
-	#example h2 {
-		font-size: 1.6em;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		margin: 0;
-	}
-
-	#example-intro {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.6);
-		margin: 0;
-		text-align: center;
-	}
-
-	/* ── Full analyser example ── */
-	.demo-full {
-		width: 100%;
+	.demo {
+		font-size: 0.82rem;
+		color: #111827;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-		font-size: 0.85rem;
-		color: #111827;
+		margin-bottom: 1.5rem;
 	}
 
 	.a-card {
@@ -522,33 +511,17 @@
 		font-size: 0.8rem;
 	}
 
-	#footer-note {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.25rem;
-		text-align: center;
-	}
-
-	#back-home {
-		color: rgba(15, 15, 15, 0.5);
-		text-decoration: none;
-		font-size: 0.95em;
-		transition: color 0.2s ease;
-	}
-
-	#back-home:hover {
-		color: #0f0f0f;
-	}
-
 	@media (max-width: 768px) {
 		#page {
 			padding: 4rem 1.5rem 4rem;
-			gap: 3.5rem;
 		}
 
-		#modes {
-			grid-template-columns: 1fr;
+		h1 {
+			font-size: clamp(1.6rem, 7vw, 2.2rem);
+		}
+
+		h2 {
+			font-size: 1.3em;
 		}
 
 		.a-columns {
@@ -557,15 +530,6 @@
 
 		.a-vatid-grid {
 			grid-template-columns: 1fr;
-		}
-
-		.card {
-			padding: 1.4em 1.5em;
-		}
-
-		.btn-primary:hover {
-			transform: none;
-			box-shadow: none;
 		}
 	}
 </style>
