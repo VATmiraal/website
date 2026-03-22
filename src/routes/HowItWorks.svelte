@@ -18,7 +18,7 @@
 			<span class="step-number">3</span>
 			<h3>Rules engine analysis</h3>
 			<p>
-				A knowledge base encoding Belgian VAT law determines classification, place of supply,
+				A knowledge base encoding national VAT law determines classification, place of supply,
 				exemptions, and debtor.
 			</p>
 		</div>
@@ -26,7 +26,7 @@
 			<span class="step-number">4</span>
 			<h3>Justified result</h3>
 			<p>
-				Every conclusion cites the specific W.BTW articles and EU Directive provisions that apply.
+				Every conclusion cites the specific national VAT articles and EU Directive provisions that apply.
 			</p>
 		</div>
 	</div>

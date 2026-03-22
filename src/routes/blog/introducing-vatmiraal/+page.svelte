@@ -67,7 +67,7 @@
 			Takes structured transaction data and works with what&rsquo;s there. When critical facts are
 			missing (party establishments, transport details, object classification), it asks for them.
 			Given complete input, it returns the full analysis: classification, place of supply,
-			exemption, debtor, and declaration boxes. Every conclusion cites the specific W.BTW article
+			exemption, debtor, and declaration boxes. Every conclusion cites the specific national VAT article
 			and its EU Directive equivalent.
 		</p>
 

@@ -1,6 +1,6 @@
 <div id="page">
 	<div id="heading">
-		<h2>Built on Belgian VAT law</h2>
+		<h2>Built on VAT law</h2>
 		<p id="subtitle">
 			Not a statistical model. A rules engine that encodes the actual legislation.
 		</p>
@@ -8,8 +8,8 @@
 
 	<div id="content">
 		<p>
-			VATmiraal's knowledge base encodes the Belgian VAT Code (W.BTW) and its EU VAT Directive
-			counterparts as formal logic rules. Every conclusion traces back to a specific article,
+			VATmiraal's knowledge base encodes national VAT codes and the EU VAT Directive
+			as formal logic rules. Every conclusion traces back to a specific article,
 			paragraph, and point.
 		</p>
 		<p>
@@ -32,7 +32,7 @@
 		<div class="card">
 			<h3>EU Directive mappings</h3>
 			<p>
-				Belgian provisions are linked to their EU VAT Directive equivalents for cross-border
+				National provisions are linked to their EU VAT Directive equivalents for cross-border
 				reasoning.
 			</p>
 		</div>
