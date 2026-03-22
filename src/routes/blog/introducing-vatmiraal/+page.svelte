@@ -71,9 +71,7 @@
 			and its EU Directive equivalent.
 		</p>
 
-		<p class="example-intro">
-			Here is what the analyser produces for a single transaction:
-		</p>
+		<p class="example-intro">Here is what the analyser produces for a single transaction:</p>
 
 		<!-- ═══ STATIC ANALYSER EXAMPLE ═══ -->
 		<div class="demo">
@@ -81,11 +79,21 @@
 				<h4>GL Entry — TechParts NV</h4>
 				<p class="a-desc">Domestic sale of goods — standard 21% rate (Box 03)</p>
 				<div class="a-meta">
-					<div class="a-field"><span class="a-key">Date</span><span class="a-val">2025-02-15</span></div>
-					<div class="a-field"><span class="a-key">Counterparty</span><span class="a-val">Bouwbedrijf Janssens</span></div>
-					<div class="a-field"><span class="a-key">Object</span><span class="a-val">Machine parts</span></div>
-					<div class="a-field"><span class="a-key">Amount</span><span class="a-val">&euro;5,000</span></div>
-					<div class="a-field"><span class="a-key">VAT charged</span><span class="a-val">&euro;1,050</span></div>
+					<div class="a-field">
+						<span class="a-key">Date</span><span class="a-val">2025-02-15</span>
+					</div>
+					<div class="a-field">
+						<span class="a-key">Counterparty</span><span class="a-val">Bouwbedrijf Janssens</span>
+					</div>
+					<div class="a-field">
+						<span class="a-key">Object</span><span class="a-val">Machine parts</span>
+					</div>
+					<div class="a-field">
+						<span class="a-key">Amount</span><span class="a-val">&euro;5,000</span>
+					</div>
+					<div class="a-field">
+						<span class="a-key">VAT charged</span><span class="a-val">&euro;1,050</span>
+					</div>
 					<div class="a-field"><span class="a-key">Tariff</span><span class="a-val">21%</span></div>
 				</div>
 			</div>
@@ -123,23 +131,37 @@
 					<div class="a-card">
 						<h4>Taxability</h4>
 						<div class="a-kv">
-							<div class="a-field"><span class="a-key">Result</span><span class="a-val">Taxable</span></div>
+							<div class="a-field">
+								<span class="a-key">Result</span><span class="a-val">Taxable</span>
+							</div>
 						</div>
 					</div>
 
 					<div class="a-card">
 						<h4>Place of Supply</h4>
 						<div class="a-kv">
-							<div class="a-field"><span class="a-key">Country</span><span class="a-val">Belgium</span></div>
-							<div class="a-field"><span class="a-key">Legal basis</span><span class="a-val">Art. 14 &sect;1 W.BTW</span></div>
+							<div class="a-field">
+								<span class="a-key">Country</span><span class="a-val">Belgium</span>
+							</div>
+							<div class="a-field">
+								<span class="a-key">Legal basis</span><span class="a-val"
+									>Art. 14 &sect;1 W.BTW</span
+								>
+							</div>
 						</div>
 					</div>
 
 					<div class="a-card">
 						<h4>VAT Debtor</h4>
 						<div class="a-kv">
-							<div class="a-field"><span class="a-key">Debtor</span><span class="a-val">Supplier</span></div>
-							<div class="a-field"><span class="a-key">Legal basis</span><span class="a-val">Art. 51 &sect;1, 1&deg; W.BTW</span></div>
+							<div class="a-field">
+								<span class="a-key">Debtor</span><span class="a-val">Supplier</span>
+							</div>
+							<div class="a-field">
+								<span class="a-key">Legal basis</span><span class="a-val"
+									>Art. 51 &sect;1, 1&deg; W.BTW</span
+								>
+							</div>
 						</div>
 					</div>
 
@@ -147,14 +169,28 @@
 						<h4>VAT ID Validation</h4>
 						<div class="a-vatid-grid">
 							<div class="a-vatid-col">
-								<div class="a-field"><span class="a-key">Party</span><span class="a-val">Supplier — TechParts NV</span></div>
-								<div class="a-field"><span class="a-key">VAT ID</span><code class="a-val">BE0456789012</code></div>
-								<div class="a-field"><span class="a-key">Validity</span><span class="a-val">Valid</span></div>
+								<div class="a-field">
+									<span class="a-key">Party</span><span class="a-val">Supplier — TechParts NV</span>
+								</div>
+								<div class="a-field">
+									<span class="a-key">VAT ID</span><code class="a-val">BE0456789012</code>
+								</div>
+								<div class="a-field">
+									<span class="a-key">Validity</span><span class="a-val">Valid</span>
+								</div>
 							</div>
 							<div class="a-vatid-col">
-								<div class="a-field"><span class="a-key">Party</span><span class="a-val">Receiver — Bouwbedrijf Janssens</span></div>
-								<div class="a-field"><span class="a-key">VAT ID</span><code class="a-val">BE0111222333</code></div>
-								<div class="a-field"><span class="a-key">Validity</span><span class="a-val">Valid</span></div>
+								<div class="a-field">
+									<span class="a-key">Party</span><span class="a-val"
+										>Receiver — Bouwbedrijf Janssens</span
+									>
+								</div>
+								<div class="a-field">
+									<span class="a-key">VAT ID</span><code class="a-val">BE0111222333</code>
+								</div>
+								<div class="a-field">
+									<span class="a-key">Validity</span><span class="a-val">Valid</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -163,11 +199,20 @@
 						<h4>VAT Declaration Boxes</h4>
 						<table class="a-table">
 							<thead>
-								<tr><th class="at-box">Box</th><th>Description</th><th class="at-amt">Amount</th></tr>
+								<tr
+									><th class="at-box">Box</th><th>Description</th><th class="at-amt">Amount</th></tr
+								>
 							</thead>
 							<tbody>
-								<tr><td><span class="box-num">03</span></td><td class="at-desc">Taxable at 21%</td><td class="at-amt">&euro;5,000</td></tr>
-								<tr><td><span class="box-num">54</span></td><td class="at-desc">VAT due on boxes 01&ndash;03</td><td class="at-amt">&euro;1,050</td></tr>
+								<tr
+									><td><span class="box-num">03</span></td><td class="at-desc">Taxable at 21%</td
+									><td class="at-amt">&euro;5,000</td></tr
+								>
+								<tr
+									><td><span class="box-num">54</span></td><td class="at-desc"
+										>VAT due on boxes 01&ndash;03</td
+									><td class="at-amt">&euro;1,050</td></tr
+								>
 							</tbody>
 						</table>
 					</div>
@@ -179,11 +224,11 @@
 	<section class="prose">
 		<h2>Advanced Booking Templates</h2>
 		<p>
-			Define linear relations between any set of accounts. Instead of fixed amounts, you express
-			the relationship as a formula: if one value changes, the others should adjust accordingly.
-			During audit, the engine checks whether the actual bookings satisfy these constraints,
-			flagging any inconsistencies. This also applies to deductibility calculations for mixed or
-			partial taxable entities. Conventional accounting software doesn&rsquo;t support this.
+			Define linear relations between any set of accounts. Instead of fixed amounts, you express the
+			relationship as a formula: if one value changes, the others should adjust accordingly. During
+			audit, the engine checks whether the actual bookings satisfy these constraints, flagging any
+			inconsistencies. This also applies to deductibility calculations for mixed or partial taxable
+			entities. Conventional accounting software doesn&rsquo;t support this.
 		</p>
 	</section>
 
@@ -192,10 +237,10 @@
 	<section class="prose">
 		<p>
 			All three tools run on the same foundation: formal logic and constraint solving. Not a
-			statistical model. Deterministic rules that can be reviewed, audited, and challenged. The
-			same constraint engine that powers the booking templates also supports consistency checking
-			across taxable amounts, tariffs, pro-rata deduction rates, margin scheme calculations, and
-			capital goods adjustments.
+			statistical model. Deterministic rules that can be reviewed, audited, and challenged. The same
+			constraint engine that powers the booking templates also supports consistency checking across
+			taxable amounts, tariffs, pro-rata deduction rates, margin scheme calculations, and capital
+			goods adjustments.
 		</p>
 	</section>
 
@@ -345,7 +390,9 @@
 		border-color: rgba(0, 0, 0, 0.12);
 	}
 
-	.a-banner h4 { color: rgba(15, 15, 15, 0.7); }
+	.a-banner h4 {
+		color: rgba(15, 15, 15, 0.7);
+	}
 
 	.a-desc {
 		color: rgba(15, 15, 15, 0.6);
@@ -353,7 +400,8 @@
 		font-size: 0.85rem;
 	}
 
-	.a-meta, .a-kv {
+	.a-meta,
+	.a-kv {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem 1.25rem;
@@ -373,7 +421,9 @@
 		color: rgba(15, 15, 15, 0.4);
 	}
 
-	.a-val { color: #111827; }
+	.a-val {
+		color: #111827;
+	}
 
 	.a-columns {
 		display: grid;
@@ -467,7 +517,9 @@
 		border-collapse: collapse;
 	}
 
-	.a-table thead { border-bottom: 2px solid rgba(0, 0, 0, 0.08); }
+	.a-table thead {
+		border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+	}
 
 	.a-table th {
 		text-align: left;
@@ -484,9 +536,13 @@
 		border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 	}
 
-	.a-table tr:last-child td { border-bottom: none; }
+	.a-table tr:last-child td {
+		border-bottom: none;
+	}
 
-	.at-box { width: 3rem; }
+	.at-box {
+		width: 3rem;
+	}
 
 	.at-amt {
 		text-align: right;
@@ -495,7 +551,9 @@
 		font-family: monospace;
 	}
 
-	.at-desc { color: rgba(15, 15, 15, 0.65); }
+	.at-desc {
+		color: rgba(15, 15, 15, 0.65);
+	}
 
 	.box-num {
 		display: inline-flex;

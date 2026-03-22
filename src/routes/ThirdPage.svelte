@@ -5,8 +5,8 @@
 <div id="page">
 	<h2 id="custom-heading">Need a custom solution?</h2>
 	<p id="custom-body">
-		Beta access is free. Custom integrations are scoped per engagement. Get in touch or explore
-		what we offer.
+		Beta access is free. Custom integrations are scoped per engagement. Get in touch or explore what
+		we offer.
 	</p>
 	<div id="cta-actions">
 		<a id="contact-link" href="mailto:info@vatmiraal.be">Contact us</a>

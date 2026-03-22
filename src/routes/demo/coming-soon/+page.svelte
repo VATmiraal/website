@@ -8,7 +8,9 @@
 
 <div id="page">
 	<h1>Coming soon!</h1>
-	<p>The interactive demo is not yet publicly available. We're putting the finishing touches on it.</p>
+	<p>
+		The interactive demo is not yet publicly available. We're putting the finishing touches on it.
+	</p>
 	<p>Want early access? <a href="mailto:info@vatmiraal.be">Get in touch.</a></p>
 	<a id="back" href={resolve('/demo')}>&larr; Back to demo overview</a>
 </div>
