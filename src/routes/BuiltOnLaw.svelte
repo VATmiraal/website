@@ -7,55 +7,15 @@
 	</div>
 
 	<div id="content">
-		<div id="explanation">
-			<p>
-				VATmiraal's knowledge base encodes the Belgian VAT Code (W.BTW) and its EU VAT Directive
-				counterparts as formal logic rules. Every conclusion traces back to a specific article,
-				paragraph, and point.
-			</p>
-			<p>
-				The engine doesn't predict &mdash; it applies the law as written and shows you exactly which
-				provisions led to each decision.
-			</p>
-		</div>
-
-		<div id="coverage">
-			<h3>Currently encoded</h3>
-			<div id="article-list">
-				<div class="article-item">
-					<span class="article-name">Art. 2</span>
-					<span class="article-desc">Taxable transactions</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 12bis</span>
-					<span class="article-desc">Deemed transfers</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 12ter</span>
-					<span class="article-desc">Call-off stock</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 14</span>
-					<span class="article-desc">Place of supply (goods)</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 21</span>
-					<span class="article-desc">Place of supply (services)</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 39 / 39bis</span>
-					<span class="article-desc">Export &amp; IC exemptions</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 44</span>
-					<span class="article-desc">Activity exemptions</span>
-				</div>
-				<div class="article-item">
-					<span class="article-name">Art. 51</span>
-					<span class="article-desc">VAT debtor rules</span>
-				</div>
-			</div>
-		</div>
+		<p>
+			VATmiraal's knowledge base encodes the Belgian VAT Code (W.BTW) and its EU VAT Directive
+			counterparts as formal logic rules. Every conclusion traces back to a specific article,
+			paragraph, and point.
+		</p>
+		<p>
+			The engine doesn't predict &mdash; it applies the law as written and shows you exactly which
+			provisions led to each decision.
+		</p>
 	</div>
 
 	<div id="cards">
@@ -112,58 +72,19 @@
 	}
 
 	#content {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 3rem;
-		width: 100%;
-		max-width: 1200px;
-		align-items: start;
+		max-width: 700px;
+		text-align: center;
 	}
 
-	#explanation p {
+	#content p {
 		font-size: 1.05em;
 		color: rgba(15, 15, 15, 0.7);
 		line-height: 1.65;
 		margin: 0 0 1.25em;
 	}
 
-	#explanation p:last-child {
+	#content p:last-child {
 		margin-bottom: 0;
-	}
-
-	#coverage h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		margin: 0 0 1em;
-	}
-
-	#article-list {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.article-item {
-		display: flex;
-		align-items: baseline;
-		gap: 1em;
-		padding: 0.6em 0;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-	}
-
-	.article-item:first-child {
-		padding-top: 0;
-	}
-
-	.article-name {
-		font-weight: 600;
-		font-size: 0.95em;
-		white-space: nowrap;
-	}
-
-	.article-desc {
-		font-size: 0.95em;
-		color: rgba(15, 15, 15, 0.6);
 	}
 
 	#cards {
@@ -206,11 +127,6 @@
 
 		h2 {
 			font-size: 1.8em;
-		}
-
-		#content {
-			grid-template-columns: 1fr;
-			gap: 2rem;
 		}
 
 		#cards {
