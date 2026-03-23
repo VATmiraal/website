@@ -12,7 +12,7 @@
 			rules. Every conclusion traces back to a specific article, paragraph, and point.
 		</p>
 		<p>
-			The engine doesn't predict &mdash; it applies the law as written and shows you exactly which
+			The engine doesn't predict, it applies the law as written and shows you exactly which
 			provisions led to each decision.
 		</p>
 	</div>

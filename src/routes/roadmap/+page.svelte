@@ -1,5 +1,44 @@
-<script>
+<script lang="ts">
 	import { resolve } from '$app/paths';
+	import RoadmapItem from '../../components/roadmap-item.svelte';
+
+	const items = [
+		{
+			title: 'Constraint-based audit checking',
+			description:
+				'Define arithmetic relationships between accounts and let the engine verify them during audit. Catch inconsistencies that spreadsheet reviews miss.'
+		},
+		{
+			title: 'Booking-time enforcement',
+			description:
+				'The same constraint engine, applied at the moment of entry. Flag errors before they reach the ledger.'
+		},
+		{
+			title: 'Multi-jurisdiction support',
+			description:
+				'Extending the support for additional EU member states.'
+		},
+		{
+			title: 'Cross-border filing',
+			description:
+				'Filing VAT declarations in multiple EU jurisdictions from a single system.'
+		},
+		{
+			title: 'ERP integration',
+			description:
+				'Direct connections to accounting and ERP software like Exact Online, Yuki, and Odoo. Import transaction data, export justified results and declaration-ready output.'
+		},
+		{
+			title: 'API access',
+			description:
+				'Programmatic access to the rules engine for teams that want to embed VAT reasoning in their own systems.'
+		},
+		{
+			title: 'Agentic Workflow',
+			description:
+				'Add support for AI agent to perform VAT validation using an MCP server'
+		}
+	];
 </script>
 
 <svelte:head>
@@ -13,66 +52,9 @@
 	</div>
 
 	<div id="items">
-		<div class="item">
-			<span class="item-number">1</span>
-			<div class="item-body">
-				<h3>Constraint-based audit checking</h3>
-				<p>
-					Define arithmetic relationships between accounts and let the engine verify them during
-					audit. Catch inconsistencies that spreadsheet reviews miss.
-				</p>
-			</div>
-		</div>
-		<div class="item">
-			<span class="item-number">2</span>
-			<div class="item-body">
-				<h3>Booking-time enforcement</h3>
-				<p>
-					The same constraint engine, applied at the moment of entry. Flag errors before they reach
-					the ledger.
-				</p>
-			</div>
-		</div>
-		<div class="item">
-			<span class="item-number">3</span>
-			<div class="item-body">
-				<h3>Multi-jurisdiction support</h3>
-				<p>
-					Extending the knowledge base to additional EU member states. Same architecture, same
-					explainability &mdash; applied to each country's transposition of the EU VAT Directive.
-				</p>
-			</div>
-		</div>
-		<div class="item">
-			<span class="item-number">4</span>
-			<div class="item-body">
-				<h3>Cross-border filing</h3>
-				<p>
-					Filing VAT declarations in multiple EU jurisdictions from a single system. One analysis,
-					multiple returns.
-				</p>
-			</div>
-		</div>
-		<div class="item">
-			<span class="item-number">5</span>
-			<div class="item-body">
-				<h3>ERP integration</h3>
-				<p>
-					Direct connections to accounting and ERP software like Exact Online, Yuki, and Odoo.
-					Import transaction data, export justified results and declaration-ready output.
-				</p>
-			</div>
-		</div>
-		<div class="item">
-			<span class="item-number">6</span>
-			<div class="item-body">
-				<h3>API access</h3>
-				<p>
-					Programmatic access to the rules engine for teams that want to embed VAT reasoning in
-					their own systems.
-				</p>
-			</div>
-		</div>
+		{#each items as item, i}
+			<RoadmapItem number={i + 1} title={item.title} description={item.description} />
+		{/each}
 	</div>
 
 	<div id="cta">
@@ -126,47 +108,6 @@
 		width: 100%;
 	}
 
-	.item {
-		display: flex;
-		align-items: flex-start;
-		gap: 1.25em;
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
-		padding: 1.75em 2em;
-		text-align: left;
-	}
-
-	.item-number {
-		flex-shrink: 0;
-		width: 2em;
-		height: 2em;
-		border-radius: 50%;
-		background: #0f0f0f;
-		color: #f8f8f6;
-		font-size: 0.9em;
-		font-weight: 700;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.item-body h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		margin: 0 0 0.4em;
-	}
-
-	.item-body p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
-		margin: 0;
-	}
 
 	#cta {
 		display: flex;
@@ -216,10 +157,6 @@
 		#page {
 			padding: 4rem 1.5rem 4rem;
 			gap: 3.5rem;
-		}
-
-		.item {
-			padding: 1.4em 1.5em;
 		}
 	}
 </style>

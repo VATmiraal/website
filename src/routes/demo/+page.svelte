@@ -24,7 +24,7 @@
 	<div id="hero">
 		<h1>See VATmiraal in action</h1>
 		<p id="intro">
-			Explore how the rules engine analyses real VAT transactions &mdash; entirely in your browser.
+			Explore how the rules engine analyses real VAT transactions entirely in your browser.
 		</p>
 		<div id="hero-actions">
 			<a class="btn-primary" href={resolve('/demo/coming-soon')}> Launch the Analyser </a>
