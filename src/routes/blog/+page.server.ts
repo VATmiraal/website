@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { readingTime } from '$lib/reading-time';
+import { readingTime } from '$lib/reading_time';
 import type { IBlogPost } from '$lib/types';
 
 const articles: Omit<IBlogPost, 'readingTime'>[] = [
