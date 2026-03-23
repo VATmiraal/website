@@ -8,9 +8,8 @@
 
 	<div id="content">
 		<p>
-			VATmiraal's knowledge base encodes national VAT codes and the EU VAT Directive
-			as formal logic rules. Every conclusion traces back to a specific article,
-			paragraph, and point.
+			VATmiraal's knowledge base encodes national VAT codes and the EU VAT Directive as formal logic
+			rules. Every conclusion traces back to a specific article, paragraph, and point.
 		</p>
 		<p>
 			The engine doesn't predict &mdash; it applies the law as written and shows you exactly which

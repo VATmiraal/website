@@ -26,7 +26,8 @@
 			<span class="step-number">4</span>
 			<h3>Justified result</h3>
 			<p>
-				Every conclusion cites the specific national VAT articles and EU Directive provisions that apply.
+				Every conclusion cites the specific national VAT articles and EU Directive provisions that
+				apply.
 			</p>
 		</div>
 	</div>

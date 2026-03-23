@@ -67,8 +67,8 @@
 			Takes structured transaction data and works with what&rsquo;s there. When critical facts are
 			missing (party establishments, transport details, object classification), it asks for them.
 			Given complete input, it returns the full analysis: classification, place of supply,
-			exemption, debtor, and declaration boxes. Every conclusion cites the specific national VAT article
-			and its EU Directive equivalent.
+			exemption, debtor, and declaration boxes. Every conclusion cites the specific national VAT
+			article and its EU Directive equivalent.
 		</p>
 
 		<p class="example-intro">Here is what the analyser produces for a single transaction:</p>
@@ -307,10 +307,6 @@
 
 	.prose p:last-child {
 		margin-bottom: 0;
-	}
-
-	.prose strong {
-		color: #0f0f0f;
 	}
 
 	.closing p {

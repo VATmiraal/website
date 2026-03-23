@@ -38,8 +38,8 @@
 			<div class="item-body">
 				<h3>Multi-jurisdiction support</h3>
 				<p>
-					Extending the knowledge base to additional EU member states. Same architecture,
-					same explainability &mdash; applied to each country's transposition of the EU VAT Directive.
+					Extending the knowledge base to additional EU member states. Same architecture, same
+					explainability &mdash; applied to each country's transposition of the EU VAT Directive.
 				</p>
 			</div>
 		</div>

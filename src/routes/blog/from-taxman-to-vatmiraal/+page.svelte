@@ -229,8 +229,8 @@
 	<footer id="author">
 		<p>
 			<em>
-				Jan De Meyer is the founder of VATmiraal (vatmiraal.be), a neuro-symbolic VAT
-				compliance system.
+				Jan De Meyer is the founder of VATmiraal (vatmiraal.be), a neuro-symbolic VAT compliance
+				system.
 			</em>
 		</p>
 	</footer>
