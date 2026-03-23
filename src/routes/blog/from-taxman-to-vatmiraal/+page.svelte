@@ -1,5 +1,8 @@
-<script>
-	import { resolve } from '$app/paths';
+<script lang="ts">
+	import BlogArticle from '../components/blog-article.svelte';
+	import type { IBlogPostData } from '$lib/types';
+
+	let { data }: { data: IBlogPostData } = $props();
 
 	const schema = {
 		'@context': 'https://schema.org',
@@ -27,12 +30,12 @@
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
 
-<article id="page">
-	<header id="hero">
-		<h1>From TAXMAN to VATmiraal: Fifty Years of Teaching Machines the Law</h1>
-		<p id="meta">5 min read &middot; March 2026</p>
-	</header>
-
+<BlogArticle
+	title="From TAXMAN to VATmiraal: Fifty Years of Teaching Machines the Law"
+	meta={`${data.readingTime} min read · March 2026`}
+	backHref="/blog"
+	backLabel="All posts"
+>
 	<section class="prose">
 		<p>
 			Tax professionals, lawyers, compliance officers &mdash; anyone who works at the intersection
@@ -234,91 +237,9 @@
 			</em>
 		</p>
 	</footer>
-
-	<a id="back-blog" href={resolve('/blog')}>&larr; All posts</a>
-</article>
+</BlogArticle>
 
 <style>
-	#page {
-		max-width: 700px;
-		margin: 0 auto;
-		padding: 6rem 2rem 5rem;
-		box-sizing: border-box;
-	}
-
-	#hero {
-		margin-bottom: 3rem;
-	}
-
-	h1 {
-		font-size: clamp(2rem, 4.5vw, 2.8rem);
-		font-weight: 800;
-		letter-spacing: -0.04em;
-		line-height: 1.12;
-		margin: 0 0 0.75rem;
-	}
-
-	#meta {
-		font-size: 0.95em;
-		color: rgba(15, 15, 15, 0.45);
-		margin: 0;
-	}
-
-	h2 {
-		font-size: 1.5em;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		line-height: 1.2;
-		margin: 0 0 1rem;
-	}
-
-	.prose {
-		margin-bottom: 0;
-	}
-
-	.prose p {
-		font-size: 1.05em;
-		line-height: 1.75;
-		color: rgba(15, 15, 15, 0.85);
-		margin: 0 0 1.25em;
-	}
-
-	.prose p:last-child {
-		margin-bottom: 0;
-	}
-
-	.prose ul {
-		margin: 0 0 1.25em;
-		padding: 0 0 0 1.5em;
-	}
-
-	.prose li {
-		font-size: 1.05em;
-		line-height: 1.75;
-		color: rgba(15, 15, 15, 0.85);
-		margin-bottom: 0.5em;
-	}
-
-	.prose strong {
-		color: #0f0f0f;
-	}
-
-	.prose em {
-		font-style: italic;
-	}
-
-	.closing p {
-		font-size: 1.1em;
-		font-weight: 500;
-		color: #0f0f0f;
-	}
-
-	hr {
-		border: none;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
-		margin: 2.5rem 0;
-	}
-
 	#author {
 		margin-top: 2.5rem;
 		padding-top: 2rem;
@@ -330,32 +251,5 @@
 		color: rgba(15, 15, 15, 0.55);
 		line-height: 1.6;
 		margin: 0;
-	}
-
-	#back-blog {
-		display: inline-block;
-		margin-top: 2rem;
-		color: rgba(15, 15, 15, 0.5);
-		text-decoration: none;
-		font-size: 0.95em;
-		transition: color 0.2s ease;
-	}
-
-	#back-blog:hover {
-		color: #0f0f0f;
-	}
-
-	@media (max-width: 768px) {
-		#page {
-			padding: 4rem 1.5rem 4rem;
-		}
-
-		h1 {
-			font-size: clamp(1.6rem, 7vw, 2.2rem);
-		}
-
-		h2 {
-			font-size: 1.3em;
-		}
 	}
 </style>

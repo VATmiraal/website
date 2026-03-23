@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import RoadmapItem from '../../components/roadmap-item.svelte';
+	import RoadmapItem from './components/roadmap-item.svelte';
 
 	const items = [
 		{
@@ -15,13 +15,11 @@
 		},
 		{
 			title: 'Multi-jurisdiction support',
-			description:
-				'Extending the support for additional EU member states.'
+			description: 'Extending the support for additional EU member states.'
 		},
 		{
 			title: 'Cross-border filing',
-			description:
-				'Filing VAT declarations in multiple EU jurisdictions from a single system.'
+			description: 'Filing VAT declarations in multiple EU jurisdictions from a single system.'
 		},
 		{
 			title: 'ERP integration',
@@ -35,8 +33,7 @@
 		},
 		{
 			title: 'Agentic Workflow',
-			description:
-				'Add support for AI agent to perform VAT validation using an MCP server'
+			description: 'Add support for AI agent to perform VAT validation using an MCP server'
 		}
 	];
 </script>
@@ -52,7 +49,7 @@
 	</div>
 
 	<div id="items">
-		{#each items as item, i}
+		{#each items as item, i (item.title)}
 			<RoadmapItem number={i + 1} title={item.title} description={item.description} />
 		{/each}
 	</div>
@@ -107,7 +104,6 @@
 		gap: 1rem;
 		width: 100%;
 	}
-
 
 	#cta {
 		display: flex;
