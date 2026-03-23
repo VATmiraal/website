@@ -31,7 +31,10 @@
 
 <div id="header">
 	<a id="vatmiraal" href={resolve('/')} onclick={closeMenu}>
-		<img src="/logo.svg" alt="VATmiraal" />
+		<picture>
+			<source srcset="/logo_icon.svg" media="(max-width: 768px)" />
+			<img src="/logo.svg" alt="VATmiraal" />
+		</picture>
 	</a>
 	<nav id="nav-links">
 		{@render navLinks(undefined)}
@@ -66,9 +69,9 @@
 <style>
 	:global(:root) {
 		--header-margin: 2.5%;
-		--header-height: 3.5rem;
+		--header-height: 5.5rem;
 		--header-margin-top: 0;
-		--header-total-height: 3.5rem;
+		--header-total-height: 5rem;
 	}
 
 	#header {
@@ -123,7 +126,7 @@
 	}
 
 	#vatmiraal img {
-		height: 2.8em;
+		height: 5em;
 		width: auto;
 	}
 
@@ -249,7 +252,7 @@
 		}
 
 		#vatmiraal img {
-			height: 2.2em;
+			height: 3.2em;
 		}
 	}
 
