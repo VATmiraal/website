@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+	<link rel="icon" type="image/svg+xml" href="/logo_icon_dark.svg" />
 	<meta property="og:image" content="https://vatmiraal.be/logo.svg" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schemas)}<${'/script'}>`}

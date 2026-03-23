@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 258 258"
+   version="1.1"
+   id="svg11"
+   width="258"
+   height="258"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <style
+       id="style1">
+      @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@800&amp;display=swap');
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="258" height="258" fill="#1b2a4a" />
+  <!-- Ship's wheel with percent sign -->
+  <g
+     transform="translate(129,129)"
+     fill="#ffffff"
+     id="g11">
+    <!-- Outer ring -->
+    <circle
+       cx="0"
+       cy="0"
+       r="86"
+       fill="none"
+       stroke="#ffffff"
+       stroke-width="18"
+       id="circle1" />
+    <!-- Spokes: only outside the ring (from outer edge at r=95 to knob at r=122) -->
+    <!-- Spoke at 0° (3 o'clock) -->
+    <line
+       x1="95"
+       y1="0"
+       x2="122"
+       y2="0"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line1" />
+    <circle
+       cx="122"
+       cy="0"
+       r="7"
+       id="circle2" />
+    <!-- Spoke at 45° (4:30) -->
+    <line
+       x1="67.199997"
+       y1="67.199997"
+       x2="86.300003"
+       y2="86.300003"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line2" />
+    <circle
+       cx="86.300003"
+       cy="86.300003"
+       r="7"
+       id="circle3" />
+    <!-- Spoke at 90° (6 o'clock) -->
+    <line
+       x1="0"
+       y1="95"
+       x2="0"
+       y2="122"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line3" />
+    <circle
+       cx="0"
+       cy="122"
+       r="7"
+       id="circle4" />
+    <!-- Spoke at 180° (9 o'clock) -->
+    <line
+       x1="-95"
+       y1="0"
+       x2="-122"
+       y2="0"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line4" />
+    <circle
+       cx="-122"
+       cy="0"
+       r="7"
+       id="circle5" />
+    <!-- Spoke at 225° (10:30) -->
+    <line
+       x1="-67.199997"
+       y1="-67.199997"
+       x2="-86.300003"
+       y2="-86.300003"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line5" />
+    <circle
+       cx="-86.300003"
+       cy="-86.300003"
+       r="7"
+       id="circle6" />
+    <!-- Spoke at 270° (12 o'clock) -->
+    <line
+       x1="0"
+       y1="-95"
+       x2="0"
+       y2="-122"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line6" />
+    <circle
+       cx="0"
+       cy="-122"
+       r="7"
+       id="circle7" />
+    <!-- Percent diagonal (lower-left ↔ upper-right, replaces 135° and 315° spokes) -->
+    <line
+       x1="-86.300003"
+       y1="86.300003"
+       x2="86.300003"
+       y2="-86.300003"
+       stroke="#ffffff"
+       stroke-width="9"
+       id="line7" />
+    <circle
+       cx="-86.300003"
+       cy="86.300003"
+       r="7"
+       id="circle8" />
+    <circle
+       cx="86.300003"
+       cy="-86.300003"
+       r="7"
+       id="circle9" />
+    <!-- Percent circles — centered on the 225° and 45° spokes -->
+    <!-- Upper-left circle on 225° spoke (radius ~40 from center) -->
+    <circle
+       cx="-28.299999"
+       cy="-28.299999"
+       r="22"
+       fill="#1b2a4a"
+       stroke="#ffffff"
+       stroke-width="10"
+       id="circle10" />
+    <!-- Lower-right circle on 45° spoke (radius ~40 from center) -->
+    <circle
+       cx="28.299999"
+       cy="28.299999"
+       r="22"
+       fill="#1b2a4a"
+       stroke="#ffffff"
+       stroke-width="10"
+       id="circle11" />
+  </g>
+</svg>
