@@ -9,7 +9,7 @@ const articles: Omit<IBlogPost, 'readingTime'>[] = [
 		date: 'March 2026',
 		excerpt:
 			'Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates. Formal logic and constraint solving for VAT compliance.'
-  },
+	}
 	/**
 	{
 		slug: 'from-taxman-to-vatmiraal',
