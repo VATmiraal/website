@@ -13,7 +13,6 @@ const articles: IArticleDefinition[] = [
 			'Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates. Formal logic and constraint solving for VAT compliance.',
 		fallbackReadingTime: 2
 	}
-	/**
 	,{
 		slug: 'from-taxman-to-vatmiraal',
 		title: 'From TAXMAN to VATmiraal: Fifty Years of Teaching Machines the Law',
@@ -22,7 +21,6 @@ const articles: IArticleDefinition[] = [
 			'A history of computational legal reasoning, from symbolic AI and expert systems to LLMs and neuro-symbolic architectures, and how VATmiraal fits in.',
 		fallbackReadingTime: 6
 	}
-	*/
 ];
 
 export async function load() {
