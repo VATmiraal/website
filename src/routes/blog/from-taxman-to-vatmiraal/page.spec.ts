@@ -1,36 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('from-taxman-to-vatmiraal load()', () => {
-	describe('SSR', () => {
-		beforeEach(() => {
-			vi.resetModules();
-		});
-
-		it('computes reading time from the svelte source file', async () => {
-			vi.doMock('$app/environment', () => ({ browser: false }));
-			vi.doMock('$lib/reading_time', () => ({
-				readingTimeFromPage: vi.fn().mockResolvedValue(5)
-			}));
-
-			const { load } = await import('./+page.js');
-			const result = await load();
-
-			expect(result.readingTime).toBe(5);
-		});
+	beforeEach(() => {
+		vi.resetModules();
 	});
 
-	describe('client', () => {
-		beforeEach(() => {
-			vi.resetModules();
-		});
+	it('computes reading time from the svelte source file', async () => {
+		vi.doMock('$lib/reading_time', () => ({
+			readingTime: vi.fn().mockReturnValue(5)
+		}));
 
-		it('returns hardcoded fallback reading time', async () => {
-			vi.doMock('$app/environment', () => ({ browser: true }));
+		const { load } = await import('./+page.js');
+		const result = await load();
 
-			const { load } = await import('./+page.js');
-			const result = await load();
-
-			expect(result.readingTime).toBe(6);
-		});
+		expect(result.readingTime).toBe(5);
 	});
 });
