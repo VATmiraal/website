@@ -33,7 +33,7 @@
 		},
 		{
 			title: 'Agentic Workflow',
-			description: 'Add support for AI agent to perform VAT validation using an MCP server'
+			description: 'Support for AI agent to perform VAT validation using an MCP server.'
 		}
 	];
 </script>
