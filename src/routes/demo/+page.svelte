@@ -314,6 +314,18 @@
 			0 2px 8px rgba(0, 0, 0, 0.06),
 			0 1px 2px rgba(0, 0, 0, 0.04);
 		padding: 1.75em 2em;
+		transition:
+			transform 0.25s ease,
+			box-shadow 0.25s ease,
+			border-color 0.25s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-3px);
+		border-color: rgba(0, 0, 0, 0.14);
+		box-shadow:
+			0 8px 24px rgba(0, 0, 0, 0.08),
+			0 2px 4px rgba(0, 0, 0, 0.05);
 	}
 
 	.card h3 {

@@ -1,39 +1,48 @@
 <div id="page">
 	<div id="heading">
+		<span class="kicker">Foundations</span>
 		<h2>Built on VAT law</h2>
 		<p id="subtitle">
 			Not a statistical model. A rules engine that encodes the actual legislation.
 		</p>
 	</div>
 
-	<div id="content">
-		<p>
-			VATmiraal's knowledge base encodes national VAT codes and the EU VAT Directive as formal logic
-			rules. Every conclusion traces back to a specific article, paragraph, and point.
-		</p>
-		<p>
-			The engine doesn't predict, it applies the law as written and shows you exactly which
-			provisions led to each decision.
-		</p>
-	</div>
-
-	<div id="cards">
-		<div class="card">
+	<div id="columns">
+		<div class="column">
 			<h3>Rule-based, not probabilistic</h3>
 			<p>
 				No LLM hallucination risk. The engine applies deterministic logic rules to structured facts.
 			</p>
 		</div>
-		<div class="card">
+		<div class="column">
 			<h3>Full audit trail</h3>
 			<p>Every result includes the legal provisions applied. Reviewable by any tax professional.</p>
 		</div>
-		<div class="card">
+		<div class="column">
 			<h3>EU Directive mappings</h3>
 			<p>
 				National provisions are linked to their EU VAT Directive equivalents for cross-border
 				reasoning.
 			</p>
+		</div>
+	</div>
+
+	<div id="poweredBy">
+		<span class="powered-label">Powered by Prolog, an ISO standard</span>
+		<div class="partners">
+			<a
+				class="partner"
+				href="https://www.iso.org/standard/21413.html"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<img src="/iso-logo.svg" alt="" class="partner-logo" />
+				<span class="partner-name">ISO/IEC 13211, the Prolog standard</span>
+			</a>
+			<a class="partner" href="https://www.scryer.pl/" target="_blank" rel="noopener noreferrer">
+				<img src="/scryer-logo.png" alt="" class="partner-logo" />
+				<span class="partner-name">Scryer Prolog, an ISO-compliant implementation</span>
+			</a>
 		</div>
 	</div>
 </div>
@@ -43,7 +52,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 4rem;
+		gap: 3.5rem;
 		padding: 6rem 2rem;
 		border-top: 1px solid rgba(0, 0, 0, 0.08);
 	}
@@ -54,6 +63,15 @@
 		align-items: center;
 		gap: 1rem;
 		text-align: center;
+		max-width: 720px;
+	}
+
+	.kicker {
+		font-size: 0.75em;
+		font-weight: 600;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: rgba(15, 15, 15, 0.45);
 	}
 
 	h2 {
@@ -70,52 +88,95 @@
 		margin: 0;
 	}
 
-	#content {
-		max-width: 700px;
-		text-align: center;
-	}
-
-	#content p {
-		font-size: 1.05em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
-		margin: 0 0 1.25em;
-	}
-
-	#content p:last-child {
-		margin-bottom: 0;
-	}
-
-	#cards {
+	#columns {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
+		gap: 0;
 		width: 100%;
-		max-width: 1200px;
+		max-width: 1100px;
+		border-top: 1px solid rgba(0, 0, 0, 0.14);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.14);
 	}
 
-	.card {
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
-		padding: 1.75em 2em;
+	.column {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55em;
+		padding: 2.25em 2em;
+		position: relative;
 	}
 
-	.card h3 {
-		font-size: 1.15em;
+	.column + .column {
+		border-left: 1px solid rgba(0, 0, 0, 0.09);
+	}
+
+	.column h3 {
+		font-size: 1.1em;
 		font-weight: 700;
 		letter-spacing: -0.01em;
-		margin: 0 0 0.5em;
+		margin: 0;
 	}
 
-	.card p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
+	.column p {
+		font-size: 0.95em;
+		color: rgba(15, 15, 15, 0.65);
 		line-height: 1.65;
 		margin: 0;
+	}
+
+	#poweredBy {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25rem;
+		width: 100%;
+		max-width: 1100px;
+	}
+
+	.powered-label {
+		font-size: 0.75em;
+		font-weight: 600;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: rgba(15, 15, 15, 0.45);
+	}
+
+	.partners {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0;
+		flex-wrap: wrap;
+	}
+
+	.partner {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65rem;
+		padding: 0.25rem 1.75rem;
+		color: inherit;
+		text-decoration: none;
+		opacity: 0.85;
+		transition: opacity 0.2s ease;
+	}
+
+	.partner + .partner {
+		border-left: 1px solid rgba(0, 0, 0, 0.12);
+	}
+
+	.partner:hover {
+		opacity: 1;
+	}
+
+	.partner-logo {
+		height: 26px;
+		width: auto;
+	}
+
+	.partner-name {
+		font-size: 0.88em;
+		font-weight: 500;
+		color: rgba(15, 15, 15, 0.78);
 	}
 
 	@media (max-width: 768px) {
@@ -128,19 +189,38 @@
 			font-size: 1.8em;
 		}
 
-		#cards {
+		#columns {
 			grid-template-columns: 1fr;
+			border-bottom: none;
 		}
 
-		.card {
-			padding: 1.4em 1.5em;
+		.column {
+			padding: 1.75em 0.5em;
+		}
+
+		.column + .column {
+			border-left: none;
+			border-top: 1px solid rgba(0, 0, 0, 0.09);
+		}
+
+		.partners {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.partner {
+			padding: 0;
+		}
+
+		.partner + .partner {
+			border-left: none;
 		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
-			gap: 3rem;
-			padding-bottom: 3rem;
+			gap: 2.75rem;
+			padding-bottom: 4rem;
 		}
 
 		h2 {

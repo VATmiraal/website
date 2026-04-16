@@ -61,6 +61,11 @@
 		-webkit-font-smoothing: antialiased;
 	}
 
+	:global(h1),
+	:global(h2) {
+		font-feature-settings: 'cv11', 'ss03';
+	}
+
 	footer {
 		background: #0f0f0f;
 		color: rgba(248, 248, 246, 0.35);

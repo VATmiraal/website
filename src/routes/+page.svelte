@@ -1,9 +1,9 @@
 <script>
 	import FirstPage from './FirstPage.svelte';
-	import SecondPage from './SecondPage.svelte';
+	import WhyVatmiraal from './WhyVatmiraal.svelte';
 	import HowItWorks from './HowItWorks.svelte';
 	import BuiltOnLaw from './BuiltOnLaw.svelte';
-	import ThirdPage from './ThirdPage.svelte';
+	import CustomSolution from './CustomSolution.svelte';
 
 	const schema = {
 		'@context': 'https://schema.org',
@@ -31,7 +31,7 @@
 </svelte:head>
 
 <FirstPage />
-<SecondPage />
-<HowItWorks />
 <BuiltOnLaw />
-<ThirdPage />
+<WhyVatmiraal />
+<HowItWorks />
+<CustomSolution />

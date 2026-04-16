@@ -36,6 +36,15 @@
 		animation: fade-up var(--intro-animation-duration) ease-out forwards;
 	}
 
+	#hero-heading::before {
+		content: '';
+		display: block;
+		width: 48px;
+		height: 1px;
+		background: rgba(15, 15, 15, 0.35);
+		margin: 0 auto 28px;
+	}
+
 	#slogan {
 		width: 35vw;
 		font-weight: 400;
