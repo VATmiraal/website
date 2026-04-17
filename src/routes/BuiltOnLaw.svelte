@@ -1,28 +1,34 @@
+<script lang="ts">
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
+</script>
+
 <div id="page">
-	<div id="heading">
-		<span class="kicker">Foundations</span>
-		<h2>Built on VAT law</h2>
-		<p id="subtitle">
-			Not a statistical model. A rules engine that encodes the actual legislation.
-		</p>
-	</div>
+	<SectionHeader
+		kicker="Foundations"
+		title="Not another LLM"
+		subtitle="A flexible, explainable, deterministic law expert system — not a language model guessing from training data."
+	/>
 
 	<div id="columns">
 		<div class="column">
 			<h3>Rule-based, not probabilistic</h3>
 			<p>
-				No LLM hallucination risk. The engine applies deterministic logic rules to structured facts.
+				No hallucination risk. The engine applies deterministic logic to structured facts, and
+				returns the same answer every time.
 			</p>
 		</div>
 		<div class="column">
 			<h3>Full audit trail</h3>
-			<p>Every result includes the legal provisions applied. Reviewable by any tax professional.</p>
+			<p>
+				Every output lists the legal provisions it applied. Any tax professional can review the
+				reasoning step by step.
+			</p>
 		</div>
 		<div class="column">
 			<h3>EU Directive mappings</h3>
 			<p>
-				National provisions are linked to their EU VAT Directive equivalents for cross-border
-				reasoning.
+				National provisions link to their EU VAT Directive equivalents, so cross-border reasoning is
+				explicit rather than inferred.
 			</p>
 		</div>
 	</div>
@@ -52,40 +58,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 3.5rem;
-		padding: 6rem 2rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
-	}
-
-	#heading {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-		text-align: center;
-		max-width: 720px;
-	}
-
-	.kicker {
-		font-size: 0.75em;
-		font-weight: 600;
-		letter-spacing: 0.22em;
-		text-transform: uppercase;
-		color: rgba(15, 15, 15, 0.45);
-	}
-
-	h2 {
-		font-size: 2.6em;
-		font-weight: 700;
-		letter-spacing: -0.03em;
-		line-height: 1.1;
-		margin: 0;
-	}
-
-	#subtitle {
-		font-size: 1.15em;
-		color: rgba(15, 15, 15, 0.6);
-		margin: 0;
+		gap: var(--space-14, 3.5rem);
+		padding: var(--section-padding-y) var(--section-padding-x);
+		border-top: 1px solid var(--color-border);
 	}
 
 	#columns {
@@ -93,34 +68,35 @@
 		grid-template-columns: repeat(3, 1fr);
 		gap: 0;
 		width: 100%;
-		max-width: 1100px;
-		border-top: 1px solid rgba(0, 0, 0, 0.14);
-		border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+		max-width: var(--container-wide);
+		border-top: 1px solid var(--color-border-strong);
+		border-bottom: 1px solid var(--color-border-strong);
 	}
 
 	.column {
 		display: flex;
 		flex-direction: column;
-		gap: 0.55em;
-		padding: 2.25em 2em;
+		gap: var(--space-2);
+		padding: var(--space-8) var(--space-8);
 		position: relative;
 	}
 
 	.column + .column {
-		border-left: 1px solid rgba(0, 0, 0, 0.09);
+		border-left: 1px solid var(--color-border);
 	}
 
 	.column h3 {
-		font-size: 1.1em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
+		font-size: var(--h3-card);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
 		margin: 0;
+		color: var(--color-text);
 	}
 
 	.column p {
-		font-size: 0.95em;
-		color: rgba(15, 15, 15, 0.65);
-		line-height: 1.65;
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
 		margin: 0;
 	}
 
@@ -128,17 +104,17 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.25rem;
+		gap: var(--space-5);
 		width: 100%;
-		max-width: 1100px;
+		max-width: var(--container-wide);
 	}
 
 	.powered-label {
-		font-size: 0.75em;
-		font-weight: 600;
-		letter-spacing: 0.22em;
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-semibold);
+		letter-spacing: var(--letter-spacing-wide);
 		text-transform: uppercase;
-		color: rgba(15, 15, 15, 0.45);
+		color: var(--color-text-faint);
 	}
 
 	.partners {
@@ -152,16 +128,16 @@
 	.partner {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.65rem;
-		padding: 0.25rem 1.75rem;
+		gap: var(--space-3);
+		padding: var(--space-1) var(--space-6);
 		color: inherit;
 		text-decoration: none;
 		opacity: 0.85;
-		transition: opacity 0.2s ease;
+		transition: opacity var(--duration-base) var(--easing);
 	}
 
 	.partner + .partner {
-		border-left: 1px solid rgba(0, 0, 0, 0.12);
+		border-left: 1px solid var(--color-border);
 	}
 
 	.partner:hover {
@@ -174,19 +150,15 @@
 	}
 
 	.partner-name {
-		font-size: 0.88em;
-		font-weight: 500;
-		color: rgba(15, 15, 15, 0.78);
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-text);
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			gap: 2.5rem;
-			padding: 4rem 1.5rem;
-		}
-
-		h2 {
-			font-size: 1.8em;
+			gap: var(--space-10);
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
 		}
 
 		#columns {
@@ -195,17 +167,17 @@
 		}
 
 		.column {
-			padding: 1.75em 0.5em;
+			padding: var(--space-6) var(--space-2);
 		}
 
 		.column + .column {
 			border-left: none;
-			border-top: 1px solid rgba(0, 0, 0, 0.09);
+			border-top: 1px solid var(--color-border);
 		}
 
 		.partners {
 			flex-direction: column;
-			gap: 1rem;
+			gap: var(--space-4);
 		}
 
 		.partner {
@@ -219,12 +191,8 @@
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
-			gap: 2.75rem;
-			padding-bottom: 4rem;
-		}
-
-		h2 {
-			font-size: 2.2em;
+			gap: var(--space-12);
+			padding-bottom: var(--space-16);
 		}
 	}
 </style>

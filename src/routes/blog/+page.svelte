@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import Button from '$lib/components/Button.svelte';
 	import BlogPostCard from './components/blog-post-card.svelte';
 
 	import type { IBlogIndexData } from '$lib/types';
@@ -8,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>Blog &mdash; VATmiraal</title>
+	<title>Blog — VATmiraal</title>
 </svelte:head>
 
 <div id="page">
@@ -25,7 +26,7 @@
 		{/each}
 	</div>
 
-	<a id="back-home" href={resolve('/')}>&#8592; Back to home</a>
+	<Button href={resolve('/')} variant="ghost">← Back to home</Button>
 </div>
 
 <style>
@@ -34,43 +35,32 @@
 		flex-direction: column;
 		align-items: center;
 		min-height: calc(100vh - var(--header-total-height));
-		padding: 6rem 2rem 5rem;
-		gap: 4rem;
-		max-width: 780px;
+		padding: var(--space-24) var(--section-padding-x) var(--space-20);
+		gap: var(--space-16);
+		max-width: var(--container-narrow);
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
 
 	h1 {
-		font-size: clamp(2rem, 4.5vw, 3.2rem);
-		font-weight: 800;
-		letter-spacing: -0.04em;
-		line-height: 1.08;
+		font-size: var(--h1-secondary);
+		font-weight: var(--font-weight-heavy);
+		letter-spacing: var(--letter-spacing-tight);
+		line-height: var(--line-height-tight);
 		margin: 0;
 	}
 
 	#posts {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: var(--space-6);
 		width: 100%;
-	}
-
-	#back-home {
-		color: rgba(15, 15, 15, 0.5);
-		text-decoration: none;
-		font-size: 0.95em;
-		transition: color 0.2s ease;
-	}
-
-	#back-home:hover {
-		color: #0f0f0f;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			padding: 4rem 1.5rem 4rem;
-			gap: 3rem;
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+			gap: var(--space-12);
 		}
 	}
 </style>

@@ -1,63 +1,111 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import RoadmapItem from './components/roadmap-item.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import RoadmapTree, {
+		type IRoadmapBranch
+	} from '$lib/components/RoadmapTree.svelte';
 
-	const items = [
+	interface IBranchWithDetails extends IRoadmapBranch {
+		rootDescription: string;
+		leaves: Array<{ title: string; description: string }>;
+	}
+
+	const branches: IBranchWithDetails[] = [
 		{
-			title: 'Constraint-based audit checking',
-			description:
-				'Define arithmetic relationships between accounts and let the engine verify them during audit. Catch inconsistencies that spreadsheet reviews miss.'
+			root: 'Logic engine',
+			rootDescription:
+				'Rule-based, explainable reasoning over VAT law. The core that every feature builds on.',
+			leaves: [
+				{
+					title: 'Audit checking',
+					description:
+						'Define arithmetic relationships between accounts and let the engine verify them during audit. Catch inconsistencies that spreadsheet reviews miss.'
+				},
+				{
+					title: 'ABC / chain transactions',
+					description:
+						'VAT treatment for A→B→C supply chains where goods ship directly to the end customer.'
+				}
+			]
 		},
 		{
-			title: 'Booking-time enforcement',
-			description:
-				'The same constraint engine, applied at the moment of entry. Flag errors before they reach the ledger.'
+			root: 'Multi-jurisdiction',
+			rootDescription: 'Coverage of additional EU member states.',
+			leaves: [
+				{
+					title: 'Cross-border filing',
+					description:
+						'Filing VAT declarations in multiple EU jurisdictions from a single system.'
+				}
+			]
 		},
 		{
-			title: 'Multi-jurisdiction support',
-			description: 'Extending the support for additional EU member states.'
-		},
-		{
-			title: 'Cross-border filing',
-			description: 'Filing VAT declarations in multiple EU jurisdictions from a single system.'
-		},
-		{
-			title: 'ERP integration',
-			description:
-				'Direct connections to accounting and ERP software like Exact Online, Yuki, and Odoo. Import transaction data, export justified results and declaration-ready output.'
-		},
-		{
-			title: 'API access',
-			description:
-				'Programmatic access to the rules engine for teams that want to embed VAT reasoning in their own systems.'
-		},
-		{
-			title: 'Agentic Workflow',
-			description: 'Support for AI agent to perform VAT validation using an MCP server.'
+			root: 'Integration',
+			rootDescription: 'Ways to plug VATmiraal into your existing systems and workflows.',
+			leaves: [
+				{
+					title: 'ERP connectors',
+					description:
+						'Direct connections to accounting and ERP software like Exact Online, Yuki, and Odoo.'
+				},
+				{
+					title: 'API access',
+					description:
+						'Programmatic access to the rules engine for teams that want to embed VAT reasoning in their own systems.'
+				},
+				{
+					title: 'Agentic / MCP workflow',
+					description: 'MCP server for AI agents to perform VAT validation end-to-end.'
+				},
+				{
+					title: 'Chat bot',
+					description:
+						'Conversational interface for asking VAT questions in natural language, answered with cited reasoning.'
+				}
+			]
 		}
 	];
 </script>
 
 <svelte:head>
-	<title>Roadmap &mdash; VATmiraal</title>
+	<title>Roadmap — VATmiraal</title>
+	<meta
+		name="description"
+		content="What's next for VATmiraal: logic engine extensions, multi-jurisdiction support, and integration paths (ERP, API, agentic, chat bot)."
+	/>
 </svelte:head>
 
 <div id="page">
-	<div id="hero">
-		<h1>Where we're heading</h1>
-		<p id="intro">VATmiraal is in active development. Here is what we're building toward.</p>
-	</div>
+	<SectionHeader
+		level="h1"
+		title="What's next"
+		subtitle="VATmiraal is in active development. The tree below shows where we're extending the engine. Each branch is a planned feature anchored to one of three foundations."
+	/>
 
-	<div id="items">
-		{#each items as item, i (item.title)}
-			<RoadmapItem number={i + 1} title={item.title} description={item.description} />
+	<RoadmapTree {branches} />
+
+	<div id="details">
+		{#each branches as branch (branch.root)}
+			<section class="branch-details">
+				<h2>{branch.root}</h2>
+				<p class="root-desc">{branch.rootDescription}</p>
+				<ul>
+					{#each branch.leaves as leaf (leaf.title)}
+						<li>
+							<h3>{leaf.title}</h3>
+							<p>{leaf.description}</p>
+						</li>
+					{/each}
+				</ul>
+			</section>
 		{/each}
 	</div>
 
 	<div id="cta">
-		<p>Want to shape what comes next?</p>
-		<a id="contact-link" href="mailto:info@vatmiraal.be">Get in touch</a>
-		<a id="back-home" href={resolve('/')}>&#8592; Back to home</a>
+		<p>Missing something you need?</p>
+		<Button href="mailto:info@vatmiraal.be" variant="primary">Get in touch</Button>
+		<Button href={resolve('/')} variant="ghost">← Back to home</Button>
 	</div>
 </div>
 
@@ -67,92 +115,83 @@
 		flex-direction: column;
 		align-items: center;
 		min-height: calc(100vh - var(--header-total-height));
-		padding: 6rem 2rem 5rem;
-		gap: 5rem;
-		max-width: 780px;
+		padding: var(--space-24) var(--section-padding-x) var(--space-20);
+		gap: var(--space-20);
+		max-width: var(--container-wide);
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
 
-	#hero {
+	#details {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 1.5rem;
-		text-align: center;
-	}
-
-	h1 {
-		font-size: clamp(2rem, 4.5vw, 3.2rem);
-		font-weight: 800;
-		letter-spacing: -0.04em;
-		line-height: 1.08;
-		margin: 0;
-	}
-
-	#intro {
-		font-size: 1.2em;
-		color: rgba(15, 15, 15, 0.65);
-		max-width: 560px;
-		line-height: 1.65;
-		margin: 0;
-	}
-
-	#items {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+		gap: var(--space-16);
 		width: 100%;
+		max-width: var(--container-narrow);
+	}
+
+	.branch-details h2 {
+		font-size: var(--h2-section);
+		font-weight: var(--font-weight-heavy);
+		letter-spacing: var(--letter-spacing-tight);
+		line-height: var(--line-height-tight);
+		margin: 0 0 var(--space-3);
+	}
+
+	.root-desc {
+		font-size: var(--font-size-md);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-snug);
+		margin: 0 0 var(--space-8);
+		max-width: 42rem;
+	}
+
+	.branch-details ul {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.branch-details li {
+		padding-left: var(--space-5);
+		border-left: 2px solid var(--color-accent);
+	}
+
+	.branch-details li h3 {
+		font-size: var(--h3-card);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
+		margin: 0 0 var(--space-2);
+	}
+
+	.branch-details li p {
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
+		margin: 0;
 	}
 
 	#cta {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.25rem;
+		gap: var(--space-5);
 		text-align: center;
 	}
 
 	#cta > p {
-		font-size: 1.15em;
-		font-weight: 500;
+		font-size: var(--font-size-md);
+		font-weight: var(--font-weight-medium);
 		margin: 0;
-	}
-
-	#contact-link {
-		background: #0f0f0f;
-		color: #f8f8f6;
-		border: 2px solid #0f0f0f;
-		border-radius: 6px;
-		padding: 0.55em 1.5em;
-		font-weight: 600;
-		font-size: 1em;
-		text-decoration: none;
-		transition:
-			background-color 0.22s ease,
-			color 0.22s ease;
-	}
-
-	#contact-link:hover {
-		background: transparent;
-		color: #0f0f0f;
-	}
-
-	#back-home {
-		color: rgba(15, 15, 15, 0.5);
-		text-decoration: none;
-		font-size: 0.95em;
-		transition: color 0.2s ease;
-	}
-
-	#back-home:hover {
-		color: #0f0f0f;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			padding: 4rem 1.5rem 4rem;
-			gap: 3.5rem;
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+			gap: var(--space-14, 3.5rem);
 		}
 	}
 </style>

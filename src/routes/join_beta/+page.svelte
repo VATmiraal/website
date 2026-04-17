@@ -2,12 +2,54 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { dev } from '$app/environment';
+	import { tick } from 'svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	let { data }: { data?: { devMode: boolean } } = $props();
 
 	let showPopup = $state(false);
 	let popupTitle = $state('Thank You!');
 	let popupMessage = $state("You've been added to the beta waitlist. We'll be in touch soon.");
+
+	let popupEl: HTMLDivElement | undefined = $state();
+	let previouslyFocused: HTMLElement | null = null;
+
+	async function openPopup(title: string, message: string) {
+		previouslyFocused = document.activeElement as HTMLElement | null;
+		popupTitle = title;
+		popupMessage = message;
+		showPopup = true;
+		await tick();
+		popupEl?.focus();
+	}
+
+	function closePopup() {
+		showPopup = false;
+		previouslyFocused?.focus?.();
+		goto(resolve('/'));
+	}
+
+	function onPopupKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			closePopup();
+			return;
+		}
+		if (event.key !== 'Tab' || !popupEl) return;
+		const focusables = popupEl.querySelectorAll<HTMLElement>(
+			'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+		);
+		if (focusables.length === 0) return;
+		const first = focusables[0];
+		const last = focusables[focusables.length - 1];
+		if (event.shiftKey && document.activeElement === first) {
+			event.preventDefault();
+			last.focus();
+		} else if (!event.shiftKey && document.activeElement === last) {
+			event.preventDefault();
+			first.focus();
+		}
+	}
 
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
@@ -16,10 +58,10 @@
 		const formData = new FormData(form);
 
 		if (data?.devMode ?? dev) {
-			popupTitle = 'Thank You! (Dev Mode)';
-			popupMessage =
-				"Form submission skipped in development. In production, you'd be added to the waitlist.";
-			showPopup = true;
+			await openPopup(
+				'Thank You! (Dev Mode)',
+				"Form submission skipped in development. In production, you'd be added to the waitlist."
+			);
 			return;
 		}
 
@@ -32,34 +74,36 @@
 				}
 			});
 
-			popupTitle = 'Thank You!';
-			popupMessage = "You've been added to the beta waitlist. We'll be in touch soon.";
-			if (!resp.ok) {
+			if (resp.ok) {
+				await openPopup(
+					'Thank You!',
+					"You've been added to the beta waitlist. We'll be in touch soon."
+				);
+			} else {
 				console.error(
 					`there was an error sending data to the form: ${JSON.stringify(await resp.json(), null, 2)}`
 				);
-				popupTitle = 'Oops!';
-				popupMessage =
-					'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
+				await openPopup(
+					'Oops!',
+					'Something went wrong. Please try again later or contact us at info@vatmiraal.be'
+				);
 			}
 		} catch (e: unknown) {
 			console.error(`there was an error sending data to the form: ${e}`);
-			popupTitle = 'Oops!';
-			popupMessage =
-				'Something went wrong. Please try again later or contact us at info@vatmiraal.be';
+			await openPopup(
+				'Oops!',
+				'Something went wrong. Please try again later or contact us at info@vatmiraal.be'
+			);
 		}
-
-		showPopup = true;
-	}
-
-	function closePopup() {
-		showPopup = false;
-		goto(resolve('/'));
 	}
 </script>
 
 <svelte:head>
-	<title>Join the Beta Waitlist</title>
+	<title>Join the Beta — VATmiraal</title>
+	<meta
+		name="description"
+		content="Free early access to VATmiraal while we expand jurisdiction coverage. Priority onboarding at general availability."
+	/>
 </svelte:head>
 
 <div id="page">
@@ -96,16 +140,27 @@
 			</select>
 		</div>
 
-		<button type="submit">Join Beta Waitlist</button>
+		<div class="submit-wrap">
+			<Button type="submit" variant="primary" size="lg">Join Beta Waitlist</Button>
+		</div>
 	</form>
 </div>
 
 {#if showPopup}
 	<div class="overlay" data-testid="popup" onclick={closePopup} role="presentation">
-		<div class="popup">
-			<h2>{popupTitle}</h2>
+		<div
+			bind:this={popupEl}
+			class="popup"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="popup-title"
+			tabindex="-1"
+			onkeydown={onPopupKeydown}
+			onclick={(e) => e.stopPropagation()}
+		>
+			<h2 id="popup-title">{popupTitle}</h2>
 			<p>{popupMessage}</p>
-			<button onclick={closePopup}>Back to Home</button>
+			<Button onclick={closePopup} variant="primary">Back to Home</Button>
 		</div>
 	</div>
 {/if}
@@ -115,59 +170,71 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-top: 10vh;
-		height: calc(100vh - var(--header-total-height));
+		padding: var(--space-16) var(--section-padding-x) var(--space-20);
+		min-height: calc(100vh - var(--header-total-height));
+		box-sizing: border-box;
 	}
 
 	h1 {
-		font-size: 2.5em;
-		font-weight: bold;
-		margin-bottom: 0.5em;
+		font-size: var(--h1-secondary);
+		font-weight: var(--font-weight-heavy);
+		letter-spacing: var(--letter-spacing-tight);
+		line-height: var(--line-height-tight);
+		text-align: center;
+		margin: 0 0 var(--space-3);
 	}
 
 	#subtitle {
-		font-size: 1.2em;
-		opacity: 0.7;
-		margin-bottom: 3em;
+		font-size: var(--font-size-md);
+		color: var(--color-text-muted);
+		text-align: center;
+		margin: 0 0 var(--space-12);
+		max-width: 560px;
 	}
 
 	#beta-form {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5em;
-		width: 25vw;
-		min-width: 300px;
+		gap: var(--space-5);
+		width: 100%;
+		max-width: 440px;
 	}
 
 	.form-group {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5em;
+		gap: var(--space-2);
 	}
 
 	label {
-		font-weight: bold;
-		font-size: 1.1em;
+		font-weight: var(--font-weight-semibold);
+		font-size: var(--font-size-base);
+		color: var(--color-text);
 	}
 
 	input,
 	select {
-		font-family: 'Inter', sans-serif;
-		font-size: 1em;
-		padding: 0.8em 1em;
-		border: 2.5px solid black;
-		background: transparent;
+		font-family: var(--font-family);
+		font-size: var(--font-size-base);
+		padding: 0.75em 1em;
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius-md);
+		background: var(--color-bg-elevated);
+		color: var(--color-text);
 		outline: none;
-		transition: box-shadow 0.2s ease;
+		transition:
+			border-color var(--duration-base) var(--easing),
+			box-shadow var(--duration-base) var(--easing);
 	}
 
 	input:focus,
 	select:focus {
-		box-shadow: 0 0 0 2px #10b981;
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px var(--color-accent-tint);
 	}
 
 	input::placeholder {
-		opacity: 0.5;
+		color: var(--color-text-faint);
 	}
 
 	select {
@@ -179,98 +246,63 @@
 		background-size: 12px 12px;
 	}
 
-	button {
-		font-family: 'Inter', sans-serif;
-		font-size: 1.2em;
-		font-weight: bold;
-		padding: 0.8em 1.5em;
-		border: 2.5px solid black;
-		background: black;
-		color: white;
-		cursor: pointer;
-		transition: all 0.2s ease;
-		margin-top: 1em;
+	.submit-wrap {
+		display: flex;
+		justify-content: center;
+		margin-top: var(--space-3);
 	}
 
-	button:hover:not(:disabled) {
-		background: transparent;
-		color: black;
-	}
-
-	button:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-
+	/* ─── Popup ─── */
 	.overlay {
 		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.5);
+		inset: 0;
+		background: rgba(15, 15, 15, 0.5);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 1000;
+		z-index: var(--z-overlay);
+		padding: var(--space-4);
 	}
 
 	.popup {
-		background: white;
-		padding: 3em;
-		border: 2.5px solid black;
+		background: var(--color-bg-elevated);
+		padding: var(--space-10);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-xl);
 		text-align: center;
-		max-width: 400px;
+		max-width: 420px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		align-items: center;
 	}
 
 	.popup h2 {
-		font-size: 2em;
-		font-weight: bold;
-		margin-bottom: 0.5em;
+		font-size: var(--font-size-xl);
+		font-weight: var(--font-weight-heavy);
+		letter-spacing: var(--letter-spacing-tight);
+		margin: 0;
 	}
 
 	.popup p {
-		font-size: 1.1em;
-		opacity: 0.8;
-		margin-bottom: 2em;
-	}
-
-	.popup button {
-		margin-top: 0;
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
+		margin: 0 0 var(--space-2);
 	}
 
 	@media (max-width: 768px) {
-		h1 {
-			font-size: 1.8em;
-		}
-
-		#beta-form {
-			width: 90vw;
-			min-width: unset;
-		}
-
 		#page {
-			padding-top: 5vh;
+			padding: var(--space-12) var(--section-padding-x-mobile) var(--space-16);
 		}
 
 		#subtitle {
-			margin-bottom: 1.5em;
+			margin-bottom: var(--space-8);
 		}
 
 		.popup {
-			padding: 1.5em;
-			max-width: 85vw;
-		}
-	}
-
-	@media (min-width: 769px) and (max-width: 1024px) {
-		#beta-form {
-			width: 50vw;
-			min-width: unset;
-		}
-
-		.popup {
-			padding: 2em;
+			padding: var(--space-8);
 		}
 	}
 </style>

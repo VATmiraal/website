@@ -1,29 +1,35 @@
+<script lang="ts">
+	import Card from '$lib/components/Card.svelte';
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
+</script>
+
 <div id="page">
-	<div id="heading">
-		<h2 id="why-vatmiraal">Why VATmiraal</h2>
-		<p id="why-subtitle">Accurate. Explainable. Ready for your stack.</p>
-	</div>
+	<SectionHeader
+		title="Why VATmiraal"
+		subtitle="Accurate, citable, and ready to drop into your existing stack."
+	/>
 	<div id="cards">
-		<div class="card">
-			<h3>Works with your data as-is</h3>
+		<Card interactive>
+			<h3>Flexible with your data</h3>
 			<p>
-				Upload invoices, email chains, text, or documents. No reformatting required before analysis.
+				Works with invoices, ledger extracts, and structured exports. The cleaner the input, the
+				more directly the engine applies — but you don't need a rigid schema to start.
 			</p>
-		</div>
-		<div class="card">
+		</Card>
+		<Card interactive>
 			<h3>Fits your existing stack</h3>
 			<p>
-				Use our web application or connect to your ERP or accounting software. No vendor lock-in, no
-				proprietary formats.
+				Use the web app, or plug in through a REST API, native ERP integration, or an MCP server for
+				AI-agent workflows.
 			</p>
-		</div>
-		<div class="card">
-			<h3>Explainable at every step</h3>
+		</Card>
+		<Card interactive>
+			<h3>Defensible at every step</h3>
 			<p>
-				Every VAT decision includes a human-readable justification, built for audit trails and
-				compliance review.
+				Each decision cites the national article and the EU Directive provision that produced it.
+				Paste it into a working paper, hand it to an auditor, and move on.
 			</p>
-		</div>
+		</Card>
 	</div>
 </div>
 
@@ -32,105 +38,48 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
-		gap: 4rem;
-		padding: 6rem 2rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
-	}
-
-	#heading {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-		text-align: center;
-	}
-
-	#why-vatmiraal {
-		font-size: 2.6em;
-		font-weight: 700;
-		letter-spacing: -0.03em;
-		line-height: 1.1;
-		margin: 0;
-	}
-
-	#why-subtitle {
-		font-size: 1.15em;
-		color: rgba(15, 15, 15, 0.6);
-		margin: 0;
+		gap: var(--space-16);
+		padding: var(--section-padding-y) var(--section-padding-x);
+		border-top: 1px solid var(--color-border);
 	}
 
 	#cards {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
+		gap: var(--space-6);
 		width: 100%;
-		max-width: 1200px;
+		max-width: var(--container-wide);
 	}
 
-	.card {
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
-		padding: 1.75em 2em;
-		transition:
-			transform 0.25s ease,
-			box-shadow 0.25s ease,
-			border-color 0.25s ease;
+	#cards h3 {
+		font-size: var(--h3-card);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
+		margin: 0 0 var(--space-2);
 	}
 
-	.card:hover {
-		transform: translateY(-3px);
-		border-color: rgba(0, 0, 0, 0.14);
-		box-shadow:
-			0 8px 24px rgba(0, 0, 0, 0.08),
-			0 2px 4px rgba(0, 0, 0, 0.05);
-	}
-
-	.card h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		margin: 0 0 0.5em;
-	}
-
-	.card p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
+	#cards p {
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
 		margin: 0;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			gap: 2.5rem;
-			padding: 4rem 1.5rem;
-		}
-
-		#why-vatmiraal {
-			font-size: 1.8em;
+			gap: var(--space-10);
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
 		}
 
 		#cards {
 			grid-template-columns: 1fr;
 		}
-
-		.card {
-			padding: 1.4em 1.5em;
-		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
-			gap: 3rem;
-			padding-bottom: 3rem;
-		}
-
-		#why-vatmiraal {
-			font-size: 2.2em;
+			gap: var(--space-12);
+			padding-bottom: var(--space-12);
 		}
 	}
 </style>

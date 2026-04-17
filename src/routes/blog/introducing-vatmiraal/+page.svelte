@@ -263,24 +263,23 @@
 
 <style>
 	.disclaimer {
-		margin-top: 2.5rem;
-		padding: 1rem 1.25rem;
-		background: rgba(0, 0, 0, 0.03);
-		border-left: 3px solid rgba(0, 0, 0, 0.15);
-		font-size: 0.85em;
-		color: rgba(15, 15, 15, 0.5);
-		line-height: 1.6;
+		margin-top: var(--space-10);
+		padding: var(--space-4) var(--space-5);
+		background: var(--color-bg-subtle);
+		border-left: 3px solid var(--color-border-strong);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-subtle);
+		line-height: var(--line-height-base);
 	}
 
-	/* ── Analyser example ── */
 	.example-intro {
 		font-style: italic;
-		color: rgba(15, 15, 15, 0.5);
+		color: var(--color-text-subtle);
 	}
 
 	.demo {
 		font-size: 0.82rem;
-		color: #111827;
+		color: var(--color-text);
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
@@ -289,32 +288,32 @@
 
 	.a-card {
 		padding: 0.85rem 1rem;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		background: #ffffff;
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		background: var(--color-bg-elevated);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.a-card h4 {
 		margin: 0 0 0.5rem;
 		font-size: 0.65rem;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		color: rgba(15, 15, 15, 0.45);
+		color: var(--color-text-faint);
 	}
 
 	.a-banner {
-		background: #fafafa;
-		border-color: rgba(0, 0, 0, 0.12);
+		background: var(--color-bg-subtle);
+		border-color: var(--color-border-strong);
 	}
 
 	.a-banner h4 {
-		color: rgba(15, 15, 15, 0.7);
+		color: var(--color-text-muted);
 	}
 
 	.a-desc {
-		color: rgba(15, 15, 15, 0.6);
+		color: var(--color-text-subtle);
 		margin: 0.15rem 0 0.4rem;
 		font-size: 0.85rem;
 	}
@@ -334,14 +333,14 @@
 
 	.a-key {
 		font-size: 0.65rem;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: rgba(15, 15, 15, 0.4);
+		color: var(--color-text-faint);
 	}
 
 	.a-val {
-		color: #111827;
+		color: var(--color-text);
 	}
 
 	.a-columns {
@@ -352,14 +351,14 @@
 	}
 
 	.a-sidebar {
-		background: #fafafa;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-radius: 10px;
+		background: var(--color-bg-subtle);
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius-lg);
 		padding: 0.6rem 0.75rem;
 	}
 
 	.a-sb-section + .a-sb-section {
-		border-top: 1px solid rgba(0, 0, 0, 0.07);
+		border-top: 1px solid var(--color-border);
 		margin-top: 0.4rem;
 		padding-top: 0.4rem;
 	}
@@ -367,25 +366,25 @@
 	.a-sidebar h5 {
 		margin: 0 0 0.25rem;
 		font-size: 0.65rem;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		color: rgba(15, 15, 15, 0.55);
+		color: var(--color-text-subtle);
 	}
 
 	.a-sb-val {
 		display: block;
-		font-weight: 600;
-		color: #111827;
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-text);
 	}
 
 	.a-sb-detail {
 		display: block;
-		color: rgba(15, 15, 15, 0.45);
+		color: var(--color-text-faint);
 	}
 
 	.a-party + .a-party {
-		border-top: 1px dashed rgba(0, 0, 0, 0.07);
+		border-top: 1px dashed var(--color-border);
 		margin-top: 0.3rem;
 		padding-top: 0.3rem;
 	}
@@ -393,14 +392,14 @@
 	.a-role {
 		display: block;
 		font-size: 0.65rem;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: rgba(15, 15, 15, 0.4);
+		color: var(--color-text-faint);
 	}
 
 	.a-vatcode {
-		color: rgba(15, 15, 15, 0.45);
+		color: var(--color-text-faint);
 		font-size: 0.8rem;
 	}
 
@@ -411,8 +410,8 @@
 	}
 
 	.a-result {
-		font-weight: 600;
-		color: #111827;
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-text);
 	}
 
 	.a-vatid-grid {
@@ -426,9 +425,9 @@
 		flex-direction: column;
 		gap: 0.3rem;
 		padding: 0.4rem 0.6rem;
-		border: 1px solid rgba(0, 0, 0, 0.05);
-		border-radius: 8px;
-		background: #fafafa;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-bg-subtle);
 	}
 
 	.a-table {
@@ -437,22 +436,22 @@
 	}
 
 	.a-table thead {
-		border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+		border-bottom: 2px solid var(--color-border);
 	}
 
 	.a-table th {
 		text-align: left;
 		font-size: 0.65rem;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: rgba(15, 15, 15, 0.4);
+		color: var(--color-text-faint);
 		padding: 0.3rem 0.4rem;
 	}
 
 	.a-table td {
 		padding: 0.35rem 0.4rem;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.a-table tr:last-child td {
@@ -466,12 +465,12 @@
 	.at-amt {
 		text-align: right;
 		width: 5rem;
-		font-weight: 600;
-		font-family: monospace;
+		font-weight: var(--font-weight-semibold);
+		font-family: var(--font-family-mono);
 	}
 
 	.at-desc {
-		color: rgba(15, 15, 15, 0.65);
+		color: var(--color-text-muted);
 	}
 
 	.box-num {
@@ -480,11 +479,11 @@
 		justify-content: center;
 		min-width: 1.8rem;
 		padding: 0.05rem 0.35rem;
-		border-radius: 0.25rem;
-		background: #0f0f0f;
-		color: #ffffff;
-		font-weight: 700;
-		font-family: monospace;
+		border-radius: var(--radius-sm);
+		background: var(--color-bg-inverted);
+		color: var(--color-text-on-dark);
+		font-weight: var(--font-weight-bold);
+		font-family: var(--font-family-mono);
 		font-size: 0.8rem;
 	}
 

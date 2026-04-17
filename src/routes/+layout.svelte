@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import Header from '../components/header.svelte';
 
 	let { children } = $props();
@@ -15,7 +16,7 @@
 			logo: 'https://vatmiraal.be/logo.svg',
 			email: 'info@vatmiraal.be',
 			description:
-				'Explainable AI for confident VAT decisions, built for accountants and tax professionals.',
+				'Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals.',
 			sameAs: ['https://www.linkedin.com/company/vatmiraal']
 		},
 		{
@@ -30,6 +31,19 @@
 </script>
 
 <svelte:head>
+	<title>VATmiraal — Explainable VAT decisions, ready for audit</title>
+	<meta
+		name="description"
+		content="Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals."
+	/>
+	<meta
+		property="og:title"
+		content="VATmiraal — Explainable VAT decisions, ready for audit"
+	/>
+	<meta
+		property="og:description"
+		content="Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals."
+	/>
 	<link rel="icon" type="image/svg+xml" href="/logo_icon_dark.svg" />
 	<meta property="og:image" content="https://vatmiraal.be/logo.svg" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -45,33 +59,12 @@
 </footer>
 
 <style>
-	@font-face {
-		font-family: 'Inter';
-		src: url('/Inter-VariableFont_opsz,wght.ttf') format('truetype');
-		font-weight: 100 900;
-		font-style: normal;
-	}
-
-	:global(body) {
-		font-family: 'Inter', sans-serif;
-		margin: 0;
-		background-color: #f8f8f6;
-		color: #0f0f0f;
-		line-height: 1.6;
-		-webkit-font-smoothing: antialiased;
-	}
-
-	:global(h1),
-	:global(h2) {
-		font-feature-settings: 'cv11', 'ss03';
-	}
-
 	footer {
-		background: #0f0f0f;
-		color: rgba(248, 248, 246, 0.35);
+		background: var(--color-bg-inverted);
+		color: var(--color-text-on-dark-faint);
 		text-align: center;
-		padding: 1.25rem 2rem;
-		font-size: 0.85em;
+		padding: var(--space-5) var(--space-8);
+		font-size: var(--font-size-sm);
 	}
 
 	footer p {

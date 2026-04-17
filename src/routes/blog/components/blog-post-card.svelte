@@ -20,45 +20,43 @@
 <style>
 	.post {
 		display: block;
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-md);
 		padding: 1.75em 2em;
 		text-decoration: none;
 		color: inherit;
 		transition:
-			transform 0.22s ease,
-			box-shadow 0.22s ease;
+			transform var(--duration-base) var(--easing),
+			box-shadow var(--duration-base) var(--easing),
+			border-color var(--duration-base) var(--easing);
 	}
 
 	.post:hover {
 		transform: translateY(-3px);
-		box-shadow:
-			0 8px 28px rgba(0, 0, 0, 0.1),
-			0 2px 6px rgba(0, 0, 0, 0.06);
+		border-color: var(--color-border-strong);
+		box-shadow: var(--shadow-lg);
 	}
 
 	.post h2 {
 		font-size: 1.3em;
-		font-weight: 700;
-		letter-spacing: -0.02em;
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
 		line-height: 1.25;
-		margin: 0 0 0.4em;
+		margin: 0 0 var(--space-2);
 	}
 
 	.post-meta {
-		font-size: 0.9em;
-		color: rgba(15, 15, 15, 0.45);
-		margin: 0 0 0.75em;
+		font-size: var(--font-size-sm);
+		color: var(--color-text-faint);
+		margin: 0 0 var(--space-3);
 	}
 
 	.post-excerpt {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
 		margin: 0;
 	}
 
@@ -69,9 +67,7 @@
 
 		.post:hover {
 			transform: none;
-			box-shadow:
-				0 2px 8px rgba(0, 0, 0, 0.06),
-				0 1px 2px rgba(0, 0, 0, 0.04);
+			box-shadow: var(--shadow-md);
 		}
 	}
 </style>

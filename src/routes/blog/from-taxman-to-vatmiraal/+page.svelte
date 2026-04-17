@@ -38,185 +38,137 @@
 >
 	<section class="prose">
 		<p>
-			Tax professionals, lawyers, compliance officers &mdash; anyone who works at the intersection
-			of rules and reality has wanted the same thing: a machine that knows the law. Not a search
-			engine that retrieves statutes &mdash; something that <em>reasons</em>. Takes a messy
-			real-world situation and reliably says: this is compliant, this is not, here is the article
-			that says so.
+			For fifty years, people have wanted a computer that knows tax law. Not a search tool that
+			retrieves statutes &mdash; a system that takes a real transaction and says: this is what the
+			law concludes, and here is the article that says so.
 		</p>
 		<p>
-			The dream is seductive because law looks, at first glance, like logic. It is written down.
-			Rules have conditions and consequences. Surely a computer, built on logic, could handle it?
+			The problem keeps attracting new generations because law looks, superficially, like logic.
+			Statutes are written down. Articles have conditions and consequences. The match to a
+			rule-based program feels obvious.
 		</p>
 		<p>
-			Fifty years of effort confirm it is harder than it looks. Every era solved one half of the
-			problem and stumbled on the other. Understanding why is the fastest way to understand what the
-			current generation gets right.
+			It has never quite worked out. Each generation has solved one half of the problem and gotten
+			stuck on the other. It's worth knowing why.
 		</p>
 	</section>
 
 	<hr />
 
 	<section class="prose">
-		<h2>The First Attempts: Symbolic AI and Its Limits (1970s&ndash;1993)</h2>
+		<h2>The symbolic era (1970s&ndash;1993)</h2>
 		<p>
-			The earliest serious attempt came in 1977, when L. Thorne McCarty built <strong>TAXMAN</strong
-			>
-			at Rutgers &mdash; a system written in micro-PLANNER that attempted to model U.S. corporate tax
-			reorganisation rules. It worked for the deterministic core and immediately hit a wall at the edges:
-			legal terms like "continuity of interest" resisted formal definition. Around the same time, Alain
-			Colmerauer's <strong>Prolog</strong> (1972) emerged as the dominant formalism for encoding legal
-			rules as logical declarations, and researchers across Europe began applying it to benefits legislation,
-			contract law, and tax codes.
+			The first serious attempt was <strong>TAXMAN</strong>, built at Rutgers in 1977 by L. Thorne
+			McCarty. It tried to model U.S. corporate tax reorganisation rules in micro-PLANNER. The
+			deterministic core worked. Terms like <em>continuity of interest</em> resisted any formal definition
+			and broke the system at its edges.
 		</p>
 		<p>
-			The conclusion was consistent: symbolic systems excel at <em>deterministic</em> rules where
-			every term is well-defined. Real law has too much of the other kind. The commercial expert
-			systems boom of the mid-1980s &mdash; products promising to capture expert judgment in if-then
-			rule bases &mdash; collapsed by 1993 under the weight of its own brittleness. Every
-			legislative amendment required expensive re-engineering. Edge cases produced silent failures.
-			The field had confused <em>formalisation</em> with <em>coverage</em>.
+			Around the same time, Alain Colmerauer's <strong>Prolog</strong> (1972) gave the field a
+			natural, powerful way to encode legal rules as logical assertions. The hardware of the period
+			couldn't yet keep up with what Prolog could express &mdash; but decades of work on term
+			indexing and smarter resolution strategies, alongside Moore's law, have since opened the
+			language up to an even wider range of applications without heavy performance-driven
+			engineering. Prolog remains one of the cleanest tools we have for encoding law as logic.
 		</p>
 		<p>
-			<strong>What this era got right:</strong> deterministic legal rules must be encoded as formal logic,
-			and every conclusion must be traceable to a specific clause. These principles remain foundational.
+			The commercial expert-system wave that followed in the mid-1980s promised to capture expert
+			judgment in if-then rule bases. By 1993 most of those products had collapsed. Every
+			legislative change demanded a re-engineering project. Edge cases failed silently. The
+			underlying mistake was treating <em>formalisation</em> as though it were the same thing as
+			<em>coverage</em>.
 		</p>
 		<p>
-			<strong>What it missed:</strong> encoding the rules correctly &mdash; itself a substantial
-			undertaking requiring deep legal and technical expertise &mdash; turned out to be only half
-			the challenge. The other half was extracting the <em>facts</em> those rules consume from messy real-world
-			documents.
-		</p>
-	</section>
-
-	<hr />
-
-	<section class="prose">
-		<h2>Honest Formalisation: Drools and Catala (2001&ndash;2021)</h2>
-		<p>
-			A quieter, more rigorous tradition continued in parallel. <strong>Drools</strong> (2001) became
-			the standard production rule engine for genuinely deterministic business logic &mdash; no claims
-			of intelligence, just reliable execution of correctly encoded rules, used by insurers and tax authorities
-			for provisions that admit no ambiguity.
+			What the era got right: deterministic rules belong in formal logic, and every conclusion
+			needs to be traceable to a specific clause. Those principles hold up today.
 		</p>
 		<p>
-			The most significant advance was <strong>Catala</strong>, released by Denis Merigoux at INRIA
-			in 2021. Catala is a programming language built specifically to formalise legislation, with
-			one key innovation: source code is <em>interleaved with the actual statutory text</em>. The
-			legal article appears as a comment; directly beneath it sits its formal implementation. Any
-			gap between law and code is immediately visible. The French government used it to formally
-			verify parts of its family benefits legislation.
-		</p>
-		<p>
-			What Catala cannot do &mdash; and makes no pretence of doing &mdash; is extract the facts it
-			needs from natural language. A human must still read the invoice, understand the context, and
-			provide structured inputs. For high-volume compliance work, that bottleneck remained unsolved.
+			What it missed: encoding rules is the <em>second</em> problem. The first is extracting the structured
+			facts those rules consume from a messy invoice, email, or ledger line.
 		</p>
 	</section>
 
 	<hr />
 
 	<section class="prose">
-		<h2>The LLM Turn and Its Discontents (2017&ndash;2023)</h2>
+		<h2>The quiet formalisers (2001&ndash;2021)</h2>
 		<p>
-			When transformer-based language models arrived, the fact-extraction problem suddenly seemed
-			tractable. For the first time, machines could read a contract, identify the relevant parties,
-			classify the transaction type, and surface the provisions at issue &mdash; at scale, in plain
-			language.
+			A more restrained tradition kept working in parallel without making claims about intelligence.
 		</p>
 		<p>
-			But pure language models have a fundamental limitation in law: they are
-			<strong>probabilistic</strong>. When a modern LLM analyses a compliance scenario, it produces
-			the most statistically likely answer. For common scenarios, this is usually correct. But:
+			<strong>Drools</strong> (2001) became the standard production rule engine for genuinely
+			deterministic business logic. Insurers and tax authorities have used it for years to run
+			provisions that admit no ambiguity. It doesn't try to read anything.
+		</p>
+		<p>
+			The more interesting advance was <strong>Catala</strong>, released by Denis Merigoux at INRIA
+			in 2021. Catala is a programming language designed to formalise legislation, and its one
+			defining idea is that source code sits <em>interleaved with the statutory text it implements</em>:
+			the article is a comment, the code sits directly underneath. Any divergence between law and
+			implementation is immediately visible. The French government used Catala to formally verify
+			parts of its family-benefits legislation.
+		</p>
+		<p>
+			What Catala deliberately doesn't do is extract facts from natural language. A human still has
+			to read the document, understand the context, and feed the engine structured inputs. For
+			compliance work at scale, that bottleneck stayed open.
+		</p>
+	</section>
+
+	<hr />
+
+	<section class="prose">
+		<h2>The LLM turn</h2>
+		<p>
+			Transformer-based language models closed the fact-extraction gap almost overnight. Given a
+			contract or an invoice, a modern LLM can identify parties, classify the transaction, and
+			surface the provisions at issue. The unstructured half of the problem became tractable.
+		</p>
+		<p>
+			The catch is what happens when those same models are asked to <em>decide</em> what the law says.
+			LLMs are probabilistic. They return the most statistically plausible answer, which on common
+			scenarios is usually correct, and which on edge cases goes wrong in specific ways:
 		</p>
 		<ul>
-			<li>
-				It cannot distinguish "unknown" from "false" &mdash; missing information is silently assumed
-				away
-			</li>
-			<li>
-				It cannot guarantee consistency &mdash; the same scenario rephrased may yield a different
-				answer
-			</li>
-			<li>
-				It hallucinates citations &mdash; producing plausible-sounding article numbers that do not
-				exist
-			</li>
+			<li>They cannot distinguish "unknown" from "false". Missing information is silently assumed away.</li>
+			<li>They are not consistent. The same scenario, rephrased, can produce a different answer.</li>
+			<li>They hallucinate citations. Article numbers that sound right but don't exist.</li>
 		</ul>
 		<p>
-			Several high-profile failures &mdash; AI-drafted legal briefs citing non-existent cases,
-			compliance tools giving confidently wrong advice &mdash; demonstrated the point. A system that
-			is right 95% of the time is not acceptable when the 5% results in a penalty.
+			A system that is often right is fine for search. It is not fine when you get tax penalties.
 		</p>
 	</section>
 
 	<hr />
 
 	<section class="prose">
-		<h2>The Synthesis: Each Half Needs the Other</h2>
+		<h2>VATmiraal</h2>
 		<p>
-			The case for neuro-symbolic AI in legal reasoning can be stated simply: neural networks excel
-			at exactly what symbolic systems cannot do, and symbolic systems are reliable at exactly what
-			neural networks cannot do. The task is composing them correctly.
+			VAT is a good fit for this history. The EU VAT Directive, the national transpositions, and
+			the ECJ case law cover a space that is mostly deterministic. Whether reverse charge applies
+			to a given B2B transaction, for a standard case, is not a matter of interpretation: either
+			the conditions hold or they don't.
 		</p>
 		<p>
-			<strong>Neural networks bring:</strong> extracting structured facts from unstructured text; handling
-			linguistic variation; generating readable explanations of formal conclusions.
+			VATmiraal runs in two stages. A language model reads the transaction &mdash; invoice, ledger
+			line, or short description &mdash; and extracts the structured facts the rules need: supplier
+			country, customer status, object type, VAT identifiers, place-of-supply inputs. That
+			representation is then handed to a Prolog-based knowledge base that encodes the statutory
+			rules directly.
 		</p>
 		<p>
-			<strong>Symbolic systems bring:</strong> deterministic, auditable reasoning; complete citation
-			trails; guaranteed consistency; and critically &mdash; a three-valued logic that can return
-			<em>true</em>, <em>false</em>, or <em>insufficient information to conclude</em>.
+			The logic engine does not guess. For every transaction it either produces a conclusion
+			together with the specific articles applied, or it reports that a required fact is missing
+			and says which one. When a scenario touches provisions that don't admit a clean formal
+			answer, it says so and stops, instead of manufacturing confidence.
 		</p>
 		<p>
-			A well-designed neuro-symbolic system works in two stages. A language model reads the user's
-			description and extracts a structured representation of the relevant facts. That
-			representation is passed to a formal knowledge base that applies the statutory rules &mdash;
-			and either produces a proof with every step cited, or identifies precisely which fact is
-			missing to resolve the question. The symbolic engine does not guess. It reasons.
-		</p>
-	</section>
-
-	<hr />
-
-	<section class="prose">
-		<h2>VATmiraal: Defensible Reasoning at Scale</h2>
-		<p>
-			Tax law &mdash; VAT in particular &mdash; is the ideal test case for this architecture. The EU
-			VAT Directive spans 28 member states, decades of ECJ case law, and thousands of cross-border
-			scenarios. Most core rules are genuinely deterministic. Whether reverse charge applies to a
-			given B2B transaction is not a matter of interpretation for standard cases. Either the
-			conditions are met or they are not.
-		</p>
-		<p>
-			VATmiraal sits at the point where this history has been heading. A language model reads a
-			transaction in plain language and extracts the facts the legal analysis requires. A logic
-			engine then applies the statutory rules and produces a conclusion &mdash; but crucially, it
-			also produces the full reasoning trace: every condition checked, every article applied or
-			ruled out, laid out in a form that can be reviewed, challenged, or cited in an audit.
-		</p>
-		<p>
-			This is where the contrast with existing tax engines matters. Most commercial VAT tools work
-			through table lookups: they classify a transaction against a matrix of country pairs, supply
-			types, and customer categories, and return an answer. They tell you <em>what</em> the outcome
-			is. They do not tell you <em>why</em> &mdash; which conditions were satisfied, which exemption was
-			considered and rejected, which article of which directive governs the result.
-		</p>
-		<p>
-			For routine processing, that is often enough. But for cross-border transactions where the
-			stakes are high and the rules interact in non-obvious ways, an answer without a reasoning
-			trace is a liability, not an asset. You cannot defend an audit position you cannot explain.
-			You cannot catch a wrong answer you cannot inspect.
-		</p>
-		<p>
-			When a required fact is missing, the system does not guess &mdash; it asks. When a scenario
-			touches provisions that resist full formalisation, it says so and routes to expert review
-			rather than producing a confident answer that may be wrong.
-		</p>
-		<p>
-			Every conclusion either cites specific statutory articles, or honestly reports that it cannot
-			conclude and explains what would resolve the question. This is not AI replacing a tax advisor.
-			It is AI making a tax advisor's work faster, more consistent, and genuinely defensible.
+			The contrast with existing VAT tooling is narrow but important. Most commercial tools work
+			as lookup tables: country pair &times; supply type &times; customer category, return an
+			answer. You get the <em>what</em>, not the <em>why</em>. That's adequate for routine domestic
+			cases. It becomes a liability the moment you need to defend a position &mdash; to an auditor,
+			to a tax authority, or to yourself six months later when the context has drained out of your
+			head.
 		</p>
 	</section>
 
@@ -224,8 +176,8 @@
 
 	<section class="prose closing">
 		<p>
-			The machines are finally learning the law &mdash; not by memorising it, not by guessing at it,
-			but by reasoning through it. Step by step, article by article. The way a careful lawyer would.
+			You cannot defend an audit position you cannot explain. The premise of VATmiraal is that every
+			VAT decision should arrive with its justification attached, or not arrive at all.
 		</p>
 	</section>
 
@@ -241,15 +193,15 @@
 
 <style>
 	#author {
-		margin-top: 2.5rem;
-		padding-top: 2rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		margin-top: var(--space-10);
+		padding-top: var(--space-8);
+		border-top: 1px solid var(--color-border);
 	}
 
 	#author p {
-		font-size: 0.95em;
-		color: rgba(15, 15, 15, 0.55);
-		line-height: 1.6;
+		font-size: var(--font-size-sm);
+		color: var(--color-text-subtle);
+		line-height: var(--line-height-base);
 		margin: 0;
 	}
 </style>
