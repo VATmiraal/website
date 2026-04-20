@@ -11,7 +11,9 @@
 		<div class="step">
 			<span class="step-number">1</span>
 			<h3>Submit the transaction</h3>
-			<p>Upload an invoice or CSV, pull directly from your ERP, or answer a few guided questions.</p>
+			<p>
+				Upload an invoice or CSV, pull directly from your ERP, or answer a few guided questions.
+			</p>
 		</div>
 		<div class="step">
 			<span class="step-number">2</span>

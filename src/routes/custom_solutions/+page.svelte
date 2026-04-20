@@ -10,7 +10,7 @@
 		name: 'Custom VAT Automation',
 		url: 'https://vatmiraal.be/custom_solutions',
 		description:
-			"Scoped VAT automation engagements for accountants, enterprises, and public-sector teams — complex workflows, special VAT treatments, semi-digitised tax processes, and multi-jurisdictional rules that go beyond our standard tool.",
+			'Scoped VAT automation engagements for accountants, enterprises, and public-sector teams — complex workflows, special VAT treatments, semi-digitised tax processes, and multi-jurisdictional rules that go beyond our standard tool.',
 		serviceType: 'Tax Technology Consulting',
 		provider: { '@id': 'https://vatmiraal.be/#organization' },
 		contactPoint: {
@@ -65,8 +65,8 @@
 				<div class="step-body">
 					<h3>Build alongside you</h3>
 					<p>
-						We ship in reviewable increments. Your team sees progress weekly and can redirect
-						before requirements ossify.
+						We ship in reviewable increments. Your team sees progress weekly and can redirect before
+						requirements ossify.
 					</p>
 				</div>
 			</div>

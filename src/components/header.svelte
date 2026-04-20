@@ -38,9 +38,7 @@
 			return;
 		}
 		if (event.key !== 'Tab' || !menuEl) return;
-		const focusables = menuEl.querySelectorAll<HTMLElement>(
-			'a[href], button:not([disabled])'
-		);
+		const focusables = menuEl.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
 		if (focusables.length === 0) return;
 		const first = focusables[0];
 		const last = focusables[focusables.length - 1];
@@ -56,6 +54,7 @@
 
 {#snippet navLinks(onclick: (() => void) | undefined)}
 	<a href={resolve('/custom_solutions')} {onclick}>Custom Solutions</a>
+	<a href={resolve('/products')} {onclick}>Products</a>
 	<a href={resolve('/demo')} {onclick}>Demo</a>
 	<a href={resolve('/join_beta')} {onclick}>Beta</a>
 	<a href={resolve('/roadmap')} {onclick}>Roadmap</a>

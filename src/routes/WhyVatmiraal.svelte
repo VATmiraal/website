@@ -13,7 +13,7 @@
 			<h3>Flexible with your data</h3>
 			<p>
 				Works with invoices, ledger extracts, and structured exports. The cleaner the input, the
-				more directly the engine applies — but you don't need a rigid schema to start.
+				more directly the engine applies, but you don't need a rigid schema to start.
 			</p>
 		</Card>
 		<Card interactive>

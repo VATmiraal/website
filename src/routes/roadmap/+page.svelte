@@ -2,9 +2,7 @@
 	import { resolve } from '$app/paths';
 	import Button from '$lib/components/Button.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import RoadmapTree, {
-		type IRoadmapBranch
-	} from '$lib/components/RoadmapTree.svelte';
+	import RoadmapTree, { type IRoadmapBranch } from '$lib/components/RoadmapTree.svelte';
 
 	interface IBranchWithDetails extends IRoadmapBranch {
 		rootDescription: string;
@@ -35,8 +33,7 @@
 			leaves: [
 				{
 					title: 'Cross-border filing',
-					description:
-						'Filing VAT declarations in multiple EU jurisdictions from a single system.'
+					description: 'Filing VAT declarations in multiple EU jurisdictions from a single system.'
 				}
 			]
 		},
