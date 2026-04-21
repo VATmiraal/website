@@ -61,8 +61,8 @@
 		<p>
 			The first serious attempt was <strong>TAXMAN</strong>, built at Rutgers in 1977 by L. Thorne
 			McCarty. It tried to model U.S. corporate tax reorganisation rules in micro-PLANNER. The
-			deterministic core worked, but concepts like <em>continuity of interest</em> resisted any
-			formal definition, and the system could not be as generalised as hoped for.
+			deterministic core worked, but concepts like <em>continuity of interest</em> resisted any formal
+			definition, and the system could not be as generalised as hoped for.
 		</p>
 		<p>
 			Around the same time, <a href="https://dl.acm.org/doi/abs/10.1145/234286.1057820"
@@ -85,18 +85,18 @@
 			>, combined with smarter resolution strategies, made execution efficient. Richer formalisms,
 			including <a href="https://www.metalevel.at/prolog/dcg">DCGs</a> for list manipulation and
 			<a href="https://www.metalevel.at/prolog/optimization">constraint logic</a> for arithmetic reasoning,
-			extended what could be expressed cleanly. Steadily improving hardware did the rest. Together,
-			these advances made Prolog practical for business use cases such as tax law. Writing Prolog is
-			demanding, but it remains the cleanest and most general way to encode law as logic.
+			extended what could be expressed cleanly. Steadily improving hardware did the rest. Together, these
+			advances made Prolog practical for business use cases such as tax law. Writing Prolog is demanding,
+			but it remains the cleanest and most general way to encode law as logic.
 		</p>
 		<p>
-			What the era got right: deterministic rules belong in formal logic, and every conclusion should
-			be traceable to the specific laws it rests on. Those principles hold up today.
+			What the era got right: deterministic rules belong in formal logic, and every conclusion
+			should be traceable to the specific laws it rests on. Those principles hold up today.
 		</p>
 		<p>
 			What it missed is that the real world is not a mathematical formalisation. Getting the inputs
-			into the system is a hard problem in its own right, and the systems of the time could not
-			cope with it.
+			into the system is a hard problem in its own right, and the systems of the time could not cope
+			with it.
 		</p>
 	</section>
 
@@ -155,8 +155,8 @@
 		</p>
 		<p>
 			The catch is what happens when those same models are asked to <em>decide</em> what the law says.
-			LLMs are probabilistic. They return the most statistically plausible answer, which is usually
-			correct on common scenarios, and which goes wrong on edge cases in specific ways:
+			LLMs are probabilistic. They return the most statistically plausible answer, which is usually correct
+			on common scenarios, and which goes wrong on edge cases in specific ways:
 		</p>
 		<ul>
 			<li>
@@ -194,16 +194,16 @@
 		<p>
 			VATmiraal runs in two stages. First, a language model reads the transaction, whether an
 			invoice, a ledger line, or a short description, and extracts the structured facts the rules
-			need: supplier country, customer status, object type, VAT identifiers, place-of-supply
-			inputs. Second, those facts are handed to a Prolog knowledge base that encodes the statutory
-			rules directly. When the upstream system already provides structured data, the first stage is
+			need: supplier country, customer status, object type, VAT identifiers, place-of-supply inputs.
+			Second, those facts are handed to a Prolog knowledge base that encodes the statutory rules
+			directly. When the upstream system already provides structured data, the first stage is
 			skipped and no language model sits in the decision path.
 		</p>
 		<p>
-			The logic engine does not guess. For every transaction it either returns a conclusion with
-			the specific articles applied, or it reports that a required fact is missing and names it.
-			When a scenario touches provisions that do not admit a clean formal answer, it says so and
-			stops, rather than manufacturing confidence.
+			The logic engine does not guess. For every transaction it either returns a conclusion with the
+			specific articles applied, or it reports that a required fact is missing and names it. When a
+			scenario touches provisions that do not admit a clean formal answer, it says so and stops,
+			rather than manufacturing confidence.
 		</p>
 		<p>
 			The contrast with existing VAT tooling is narrow but important. Most commercial tools work as

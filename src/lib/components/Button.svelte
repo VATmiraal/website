@@ -36,7 +36,7 @@
 </script>
 
 {#if href}
-    <!-- eslint-disable svelte/no-navigation-without-resolve -->
+	<!-- eslint-disable svelte/no-navigation-without-resolve -->
 	<a
 		href={href.startsWith('/') ? resolve(href as ResolveArg) : href}
 		class={classes}

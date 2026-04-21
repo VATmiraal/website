@@ -12,9 +12,7 @@
 	/>
 	<div id="cta-actions">
 		<Button href="mailto:info@vatmiraal.be" variant="primary" tone="dark">Talk to us</Button>
-		<Button href={resolve('/custom_solutions')} variant="ghost" tone="dark">
-			How we work →
-		</Button>
+		<Button href={resolve('/custom_solutions')} variant="ghost" tone="dark">How we work →</Button>
 	</div>
 </div>
 
