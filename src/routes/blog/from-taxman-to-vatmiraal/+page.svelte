@@ -38,18 +38,19 @@
 >
 	<section class="prose">
 		<p>
-			For fifty years, people have wanted a computer that knows tax law. Not a search tool that
-			retrieves statutes &mdash; a system that takes a real transaction and says: this is what the
-			law concludes, and here is the article that says so.
+			For fifty years, people have wanted a computer that knows tax law. Not a search tool, but a
+			system that takes a real transaction, determines its tax treatment, and shows its reasoning.
 		</p>
 		<p>
-			The problem keeps attracting new generations because law looks, superficially, like logic.
-			Statutes are written down. Articles have conditions and consequences. The match to a
-			rule-based program feels obvious.
+			The problem keeps attracting new generations because law looks, superficially, like code. An
+			article states a condition, and when the condition holds, a consequence follows. It is a
+			tempting analogy, but a misleading one. Statutes can be vague, and what is vague is difficult
+			to formalise. Documents can be missing. And some questions can reduce to problems that are
+			formally undecidable.
 		</p>
 		<p>
-			It has never quite worked out. Each generation has solved one half of the problem and gotten
-			stuck on the other. It's worth knowing why.
+			It has never quite worked out. Successive efforts have each made real progress and then run
+			into the some limits.
 		</p>
 	</section>
 
@@ -60,31 +61,42 @@
 		<p>
 			The first serious attempt was <strong>TAXMAN</strong>, built at Rutgers in 1977 by L. Thorne
 			McCarty. It tried to model U.S. corporate tax reorganisation rules in micro-PLANNER. The
-			deterministic core worked. Terms like <em>continuity of interest</em> resisted any formal definition
-			and broke the system at its edges.
+			deterministic core worked, but concepts like <em>continuity of interest</em> resisted any
+			formal definition, and the system could not be as generalised as hoped for.
 		</p>
 		<p>
-			Around the same time, Alain Colmerauer's <strong>Prolog</strong> (1972) gave the field a natural,
-			powerful way to encode legal rules as logical assertions. The hardware of the period couldn't yet
-			keep up with what Prolog could express &mdash; but decades of work on term indexing and smarter
-			resolution strategies, alongside Moore's law, have since opened the language up to an even wider
-			range of applications without heavy performance-driven engineering. Prolog remains one of the cleanest
-			tools we have for encoding law as logic.
+			Around the same time, <a href="https://dl.acm.org/doi/abs/10.1145/234286.1057820"
+				>Alain Colmerauer's <strong>Prolog</strong> (1972)</a
+			>
+			gave the field a natural and powerful way to encode legal rules as logical assertions, specifically
+			as <a href="https://en.wikipedia.org/wiki/Horn_clause">Horn clauses</a>. The hardware of the
+			era could not keep up with what the language could express, but decades of work gradually
+			closed the gap.
+			<a
+				href="https://direct.mit.edu/books/monograph/4253/Warren-s-Abstract-MachineA-Tutorial-Reconstruction"
+				>Warren's Abstract Machine</a
+			>
+			provided an abstract base on which optimisations could be built once and carried across concrete
+			implementations. Better indexing techniques, such as
+			<a href="https://www.swi-prolog.org/pldoc/man?section=jitindex">just-in-time indexing</a>
+			and
+			<a href="https://github.com/mthom/scryer-prolog#strings-and-partial-strings"
+				>list compression</a
+			>, combined with smarter resolution strategies, made execution efficient. Richer formalisms,
+			including <a href="https://www.metalevel.at/prolog/dcg">DCGs</a> for list manipulation and
+			<a href="https://www.metalevel.at/prolog/optimization">constraint logic</a> for arithmetic reasoning,
+			extended what could be expressed cleanly. Steadily improving hardware did the rest. Together,
+			these advances made Prolog practical for business use cases such as tax law. Writing Prolog is
+			demanding, but it remains the cleanest and most general way to encode law as logic.
 		</p>
 		<p>
-			The commercial expert-system wave that followed in the mid-1980s promised to capture expert
-			judgment in if-then rule bases. By 1993 most of those products had collapsed. Every
-			legislative change demanded a re-engineering project. Edge cases failed silently. The
-			underlying mistake was treating <em>formalisation</em> as though it were the same thing as
-			<em>coverage</em>.
+			What the era got right: deterministic rules belong in formal logic, and every conclusion should
+			be traceable to the specific laws it rests on. Those principles hold up today.
 		</p>
 		<p>
-			What the era got right: deterministic rules belong in formal logic, and every conclusion needs
-			to be traceable to a specific clause. Those principles hold up today.
-		</p>
-		<p>
-			What it missed: encoding rules is the <em>second</em> problem. The first is extracting the structured
-			facts those rules consume from a messy invoice, email, or ledger line.
+			What it missed is that the real world is not a mathematical formalisation. Getting the inputs
+			into the system is a hard problem in its own right, and the systems of the time could not
+			cope with it.
 		</p>
 	</section>
 
@@ -93,12 +105,13 @@
 	<section class="prose">
 		<h2>The quiet formalisers (2001&ndash;2021)</h2>
 		<p>
-			A more restrained tradition kept working in parallel without making claims about intelligence.
+			A more restrained tradition kept working in parallel, without claims of solving entire
+			branches of tax law.
 		</p>
 		<p>
 			<strong>Drools</strong> (2001) became the standard production rule engine for genuinely deterministic
 			business logic. Insurers and tax authorities have used it for years to run provisions that admit
-			no ambiguity. It doesn't try to read anything.
+			no ambiguity.
 		</p>
 		<p>
 			The more interesting advance was <strong>Catala</strong>, released by Denis Merigoux at INRIA
@@ -110,9 +123,10 @@
 			legislation.
 		</p>
 		<p>
-			What Catala deliberately doesn't do is extract facts from natural language. A human still has
+			What Catala deliberately does not do is extract facts from natural language. A human still has
 			to read the document, understand the context, and feed the engine structured inputs. For
-			compliance work at scale, that bottleneck stayed open.
+			compliance work at scale, that bottleneck stayed open. Catala is also less expressive than
+			earlier efforts like Prolog.
 		</p>
 	</section>
 
@@ -127,8 +141,8 @@
 		</p>
 		<p>
 			The catch is what happens when those same models are asked to <em>decide</em> what the law says.
-			LLMs are probabilistic. They return the most statistically plausible answer, which on common scenarios
-			is usually correct, and which on edge cases goes wrong in specific ways:
+			LLMs are probabilistic. They return the most statistically plausible answer, which is usually
+			correct on common scenarios, and which goes wrong on edge cases in specific ways:
 		</p>
 		<ul>
 			<li>
@@ -141,7 +155,15 @@
 			<li>They hallucinate citations. Article numbers that sound right but don't exist.</li>
 		</ul>
 		<p>
-			A system that is often right is fine for search. It is not fine when you get tax penalties.
+			A system that is often right is fine for search. It is not fine when the output is your tax
+			bill. And when an LLM does get something wrong, there is no clean way to fix it. A user can
+			try prompt engineering or retrieval tricks, and the model's maintainer can fine-tune or
+			retrain at considerable cost, but neither approach can target a specific error and guarantee
+			it stays fixed, because the faulty behaviour is not localised in any set of rules. Worse, the
+			underlying models are updated frequently, which can silently break behaviour that previously
+			worked. In a rule-based system, by contrast, a wrong answer points to a specific line. You can
+			read it, understand why it produced the wrong result, fix it, and write a test that ensures
+			the same mistake never reaches production again.
 		</p>
 	</section>
 
@@ -156,23 +178,24 @@
 			conditions hold or they don't.
 		</p>
 		<p>
-			VATmiraal runs in two stages. A language model reads the transaction &mdash; invoice, ledger
-			line, or short description &mdash; and extracts the structured facts the rules need: supplier
-			country, customer status, object type, VAT identifiers, place-of-supply inputs. That
-			representation is then handed to a Prolog-based knowledge base that encodes the statutory
-			rules directly.
+			VATmiraal runs in two stages. First, a language model reads the transaction, whether an
+			invoice, a ledger line, or a short description, and extracts the structured facts the rules
+			need: supplier country, customer status, object type, VAT identifiers, place-of-supply
+			inputs. Second, those facts are handed to a Prolog knowledge base that encodes the statutory
+			rules directly. When the upstream system already provides structured data, the first stage is
+			skipped and no language model sits in the decision path.
 		</p>
 		<p>
-			The logic engine does not guess. For every transaction it either produces a conclusion
-			together with the specific articles applied, or it reports that a required fact is missing and
-			says which one. When a scenario touches provisions that don't admit a clean formal answer, it
-			says so and stops, instead of manufacturing confidence.
+			The logic engine does not guess. For every transaction it either returns a conclusion with
+			the specific articles applied, or it reports that a required fact is missing and names it.
+			When a scenario touches provisions that do not admit a clean formal answer, it says so and
+			stops, rather than manufacturing confidence.
 		</p>
 		<p>
 			The contrast with existing VAT tooling is narrow but important. Most commercial tools work as
 			lookup tables: country pair &times; supply type &times; customer category, return an answer.
-			You get the <em>what</em>, not the <em>why</em>. That's adequate for routine domestic cases.
-			It becomes a liability the moment you need to defend a position &mdash; to an auditor, to a
+			You get the <em>what</em>, not the <em>why</em>. That is adequate for routine domestic cases.
+			It becomes a liability the moment you need to defend a position, whether to an auditor, to a
 			tax authority, or to yourself six months later when the context has drained out of your head.
 		</p>
 	</section>
