@@ -3,6 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import WalkthroughStep from '$lib/components/WalkthroughStep.svelte';
 
 	interface IStepItem {
 		index: string;
@@ -124,22 +125,7 @@
 
 		<ol class="steps">
 			{#each steps as step, i (step.index)}
-				<li
-					class="step"
-					class:step-reverse={i % 2 === 1}
-					id={`step-${step.index}`}
-				>
-					<div class="step-copy">
-						<span class="step-numeral" aria-hidden="true">{step.index}</span>
-						<div class="step-text">
-							<h3>{step.title}</h3>
-							<p>{step.body}</p>
-						</div>
-					</div>
-					<figure class="step-image">
-						<img src={step.image} alt={step.alt} />
-					</figure>
-				</li>
+				<WalkthroughStep {...step} reverse={i % 2 === 1} />
 			{/each}
 		</ol>
 	</section>
@@ -330,85 +316,6 @@
 		gap: var(--space-24);
 	}
 
-	.step {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-		gap: var(--space-12);
-		align-items: center;
-		scroll-margin-top: calc(var(--header-total-height) + var(--space-6));
-	}
-
-	.step-reverse .step-image {
-		grid-column: 1;
-		grid-row: 1;
-	}
-
-	.step-reverse .step-copy {
-		grid-column: 2;
-		grid-row: 1;
-		flex-direction: row-reverse;
-		text-align: right;
-	}
-
-	.step-copy {
-		display: flex;
-		align-items: flex-start;
-		gap: var(--space-5);
-	}
-
-	.step-numeral {
-		font-size: clamp(4rem, 9vw, 8rem);
-		font-weight: 300;
-		letter-spacing: -0.04em;
-		font-variant-numeric: tabular-nums;
-		line-height: 0.9;
-		color: var(--color-text-faint);
-		flex-shrink: 0;
-		user-select: none;
-	}
-
-	.step-text {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-3);
-		padding-top: var(--space-4);
-	}
-
-	.step-text h3 {
-		margin: 0;
-		font-size: var(--font-size-xl);
-		font-weight: var(--font-weight-bold);
-		letter-spacing: var(--letter-spacing-snug);
-		line-height: var(--line-height-tight);
-		color: var(--color-text);
-	}
-
-	.step-text p {
-		margin: 0;
-		font-size: var(--font-size-md);
-		line-height: var(--line-height-snug);
-		color: var(--color-text-muted);
-		max-width: 34rem;
-	}
-
-	.step-reverse .step-text p {
-		margin-left: auto;
-	}
-
-	.step-image {
-		margin: 0;
-		width: 100%;
-	}
-
-	.step-image img {
-		display: block;
-		width: 100%;
-		height: auto;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-lg);
-		box-shadow: var(--shadow-lg);
-	}
-
 	/* Exploration */
 	#exploration {
 		width: 100%;
@@ -519,35 +426,6 @@
 			display: none;
 		}
 
-		.step {
-			grid-template-columns: 1fr;
-			gap: var(--space-8);
-		}
-
-		.step-reverse .step-image {
-			grid-column: 1;
-			grid-row: 2;
-		}
-
-		.step-reverse .step-copy {
-			grid-column: 1;
-			grid-row: 1;
-			flex-direction: row;
-			text-align: left;
-		}
-
-		.step-reverse .step-text p {
-			margin-left: 0;
-		}
-
-		.step-image {
-			grid-row: 2;
-		}
-
-		.step-copy {
-			grid-row: 1;
-		}
-
 		.steps {
 			gap: var(--space-16);
 		}
@@ -565,14 +443,6 @@
 
 		.benefits-grid {
 			grid-template-columns: 1fr;
-		}
-
-		.step-numeral {
-			font-size: clamp(3rem, 14vw, 5rem);
-		}
-
-		.step-text {
-			padding-top: var(--space-2);
 		}
 
 		#cta-dark {
