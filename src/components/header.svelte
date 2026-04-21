@@ -106,6 +106,7 @@
 		role="dialog"
 		aria-modal="true"
 		aria-label="Primary navigation"
+		tabindex="-1"
 		onkeydown={onMenuKeydown}
 	>
 		<nav id="mobile-nav" aria-label="Primary">

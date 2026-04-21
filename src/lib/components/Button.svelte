@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { resolve } from '$app/paths';
 
 	interface IButtonProps {
 		variant?: 'primary' | 'secondary' | 'ghost';
@@ -27,14 +28,17 @@
 		children
 	}: IButtonProps = $props();
 
+	type ResolveArg = Parameters<typeof resolve>[0];
+
 	const classes = $derived(
 		['btn', `btn-${variant}`, `btn-${tone}`, `btn-${size}`, className].filter(Boolean).join(' ')
 	);
 </script>
 
 {#if href}
+    <!-- eslint-disable svelte/no-navigation-without-resolve -->
 	<a
-		{href}
+		href={href.startsWith('/') ? resolve(href as ResolveArg) : href}
 		class={classes}
 		target={external ? '_blank' : undefined}
 		rel={external ? 'noopener noreferrer' : undefined}

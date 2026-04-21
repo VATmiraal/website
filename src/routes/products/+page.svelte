@@ -90,7 +90,7 @@
 <section id="cta-dark">
 	<div class="cta-dark-inner">
 		<SectionHeader level="h2" title="Ready for just-in-time auditing?" tone="dark" />
-		<Button href="mailto:billing@vatmiraal.be" variant="primary" tone="dark" size="lg">
+		<Button href="mailto:info@vatmiraal.be" variant="primary" tone="dark" size="lg">
 			Request a demo
 		</Button>
 	</div>
