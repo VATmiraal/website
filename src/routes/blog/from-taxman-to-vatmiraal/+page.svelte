@@ -125,8 +125,22 @@
 		<p>
 			What Catala deliberately does not do is extract facts from natural language. A human still has
 			to read the document, understand the context, and feed the engine structured inputs. For
-			compliance work at scale, that bottleneck stayed open. Catala is also less expressive than
-			earlier efforts like Prolog.
+			compliance work at scale, that bottleneck stayed open.
+		</p>
+		<p>
+			What Catala cannot do is run in reverse. Given a desired conclusion, it cannot enumerate the
+			inputs that would produce it. A Prolog knowledge base can, because the same rule serves as a
+			forward evaluator and as a query. "Where must the supplier be established for reverse charge
+			to apply?" or "which object classifications admit an exemption?" are everyday questions for a
+			practitioner structuring a transaction. A compiled decision tree cannot answer them. A
+			relational knowledge base does so by default.
+		</p>
+		<p>
+			Prolog also handles mixed reasoning domains in a single query. Symbolic facts (country,
+			classification), numeric constraints (thresholds, rates), and temporal data (dates, periods)
+			can all participate in the same inference. That reach turns the same engine into an optimiser:
+			given a choice of providers in different jurisdictions, it can pick the country that yields
+			the best tax treatment by the same mechanism used to check a single case.
 		</p>
 	</section>
 
