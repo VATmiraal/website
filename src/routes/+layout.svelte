@@ -37,10 +37,6 @@
 		content="Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals."
 	/>
 	<meta property="og:title" content="VATmiraal — Explainable VAT decisions, ready for audit" />
-	<meta
-		property="og:description"
-		content="Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals."
-	/>
 	<link rel="icon" type="image/svg+xml" href="/logo_icon_dark.svg" />
 	<meta property="og:image" content="https://vatmiraal.be/logo.svg" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
