@@ -34,7 +34,7 @@
 	</div>
 
 	<div id="poweredBy">
-		<span class="powered-label">Powered by Prolog, an ISO standard</span>
+		<span class="powered-label">VATmiraal is powered by Prolog, an ISO standard</span>
 		<div class="partners">
 			<a
 				class="partner"
