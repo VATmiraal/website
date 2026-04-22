@@ -1,6 +1,5 @@
 <script>
 	import FirstPage from './FirstPage.svelte';
-	import WhyVatmiraal from './WhyVatmiraal.svelte';
 	import HowItWorks from './HowItWorks.svelte';
 	import BuiltOnLaw from './BuiltOnLaw.svelte';
 	import CustomSolution from './CustomSolution.svelte';

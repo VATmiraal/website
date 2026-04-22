@@ -212,9 +212,16 @@
 			VATmiraal runs in two stages. First, a language model reads the transaction, whether an
 			invoice, a ledger line, or a short description, and extracts the structured facts the rules
 			need: supplier country, customer status, object type, VAT identifiers, place-of-supply inputs.
-			Second, those facts are handed to a Prolog knowledge base that encodes the statutory rules
-			directly. When the upstream system already provides structured data, the first stage is
-			skipped and no language model sits in the decision path.
+			Second, those facts are evaluated by <a
+				href="https://www.scryer.pl/"
+				target="_blank"
+				rel="noopener noreferrer">Scryer Prolog</a
+			>, an
+			<a href="https://www.iso.org/standard/21413.html" target="_blank" rel="noopener noreferrer"
+				>ISO Prolog</a
+			>-compliant engine, against a knowledge base that encodes the statutory rules directly. When
+			the upstream system already provides structured data, the first stage is skipped and no
+			language model sits in the decision path.
 		</p>
 		<p>
 			The logic engine does not guess. For every transaction it either returns a conclusion with the

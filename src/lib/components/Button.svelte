@@ -1,19 +1,19 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { resolve } from '$app/paths';
 
-	interface IButtonProps {
+	interface IButtonCommonProps {
 		variant?: 'primary' | 'secondary' | 'ghost';
 		tone?: 'light' | 'dark';
 		size?: 'md' | 'lg';
-		href?: string;
-		external?: boolean;
-		type?: 'button' | 'submit';
-		disabled?: boolean;
 		onclick?: (e: MouseEvent) => void;
 		class?: string;
 		children: Snippet;
 	}
+	type IButtonProps = IButtonCommonProps &
+		(
+			| { href: string; external?: boolean; type?: never; disabled?: never }
+			| { href?: undefined; external?: never; type?: 'button' | 'submit'; disabled?: boolean }
+		);
 
 	let {
 		variant = 'primary',
@@ -28,8 +28,6 @@
 		children
 	}: IButtonProps = $props();
 
-	type ResolveArg = Parameters<typeof resolve>[0];
-
 	const classes = $derived(
 		['btn', `btn-${variant}`, `btn-${tone}`, `btn-${size}`, className].filter(Boolean).join(' ')
 	);
@@ -38,7 +36,7 @@
 {#if href}
 	<!-- eslint-disable svelte/no-navigation-without-resolve -->
 	<a
-		href={href.startsWith('/') ? resolve(href as ResolveArg) : href}
+		{href}
 		class={classes}
 		target={external ? '_blank' : undefined}
 		rel={external ? 'noopener noreferrer' : undefined}
@@ -46,6 +44,7 @@
 	>
 		{@render children()}
 	</a>
+	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 {:else}
 	<button class={classes} {type} {disabled} {onclick}>
 		{@render children()}
