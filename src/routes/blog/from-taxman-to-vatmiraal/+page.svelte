@@ -71,13 +71,11 @@
 				rel="noopener noreferrer">Alain Colmerauer's <strong>Prolog</strong> (1972)</a
 			>
 			gave the field a natural and powerful way to encode legal rules as logical assertions, specifically
-			as <a
-				href="https://en.wikipedia.org/wiki/Horn_clause"
-				target="_blank"
-				rel="noopener noreferrer">Horn clauses</a
-			>. The hardware of the
-			era could not keep up with what the language could express, but decades of work gradually
-			closed the gap.
+			as
+			<a href="https://en.wikipedia.org/wiki/Horn_clause" target="_blank" rel="noopener noreferrer"
+				>Horn clauses</a
+			>. The hardware of the era could not keep up with what the language could express, but decades
+			of work gradually closed the gap.
 			<a
 				href="https://direct.mit.edu/books/monograph/4253/Warren-s-Abstract-MachineA-Tutorial-Reconstruction"
 				target="_blank"
@@ -94,19 +92,19 @@
 				target="_blank"
 				rel="noopener noreferrer">list compression</a
 			>, combined with smarter resolution strategies, made execution efficient. Richer formalisms,
-			including <a
-				href="https://www.metalevel.at/prolog/dcg"
-				target="_blank"
-				rel="noopener noreferrer">DCGs</a
-			> for list manipulation and
+			including
+			<a href="https://www.metalevel.at/prolog/dcg" target="_blank" rel="noopener noreferrer"
+				>DCGs</a
+			>
+			for list manipulation and
 			<a
 				href="https://www.metalevel.at/prolog/optimization"
 				target="_blank"
 				rel="noopener noreferrer">constraint logic</a
-			> for arithmetic reasoning,
-			extended what could be expressed cleanly. Steadily improving hardware did the rest. Together, these
-			advances made Prolog practical for business use cases such as tax law. Writing Prolog is demanding,
-			but it remains the cleanest and most general way to encode law as logic.
+			> for arithmetic reasoning, extended what could be expressed cleanly. Steadily improving hardware
+			did the rest. Together, these advances made Prolog practical for business use cases such as tax
+			law. Writing Prolog is demanding, but it remains the cleanest and most general way to encode law
+			as logic.
 		</p>
 		<p>
 			What the era got right: deterministic rules belong in formal logic, and every conclusion
