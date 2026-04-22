@@ -78,7 +78,7 @@
 			>
 			provided an abstract base on which optimisations could be built once and carried across concrete
 			implementations. Better indexing techniques, such as
-			<a href="https://www.swi-prolog.org/pldoc/man?section=jitindex">just-in-time indexing</a>
+			<a href="https://arxiv.org/abs/1102.3896">just-in-time indexing</a>
 			and
 			<a href="https://github.com/mthom/scryer-prolog#strings-and-partial-strings"
 				>list compression</a
