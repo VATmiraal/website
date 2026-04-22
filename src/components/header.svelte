@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	import emailIcon from '$lib/assets/email-logo.svg';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
@@ -11,7 +11,7 @@
 
 	async function openMenu() {
 		menuOpen = true;
-		document.body.style.overflow = 'hidden';
+		document.body.style.setProperty('overflow', 'hidden');
 		await tick();
 		const firstLink = menuEl?.querySelector<HTMLElement>('a');
 		firstLink?.focus();
@@ -19,9 +19,15 @@
 
 	function closeMenu() {
 		menuOpen = false;
-		document.body.style.overflow = '';
+		document.body.style.removeProperty('overflow');
 		hamburgerEl?.focus();
 	}
+
+	onMount(() => {
+		return () => {
+			document.body.style.removeProperty('overflow');
+		};
+	});
 
 	function toggleMenu() {
 		if (menuOpen) {
