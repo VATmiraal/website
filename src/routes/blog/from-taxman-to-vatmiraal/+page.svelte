@@ -50,7 +50,7 @@
 		</p>
 		<p>
 			It has never quite worked out. Successive efforts have each made real progress and then run
-			into the some limits.
+			into some limits.
 		</p>
 	</section>
 
