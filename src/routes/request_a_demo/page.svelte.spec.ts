@@ -12,10 +12,10 @@ describe('/+page.svelte', () => {
 	it('should not submit an empty form', async () => {
 		render(Page);
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form heading should still be visible (no redirect)
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// No popup should appear
 		await expect.element(page.getByTestId('popup')).not.toBeInTheDocument();
@@ -33,10 +33,10 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form heading should still be visible (no redirect)
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// No popup should appear
 		await expect.element(page.getByTestId('popup')).not.toBeInTheDocument();
@@ -55,10 +55,10 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('Test email');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form heading should still be visible (no redirect)
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// No popup should appear
 		await expect.element(page.getByTestId('popup')).not.toBeInTheDocument();
@@ -77,10 +77,10 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form heading should still be visible (no redirect)
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// No popup should appear
 		await expect.element(page.getByTestId('popup')).not.toBeInTheDocument();
@@ -98,10 +98,10 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form heading should still be visible (no redirect)
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// No popup should appear
 		await expect.element(page.getByTestId('popup')).not.toBeInTheDocument();
@@ -124,7 +124,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Verify the POST request was sent
 		expect(fetchSpy).toHaveBeenCalledOnce();
@@ -139,12 +139,14 @@ describe('/+page.svelte', () => {
 		);
 
 		// Form should still be visible
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// Popup should appear with success message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
 		await expect
-			.element(page.getByText("You've been added to the beta waitlist. We'll be in touch soon."))
+			.element(
+				page.getByText("Your demo request is in. We'll reach out shortly to schedule a call.")
+			)
 			.toBeInTheDocument();
 	});
 
@@ -158,13 +160,13 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Fetch should not have been called
 		expect(fetchSpy).not.toHaveBeenCalled();
 
 		// Form should still be visible
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// Popup should appear with dev mode message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
@@ -172,7 +174,7 @@ describe('/+page.svelte', () => {
 		await expect
 			.element(
 				page.getByText(
-					"Form submission skipped in development. In production, you'd be added to the waitlist."
+					'Form submission skipped in development. In production, your demo request would be sent.'
 				)
 			)
 			.toBeInTheDocument();
@@ -188,10 +190,10 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form should still be visible
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// Popup should appear with error message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
@@ -215,10 +217,10 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
 
-		await page.getByRole('button', { name: 'Join Beta Waitlist' }).click();
+		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		// Form should still be visible
-		await expect.element(page.getByTestId('beta-form')).toBeInTheDocument();
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
 
 		// Popup should appear with error message
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();

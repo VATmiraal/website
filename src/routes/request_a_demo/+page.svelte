@@ -9,7 +9,7 @@
 
 	let showPopup = $state(false);
 	let popupTitle = $state('Thank You!');
-	let popupMessage = $state("You've been added to the beta waitlist. We'll be in touch soon.");
+	let popupMessage = $state("Your demo request is in. We'll reach out shortly to schedule a call.");
 
 	let popupEl: HTMLDivElement | undefined = $state();
 	let previouslyFocused: HTMLElement | null = null;
@@ -60,7 +60,7 @@
 		if (data?.devMode ?? dev) {
 			await openPopup(
 				'Thank You! (Dev Mode)',
-				"Form submission skipped in development. In production, you'd be added to the waitlist."
+				'Form submission skipped in development. In production, your demo request would be sent.'
 			);
 			return;
 		}
@@ -77,7 +77,7 @@
 			if (resp.ok) {
 				await openPopup(
 					'Thank You!',
-					"You've been added to the beta waitlist. We'll be in touch soon."
+					"Your demo request is in. We'll reach out shortly to schedule a call."
 				);
 			} else {
 				console.error(
@@ -99,20 +99,22 @@
 </script>
 
 <svelte:head>
-	<title>Join the Beta — VATmiraal</title>
+	<title>Request a demo — VATmiraal</title>
 	<meta
 		name="description"
-		content="Free early access to VATmiraal while we expand jurisdiction coverage. Priority onboarding at general availability."
+		content="Request a personalised demo of VATmiraal's VAT rules engine. Book a call with our team to see it applied to your real cases."
 	/>
 </svelte:head>
 
 <div id="page">
-	<h1>Join the Beta Waitlist</h1>
-	<p id="subtitle">Be among the first to experience the future of VAT compliance.</p>
+	<h1>Request a demo</h1>
+	<p id="subtitle">
+		See VATmiraal applied to your own VAT cases, with our team walking you through the rules engine.
+	</p>
 
 	<form
-		id="beta-form"
-		data-testid="beta-form"
+		id="demo-form"
+		data-testid="demo-form"
 		action="https://formspree.io/f/mreagrzq"
 		method="POST"
 		onsubmit={handleSubmit}
@@ -141,7 +143,7 @@
 		</div>
 
 		<div class="submit-wrap">
-			<Button type="submit" variant="primary" size="lg">Join Beta Waitlist</Button>
+			<Button type="submit" variant="primary" size="lg">Request a demo</Button>
 		</div>
 	</form>
 </div>
@@ -192,7 +194,7 @@
 		max-width: 560px;
 	}
 
-	#beta-form {
+	#demo-form {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-5);

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
@@ -88,7 +89,7 @@
 			subtitle="Drop in a ledger extract. Get cited VAT boxes with the legal reasoning, then test alternatives before you post."
 		/>
 		<div class="hero-actions">
-			<Button href="mailto:info@vatmiraal.be" variant="primary">Request a demo</Button>
+			<Button href={resolve('/request_a_demo')} variant="primary">Request a demo</Button>
 			<Button href="#walkthrough" variant="ghost">See the five steps →</Button>
 		</div>
 		<div class="hero-image">

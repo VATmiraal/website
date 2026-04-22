@@ -30,8 +30,8 @@
 		</p>
 		<div id="hero-actions">
 			<Button href={resolve('/demo/coming-soon')} variant="primary">Launch the Analyser</Button>
-			<Button href={resolve('/demo/coming-soon')} variant="ghost">
-				Or try the guided Assistant →
+			<Button href={resolve('/request_a_demo')} variant="ghost">
+				Or book a demo call with us →
 			</Button>
 		</div>
 	</div>

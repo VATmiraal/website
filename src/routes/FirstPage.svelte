@@ -10,7 +10,7 @@
 		professionals.
 	</p>
 	<div id="cta-row">
-		<Button href={resolve('/join_beta')} variant="primary" size="lg">Join the beta</Button>
+		<Button href={resolve('/request_a_demo')} variant="primary" size="lg">Request a demo</Button>
 		<Button href={resolve('/demo')} variant="ghost" size="lg">See an example →</Button>
 	</div>
 </div>

@@ -59,7 +59,7 @@
 				<Button href={resolve('/products/general_ledger_analyser')} variant="primary">
 					Learn more →
 				</Button>
-				<Button href="mailto:billing@vatmiraal.be" variant="ghost">Request a demo</Button>
+				<Button href={resolve('/request_a_demo')} variant="ghost">Request a demo</Button>
 			</div>
 		</div>
 		<div class="featured-image">

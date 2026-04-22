@@ -62,7 +62,6 @@
 	<a href={resolve('/custom_solutions')} {onclick}>Custom Solutions</a>
 	<a href={resolve('/products')} {onclick}>Products</a>
 	<a href={resolve('/demo')} {onclick}>Demo</a>
-	<a href={resolve('/join_beta')} {onclick}>Beta</a>
 	<a href={resolve('/roadmap')} {onclick}>Roadmap</a>
 	<a href={resolve('/blog')} {onclick}>Blog</a>
 {/snippet}
