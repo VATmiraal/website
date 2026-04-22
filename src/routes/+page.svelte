@@ -32,6 +32,5 @@
 
 <FirstPage />
 <BuiltOnLaw />
-<WhyVatmiraal />
 <HowItWorks />
 <CustomSolution />
