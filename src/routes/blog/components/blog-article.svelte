@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
+	import ShareBar from './share-bar.svelte';
 	import type { Snippet } from 'svelte';
 
 	type Route = Parameters<typeof resolve>[0];
@@ -18,6 +20,8 @@
 		backLabel: string;
 		children: Snippet;
 	} = $props();
+
+	const shareUrl = $derived(page.url.toString());
 </script>
 
 <article id="page">
@@ -25,6 +29,8 @@
 		<h1>{title}</h1>
 		<p id="meta">{meta}</p>
 	</header>
+
+	<ShareBar {title} url={shareUrl} />
 
 	{@render children()}
 
