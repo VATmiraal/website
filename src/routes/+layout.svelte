@@ -31,12 +31,6 @@
 </script>
 
 <svelte:head>
-	<title>VATmiraal — Explainable VAT decisions, ready for audit</title>
-	<meta
-		name="description"
-		content="Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals."
-	/>
-	<meta property="og:title" content="VATmiraal — Explainable VAT decisions, ready for audit" />
 	<link rel="icon" type="image/svg+xml" href="/logo_icon_dark.svg" />
 	<meta property="og:image" content="https://vatmiraal.be/logo.svg" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->

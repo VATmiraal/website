@@ -24,7 +24,11 @@
 </script>
 
 <svelte:head>
-	<title>VATmiraal</title>
+	<title>VATmiraal — Explainable VAT decisions, ready for audit</title>
+	<meta
+		name="description"
+		content="Explainable VAT decisions, ready for just-in-time audit. Built for accountants and tax professionals."
+	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>

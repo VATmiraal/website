@@ -10,6 +10,10 @@
 
 <svelte:head>
 	<title>Blog — VATmiraal</title>
+	<meta
+		name="description"
+		content="Articles on explainable VAT, computational legal reasoning, and the tools we're building at VATmiraal."
+	/>
 </svelte:head>
 
 <div id="page">

@@ -23,6 +23,10 @@
 
 <svelte:head>
 	<title>Custom VAT Automation — VATmiraal</title>
+	<meta
+		name="description"
+		content="Scoped VAT automation for accountants, enterprises, and public-sector teams. Complex workflows, special VAT treatments, and multi-jurisdictional rules beyond the standard tool."
+	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>

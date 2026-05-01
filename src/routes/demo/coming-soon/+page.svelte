@@ -4,6 +4,10 @@
 
 <svelte:head>
 	<title>Coming Soon — VATmiraal</title>
+	<meta
+		name="description"
+		content="The interactive VATmiraal demo is on its way. Get in touch for early access."
+	/>
 </svelte:head>
 
 <div id="page">
@@ -11,7 +15,10 @@
 	<p>
 		The interactive demo is not yet publicly available. We're putting the finishing touches on it.
 	</p>
-	<p>Want early access? <a href="mailto:info@vatmiraal.be">Get in touch.</a></p>
+	<p>
+		Want early access? <a href={resolve('/request_a_demo')}>Request a demo</a> or
+		<a href="mailto:info@vatmiraal.be">get in touch</a>.
+	</p>
 	<a id="back" href={resolve('/demo')}>&larr; Back to demo overview</a>
 </div>
 

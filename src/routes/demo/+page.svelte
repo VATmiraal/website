@@ -18,6 +18,10 @@
 
 <svelte:head>
 	<title>Demo — VATmiraal</title>
+	<meta
+		name="description"
+		content="Interactive demo of the VATmiraal rules engine. Analyse VAT transactions with full legal justification, entirely in the browser."
+	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
