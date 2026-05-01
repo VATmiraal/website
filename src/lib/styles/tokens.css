@@ -113,7 +113,7 @@
 	--header-margin: 2.5%;
 	--header-height: 5.5rem;
 	--header-margin-top: 0;
-	--header-total-height: 5rem;
+	--header-total-height: var(--header-height);
 }
 
 @media (prefers-reduced-motion: reduce) {
