@@ -42,7 +42,6 @@
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<img src="/iso-logo.svg" alt="" class="partner-logo" />
 				<span class="partner-name">ISO/IEC 13211, the Prolog standard</span>
 			</a>
 			<a class="partner" href="https://www.scryer.pl/" target="_blank" rel="noopener noreferrer">
