@@ -1,39 +1,53 @@
+<script lang="ts">
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
+</script>
+
 <div id="page">
-	<div id="heading">
-		<h2>Built on VAT law</h2>
-		<p id="subtitle">
-			Not a statistical model. A rules engine that encodes the actual legislation.
-		</p>
-	</div>
+	<SectionHeader
+		kicker="Foundations"
+		title="Not another LLM"
+		subtitle="A flexible, explainable, deterministic law expert system — not a language model guessing from training data."
+	/>
 
-	<div id="content">
-		<p>
-			VATmiraal's knowledge base encodes national VAT codes and the EU VAT Directive as formal logic
-			rules. Every conclusion traces back to a specific article, paragraph, and point.
-		</p>
-		<p>
-			The engine doesn't predict, it applies the law as written and shows you exactly which
-			provisions led to each decision.
-		</p>
-	</div>
-
-	<div id="cards">
-		<div class="card">
+	<div id="columns">
+		<div class="column">
 			<h3>Rule-based, not probabilistic</h3>
 			<p>
-				No LLM hallucination risk. The engine applies deterministic logic rules to structured facts.
+				No hallucination risk. The engine applies deterministic logic to structured facts, and
+				returns the same answer every time.
 			</p>
 		</div>
-		<div class="card">
+		<div class="column">
 			<h3>Full audit trail</h3>
-			<p>Every result includes the legal provisions applied. Reviewable by any tax professional.</p>
+			<p>
+				Every output lists the legal provisions it applied. Any tax professional can review the
+				reasoning step by step.
+			</p>
 		</div>
-		<div class="card">
+		<div class="column">
 			<h3>EU Directive mappings</h3>
 			<p>
-				National provisions are linked to their EU VAT Directive equivalents for cross-border
-				reasoning.
+				National provisions link to their EU VAT Directive equivalents, so cross-border reasoning is
+				explicit rather than inferred.
 			</p>
+		</div>
+	</div>
+
+	<div id="poweredBy">
+		<span class="powered-label">VATmiraal is powered by Prolog, an ISO standard</span>
+		<div class="partners">
+			<a
+				class="partner"
+				href="https://www.iso.org/standard/21413.html"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<span class="partner-name">ISO/IEC 13211, the Prolog standard</span>
+			</a>
+			<a class="partner" href="https://www.scryer.pl/" target="_blank" rel="noopener noreferrer">
+				<img src="/scryer-logo.png" alt="" class="partner-logo" />
+				<span class="partner-name">Scryer Prolog, an ISO-compliant implementation</span>
+			</a>
 		</div>
 	</div>
 </div>
@@ -43,108 +57,141 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 4rem;
-		padding: 6rem 2rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		gap: var(--space-14, 3.5rem);
+		padding: var(--section-padding-y) var(--section-padding-x);
+		border-top: 1px solid var(--color-border);
 	}
 
-	#heading {
+	#columns {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0;
+		width: 100%;
+		max-width: var(--container-wide);
+		border-top: 1px solid var(--color-border-strong);
+		border-bottom: 1px solid var(--color-border-strong);
+	}
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-8) var(--space-8);
+		position: relative;
+	}
+
+	.column + .column {
+		border-left: 1px solid var(--color-border);
+	}
+
+	.column h3 {
+		font-size: var(--h3-card);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
+		margin: 0;
+		color: var(--color-text);
+	}
+
+	.column p {
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
+		margin: 0;
+	}
+
+	#poweredBy {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
-		text-align: center;
-	}
-
-	h2 {
-		font-size: 2.6em;
-		font-weight: 700;
-		letter-spacing: -0.03em;
-		line-height: 1.1;
-		margin: 0;
-	}
-
-	#subtitle {
-		font-size: 1.15em;
-		color: rgba(15, 15, 15, 0.6);
-		margin: 0;
-	}
-
-	#content {
-		max-width: 700px;
-		text-align: center;
-	}
-
-	#content p {
-		font-size: 1.05em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
-		margin: 0 0 1.25em;
-	}
-
-	#content p:last-child {
-		margin-bottom: 0;
-	}
-
-	#cards {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
+		gap: var(--space-5);
 		width: 100%;
-		max-width: 1200px;
+		max-width: var(--container-wide);
 	}
 
-	.card {
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
-		padding: 1.75em 2em;
+	.powered-label {
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-semibold);
+		letter-spacing: var(--letter-spacing-wide);
+		text-transform: uppercase;
+		color: var(--color-text-faint);
 	}
 
-	.card h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		margin: 0 0 0.5em;
+	.partners {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0;
+		flex-wrap: wrap;
 	}
 
-	.card p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
-		margin: 0;
+	.partner {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-1) var(--space-6);
+		color: inherit;
+		text-decoration: none;
+		opacity: 0.85;
+		transition: opacity var(--duration-base) var(--easing);
+	}
+
+	.partner + .partner {
+		border-left: 1px solid var(--color-border);
+	}
+
+	.partner:hover {
+		opacity: 1;
+	}
+
+	.partner-logo {
+		height: 26px;
+		width: auto;
+	}
+
+	.partner-name {
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-text);
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			gap: 2.5rem;
-			padding: 4rem 1.5rem;
+			gap: var(--space-10);
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
 		}
 
-		h2 {
-			font-size: 1.8em;
-		}
-
-		#cards {
+		#columns {
 			grid-template-columns: 1fr;
+			border-bottom: none;
 		}
 
-		.card {
-			padding: 1.4em 1.5em;
+		.column {
+			padding: var(--space-6) var(--space-2);
+		}
+
+		.column + .column {
+			border-left: none;
+			border-top: 1px solid var(--color-border);
+		}
+
+		.partners {
+			flex-direction: column;
+			gap: var(--space-4);
+		}
+
+		.partner {
+			padding: 0;
+		}
+
+		.partner + .partner {
+			border-left: none;
 		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
-			gap: 3rem;
-			padding-bottom: 3rem;
-		}
-
-		h2 {
-			font-size: 2.2em;
+			gap: var(--space-12);
+			padding-bottom: var(--space-16);
 		}
 	}
 </style>

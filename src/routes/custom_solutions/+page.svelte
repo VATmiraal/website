@@ -1,13 +1,16 @@
-<script>
+<script lang="ts">
 	import { resolve } from '$app/paths';
+	import Button from '$lib/components/Button.svelte';
+	import Card from '$lib/components/Card.svelte';
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
 
 	const schema = {
 		'@context': 'https://schema.org',
 		'@type': 'Service',
-		name: 'Custom VAT Automation Solutions',
+		name: 'Custom VAT Automation',
 		url: 'https://vatmiraal.be/custom_solutions',
 		description:
-			'Tailored VAT automation for organisations needing deep ERP integration, bespoke rule engines, and explainable VAT decisions.',
+			'Scoped VAT automation engagements for accountants, enterprises, and public-sector teams — complex workflows, special VAT treatments, semi-digitised tax processes, and multi-jurisdictional rules that go beyond our standard tool.',
 		serviceType: 'Tax Technology Consulting',
 		provider: { '@id': 'https://vatmiraal.be/#organization' },
 		contactPoint: {
@@ -19,59 +22,65 @@
 </script>
 
 <svelte:head>
-	<title>Custom Solutions — VATmiraal</title>
+	<title>Custom VAT Automation — VATmiraal</title>
+	<meta
+		name="description"
+		content="Scoped VAT automation for accountants, enterprises, and public-sector teams. Complex workflows, special VAT treatments, and multi-jurisdictional rules beyond the standard tool."
+	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
 
 <div id="page">
-	<div id="hero">
-		<h1>Custom VAT Automation Solutions</h1>
-		<p id="intro">
-			We partner directly with organisations that need VAT automation tailored to their stack,
-			jurisdiction, and scale.
-		</p>
-	</div>
+	<SectionHeader
+		level="h1"
+		title="Custom VAT automation, scoped to your context"
+		subtitle="We work directly with accountants, enterprises, and government bodies: complex workflows, special VAT treatments, semi-digitised tax processes, multi-jurisdictional rules, and volumes or edge cases that our standard tool can't handle."
+	/>
 
-	<div id="process">
-		<div id="steps">
+	<div id="steps">
+		<Card>
 			<div class="step">
 				<span class="step-number">1</span>
 				<div class="step-body">
-					<h3>Discovery</h3>
+					<h3>Discovery call</h3>
 					<p>
-						We start with a call to understand your transaction types, data sources, and VAT pain
-						points, no commitment required.
+						A short call to map your transaction types, data sources, and the VAT decisions that
+						currently cost your team time. No commitment.
 					</p>
 				</div>
 			</div>
+		</Card>
+		<Card>
 			<div class="step">
 				<span class="step-number">2</span>
 				<div class="step-body">
 					<h3>Scoped proposal</h3>
 					<p>
-						We define the scope, deliverables, and timeline together. Pricing is variable and tied
-						to the complexity of your use case.
+						A fixed scope, fixed deliverables, and a timeline. Pricing reflects the complexity of
+						the use case.
 					</p>
 				</div>
 			</div>
+		</Card>
+		<Card>
 			<div class="step">
 				<span class="step-number">3</span>
 				<div class="step-body">
-					<h3>Build and iterate</h3>
+					<h3>Build alongside you</h3>
 					<p>
-						We build alongside your team with regular reviews. You see progress at every stage and
-						can steer the direction as requirements evolve.
+						We ship in reviewable increments. Your team sees progress weekly and can redirect before
+						requirements ossify.
 					</p>
 				</div>
 			</div>
-		</div>
+		</Card>
 	</div>
 
 	<div id="cta">
-		<p>Pricing is scoped per engagement, reach out to start the conversation.</p>
-		<a id="contact-link" href="mailto:info@vatmiraal.be">Get in touch</a>
-		<a id="back-home" href={resolve('/')}>← Back to home</a>
+		<p>Every engagement starts with a 30-minute conversation.</p>
+		<Button href="mailto:info@vatmiraal.be" variant="primary">Book a discovery call</Button>
+		<Button href={resolve('/')} variant="ghost">← Back to home</Button>
 	</div>
 </div>
 
@@ -81,64 +90,24 @@
 		flex-direction: column;
 		align-items: center;
 		min-height: calc(100vh - var(--header-total-height));
-		padding: 6rem 2rem 5rem;
-		gap: 5rem;
-		max-width: 780px;
+		padding: var(--space-24) var(--section-padding-x) var(--space-20);
+		gap: var(--space-20);
+		max-width: var(--container-narrow);
 		margin: 0 auto;
 		box-sizing: border-box;
-	}
-
-	#hero {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.5rem;
-		text-align: center;
-	}
-
-	h1 {
-		font-size: clamp(2rem, 4.5vw, 3.2rem);
-		font-weight: 800;
-		letter-spacing: -0.04em;
-		line-height: 1.08;
-		margin: 0;
-	}
-
-	#intro {
-		font-size: 1.2em;
-		color: rgba(15, 15, 15, 0.65);
-		max-width: 560px;
-		line-height: 1.65;
-		margin: 0;
-	}
-
-	#process {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-		width: 100%;
-		text-align: center;
 	}
 
 	#steps {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: var(--space-4);
 		width: 100%;
 	}
 
 	.step {
 		display: flex;
 		align-items: flex-start;
-		gap: 1.25em;
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.09);
-		border-radius: 10px;
-		box-shadow:
-			0 2px 8px rgba(0, 0, 0, 0.06),
-			0 1px 2px rgba(0, 0, 0, 0.04);
-		padding: 1.75em 2em;
+		gap: var(--space-5);
 		text-align: left;
 	}
 
@@ -146,27 +115,27 @@
 		flex-shrink: 0;
 		width: 2em;
 		height: 2em;
-		border-radius: 50%;
-		background: #0f0f0f;
-		color: #f8f8f6;
+		border-radius: var(--radius-pill);
+		background: var(--color-bg-inverted);
+		color: var(--color-text-on-dark);
 		font-size: 0.9em;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 
 	.step-body h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		margin: 0 0 0.4em;
+		font-size: var(--h3-card);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
+		margin: 0 0 var(--space-2);
 	}
 
 	.step-body p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
 		margin: 0;
 	}
 
@@ -174,54 +143,20 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.25rem;
+		gap: var(--space-5);
 		text-align: center;
 	}
 
 	#cta > p {
-		font-size: 1.15em;
-		font-weight: 500;
+		font-size: var(--font-size-md);
+		font-weight: var(--font-weight-medium);
 		margin: 0;
-	}
-
-	#contact-link {
-		background: #0f0f0f;
-		color: #f8f8f6;
-		border: 2px solid #0f0f0f;
-		border-radius: 6px;
-		padding: 0.55em 1.5em;
-		font-weight: 600;
-		font-size: 1em;
-		text-decoration: none;
-		transition:
-			background-color 0.22s ease,
-			color 0.22s ease;
-	}
-
-	#contact-link:hover {
-		background: transparent;
-		color: #0f0f0f;
-	}
-
-	#back-home {
-		color: rgba(15, 15, 15, 0.5);
-		text-decoration: none;
-		font-size: 0.95em;
-		transition: color 0.2s ease;
-	}
-
-	#back-home:hover {
-		color: #0f0f0f;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			padding: 4rem 1.5rem 4rem;
-			gap: 3.5rem;
-		}
-
-		.step {
-			padding: 1.4em 1.5em;
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+			gap: var(--space-14, 3.5rem);
 		}
 	}
 </style>

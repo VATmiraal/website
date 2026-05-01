@@ -1,9 +1,8 @@
 <script>
 	import FirstPage from './FirstPage.svelte';
-	import SecondPage from './SecondPage.svelte';
 	import HowItWorks from './HowItWorks.svelte';
 	import BuiltOnLaw from './BuiltOnLaw.svelte';
-	import ThirdPage from './ThirdPage.svelte';
+	import CustomSolution from './CustomSolution.svelte';
 
 	const schema = {
 		'@context': 'https://schema.org',
@@ -25,13 +24,16 @@
 </script>
 
 <svelte:head>
-	<title>VATmiraal</title>
+	<title>VATmiraal — Explainable VAT decisions, ready for audit</title>
+	<meta
+		name="description"
+		content="Explainable VAT decisions, ready for just-in-time audit. Built for accountants and tax professionals."
+	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
 
 <FirstPage />
-<SecondPage />
-<HowItWorks />
 <BuiltOnLaw />
-<ThirdPage />
+<HowItWorks />
+<CustomSolution />

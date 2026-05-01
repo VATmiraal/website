@@ -1,31 +1,78 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { onMount, tick } from 'svelte';
 
 	import emailIcon from '$lib/assets/email-logo.svg';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 
 	let menuOpen = $state(false);
+	let hamburgerEl: HTMLButtonElement | undefined = $state();
+	let menuEl: HTMLDivElement | undefined = $state();
+
+	async function openMenu() {
+		menuOpen = true;
+		document.body.style.setProperty('overflow', 'hidden');
+		await tick();
+		const firstLink = menuEl?.querySelector<HTMLElement>('a');
+		firstLink?.focus();
+	}
 
 	function closeMenu() {
 		menuOpen = false;
+		document.body.style.removeProperty('overflow');
+		hamburgerEl?.focus();
+	}
+
+	onMount(() => {
+		return () => {
+			document.body.style.removeProperty('overflow');
+		};
+	});
+
+	function toggleMenu() {
+		if (menuOpen) {
+			closeMenu();
+		} else {
+			openMenu();
+		}
+	}
+
+	function onMenuKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			closeMenu();
+			return;
+		}
+		if (event.key !== 'Tab' || !menuEl) return;
+		const focusables = menuEl.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+		if (focusables.length === 0) return;
+		const first = focusables[0];
+		const last = focusables[focusables.length - 1];
+		if (event.shiftKey && document.activeElement === first) {
+			event.preventDefault();
+			last.focus();
+		} else if (!event.shiftKey && document.activeElement === last) {
+			event.preventDefault();
+			first.focus();
+		}
 	}
 </script>
 
 {#snippet navLinks(onclick: (() => void) | undefined)}
 	<a href={resolve('/custom_solutions')} {onclick}>Custom Solutions</a>
-	<a href={resolve('/join_beta')} {onclick}>Join the Beta</a>
-	<a href={resolve('/demo')} {onclick}>Try the Demo</a>
+	<a href={resolve('/products')} {onclick}>Products</a>
+	<a href={resolve('/demo')} {onclick}>Demo</a>
 	<a href={resolve('/roadmap')} {onclick}>Roadmap</a>
 	<a href={resolve('/blog')} {onclick}>Blog</a>
 {/snippet}
 
 {#snippet socialIcons(onclick: (() => void) | undefined)}
-	<a href="mailto:info@vatmiraal.be" {onclick}><img src={emailIcon} alt="email logo" /></a>
+	<a href="mailto:info@vatmiraal.be" {onclick}><img src={emailIcon} alt="Email VATmiraal" /></a>
 	<a
 		href="https://www.linkedin.com/company/vatmiraal"
 		target="_blank"
 		rel="noopener noreferrer"
-		{onclick}><img src={linkedLogo} alt="LinkedIn logo" /></a
+		{onclick}><img src={linkedLogo} alt="VATmiraal on LinkedIn" /></a
 	>
 {/snippet}
 
@@ -36,7 +83,7 @@
 			<img src="/logo.svg" alt="VATmiraal" />
 		</picture>
 	</a>
-	<nav id="nav-links">
+	<nav id="nav-links" aria-label="Primary">
 		{@render navLinks(undefined)}
 	</nav>
 	<div id="social-media">
@@ -44,9 +91,11 @@
 	</div>
 	<button
 		id="hamburger"
+		bind:this={hamburgerEl}
 		aria-label="Toggle menu"
 		aria-expanded={menuOpen}
-		onclick={() => (menuOpen = !menuOpen)}
+		aria-controls="mobile-menu"
+		onclick={toggleMenu}
 		class:open={menuOpen}
 	>
 		<span></span>
@@ -56,8 +105,16 @@
 </div>
 
 {#if menuOpen}
-	<div id="mobile-menu">
-		<nav id="mobile-nav">
+	<div
+		id="mobile-menu"
+		bind:this={menuEl}
+		role="dialog"
+		aria-modal="true"
+		aria-label="Primary navigation"
+		tabindex="-1"
+		onkeydown={onMenuKeydown}
+	>
+		<nav id="mobile-nav" aria-label="Primary">
 			{@render navLinks(closeMenu)}
 		</nav>
 		<div id="mobile-social">
@@ -67,20 +124,13 @@
 {/if}
 
 <style>
-	:global(:root) {
-		--header-margin: 2.5%;
-		--header-height: 5.5rem;
-		--header-margin-top: 0;
-		--header-total-height: 5rem;
-	}
-
 	#header {
 		position: sticky;
 		top: 0;
-		z-index: 100;
-		display: flex;
+		z-index: var(--z-header);
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
-		justify-content: space-between;
 		width: 100%;
 		height: var(--header-height);
 		margin-top: 0;
@@ -91,34 +141,12 @@
 		-webkit-backdrop-filter: blur(10px);
 	}
 
-	#nav-links {
-		display: flex;
-		align-items: center;
-		gap: 2.5em;
-	}
-
-	#nav-links a {
-		color: #0f0f0f;
-		text-decoration: none;
-		font-weight: 500;
-		font-size: 1.2em;
-		transition: opacity 0.2s ease;
-	}
-
-	#nav-links a:hover {
-		opacity: 0.55;
-	}
-
-	#social-media {
-		display: flex;
-		column-gap: 3em;
-	}
-
 	#vatmiraal {
+		justify-self: start;
 		display: flex;
 		align-items: center;
 		text-decoration: none;
-		transition: opacity 0.2s ease;
+		transition: opacity var(--duration-base) var(--easing);
 	}
 
 	#vatmiraal:hover {
@@ -130,14 +158,39 @@
 		width: auto;
 	}
 
+	#nav-links {
+		justify-self: center;
+		display: flex;
+		align-items: center;
+		gap: 2.5em;
+	}
+
+	#nav-links a {
+		color: var(--color-text);
+		text-decoration: none;
+		font-weight: var(--font-weight-medium);
+		font-size: 1.2em;
+		transition: opacity var(--duration-base) var(--easing);
+	}
+
+	#nav-links a:hover {
+		opacity: 0.55;
+	}
+
+	#social-media {
+		justify-self: end;
+		display: flex;
+		column-gap: 3em;
+	}
+
 	#social-media img {
 		display: block;
 		width: 2em;
 		height: auto;
 		object-fit: contain;
 		transition:
-			opacity 0.2s ease,
-			transform 0.2s ease;
+			opacity var(--duration-base) var(--easing),
+			transform var(--duration-base) var(--easing);
 	}
 
 	#social-media a:hover img {
@@ -145,9 +198,9 @@
 		transform: translateY(-2px);
 	}
 
-	/* Hamburger — hidden on desktop */
 	#hamburger {
 		display: none;
+		justify-self: end;
 		flex-direction: column;
 		justify-content: center;
 		gap: 5px;
@@ -163,15 +216,14 @@
 		display: block;
 		width: 100%;
 		height: 2px;
-		background: #0f0f0f;
+		background: var(--color-text);
 		border-radius: 2px;
 		transition:
-			transform 0.22s ease,
-			opacity 0.22s ease;
+			transform var(--duration-base) var(--easing),
+			opacity var(--duration-base) var(--easing);
 		transform-origin: center;
 	}
 
-	/* Animate to X when open */
 	#hamburger.open span:nth-child(1) {
 		transform: translateY(7px) rotate(45deg);
 	}
@@ -182,7 +234,6 @@
 		transform: translateY(-7px) rotate(-45deg);
 	}
 
-	/* Mobile menu panel */
 	#mobile-menu {
 		display: none;
 		position: fixed;
@@ -190,28 +241,28 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		z-index: 99;
-		background: #f8f8f6;
+		z-index: var(--z-mobile-menu);
+		background: var(--color-bg);
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 3rem;
+		gap: var(--space-12);
 	}
 
 	#mobile-nav {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 2rem;
+		gap: var(--space-8);
 	}
 
 	#mobile-nav a {
-		color: #0f0f0f;
+		color: var(--color-text);
 		text-decoration: none;
 		font-size: 1.6em;
-		font-weight: 600;
+		font-weight: var(--font-weight-semibold);
 		letter-spacing: -0.02em;
-		transition: opacity 0.2s ease;
+		transition: opacity var(--duration-base) var(--easing);
 	}
 
 	#mobile-nav a:hover {
@@ -220,7 +271,7 @@
 
 	#mobile-social {
 		display: flex;
-		gap: 2.5rem;
+		gap: var(--space-10);
 		align-items: center;
 	}
 
@@ -230,14 +281,19 @@
 		height: auto;
 		object-fit: contain;
 		opacity: 0.7;
-		transition: opacity 0.2s ease;
+		transition: opacity var(--duration-base) var(--easing);
 	}
 
 	#mobile-social a:hover img {
 		opacity: 1;
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
+		#header {
+			grid-template-columns: 1fr auto;
+			padding-right: var(--space-4);
+		}
+
 		#nav-links,
 		#social-media {
 			display: none;
@@ -250,27 +306,11 @@
 		#mobile-menu {
 			display: flex;
 		}
-
-		#vatmiraal img {
-			height: 3.2em;
-		}
 	}
 
-	@media (min-width: 769px) and (max-width: 1024px) {
-		#nav-links a {
-			font-size: 1em;
-		}
-
-		#nav-links {
-			gap: 1.5em;
-		}
-
-		#social-media {
-			column-gap: 2em;
-		}
-
-		#social-media img {
-			width: 1.75em;
+	@media (max-width: 768px) {
+		#vatmiraal img {
+			height: 3.2em;
 		}
 	}
 </style>

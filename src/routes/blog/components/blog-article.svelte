@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import Button from '$lib/components/Button.svelte';
+	import ShareBar from './share-bar.svelte';
 	import type { Snippet } from 'svelte';
 
 	type Route = Parameters<typeof resolve>[0];
@@ -17,6 +20,8 @@
 		backLabel: string;
 		children: Snippet;
 	} = $props();
+
+	const shareUrl = $derived(page.url.toString());
 </script>
 
 <article id="page">
@@ -25,43 +30,52 @@
 		<p id="meta">{meta}</p>
 	</header>
 
+	<ShareBar {title} url={shareUrl} />
+
 	{@render children()}
 
-	<a id="back-blog" href={resolve(backHref)}>&larr; {backLabel}</a>
+	<div id="back-wrap">
+		<Button href={resolve(backHref)} variant="ghost">← {backLabel}</Button>
+	</div>
 </article>
 
 <style>
 	#page {
 		max-width: 700px;
 		margin: 0 auto;
-		padding: 6rem 2rem 5rem;
+		padding: var(--space-24) var(--section-padding-x) var(--space-20);
 		box-sizing: border-box;
 	}
 
 	#hero {
-		margin-bottom: 3rem;
+		margin-bottom: var(--space-12);
 	}
 
 	h1 {
 		font-size: clamp(2rem, 4.5vw, 2.8rem);
-		font-weight: 800;
-		letter-spacing: -0.04em;
+		font-weight: var(--font-weight-heavy);
+		letter-spacing: var(--letter-spacing-tight);
 		line-height: 1.12;
-		margin: 0 0 0.75rem;
+		margin: 0 0 var(--space-3);
 	}
 
 	#meta {
-		font-size: 0.95em;
-		color: rgba(15, 15, 15, 0.45);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-faint);
 		margin: 0;
 	}
 
+	#back-wrap {
+		margin-top: var(--space-8);
+	}
+
+	/* Prose styles applied to snippet-rendered article content (defined in the parent page's scope) */
 	:global(h2) {
 		font-size: 1.5em;
-		font-weight: 700;
-		letter-spacing: -0.02em;
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
 		line-height: 1.2;
-		margin: 0 0 1rem;
+		margin: 0 0 var(--space-4);
 	}
 
 	:global(.prose) {
@@ -71,7 +85,7 @@
 	:global(.prose p) {
 		font-size: 1.05em;
 		line-height: 1.75;
-		color: rgba(15, 15, 15, 0.85);
+		color: var(--color-text);
 		margin: 0 0 1.25em;
 	}
 
@@ -87,12 +101,12 @@
 	:global(.prose li) {
 		font-size: 1.05em;
 		line-height: 1.75;
-		color: rgba(15, 15, 15, 0.85);
+		color: var(--color-text);
 		margin-bottom: 0.5em;
 	}
 
 	:global(.prose strong) {
-		color: #0f0f0f;
+		color: var(--color-text);
 	}
 
 	:global(.prose em) {
@@ -101,37 +115,24 @@
 
 	:global(.closing p) {
 		font-size: 1.1em;
-		font-weight: 500;
-		color: #0f0f0f;
+		font-weight: var(--font-weight-medium);
+		color: var(--color-text);
 	}
 
 	:global(.closing a) {
-		color: #0f0f0f;
-		font-weight: 600;
+		color: var(--color-accent);
+		font-weight: var(--font-weight-semibold);
 	}
 
 	:global(hr) {
 		border: none;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
-		margin: 2.5rem 0;
-	}
-
-	#back-blog {
-		display: inline-block;
-		margin-top: 2rem;
-		color: rgba(15, 15, 15, 0.5);
-		text-decoration: none;
-		font-size: 0.95em;
-		transition: color 0.2s ease;
-	}
-
-	#back-blog:hover {
-		color: #0f0f0f;
+		border-top: 1px solid var(--color-border);
+		margin: var(--space-10) 0;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			padding: 4rem 1.5rem 4rem;
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
 		}
 
 		h1 {

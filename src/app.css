@@ -1,0 +1,42 @@
+@import './lib/styles/tokens.css';
+
+@font-face {
+	font-family: 'Inter';
+	src: url('/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+body {
+	font-family: var(--font-family);
+	margin: 0;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	line-height: var(--line-height-base);
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2 {
+	font-feature-settings: 'cv11', 'ss03';
+	letter-spacing: var(--letter-spacing-tight);
+}
+
+:focus:not(:focus-visible) {
+	outline: none;
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-focus-ring);
+	outline-offset: 2px;
+	border-radius: var(--radius-sm);
+}
+
+a {
+	color: var(--color-accent);
+}
+
+a:hover {
+	color: var(--color-accent-hover);
+}

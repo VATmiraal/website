@@ -1,33 +1,42 @@
+<script lang="ts">
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
+</script>
+
 <div id="page">
-	<div id="heading">
-		<h2>How it works</h2>
-		<p id="subtitle">From raw transaction to justified VAT decision in four steps.</p>
-	</div>
+	<SectionHeader
+		title="How it works"
+		subtitle="From a raw transaction to a cited VAT decision in four steps."
+	/>
 	<div id="steps">
 		<div class="step">
 			<span class="step-number">1</span>
-			<h3>Input your transaction</h3>
-			<p>Upload an invoice, enter ledger data, or answer a few questions.</p>
+			<h3>Submit the transaction</h3>
+			<p>
+				Upload an invoice or CSV, pull directly from your ERP, or answer a few guided questions.
+			</p>
 		</div>
 		<div class="step">
 			<span class="step-number">2</span>
-			<h3>Data extraction</h3>
-			<p>The system identifies the parties, countries, object type, and VAT identifiers.</p>
+			<h3>Extract the facts</h3>
+			<p>
+				The system identifies parties, countries, object type, and VAT identifiers from whatever you
+				submitted.
+			</p>
 		</div>
 		<div class="step">
 			<span class="step-number">3</span>
-			<h3>Rules engine analysis</h3>
+			<h3>Apply the law</h3>
 			<p>
-				A knowledge base encoding national VAT law determines classification, place of supply,
-				exemptions, and debtor.
+				A knowledge base of national VAT law determines classification, place of supply, exemptions,
+				and the VAT debtor.
 			</p>
 		</div>
 		<div class="step">
 			<span class="step-number">4</span>
-			<h3>Justified result</h3>
+			<h3>Return a cited result</h3>
 			<p>
-				Every conclusion cites the specific national VAT articles and EU Directive provisions that
-				apply.
+				Each conclusion is paired with the specific national article or EU Directive provision it
+				rests on.
 			</p>
 		</div>
 	</div>
@@ -38,39 +47,17 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 4rem;
-		padding: 6rem 2rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
-	}
-
-	#heading {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-		text-align: center;
-	}
-
-	h2 {
-		font-size: 2.6em;
-		font-weight: 700;
-		letter-spacing: -0.03em;
-		line-height: 1.1;
-		margin: 0;
-	}
-
-	#subtitle {
-		font-size: 1.15em;
-		color: rgba(15, 15, 15, 0.6);
-		margin: 0;
+		gap: var(--space-16);
+		padding: var(--section-padding-y) var(--section-padding-x);
+		border-top: 1px solid var(--color-border);
 	}
 
 	#steps {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: 2rem;
+		gap: var(--space-8);
 		width: 100%;
-		max-width: 1200px;
+		max-width: var(--container-wide);
 	}
 
 	.step {
@@ -78,7 +65,7 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		gap: 0.75em;
+		gap: var(--space-3);
 		position: relative;
 	}
 
@@ -89,50 +76,46 @@
 		left: calc(50% + 1.5em);
 		width: calc(100% - 3em);
 		height: 2px;
-		background: rgba(0, 0, 0, 0.12);
+		background: var(--color-border-strong);
 	}
 
 	.step-number {
 		flex-shrink: 0;
 		width: 2em;
 		height: 2em;
-		border-radius: 50%;
-		background: #0f0f0f;
-		color: #f8f8f6;
+		border-radius: var(--radius-pill);
+		background: var(--color-bg-inverted);
+		color: var(--color-text-on-dark);
 		font-size: 0.9em;
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 
 	.step h3 {
-		font-size: 1.15em;
-		font-weight: 700;
-		letter-spacing: -0.01em;
+		font-size: var(--h3-card);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--letter-spacing-snug);
 		margin: 0;
 	}
 
 	.step p {
-		font-size: 1em;
-		color: rgba(15, 15, 15, 0.7);
-		line-height: 1.65;
+		font-size: var(--font-size-base);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
 		margin: 0;
 	}
 
 	@media (max-width: 768px) {
 		#page {
-			gap: 2.5rem;
-			padding: 4rem 1.5rem;
-		}
-
-		h2 {
-			font-size: 1.8em;
+			gap: var(--space-10);
+			padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
 		}
 
 		#steps {
 			grid-template-columns: 1fr;
-			gap: 1.5rem;
+			gap: var(--space-6);
 		}
 
 		.step:not(:last-child)::after {
@@ -142,12 +125,8 @@
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		#page {
-			gap: 3rem;
-			padding-bottom: 3rem;
-		}
-
-		h2 {
-			font-size: 2.2em;
+			gap: var(--space-12);
+			padding-bottom: var(--space-12);
 		}
 
 		#steps {

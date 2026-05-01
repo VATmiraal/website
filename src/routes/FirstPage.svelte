@@ -1,13 +1,18 @@
-<script>
+<script lang="ts">
 	import { resolve } from '$app/paths';
+	import Button from '$lib/components/Button.svelte';
 </script>
 
 <div id="page">
 	<h1 id="hero-heading">VAT complexity,<br />made clear.</h1>
 	<p id="slogan">
-		Explainable AI for confident VAT decisions<br />built for accountants and tax professionals.
+		Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax
+		professionals.
 	</p>
-	<a id="join-beta" href={resolve('/join_beta')}> Join the Beta </a>
+	<div id="cta-row">
+		<Button href={resolve('/request_a_demo')} variant="primary" size="lg">Request a demo</Button>
+		<Button href={resolve('/demo')} variant="ghost" size="lg">See an example →</Button>
+	</div>
 </div>
 
 <style>
@@ -25,57 +30,51 @@
 	}
 
 	#hero-heading {
-		font-size: clamp(2.2rem, 5vw, 4rem);
-		font-weight: 800;
+		font-size: var(--h1-hero);
+		font-weight: var(--font-weight-heavy);
 		letter-spacing: -0.04em;
 		line-height: 1.05;
 		text-align: center;
 		margin: 0;
-		max-width: 700px;
+		max-width: 820px;
 		opacity: 0;
 		animation: fade-up var(--intro-animation-duration) ease-out forwards;
 	}
 
+	#hero-heading::before {
+		content: '';
+		display: block;
+		width: 48px;
+		height: 2px;
+		background: var(--color-accent);
+		margin: 0 auto 28px;
+	}
+
 	#slogan {
-		width: 35vw;
-		font-weight: 400;
+		max-width: min(620px, 70vw);
+		font-weight: var(--font-weight-regular);
 		text-align: center;
-		font-size: 1.6em;
+		font-size: var(--font-size-md);
 		padding: 0;
-		margin: 1.25rem 0 0;
-		letter-spacing: -0.01em;
-		line-height: 1.35;
+		margin: var(--space-6) 0 0;
+		letter-spacing: var(--letter-spacing-snug);
+		line-height: var(--line-height-snug);
+		color: var(--color-text-muted);
 		opacity: 0;
 		animation: fade-up var(--intro-animation-duration) ease-out forwards;
 		animation-delay: calc(var(--intro-animation-duration) * 0.4);
 	}
 
-	#join-beta {
-		font-size: 1.7em;
-		background-color: #0f0f0f;
-		color: #ffffff;
-		border: 2px solid #0f0f0f;
-		border-radius: 6px;
-		text-decoration: none;
-		font-weight: 600;
-		letter-spacing: 0.01em;
-		padding: 0.45em 1.2em;
-		margin-top: 2.5rem;
+	#cta-row {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-top: var(--space-10);
 		opacity: 0;
 		animation: fade-up var(--intro-animation-duration) ease-out forwards;
 		animation-delay: calc(var(--intro-animation-duration) * 0.8);
-		transition:
-			background-color 0.22s ease,
-			color 0.22s ease,
-			transform 0.22s ease,
-			box-shadow 0.22s ease;
-	}
-
-	#join-beta:hover {
-		background-color: #ffffff;
-		color: #0f0f0f;
-		transform: translateY(-3px);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 	}
 
 	@keyframes fade-up {
@@ -99,19 +98,14 @@
 		}
 
 		#slogan {
-			width: 85vw;
-			font-size: 1.2em;
-			margin-top: 1rem;
+			max-width: 85vw;
+			font-size: var(--font-size-base);
+			margin-top: var(--space-4);
 		}
 
-		#join-beta {
-			font-size: 1.3em;
-			margin-top: 2rem;
-		}
-
-		#join-beta:hover {
-			transform: translateY(0px);
-			box-shadow: none;
+		#cta-row {
+			margin-top: var(--space-8);
+			flex-direction: column;
 		}
 	}
 
@@ -121,18 +115,12 @@
 		}
 
 		#slogan {
-			width: 60vw;
-			font-size: 1.3em;
-			margin-top: 1rem;
+			max-width: 70vw;
+			margin-top: var(--space-4);
 		}
 
-		#join-beta {
-			margin-top: 2rem;
-		}
-
-		#join-beta:hover {
-			transform: translateY(0px);
-			box-shadow: none;
+		#cta-row {
+			margin-top: var(--space-8);
 		}
 	}
 </style>
