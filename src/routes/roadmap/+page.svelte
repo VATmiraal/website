@@ -18,7 +18,7 @@
 				{
 					title: 'Audit checking',
 					description:
-						'Define arithmetic relationships between accounts and let the engine verify them during audit. Catch inconsistencies that spreadsheet reviews miss.'
+						'Define constraints over your general ledger and let the engine verify them automatically. Catch account mismatches that spreadsheet reviews miss.'
 				},
 				{
 					title: 'ABC / chain transactions',
