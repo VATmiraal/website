@@ -2,7 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
-	import ShareBar from './share-bar.svelte';
+	import ShareBar from '$lib/components/ShareBar.svelte';
 	import type { Snippet } from 'svelte';
 
 	type Route = Parameters<typeof resolve>[0];
@@ -30,7 +30,7 @@
 		<p id="meta">{meta}</p>
 	</header>
 
-	<ShareBar {title} url={shareUrl} />
+	<ShareBar {title} url={shareUrl} label="Share this article" />
 
 	{@render children()}
 
