@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import ShareBar from '$lib/components/ShareBar.svelte';
 	import WalkthroughStep from '$lib/components/WalkthroughStep.svelte';
 
 	interface IStepItem {
@@ -88,14 +90,22 @@
 			title="From ledger extract to VAT boxes, with the legal article attached."
 			subtitle="Drop in a ledger extract. Get cited VAT boxes with the legal reasoning, then test alternatives before you post."
 		/>
-		<div class="hero-actions">
+		<div class="hero-buttons">
 			<Button href={resolve('/request_a_demo')} variant="primary">Request a demo</Button>
-			<Button href="#walkthrough" variant="ghost">See the five steps →</Button>
+			<Button href="#hero-share" variant="ghost">See the five steps ↓</Button>
 		</div>
 		<div class="hero-image">
 			<img
 				src="/images/general_ledger_analyzer/home.png"
 				alt="VATmiraal Ledger Analyser home screen with its five-step progress indicator."
+			/>
+		</div>
+		<div id="hero-share" class="hero-share">
+			<ShareBar
+				title="CSV General Ledger Analyser — VATmiraal"
+				url={page.url.toString()}
+				label="Share this product"
+				compact={true}
 			/>
 		</div>
 	</section>
@@ -190,10 +200,16 @@
 		gap: var(--space-10);
 	}
 
-	.hero-actions {
+	.hero-buttons {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-3);
+		justify-content: center;
+	}
+
+	.hero-share {
+		width: 100%;
+		display: flex;
 		justify-content: center;
 	}
 
@@ -212,6 +228,13 @@
 		box-shadow: var(--shadow-lg);
 	}
 
+	.hero-share {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		scroll-margin-top: calc(var(--header-total-height) + 2rem);
+	}
+
 	/* Walkthrough */
 	#walkthrough {
 		width: 100%;
@@ -222,6 +245,7 @@
 		padding-top: var(--space-12);
 		border-top: 1px solid var(--color-border);
 	}
+
 
 	.mini-stepper {
 		width: 100%;

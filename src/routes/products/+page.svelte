@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import ShareBar from '$lib/components/ShareBar.svelte';
 
 	interface IRoadmapCard {
 		title: string;
@@ -44,6 +46,15 @@
 			level="h1"
 			title="VAT tools, built for just-in-time auditing."
 			subtitle="Every tool returns a cited answer. Rule-based, EU-wide, defensible on the day the auditor asks."
+		/>
+	</section>
+
+	<section class="share-section">
+		<ShareBar
+			title="VATmiraal Products"
+			url={page.url.toString()}
+			label="Share this product"
+			compact={true}
 		/>
 	</section>
 
@@ -114,6 +125,12 @@
 		justify-content: center;
 	}
 
+	.share-section {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
 	#featured {
 		width: 100%;
 		display: grid;
@@ -174,6 +191,7 @@
 		border-radius: var(--radius-lg);
 		box-shadow: var(--shadow-lg);
 	}
+
 
 	#roadmap {
 		width: 100%;

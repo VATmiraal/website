@@ -1,9 +1,11 @@
 <script lang="ts">
-	import ShareButton from './share-button.svelte';
+	import ShareButton from './ShareButton.svelte';
 
 	interface IShareBarProps {
 		title: string;
 		url: string;
+		label?: string;
+		compact?: boolean;
 	}
 
 	const PLATFORMS = [
@@ -16,12 +18,14 @@
 		'email'
 	] as const;
 
-	let { title, url }: IShareBarProps = $props();
+	let { title, url, label, compact }: IShareBarProps = $props();
 </script>
 
-<aside class="colophon" aria-label="Share this article">
+<aside class="colophon" class:compact aria-label={label}>
 	<span class="label">Share.</span>
-	<hr class="rule" aria-hidden="true" />
+	{#if !compact}
+		<hr class="rule" aria-hidden="true" />
+	{/if}
 	<ul class="channels">
 		{#each PLATFORMS as platform, i (platform)}
 			<li style="--i: {i};">
@@ -100,5 +104,20 @@
 		.channels li {
 			animation: none;
 		}
+	}
+
+	.colophon.compact {
+		grid-template-columns: auto;
+		padding: 0;
+		margin: 0;
+		gap: var(--space-2);
+	}
+
+	.colophon.compact .label {
+		justify-self: center;
+	}
+
+	.colophon.compact .channels {
+		flex-wrap: nowrap;
 	}
 </style>
