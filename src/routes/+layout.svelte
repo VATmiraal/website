@@ -43,7 +43,7 @@
 {@render children()}
 
 <footer>
-	<p>© {year} VATmiraal. All rights reserved. <a href={resolve('/impressum')}>Impressum</a></p>
+	<p>© {year} VATmiraal. All rights reserved. <a href={resolve('/impressum')} class="impressum-link">Impressum</a></p>
 </footer>
 
 <style>
@@ -67,5 +67,11 @@
 
 	footer a:hover {
 		opacity: 0.7;
+	}
+
+	.impressum-link {
+		font-weight: var(--font-weight-medium);
+		text-underline-offset: 3px;
+		margin-left: var(--space-4);
 	}
 </style>
