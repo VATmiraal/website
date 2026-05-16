@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div id="page">
-	<SectionHeader level="h1" title="Company Information" />
+	<SectionHeader level="h1" title="Impressum" />
 
 	<div id="content">
 		<dl>
