@@ -42,7 +42,7 @@
 {@render children()}
 
 <footer>
-	<p>© {year} VATmiraal. All rights reserved.</p>
+	<p>© {year} VATmiraal. All rights reserved. <a href="/impressum">Impressum</a></p>
 </footer>
 
 <style>
@@ -56,5 +56,15 @@
 
 	footer p {
 		margin: 0;
+	}
+
+	footer a {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	footer a:hover {
+		opacity: 0.7;
 	}
 </style>
