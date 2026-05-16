@@ -192,7 +192,6 @@
 		box-shadow: var(--shadow-lg);
 	}
 
-
 	#roadmap {
 		width: 100%;
 		display: flex;

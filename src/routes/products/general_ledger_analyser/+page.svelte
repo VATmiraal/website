@@ -246,7 +246,6 @@
 		border-top: 1px solid var(--color-border);
 	}
 
-
 	.mini-stepper {
 		width: 100%;
 		max-width: var(--container-medium);
