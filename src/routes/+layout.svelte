@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import Header from '../components/header.svelte';
+	import { resolve } from '$app/paths';
 
 	let { children } = $props();
 
@@ -42,7 +43,7 @@
 {@render children()}
 
 <footer>
-	<p>© {year} VATmiraal. All rights reserved. <a href="/impressum">Impressum</a></p>
+	<p>© {year} VATmiraal. All rights reserved. <a href={resolve('/impressum')}>Impressum</a></p>
 </footer>
 
 <style>

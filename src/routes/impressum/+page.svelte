@@ -17,26 +17,26 @@
 
 	<div id="content">
 		<dl>
-				<dt>Company name</dt>
-				<dd>VATmiraal, BV</dd>
+			<dt>Company name</dt>
+			<dd>VATmiraal, BV</dd>
 
-				<dt>Legal form</dt>
-				<dd>Company under Belgian law</dd>
+			<dt>Legal form</dt>
+			<dd>Company under Belgian law</dd>
 
-				<dt>Registered office</dt>
-				<dd>
-					<address>
-						Herritakkerlaan 5/A<br />
-						9940 Evergem<br />
-						Belgium
-					</address>
-				</dd>
+			<dt>Registered office</dt>
+			<dd>
+				<address>
+					Herritakkerlaan 5/A<br />
+					9940 Evergem<br />
+					Belgium
+				</address>
+			</dd>
 
-				<dt>VAT number</dt>
-				<dd>BE 1037.608.406</dd>
+			<dt>VAT number</dt>
+			<dd>BE 1037.608.406</dd>
 
-				<dt>Email</dt>
-				<dd><a href="mailto:info@vatmiraal.be">info@vatmiraal.be</a></dd>
+			<dt>Email</dt>
+			<dd><a href="mailto:info@vatmiraal.be">info@vatmiraal.be</a></dd>
 		</dl>
 	</div>
 
