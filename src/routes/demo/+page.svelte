@@ -11,7 +11,7 @@
 		operatingSystem: 'Web',
 		url: 'https://vatmiraal.be/demo',
 		description:
-			'Interactive demo of the VATmiraal rules engine — analyse VAT transactions with full legal justification, entirely in the browser.',
+			'Interactive demo of the VATmiraal rules engine — analyse VAT transactions with full legal justification.',
 		provider: { '@id': 'https://vatmiraal.be/#organization' }
 	};
 </script>
@@ -33,7 +33,7 @@
 			Explore how the rules engine analyses real VAT transactions entirely in your browser.
 		</p>
 		<div id="hero-actions">
-			<Button href={resolve('/demo/coming-soon')} variant="primary">Launch the Analyser</Button>
+			<Button href={resolve('/demo/analyser')} variant="primary">Launch the Analyser</Button>
 			<Button href={resolve('/request_a_demo')} variant="ghost">
 				Or book a demo call with us →
 			</Button>
