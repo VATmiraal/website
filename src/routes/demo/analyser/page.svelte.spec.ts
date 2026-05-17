@@ -38,30 +38,30 @@ describe('/demo/analyser/+page.svelte', () => {
 
 	describe('desktop viewport', () => {
 		it('should render the Book a call button', async () => {
-			page.viewport({ width: 1280, height: 800 });
-			render(Page);
+			await page.viewport(1280, 800);
+			render(Page, {});
 
 			await expect.element(page.getByTestId('book-call-btn')).toBeInTheDocument();
 		});
 
 		it('should render the share bar', async () => {
-			page.viewport({ width: 1280, height: 800 });
-			render(Page);
+			await page.viewport(1280, 800);
+			render(Page, {});
 
 			await expect.element(page.getByTestId('share-bar')).toBeInTheDocument();
 		});
 
 		it('should link the Book a call button to /request_a_demo', async () => {
-			page.viewport({ width: 1280, height: 800 });
-			render(Page);
+			await page.viewport(1280, 800);
+			render(Page, {});
 
 			const link = page.getByTestId('book-call-btn').element() as HTMLAnchorElement;
 			expect(link.href).toContain('/request_a_demo');
 		});
 
 		it('should render the desktop-only container', async () => {
-			page.viewport({ width: 1280, height: 800 });
-			render(Page);
+			await page.viewport(1280, 800);
+			render(Page, {});
 
 			await expect.element(page.getByTestId('desktop-only')).toBeInTheDocument();
 		});
@@ -69,22 +69,22 @@ describe('/demo/analyser/+page.svelte', () => {
 
 	describe('mobile viewport', () => {
 		it('should render the mobile message', async () => {
-			page.viewport({ width: 375, height: 667 });
-			render(Page);
+			await page.viewport(375, 667);
+			render(Page, {});
 
 			await expect.element(page.getByTestId('mobile-message')).toBeInTheDocument();
 		});
 
 		it('should show "Desktop Only" heading in mobile message', async () => {
-			page.viewport({ width: 375, height: 667 });
-			render(Page);
+			await page.viewport(375, 667);
+			render(Page, {});
 
 			await expect.element(page.getByRole('heading', { name: 'Desktop Only' })).toBeInTheDocument();
 		});
 
 		it('should have a back link to demo overview in mobile message', async () => {
-			page.viewport({ width: 375, height: 667 });
-			render(Page);
+			await page.viewport(375, 667);
+			render(Page, {});
 
 			await expect.element(page.getByTestId('mobile-message')).toBeInTheDocument();
 
@@ -94,7 +94,7 @@ describe('/demo/analyser/+page.svelte', () => {
 	});
 
 	it('should not show the booking popup initially', async () => {
-		render(Page);
+		render(Page, {});
 
 		await expect.element(page.getByTestId('booking-popup')).not.toBeInTheDocument();
 	});
@@ -102,10 +102,10 @@ describe('/demo/analyser/+page.svelte', () => {
 	it('should show the booking popup after the timer fires', async () => {
 		vi.useFakeTimers();
 
-		render(Page);
+		render(Page, {});
 
-		await vi.runOnlyPendingTimersAsync();
-		vi.advanceTimersByTime(60_000);
+		await vi.advanceTimersByTimeAsync(0);
+		await vi.advanceTimersByTimeAsync(60_000);
 
 		await expect.element(page.getByTestId('booking-popup')).toBeInTheDocument();
 	});
@@ -113,10 +113,11 @@ describe('/demo/analyser/+page.svelte', () => {
 	it('should close the popup when Escape is pressed', async () => {
 		vi.useFakeTimers();
 
-		render(Page);
+		render(Page, {});
 
-		await vi.runOnlyPendingTimersAsync();
-		vi.advanceTimersByTime(60_000);
+		await vi.advanceTimersByTimeAsync(0);
+		await vi.advanceTimersByTimeAsync(60_000);
+
 		await expect.element(page.getByTestId('booking-popup')).toBeInTheDocument();
 
 		page
@@ -130,10 +131,10 @@ describe('/demo/analyser/+page.svelte', () => {
 	it('should close the popup when the overlay is clicked', async () => {
 		vi.useFakeTimers();
 
-		render(Page);
+		render(Page, {});
 
-		await vi.runOnlyPendingTimersAsync();
-		vi.advanceTimersByTime(60_000);
+		await vi.advanceTimersByTimeAsync(0);
+		await vi.advanceTimersByTimeAsync(60_000);
 		await expect.element(page.getByTestId('booking-popup')).toBeInTheDocument();
 
 		const overlay = page.getByTestId('booking-popup').element() as HTMLElement;
@@ -145,10 +146,10 @@ describe('/demo/analyser/+page.svelte', () => {
 	it('should have proper accessibility attributes on the popup dialog', async () => {
 		vi.useFakeTimers();
 
-		render(Page);
+		render(Page, {});
 
-		await vi.runOnlyPendingTimersAsync();
-		vi.advanceTimersByTime(60_000);
+		await vi.advanceTimersByTimeAsync(0);
+		await vi.advanceTimersByTimeAsync(60_000);
 		await expect.element(page.getByTestId('booking-popup')).toBeInTheDocument();
 
 		const dialog = page.getByRole('dialog').element() as HTMLElement;
@@ -160,10 +161,10 @@ describe('/demo/analyser/+page.svelte', () => {
 	it('should trap Tab focus within the dialog', async () => {
 		vi.useFakeTimers();
 
-		render(Page);
+		render(Page, {});
 
-		await vi.runOnlyPendingTimersAsync();
-		vi.advanceTimersByTime(60_000);
+		await vi.advanceTimersByTimeAsync(0);
+		await vi.advanceTimersByTimeAsync(60_000);
 		await expect.element(page.getByTestId('booking-popup')).toBeInTheDocument();
 
 		const dialog = page.getByRole('dialog').element();

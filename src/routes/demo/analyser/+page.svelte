@@ -124,7 +124,14 @@
 </div>
 
 {#if showPopup}
-	<div class="overlay" data-testid="booking-popup" onclick={closePopup}>
+	<div
+		class="overlay"
+		data-testid="booking-popup"
+		role="button"
+		tabindex="-1"
+		onclick={closePopup}
+		onkeydown={(e) => e.key === 'Escape' && closePopup()}
+	>
 		<div
 			bind:this={popupEl}
 			class="popup"
