@@ -60,6 +60,7 @@
 
 	footer p {
 		margin: 0;
+		padding-bottom: 1.5rem;
 	}
 
 	footer a {
