@@ -43,7 +43,10 @@
 {@render children()}
 
 <footer>
-	<p>© {year} VATmiraal. All rights reserved. <a href={resolve('/impressum')} class="impressum-link">Impressum</a></p>
+	<p>
+		© {year} VATmiraal. All rights reserved.
+		<a href={resolve('/impressum')} class="impressum-link">Impressum</a>
+	</p>
 </footer>
 
 <style>
