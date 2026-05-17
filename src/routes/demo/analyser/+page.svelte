@@ -109,8 +109,8 @@
 				<div class="mobile-message-content">
 					<h2>Desktop Only</h2>
 					<p>
-						This demo is optimized for desktop. Please visit on a larger screen to explore the
-						VAT Analyser.
+						This demo is optimized for desktop. Please visit on a larger screen to explore the VAT
+						Analyser.
 					</p>
 					<a href={resolve('/demo')} class="mobile-back-link">← Back to demo overview</a>
 				</div>

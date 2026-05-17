@@ -23,7 +23,14 @@
 	let { title, url, label, compact, hideLabel, layout = 'horizontal' }: IShareBarProps = $props();
 </script>
 
-<aside class="colophon" class:compact class:no-label={hideLabel} class:vertical={layout === 'vertical'} aria-label={label} data-testid="share-bar">
+<aside
+	class="colophon"
+	class:compact
+	class:no-label={hideLabel}
+	class:vertical={layout === 'vertical'}
+	aria-label={label}
+	data-testid="share-bar"
+>
 	{#if !hideLabel}
 		<span class="label">Share.</span>
 		{#if !compact}
