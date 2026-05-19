@@ -6,6 +6,8 @@
 		url: string;
 		label?: string;
 		compact?: boolean;
+		hideLabel?: boolean;
+		layout?: 'horizontal' | 'vertical';
 	}
 
 	const PLATFORMS = [
@@ -18,13 +20,22 @@
 		'email'
 	] as const;
 
-	let { title, url, label, compact }: IShareBarProps = $props();
+	let { title, url, label, compact, hideLabel, layout = 'horizontal' }: IShareBarProps = $props();
 </script>
 
-<aside class="colophon" class:compact aria-label={label}>
-	<span class="label">Share.</span>
-	{#if !compact}
-		<hr class="rule" aria-hidden="true" />
+<aside
+	class="colophon"
+	class:compact
+	class:no-label={hideLabel}
+	class:vertical={layout === 'vertical'}
+	aria-label={label}
+	data-testid="share-bar"
+>
+	{#if !hideLabel}
+		<span class="label">Share.</span>
+		{#if !compact}
+			<hr class="rule" aria-hidden="true" />
+		{/if}
 	{/if}
 	<ul class="channels">
 		{#each PLATFORMS as platform, i (platform)}
@@ -85,6 +96,32 @@
 		}
 	}
 
+	.colophon.vertical {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		gap: var(--space-3);
+		align-items: start;
+	}
+
+	.colophon.vertical .rule {
+		display: none;
+	}
+
+	.colophon.vertical .label {
+		justify-self: center;
+	}
+
+	.colophon.vertical .channels {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--space-2);
+	}
+
+	.colophon.vertical .channels li:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+		justify-self: center;
+	}
+
 	@media (max-width: 640px) {
 		.colophon {
 			grid-template-columns: 1fr;
@@ -119,5 +156,10 @@
 
 	.colophon.compact .channels {
 		flex-wrap: nowrap;
+	}
+
+	.colophon.no-label {
+		grid-template-columns: auto;
+		gap: var(--space-2);
 	}
 </style>
