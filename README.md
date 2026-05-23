@@ -23,3 +23,7 @@ bun run dev
 ```bash
 bun run test
 ```
+
+## License
+
+Proprietary — see [LICENSE](./LICENSE).

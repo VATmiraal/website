@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import Header from '../components/header.svelte';
+	import { resolve } from '$app/paths';
 
 	let { children } = $props();
 
@@ -42,7 +43,10 @@
 {@render children()}
 
 <footer>
-	<p>© {year} VATmiraal. All rights reserved.</p>
+	<p>
+		© {year} VATmiraal. All rights reserved.
+		<a href={resolve('/impressum')} class="impressum-link">Impressum</a>
+	</p>
 </footer>
 
 <style>
@@ -56,5 +60,22 @@
 
 	footer p {
 		margin: 0;
+		padding-bottom: 1.5rem;
+	}
+
+	footer a {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	footer a:hover {
+		opacity: 0.7;
+	}
+
+	.impressum-link {
+		font-weight: var(--font-weight-medium);
+		text-underline-offset: 3px;
+		margin-left: var(--space-4);
 	}
 </style>
