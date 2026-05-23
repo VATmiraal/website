@@ -23,15 +23,6 @@
 			<dt>Legal form</dt>
 			<dd>Company under Belgian law</dd>
 
-			<dt>Registered office</dt>
-			<dd>
-				<address>
-					Herritakkerlaan 5/A<br />
-					9940 Evergem<br />
-					Belgium
-				</address>
-			</dd>
-
 			<dt>VAT number</dt>
 			<dd>BE 1037.608.406</dd>
 
