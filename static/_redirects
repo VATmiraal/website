@@ -1,0 +1,3 @@
+# Permanent redirects (handled at the Netlify edge)
+# Product renamed: CSV General Ledger Analyser -> VAT Auditor
+/products/general_ledger_analyser  /products/vat-auditor  301

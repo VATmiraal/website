@@ -68,10 +68,10 @@
 </script>
 
 <svelte:head>
-	<title>VAT Analyser — VATmiraal Demo</title>
+	<title>VAT Auditor — VATmiraal Demo</title>
 	<meta
 		name="description"
-		content="Interactive VAT analyser demo. Select a ledger entry and see the full VAT determination with legal references."
+		content="Interactive VAT Auditor demo. Select a journal entry and see the full VAT determination with legal references."
 	/>
 </svelte:head>
 
@@ -79,7 +79,7 @@
 	<div class="desktop-only" data-testid="desktop-only">
 		<div class="page-toolbar">
 			<ShareBar
-				title="VATmiraal VAT Analyser Demo"
+				title="VATmiraal VAT Auditor Demo"
 				url="https://vatmiraal.be/demo/analyser"
 				layout="vertical"
 			/>
@@ -110,7 +110,7 @@
 					<h2>Desktop Only</h2>
 					<p>
 						This demo is optimized for desktop. Please visit on a larger screen to explore the VAT
-						Analyser.
+						Auditor.
 					</p>
 					<a href={resolve('/demo')} class="mobile-back-link">← Back to demo overview</a>
 				</div>
