@@ -2,6 +2,7 @@
 	import FirstPage from './FirstPage.svelte';
 	import HowItWorks from './HowItWorks.svelte';
 	import BuiltOnLaw from './BuiltOnLaw.svelte';
+	import WhoItsFor from './WhoItsFor.svelte';
 	import CustomSolution from './CustomSolution.svelte';
 
 	const schema = {
@@ -36,4 +37,5 @@
 <FirstPage />
 <BuiltOnLaw />
 <HowItWorks />
+<WhoItsFor />
 <CustomSolution />
