@@ -75,7 +75,7 @@
 </script>
 
 <svelte:head>
-	<title>General Ledger Analyser — VATmiraal</title>
+	<title>VAT Auditor — VATmiraal</title>
 	<meta
 		name="description"
 		content="Turn a raw CSV ledger into cited, defensible VAT analysis. Upload, classify, explore alternatives, export the boxes."
@@ -97,12 +97,12 @@
 		<div class="hero-image">
 			<img
 				src="/images/general_ledger_analyzer/home.png"
-				alt="VATmiraal Ledger Analyser home screen with its five-step progress indicator."
+				alt="VATmiraal VAT Auditor home screen with its five-step progress indicator."
 			/>
 		</div>
 		<div id="hero-share" class="hero-share">
 			<ShareBar
-				title="CSV General Ledger Analyser — VATmiraal"
+				title="VAT Auditor — VATmiraal"
 				url={page.url.toString()}
 				label="Share this product"
 				compact={true}

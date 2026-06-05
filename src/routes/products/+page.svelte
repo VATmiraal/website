@@ -61,13 +61,14 @@
 	<section id="featured">
 		<div class="featured-copy">
 			<span class="kicker">AVAILABLE NOW</span>
-			<h2>CSV General Ledger Analyser</h2>
+			<h2>VAT Auditor</h2>
 			<p>
-				Drop in a ledger extract. Get the VAT boxes, classifications, and legal basis for each line.
-				Change a field, and the analysis updates on the spot.
+				Drag and drop a sales or purchase journal. Supply additional transaction details and supplier master
+				data if required. Receive the complete VAT determination, including legal references. In case
+				the data is inconsistent, the Auditor will tell you why.
 			</p>
 			<div class="featured-actions">
-				<Button href={resolve('/products/general_ledger_analyser')} variant="primary">
+				<Button href={resolve('/products/vat-auditor')} variant="primary">
 					Learn more →
 				</Button>
 				<Button href={resolve('/request_a_demo')} variant="ghost">Request a demo</Button>
@@ -76,7 +77,7 @@
 		<div class="featured-image">
 			<img
 				src="/images/general_ledger_analyzer/home.png"
-				alt="CSV General Ledger Analyser interface"
+				alt="VAT Auditor interface"
 			/>
 		</div>
 	</section>

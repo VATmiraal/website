@@ -33,7 +33,7 @@
 			Explore how the rules engine analyses real VAT transactions entirely in your browser.
 		</p>
 		<div id="hero-actions">
-			<Button href={resolve('/demo/analyser')} variant="primary">Launch the Analyser</Button>
+			<Button href={resolve('/demo/analyser')} variant="primary">Launch the VAT Auditor</Button>
 			<Button href={resolve('/request_a_demo')} variant="ghost">
 				Or book a demo call with us →
 			</Button>
@@ -42,9 +42,9 @@
 
 	<div id="modes">
 		<Card interactive>
-			<h3>Analyser</h3>
+			<h3>VAT Auditor</h3>
 			<p>
-				Select a ledger entry from the built-in dataset, run analysis, and get the full VAT
+				Select a journal entry from the built-in dataset, run analysis, and get the full VAT
 				determination with legal references.
 			</p>
 			<ul>
@@ -71,10 +71,10 @@
 		<h2>What you get</h2>
 		<p id="example-intro">Here is the actual output for a single domestic sale at 21%.</p>
 
-		<!-- GL Entry banner -->
+		<!-- Journal Entry banner -->
 		<div class="demo-full">
 			<div class="a-card a-banner">
-				<h4>GL Entry — TechParts NV</h4>
+				<h4>Journal Entry — TechParts NV</h4>
 				<p class="a-desc">Domestic sale of goods — standard 21% rate (Box 03)</p>
 				<div class="a-meta">
 					<div class="a-field">
