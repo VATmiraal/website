@@ -47,10 +47,8 @@
 		<h1 id="maintenance-heading">Something new is on the way.</h1>
 		<p id="maintenance-note">
 			Back online soon.
-			<a
-				href="https://www.linkedin.com/company/vatmiraal"
-				target="_blank"
-				rel="noopener noreferrer">Reach out anytime.</a
+			<a href="https://www.linkedin.com/company/vatmiraal" target="_blank" rel="noopener noreferrer"
+				>Reach out anytime.</a
 			>
 		</p>
 	</section>
