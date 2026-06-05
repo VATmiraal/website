@@ -2,6 +2,8 @@
 	import { resolve } from '$app/paths';
 	import { onMount, tick } from 'svelte';
 
+	import { MAINTENANCE_MODE } from '$lib/maintenance';
+
 	import emailIcon from '$lib/assets/email-logo.svg';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 
@@ -76,32 +78,36 @@
 	>
 {/snippet}
 
-<div id="header">
+<div id="header" class:maintenance={MAINTENANCE_MODE}>
 	<a id="vatmiraal" href={resolve('/')} onclick={closeMenu}>
 		<picture>
 			<source srcset="/logo_icon.svg" media="(max-width: 768px)" />
 			<img src="/logo.svg" alt="VATmiraal" />
 		</picture>
 	</a>
-	<nav id="nav-links" aria-label="Primary">
-		{@render navLinks(undefined)}
-	</nav>
+	{#if !MAINTENANCE_MODE}
+		<nav id="nav-links" aria-label="Primary">
+			{@render navLinks(undefined)}
+		</nav>
+	{/if}
 	<div id="social-media">
 		{@render socialIcons(undefined)}
 	</div>
-	<button
-		id="hamburger"
-		bind:this={hamburgerEl}
-		aria-label="Toggle menu"
-		aria-expanded={menuOpen}
-		aria-controls="mobile-menu"
-		onclick={toggleMenu}
-		class:open={menuOpen}
-	>
-		<span></span>
-		<span></span>
-		<span></span>
-	</button>
+	{#if !MAINTENANCE_MODE}
+		<button
+			id="hamburger"
+			bind:this={hamburgerEl}
+			aria-label="Toggle menu"
+			aria-expanded={menuOpen}
+			aria-controls="mobile-menu"
+			onclick={toggleMenu}
+			class:open={menuOpen}
+		>
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+	{/if}
 </div>
 
 {#if menuOpen}
@@ -181,6 +187,11 @@
 		justify-self: end;
 		display: flex;
 		column-gap: 3em;
+	}
+
+	/* In maintenance the nav is gone, so pin the icons to the right column. */
+	#header.maintenance #social-media {
+		grid-column: 3;
 	}
 
 	#social-media img {
@@ -297,6 +308,11 @@
 		#nav-links,
 		#social-media {
 			display: none;
+		}
+
+		#header.maintenance #social-media {
+			display: flex;
+			grid-column: auto;
 		}
 
 		#hamburger {
