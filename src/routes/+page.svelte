@@ -527,7 +527,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: var(--space-6);
-		max-width: 960px;
+		max-width: var(--container-wide);
 	}
 
 	.cards.auto {

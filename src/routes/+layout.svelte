@@ -18,7 +18,7 @@
 			logo: 'https://vatmiraal.be/logo.svg',
 			email: 'info@vatmiraal.be',
 			description:
-				'Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals.',
+				'Explainable VAT decisions, ready for just-in-time audit, built for accountants and tax professionals.',
 			sameAs: ['https://www.linkedin.com/company/vatmiraal']
 		},
 		{

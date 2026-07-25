@@ -2,7 +2,7 @@ export const messages = {
 	heroKicker: 'What correct VAT is worth',
 	heroTitle: 'Your VAT is right, and you can prove it.',
 	heroSub:
-		'The correct VAT is the cheapest VAT: getting each transaction right protects you from costly corrections and recovers the deductions you are owed — with the legal provision behind every conclusion.',
+		'The correct VAT is the cheapest VAT: getting each transaction right protects you from costly corrections and recovers the deductions you are owed, with the legal provision behind every conclusion.',
 	heroCtaPrimary: 'Request a demo',
 	heroCtaGhost: 'See the API →',
 
@@ -22,7 +22,7 @@ export const messages = {
 	sectorsKicker: 'Built for every sector',
 	sectorsTitle: 'The hard cases, wherever they live.',
 	sectorsSub:
-		'Every sector has its own VAT traps. VATmiraal determines the correct treatment — with its legal basis — for the ones that matter to yours.',
+		'Every sector has its own VAT traps. VATmiraal determines the correct treatment, with its legal basis, for the ones that matter to yours.',
 	sectors: [
 		{
 			h: 'E-commerce',
@@ -30,7 +30,7 @@ export const messages = {
 		},
 		{
 			h: 'Banks & finance',
-			p: 'Exempt financial services with partial deduction — pro-rata and real-use — kept defensible.'
+			p: 'Exempt financial services with partial deduction (pro-rata and real-use), kept defensible.'
 		},
 		{
 			h: 'Local governments',
@@ -121,7 +121,7 @@ export const messages = {
 			p: 'When the authority reconciles its figures against yours line by line, you already hold the reasoned, cited position for every line.'
 		}
 	],
-	interopSystemsLabel: 'ERP & accounting connectors — coming soon',
+	interopSystemsLabel: 'ERP & accounting connectors (coming soon)',
 	interopSystems: [
 		'SAP',
 		'Microsoft Dynamics',
@@ -131,12 +131,12 @@ export const messages = {
 		'Yuki',
 		'Billit'
 	],
-	interopChannelsLabel: 'E-invoicing & events — coming soon',
+	interopChannelsLabel: 'E-invoicing & events (coming soon)',
 	interopChannels: ['Peppol', 'Webhooks'],
 	interopProtocolsLabel: 'Integrate however you build',
 	interopProtocols: ['REST API', 'MCP server', 'CSV / Excel'],
 	interopNote:
-		'The API and MCP server are available today. Prebuilt connectors and webhooks are on the way — tell us which system you run and we will prioritise it.',
+		'The API and MCP server are available today. Prebuilt connectors and webhooks are on the way. Tell us which system you run and we will prioritise it.',
 
 	ctaTitle: 'Deeper integration? Custom workflow? Something specific?',
 	ctaSub: "We're a dynamic, flexible, innovative team and always open to talk.",

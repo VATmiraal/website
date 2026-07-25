@@ -19,7 +19,7 @@
 		name: 'Custom VAT Automation',
 		url: 'https://vatmiraal.be/custom_solutions',
 		description:
-			'ERP and accounting integration, extended rule coverage, agent and MCP workflows, and private deployment — VAT automation built around how you work.',
+			'ERP and accounting integration, extended rule coverage, agent and MCP workflows, and private deployment. VAT automation built around how you work.',
 		serviceType: 'Tax Technology Consulting',
 		provider: { '@id': 'https://vatmiraal.be/#organization' },
 		contactPoint: {

@@ -2,7 +2,7 @@ export const messages = {
 	heroKicker: 'Wat juiste btw waard is',
 	heroTitle: 'Je btw klopt, en je kunt het bewijzen.',
 	heroSub:
-		'De juiste btw is de goedkoopste btw: elke transactie juist krijgen behoedt je voor dure correcties en recupereert de aftrek waar je recht op hebt — met de wetsbepaling achter elke conclusie.',
+		'De juiste btw is de goedkoopste btw: elke transactie juist krijgen behoedt je voor dure correcties en recupereert de aftrek waar je recht op hebt, met de wetsbepaling achter elke conclusie.',
 	heroCtaPrimary: 'Vraag een demo aan',
 	heroCtaGhost: 'Bekijk de API →',
 
@@ -22,7 +22,7 @@ export const messages = {
 	sectorsKicker: 'Gebouwd voor elke sector',
 	sectorsTitle: 'De moeilijke gevallen, waar ze ook zitten.',
 	sectorsSub:
-		'Elke sector heeft zijn eigen btw-valkuilen. VATmiraal bepaalt de juiste behandeling — met de rechtsgrond — voor die van jou.',
+		'Elke sector heeft zijn eigen btw-valkuilen. VATmiraal bepaalt de juiste behandeling, met de rechtsgrond, voor die van jou.',
 	sectors: [
 		{
 			h: 'E-commerce',
@@ -30,7 +30,7 @@ export const messages = {
 		},
 		{
 			h: 'Banken & financiën',
-			p: 'Vrijgestelde financiële diensten met gedeeltelijke aftrek — pro-rata en werkelijk gebruik — verdedigbaar gehouden.'
+			p: 'Vrijgestelde financiële diensten met gedeeltelijke aftrek (pro-rata en werkelijk gebruik), verdedigbaar gehouden.'
 		},
 		{
 			h: 'Lokale overheden',
@@ -121,7 +121,7 @@ export const messages = {
 			p: 'Wanneer de administratie haar cijfers lijn per lijn tegen de jouwe afzet, heb je al de beredeneerde, geciteerde positie voor elke lijn.'
 		}
 	],
-	interopSystemsLabel: 'ERP- & boekhoudconnectoren — binnenkort',
+	interopSystemsLabel: 'ERP- & boekhoudconnectoren (binnenkort)',
 	interopSystems: [
 		'SAP',
 		'Microsoft Dynamics',
@@ -131,12 +131,12 @@ export const messages = {
 		'Yuki',
 		'Billit'
 	],
-	interopChannelsLabel: 'E-facturatie & events — binnenkort',
+	interopChannelsLabel: 'E-facturatie & events (binnenkort)',
 	interopChannels: ['Peppol', 'Webhooks'],
 	interopProtocolsLabel: 'Integreer zoals je bouwt',
 	interopProtocols: ['REST API', 'MCP-server', 'CSV / Excel'],
 	interopNote:
-		'De API en MCP-server zijn vandaag beschikbaar. Kant-en-klare connectoren en webhooks komen eraan — laat weten welk systeem je gebruikt en we geven het prioriteit.',
+		'De API en MCP-server zijn vandaag beschikbaar. Kant-en-klare connectoren en webhooks komen eraan. Laat weten welk systeem je gebruikt en we geven het prioriteit.',
 
 	ctaTitle: 'Diepere integratie? Eigen workflow? Iets specifieks?',
 	ctaSub: 'We zijn een dynamisch, flexibel, innovatief team en altijd open voor een gesprek.',

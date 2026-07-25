@@ -2,7 +2,7 @@ export const messages = {
 	heroKicker: 'Ce que vaut une TVA correcte',
 	heroTitle: 'Votre TVA est correcte, et vous pouvez le prouver.',
 	heroSub:
-		'La TVA correcte est la TVA la moins chère : traiter correctement chaque transaction vous évite des corrections coûteuses et récupère les déductions qui vous reviennent — avec la disposition légale derrière chaque conclusion.',
+		'La TVA correcte est la TVA la moins chère : traiter correctement chaque transaction vous évite des corrections coûteuses et récupère les déductions qui vous reviennent, avec la disposition légale derrière chaque conclusion.',
 	heroCtaPrimary: 'Demander une démo',
 	heroCtaGhost: "Voir l'API →",
 
@@ -22,7 +22,7 @@ export const messages = {
 	sectorsKicker: 'Conçu pour chaque secteur',
 	sectorsTitle: "Les cas difficiles, où qu'ils soient.",
 	sectorsSub:
-		'Chaque secteur a ses propres pièges TVA. VATmiraal détermine le traitement correct — avec sa base légale — pour ceux qui comptent pour vous.',
+		'Chaque secteur a ses propres pièges TVA. VATmiraal détermine le traitement correct, avec sa base légale, pour ceux qui comptent pour vous.',
 	sectors: [
 		{
 			h: 'E-commerce',
@@ -30,7 +30,7 @@ export const messages = {
 		},
 		{
 			h: 'Banques & finance',
-			p: 'Services financiers exonérés avec déduction partielle — prorata et affectation réelle — restés défendables.'
+			p: 'Services financiers exonérés avec déduction partielle (prorata et affectation réelle), restés défendables.'
 		},
 		{
 			h: 'Pouvoirs locaux',
@@ -121,7 +121,7 @@ export const messages = {
 			p: "Quand l'administration rapproche ses chiffres des vôtres ligne par ligne, vous détenez déjà la position raisonnée et citée pour chaque ligne."
 		}
 	],
-	interopSystemsLabel: 'Connecteurs ERP & comptabilité — bientôt',
+	interopSystemsLabel: 'Connecteurs ERP & comptabilité (bientôt)',
 	interopSystems: [
 		'SAP',
 		'Microsoft Dynamics',
@@ -131,12 +131,12 @@ export const messages = {
 		'Yuki',
 		'Billit'
 	],
-	interopChannelsLabel: 'Facturation électronique & événements — bientôt',
+	interopChannelsLabel: 'Facturation électronique & événements (bientôt)',
 	interopChannels: ['Peppol', 'Webhooks'],
 	interopProtocolsLabel: 'Intégrez comme vous construisez',
 	interopProtocols: ['API REST', 'Serveur MCP', 'CSV / Excel'],
 	interopNote:
-		"L'API et le serveur MCP sont disponibles aujourd'hui. Les connecteurs préconfigurés et les webhooks arrivent — dites-nous quel système vous utilisez et nous le prioriserons.",
+		"L'API et le serveur MCP sont disponibles aujourd'hui. Les connecteurs préconfigurés et les webhooks arrivent. Dites-nous quel système vous utilisez et nous le prioriserons.",
 
 	ctaTitle: 'Intégration plus poussée ? Workflow sur mesure ? Un besoin précis ?',
 	ctaSub:
