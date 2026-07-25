@@ -2,6 +2,9 @@
 	import { resolve } from '$app/paths';
 	import Button from '$lib/components/Button.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import { tr } from '$lib/translation/i18n';
+
+	let m = $derived(tr());
 </script>
 
 <svelte:head>
@@ -13,26 +16,26 @@
 </svelte:head>
 
 <div id="page">
-	<SectionHeader level="h1" title="Impressum" />
+	<SectionHeader level="h1" kicker={m.impr.kicker} title={m.impr.title} subtitle={m.impr.intro} />
 
 	<div id="content">
 		<dl>
-			<dt>Company name</dt>
+			<dt>{m.impr.labelCompany}</dt>
 			<dd>VATmiraal, BV</dd>
 
-			<dt>Legal form</dt>
-			<dd>Company under Belgian law</dd>
+			<dt>{m.impr.labelLegalForm}</dt>
+			<dd>{m.impr.legalForm}</dd>
 
-			<dt>VAT number</dt>
+			<dt>{m.impr.labelVat}</dt>
 			<dd>BE 1037.608.406</dd>
 
-			<dt>Email</dt>
+			<dt>{m.impr.labelEmail}</dt>
 			<dd><a href="mailto:info@vatmiraal.be">info@vatmiraal.be</a></dd>
 		</dl>
 	</div>
 
 	<div id="cta">
-		<Button href={resolve('/')} variant="ghost">← Back to home</Button>
+		<Button href={resolve('/')} variant="ghost">{m.impr.back}</Button>
 	</div>
 </div>
 
@@ -74,11 +77,6 @@
 		margin: 0;
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
-	}
-
-	address {
-		font-style: normal;
-		line-height: inherit;
 	}
 
 	dd a {

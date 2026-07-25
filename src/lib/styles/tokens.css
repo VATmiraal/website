@@ -28,6 +28,21 @@
 	/* Feedback */
 	--color-focus-ring: var(--color-accent);
 
+	/* Determination states — product-UI surfaces (analyzer / API results) */
+	--color-proof: #1f6b4f;
+	--color-proof-tint: #e7f0eb;
+	--color-attention: #97681c;
+	--color-attention-tint: #f5efdf;
+	--color-risk: #98302f;
+	--color-risk-tint: #f4e6e5;
+	--color-insufficient: rgba(15, 15, 15, 0.6);
+	--color-insufficient-tint: #f0f0ee;
+
+	/* Control heights */
+	--control-height-sm: 34px;
+	--control-height-md: 40px;
+	--control-height-lg: 48px;
+
 	/* Typography */
 	--font-family: 'Inter', system-ui, sans-serif;
 	--font-family-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;

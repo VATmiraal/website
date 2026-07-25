@@ -2,10 +2,11 @@
 	import '../app.css';
 	import Header from '../components/header.svelte';
 	import { resolve } from '$app/paths';
+	import { tr } from '$lib/translation/i18n';
 
 	let { children } = $props();
 
-	const year = new Date().getFullYear();
+	let m = $derived(tr());
 
 	const schemas = [
 		{
@@ -43,9 +44,10 @@
 {@render children()}
 
 <footer>
+	<p class="footer-tagline">{m.common.tagline}</p>
 	<p>
-		© {year} VATmiraal. All rights reserved.
-		<a href={resolve('/impressum')} class="impressum-link">Impressum</a>
+		{m.common.footer}
+		<a href={resolve('/impressum')} class="impressum-link">{m.nav.impressum}</a>
 	</p>
 </footer>
 
@@ -61,6 +63,13 @@
 	footer p {
 		margin: 0;
 		padding-bottom: 1.5rem;
+	}
+
+	.footer-tagline {
+		color: var(--color-text-on-dark-muted);
+		font-weight: var(--font-weight-medium);
+		letter-spacing: var(--letter-spacing-snug);
+		padding-bottom: var(--space-2);
 	}
 
 	footer a {

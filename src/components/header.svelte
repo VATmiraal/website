@@ -3,9 +3,13 @@
 	import { onMount, tick } from 'svelte';
 
 	import { MAINTENANCE_MODE } from '$lib/maintenance';
+	import { tr } from '$lib/translation/i18n';
+	import LanguageButton from '$lib/components/LanguageButton.svelte';
 
 	import emailIcon from '$lib/assets/email-logo.svg';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
+
+	let m = $derived(tr());
 
 	let menuOpen = $state(false);
 	let hamburgerEl: HTMLButtonElement | undefined = $state();
@@ -61,11 +65,18 @@
 </script>
 
 {#snippet navLinks(onclick: (() => void) | undefined)}
-	<a href={resolve('/custom_solutions')} {onclick}>Custom Solutions</a>
-	<a href={resolve('/products')} {onclick}>Products</a>
-	<a href={resolve('/demo')} {onclick}>Demo</a>
-	<a href={resolve('/roadmap')} {onclick}>Roadmap</a>
-	<a href={resolve('/blog')} {onclick}>Blog</a>
+	<a href={resolve('/custom_solutions')} {onclick}>{m.nav.custom}</a>
+	<a href={resolve('/products')} {onclick}>{m.nav.products}</a>
+	<a href={resolve('/request_a_demo')} {onclick}>{m.nav.demo}</a>
+	<a href={resolve('/blog')} {onclick}>{m.nav.blog}</a>
+{/snippet}
+
+{#snippet langSwitch()}
+	<div class="lang-switch" role="group" aria-label="Language">
+		<LanguageButton lang="EN" />
+		<LanguageButton lang="NL" />
+		<LanguageButton lang="FR" />
+	</div>
 {/snippet}
 
 {#snippet socialIcons(onclick: (() => void) | undefined)}
@@ -90,8 +101,16 @@
 			{@render navLinks(undefined)}
 		</nav>
 	{/if}
-	<div id="social-media">
-		{@render socialIcons(undefined)}
+	<div id="header-actions">
+		{#if !MAINTENANCE_MODE}
+			{@render langSwitch()}
+		{/if}
+		<div id="social-media">
+			{@render socialIcons(undefined)}
+		</div>
+		{#if !MAINTENANCE_MODE}
+			<a class="buy-cta" href={resolve('/products/api')}>{m.nav.buy}</a>
+		{/if}
 	</div>
 	{#if !MAINTENANCE_MODE}
 		<button
@@ -123,6 +142,8 @@
 		<nav id="mobile-nav" aria-label="Primary">
 			{@render navLinks(closeMenu)}
 		</nav>
+		<a class="buy-cta" href={resolve('/products/api')} onclick={closeMenu}>{m.nav.buy}</a>
+		{@render langSwitch()}
 		<div id="mobile-social">
 			{@render socialIcons(closeMenu)}
 		</div>
@@ -183,14 +204,47 @@
 		opacity: 0.55;
 	}
 
-	#social-media {
+	#header-actions {
 		justify-self: end;
 		display: flex;
-		column-gap: 3em;
+		align-items: center;
+		gap: var(--space-5);
 	}
 
-	/* In maintenance the nav is gone, so pin the icons to the right column. */
-	#header.maintenance #social-media {
+	.lang-switch {
+		display: inline-flex;
+		align-items: center;
+		border: 1px solid var(--color-border-strong);
+		border-radius: var(--radius-pill);
+		overflow: hidden;
+	}
+
+	.buy-cta {
+		display: inline-flex;
+		align-items: center;
+		height: var(--control-height-md);
+		padding: 0 var(--space-5);
+		border-radius: var(--radius-md);
+		background: var(--color-bg-inverted);
+		color: var(--color-text-on-dark);
+		font-weight: var(--font-weight-semibold);
+		font-size: var(--font-size-sm);
+		text-decoration: none;
+		white-space: nowrap;
+		transition: opacity var(--duration-base) var(--easing);
+	}
+
+	.buy-cta:hover {
+		opacity: 0.85;
+	}
+
+	#social-media {
+		display: flex;
+		column-gap: 1.5em;
+	}
+
+	/* In maintenance the nav is gone, so pin the actions to the right column. */
+	#header.maintenance #header-actions {
 		grid-column: 3;
 	}
 
@@ -306,11 +360,11 @@
 		}
 
 		#nav-links,
-		#social-media {
+		#header-actions {
 			display: none;
 		}
 
-		#header.maintenance #social-media {
+		#header.maintenance #header-actions {
 			display: flex;
 			grid-column: auto;
 		}

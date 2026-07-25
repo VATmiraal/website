@@ -6,12 +6,13 @@
 		image: string;
 		alt: string;
 		reverse?: boolean;
+		anchor?: string;
 	}
 
-	let { index, title, body, image, alt, reverse = false }: IWalkthroughStepProps = $props();
+	let { index, title, body, image, alt, reverse = false, anchor }: IWalkthroughStepProps = $props();
 </script>
 
-<li class="step" class:step-reverse={reverse} id={`step-${index}`}>
+<li class="step" class:step-reverse={reverse} id={anchor ?? `step-${index}`}>
 	<div class="step-copy">
 		<span class="step-numeral" aria-hidden="true">{index}</span>
 		<div class="step-text">
