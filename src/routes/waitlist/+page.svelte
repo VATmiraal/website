@@ -126,6 +126,19 @@
 			<input type="email" id="email" name="email" placeholder="your.email@company.com" required />
 		</div>
 
+		<label class="consent">
+			<input
+				type="checkbox"
+				name="consent"
+				value="I agree to the Privacy Policy and to being emailed about the VATmiraal launch."
+				required
+			/>
+			<span>
+				I agree to the <a href={resolve('/privacy')}>Privacy Policy</a> and to being emailed about the
+				VATmiraal launch.
+			</span>
+		</label>
+
 		<div class="submit-wrap">
 			<Button type="submit" variant="primary" size="lg">Join the waitlist</Button>
 		</div>
@@ -219,6 +232,29 @@
 
 	input::placeholder {
 		color: var(--color-text-faint);
+	}
+
+	.consent {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-3);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-muted);
+		line-height: var(--line-height-base);
+	}
+
+	.consent input {
+		margin-top: 0.15em;
+		width: 1.1em;
+		height: 1.1em;
+		flex-shrink: 0;
+		accent-color: var(--color-accent);
+		cursor: pointer;
+	}
+
+	.consent a {
+		color: var(--color-accent);
+		text-decoration: underline;
 	}
 
 	.submit-wrap {

@@ -7,6 +7,9 @@ import { messages as navFr } from './nav/fr';
 import { messages as imprEn } from './impr/en';
 import { messages as imprNl } from './impr/nl';
 import { messages as imprFr } from './impr/fr';
+import { messages as privEn } from './priv/en';
+import { messages as privNl } from './priv/nl';
+import { messages as privFr } from './priv/fr';
 import { messages as apiEn } from './api/en';
 import { messages as apiNl } from './api/nl';
 import { messages as apiFr } from './api/fr';
@@ -28,6 +31,7 @@ export const DICT = {
 		common: commonEn,
 		nav: navEn,
 		impr: imprEn,
+		priv: privEn,
 		api: apiEn,
 		prod: prodEn,
 		cust: custEn,
@@ -37,6 +41,7 @@ export const DICT = {
 		common: commonNl,
 		nav: navNl,
 		impr: imprNl,
+		priv: privNl,
 		api: apiNl,
 		prod: prodNl,
 		cust: custNl,
@@ -46,6 +51,7 @@ export const DICT = {
 		common: commonFr,
 		nav: navFr,
 		impr: imprFr,
+		priv: privFr,
 		api: apiFr,
 		prod: prodFr,
 		cust: custFr,

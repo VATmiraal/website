@@ -4,5 +4,6 @@ export const messages = {
 	blog: 'Blog',
 	demo: 'Demo',
 	impressum: 'Impressum',
+	privacy: 'Privacy',
 	buy: 'Koop de API'
 };

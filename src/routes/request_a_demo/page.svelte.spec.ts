@@ -114,6 +114,28 @@ describe('/+page.svelte', () => {
 		expect(roleInput.validationMessage).toBeTruthy();
 	});
 
+	it('should not submit when consent is not given', async () => {
+		render(Page);
+
+		// Fill every field but leave the consent checkbox unticked
+		await page.getByLabelText('Email').fill('myEmail@email.be');
+		await page.getByLabelText('Company').fill('Test Company');
+		await page.getByLabelText('Role').selectOptions('tax-advisor');
+
+		await page.getByRole('button', { name: 'Request a demo' }).click();
+
+		// Form heading should still be visible (no redirect)
+		await expect.element(page.getByTestId('demo-form')).toBeInTheDocument();
+
+		// No popup should appear
+		await expect.element(page.getByTestId('popup')).not.toBeInTheDocument();
+
+		// The consent checkbox should report a validation warning
+		const consent = page.getByRole('checkbox').element() as HTMLInputElement;
+		expect(consent.validity.valueMissing).toBe(true);
+		expect(consent.validationMessage).toBeTruthy();
+	});
+
 	it('should submit the form when it is valid', async () => {
 		const fetchSpy = vi
 			.spyOn(window, 'fetch')
@@ -125,6 +147,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
@@ -161,6 +184,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
@@ -191,6 +215,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
@@ -218,6 +243,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
@@ -242,6 +268,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
@@ -254,6 +281,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();
@@ -272,6 +300,7 @@ describe('/+page.svelte', () => {
 		await page.getByLabelText('Email').fill('myEmail@email.be');
 		await page.getByLabelText('Company').fill('Test Company');
 		await page.getByLabelText('Role').selectOptions('tax-advisor');
+		await page.getByRole('checkbox').click();
 		await page.getByRole('button', { name: 'Request a demo' }).click();
 
 		await expect.element(page.getByTestId('popup')).toBeInTheDocument();

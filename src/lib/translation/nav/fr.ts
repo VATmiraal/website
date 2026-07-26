@@ -4,5 +4,6 @@ export const messages = {
 	blog: 'Blog',
 	demo: 'Démo',
 	impressum: 'Mentions légales',
+	privacy: 'Confidentialité',
 	buy: "Acheter l'API"
 };

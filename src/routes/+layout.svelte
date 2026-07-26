@@ -47,7 +47,8 @@
 	<p class="footer-tagline">{m.common.tagline}</p>
 	<p>
 		{m.common.footer}
-		<a href={resolve('/impressum')} class="impressum-link">{m.nav.impressum}</a>
+		<a href={resolve('/privacy')} class="legal-link">{m.nav.privacy}</a>
+		<a href={resolve('/impressum')} class="legal-link">{m.nav.impressum}</a>
 	</p>
 </footer>
 
@@ -82,7 +83,7 @@
 		opacity: 0.7;
 	}
 
-	.impressum-link {
+	.legal-link {
 		font-weight: var(--font-weight-medium);
 		text-underline-offset: 3px;
 		margin-left: var(--space-4);

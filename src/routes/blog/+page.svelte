@@ -22,7 +22,7 @@
 	<div id="posts">
 		{#each data.posts as { slug, title, date, excerpt, readingTime } (slug)}
 			<BlogPostCard
-				href={`/blog/${slug}` as Parameters<typeof resolve>[0]}
+				href={`/blog/${slug}`}
 				{title}
 				meta={`${readingTime} min read · ${date}`}
 				{excerpt}

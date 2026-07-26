@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-
-	type Route = Parameters<typeof resolve>[0];
+	import { base } from '$app/paths';
 
 	let {
 		href,
 		title,
 		meta,
 		excerpt
-	}: { href: Route; title: string; meta: string; excerpt: string } = $props();
+	}: { href: string; title: string; meta: string; excerpt: string } = $props();
 </script>
 
-<a class="post" href={resolve(href)}>
+<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- href is a runtime-built blog pathname; resolve() only accepts static literal routes -->
+<a class="post" href={`${base}${href}`}>
 	<h2>{title}</h2>
 	<p class="post-meta">{meta}</p>
 	<p class="post-excerpt">{excerpt}</p>
