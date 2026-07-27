@@ -1,5 +1,11 @@
 @import './lib/styles/tokens.css';
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 @font-face {
 	font-family: 'Inter';
 	src: url('/Inter-VariableFont_opsz,wght.ttf') format('truetype');

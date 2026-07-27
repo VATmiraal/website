@@ -2,10 +2,11 @@
 	import '../app.css';
 	import Header from '../components/header.svelte';
 	import { resolve } from '$app/paths';
+	import { tr } from '$lib/translation/i18n';
 
 	let { children } = $props();
 
-	const year = new Date().getFullYear();
+	let m = $derived(tr());
 
 	const schemas = [
 		{
@@ -17,7 +18,7 @@
 			logo: 'https://vatmiraal.be/logo.svg',
 			email: 'info@vatmiraal.be',
 			description:
-				'Explainable VAT decisions, ready for just-in-time audit — built for accountants and tax professionals.',
+				'Explainable VAT decisions, ready for just-in-time audit, built for accountants and tax professionals.',
 			sameAs: ['https://www.linkedin.com/company/vatmiraal']
 		},
 		{
@@ -43,9 +44,11 @@
 {@render children()}
 
 <footer>
+	<p class="footer-tagline">{m.common.tagline}</p>
 	<p>
-		© {year} VATmiraal. All rights reserved.
-		<a href={resolve('/impressum')} class="impressum-link">Impressum</a>
+		{m.common.footer}
+		<a href={resolve('/privacy')} class="legal-link">{m.nav.privacy}</a>
+		<a href={resolve('/impressum')} class="legal-link">{m.nav.impressum}</a>
 	</p>
 </footer>
 
@@ -63,6 +66,13 @@
 		padding-bottom: 1.5rem;
 	}
 
+	.footer-tagline {
+		color: var(--color-text-on-dark-muted);
+		font-weight: var(--font-weight-medium);
+		letter-spacing: var(--letter-spacing-snug);
+		padding-bottom: var(--space-2);
+	}
+
 	footer a {
 		color: inherit;
 		text-decoration: underline;
@@ -73,7 +83,7 @@
 		opacity: 0.7;
 	}
 
-	.impressum-link {
+	.legal-link {
 		font-weight: var(--font-weight-medium);
 		text-underline-offset: 3px;
 		margin-left: var(--space-4);

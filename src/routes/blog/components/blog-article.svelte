@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
 	import ShareBar from '$lib/components/ShareBar.svelte';
 	import type { Snippet } from 'svelte';
-
-	type Route = Parameters<typeof resolve>[0];
 
 	let {
 		title,
@@ -16,7 +14,7 @@
 	}: {
 		title: string;
 		meta: string;
-		backHref: Route;
+		backHref: string;
 		backLabel: string;
 		children: Snippet;
 	} = $props();
@@ -35,7 +33,7 @@
 	{@render children()}
 
 	<div id="back-wrap">
-		<Button href={resolve(backHref)} variant="ghost">← {backLabel}</Button>
+		<Button href={`${base}${backHref}`} variant="ghost">← {backLabel}</Button>
 	</div>
 </article>
 
