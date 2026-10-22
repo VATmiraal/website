@@ -233,24 +233,5 @@ export const messages = {
 	mcpKicker: 'Prêt pour les agents',
 	mcpTitle: 'Vos workflows IA obtiennent une réponse prouvée, pas une supposition.',
 	mcpBody:
-		"Connectez Claude, ChatGPT ou votre propre agent au serveur MCP VATmiraal. L'agent recueille les faits en conversation ; le moteur déterministe, pas le modèle, calcule les grilles TVA et leur base légale.",
-	mcpEndpoint: 'POST /mcp · Streamable HTTP · bearer token',
-	mcpPoints: [
-		{
-			h: 'Ne devine jamais',
-			p: "Des instructions intégrées interdisent à l'agent d'inventer une valeur. Ce qui manque ou est ambigu, il le demande à l'utilisateur."
-		},
-		{
-			h: "Confirme avant d'analyser",
-			p: "L'agent valide chaque numéro de TVA, puis soumet la transaction complète pour confirmation avant de lancer l'analyse."
-		},
-		{
-			h: 'Répond en langage clair',
-			p: 'Chaque grille TVA revient avec son montant et sa base légale, plus les avertissements, en langage métier, jamais en JSON brut.'
-		}
-	],
-	mcpToolsLabel: 'Outils clés',
-	mcpTools: ['get_tax_grid_analysis', 'parse_invoice', 'validate_vat_number', 'infer_object'],
-	mcpToolsMore:
-		"Plus des outils de référence, des ressources et un prompt d'analyse prêt à l'emploi."
+		"Connectez Claude, ChatGPT ou votre propre agent au serveur MCP VATmiraal. L'agent recueille les faits en conversation ; le moteur déterministe, pas le modèle, calcule les grilles TVA et leur base légale."
 };

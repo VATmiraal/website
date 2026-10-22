@@ -224,23 +224,5 @@ export const messages = {
 	mcpKicker: 'Agent-ready',
 	mcpTitle: 'Your AI workflows get a proven answer, not a guess.',
 	mcpBody:
-		'Connect Claude, ChatGPT or your own agent to the VATmiraal MCP server. The agent gathers the facts in conversation; the deterministic engine, not the model, computes the tax grids and their legal grounds.',
-	mcpEndpoint: 'POST /mcp · Streamable HTTP · bearer token',
-	mcpPoints: [
-		{
-			h: 'Never guesses',
-			p: 'Built-in instructions forbid the agent from inventing a value. Anything missing or ambiguous, it asks the user.'
-		},
-		{
-			h: 'Confirms before it analyses',
-			p: 'The agent validates each VAT number, then plays the full transaction back for confirmation before running the analysis.'
-		},
-		{
-			h: 'Reports in plain language',
-			p: 'Each tax grid comes back with its amount and legal ground, plus any warnings, in business language, never raw JSON.'
-		}
-	],
-	mcpToolsLabel: 'Key tools',
-	mcpTools: ['get_tax_grid_analysis', 'parse_invoice', 'validate_vat_number', 'infer_object'],
-	mcpToolsMore: 'Plus reference tools, resources and a ready-made analysis prompt.'
+		'Connect Claude, ChatGPT or your own agent to the VATmiraal MCP server. The agent gathers the facts in conversation; the deterministic engine, not the model, computes the tax grids and their legal grounds.'
 };

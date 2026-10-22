@@ -232,23 +232,5 @@ export const messages = {
 	mcpKicker: 'Klaar voor agents',
 	mcpTitle: 'Je AI-workflows krijgen een bewezen antwoord, geen gok.',
 	mcpBody:
-		'Verbind Claude, ChatGPT of je eigen agent met de VATmiraal-MCP-server. De agent verzamelt de feiten in gesprek; de deterministische engine, niet het model, berekent de btw-roosters en hun rechtsgrond.',
-	mcpEndpoint: 'POST /mcp · Streamable HTTP · bearer token',
-	mcpPoints: [
-		{
-			h: 'Raadt nooit',
-			p: 'Ingebouwde instructies verbieden de agent een waarde te verzinnen. Wat ontbreekt of onduidelijk is, vraagt hij aan de gebruiker.'
-		},
-		{
-			h: 'Bevestigt vóór de analyse',
-			p: 'De agent valideert elk btw-nummer en legt de volledige transactie ter bevestiging voor, voor hij de analyse uitvoert.'
-		},
-		{
-			h: 'Rapporteert in gewone taal',
-			p: 'Elk btw-rooster komt terug met bedrag en rechtsgrond, plus eventuele waarschuwingen, in zakelijke taal, nooit ruwe JSON.'
-		}
-	],
-	mcpToolsLabel: 'Belangrijkste tools',
-	mcpTools: ['get_tax_grid_analysis', 'parse_invoice', 'validate_vat_number', 'infer_object'],
-	mcpToolsMore: 'Plus referentietools, resources en een kant-en-klare analyseprompt.'
+		'Verbind Claude, ChatGPT of je eigen agent met de VATmiraal-MCP-server. De agent verzamelt de feiten in gesprek; de deterministische engine, niet het model, berekent de btw-roosters en hun rechtsgrond.'
 };

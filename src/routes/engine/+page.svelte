@@ -51,13 +51,13 @@
 		Bus
 	];
 	const sectorPhotos = [
-		'https://images.pexels.com/photos/6169170/pexels-photo-6169170.jpeg?auto=compress&cs=tinysrgb&w=1600',
-		'https://images.pexels.com/photos/10899667/pexels-photo-10899667.jpeg?auto=compress&cs=tinysrgb&w=1600',
-		'https://images.pexels.com/photos/18916358/pexels-photo-18916358.jpeg?auto=compress&cs=tinysrgb&w=1600',
-		'https://images.pexels.com/photos/11660582/pexels-photo-11660582.jpeg?auto=compress&cs=tinysrgb&w=1600',
-		'https://images.pexels.com/photos/4936021/pexels-photo-4936021.jpeg?auto=compress&cs=tinysrgb&w=1600',
-		'https://images.pexels.com/photos/11765539/pexels-photo-11765539.jpeg?auto=compress&cs=tinysrgb&w=1600',
-		'https://images.pexels.com/photos/4341096/pexels-photo-4341096.jpeg?auto=compress&cs=tinysrgb&w=1600'
+		'/sectors/ecommerce.jpg',
+		'/sectors/banks.jpg',
+		'/sectors/government.jpg',
+		'/sectors/hospitals.jpg',
+		'/sectors/schools.jpg',
+		'/sectors/manufacturing.jpg',
+		'/sectors/transport.jpg'
 	];
 
 	const Determine = fgIcons[0];

@@ -13,9 +13,6 @@ import { messages as privFr } from './priv/fr';
 import { messages as apiEn } from './api/en';
 import { messages as apiNl } from './api/nl';
 import { messages as apiFr } from './api/fr';
-import { messages as prodEn } from './prod/en';
-import { messages as prodNl } from './prod/nl';
-import { messages as prodFr } from './prod/fr';
 import { messages as custEn } from './cust/en';
 import { messages as custNl } from './cust/nl';
 import { messages as custFr } from './cust/fr';
@@ -45,7 +42,6 @@ export const DICT = {
 		impr: imprEn,
 		priv: privEn,
 		api: apiEn,
-		prod: prodEn,
 		cust: custEn,
 		home: homeEn,
 		portal: portalEn,
@@ -59,7 +55,6 @@ export const DICT = {
 		impr: imprNl,
 		priv: privNl,
 		api: apiNl,
-		prod: prodNl,
 		cust: custNl,
 		home: homeNl,
 		portal: portalNl,
@@ -73,7 +68,6 @@ export const DICT = {
 		impr: imprFr,
 		priv: privFr,
 		api: apiFr,
-		prod: prodFr,
 		cust: custFr,
 		home: homeFr,
 		portal: portalFr,
