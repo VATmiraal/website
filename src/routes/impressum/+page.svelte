@@ -31,6 +31,9 @@
 
 			<dt>{m.impr.labelEmail}</dt>
 			<dd><a href="mailto:info@vatmiraal.be">info@vatmiraal.be</a></dd>
+
+			<dt>{m.impr.labelPhone}</dt>
+			<dd><a href="tel:+32469653177">+32 469 65 31 77</a></dd>
 		</dl>
 	</div>
 

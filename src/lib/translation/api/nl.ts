@@ -1,10 +1,79 @@
 export const messages = {
-	heroKicker: 'Producten · API',
-	heroTitle: 'De btw-engine, als API.',
-	heroSub:
-		'Elke transactie geeft een geciteerd btw-rooster terug, met het bedrag per rooster en de wetsbepaling erachter. Deterministisch, controleerbaar, van jou.',
-	heroBuy: 'Koop de API',
+	// ── Engine landing (/engine) ──
+	heroKicker: 'VATmiraal API',
+	heroTitle: 'Een veelzijdige engine om je btw te doen kloppen.',
+	heroSub: 'VATmiraal versterkt je ViDA-transformatie, binnen je huidige workflow.',
+	heroBuy: 'Koop de engine & agent',
 	heroDocs: 'Lees de docs →',
+
+	featKicker: 'Gebouwd voor fiscale professionals',
+	featTitle: 'De one-stop-shop voor btw.',
+	featSub:
+		'Met de wet als basis leveren we de btw-functionaliteiten die ertoe doen, op een deterministische, flexibele en betrouwbare manier.',
+	fg: [
+		{
+			tag: 'Bepalen',
+			items: [
+				{
+					n: 'Btw-determinatie',
+					d: 'Tarief, plaats van levering, vrijstelling en btw-schuldenaar voor elke transactie'
+				},
+				{
+					n: 'Verlegging van heffing',
+					d: 'Correct toegewezen, binnenlands en grensoverschrijdend'
+				},
+				{
+					n: 'Gemengde en gedeeltelijke btw-plicht',
+					d: 'Gemengde activiteiten en pro-rata, verdedigbaar gehouden'
+				},
+				{ n: 'Recht op aftrek', d: 'Te weinig en te veel aftrek gevat voor het je geld kost' },
+				{ n: 'Auditbestendig', d: 'Een volledig juridisch spoor achter elk besluit' },
+				{ n: 'Reverse audit', d: 'Btw-consistentie van je geboekte facturen' }
+			]
+		},
+		{
+			tag: 'Controleren',
+			items: [
+				{ n: 'VIES-integratie', d: 'EU-btw-nummers live gevalideerd via VIES' },
+				{ n: 'Officiële registers', d: 'Verbonden met officiële fiscale informatieregisters' },
+				{
+					n: 'Consistentiecontrole',
+					d: 'Dezelfde levering krijgt dezelfde behandeling, doorheen je historiek'
+				}
+			]
+		},
+		{
+			tag: 'Rapporteren & recupereren',
+			items: [
+				{ n: 'Aangifte', d: 'Bedragen toegewezen aan de roosters van de btw-aangifte' },
+				{
+					n: 'Btw-herziening',
+					d: 'Herziening van aftrek op bedrijfsmiddelen, opgevolgd in de tijd'
+				},
+				{ n: 'Btw-teruggave', d: 'Teruggaveverzoeken voorbereid met hun rechtsgrond' },
+				{
+					n: 'OSS-aangifte',
+					d: 'Grensoverschrijdende B2C-verkopen voorbereid voor de OSS-aangifte'
+				}
+			]
+		},
+		{
+			tag: 'Koppelen',
+			items: [
+				{ n: 'Pdf-ondersteuning', d: 'Factuurgegevens rechtstreeks uit een pdf gehaald' },
+				{ n: 'E-facturatie', d: 'Integreert met gestructureerde e-facturen' },
+				{ n: 'VATEX-codes', d: 'Vrijstellingsredenen uitgedrukt als standaard VATEX-codes' }
+			]
+		}
+	],
+
+	// ── Developer page (/engine/dev) ──
+	docsKicker: 'Voor developers',
+	docsTitle: 'Zo werkt de API.',
+	docsSub:
+		'Requests, responses en routes, met echte voorbeelden. Voor de volledige endpoint-referentie open je de API-referentie.',
+	docsRefLink: 'Open de API-referentie →',
+	docsSpecLink: 'OpenAPI-spec (JSON)',
 
 	deliversKicker: 'Wat de API oplevert',
 	deliversTitle: 'Uitkomsten bij elke call.',
@@ -35,61 +104,151 @@ export const messages = {
 		'Elk rooster draagt zijn juridische verantwoording en referentie.',
 		'Waarschuwingen en inconsistenties komen boven voor je indient.'
 	],
-
 	infTitle: 'Vrije tekst in, gestructureerd object uit.',
 	infBody:
 		'Zet een lijnomschrijving om in een getypeerd object (het type, het afgeleide transactietype en herkende eigenschappen), klaar om in een transactie te plaatsen voor analyse.',
 	tabReq: 'Request',
 	tabRes: 'Response',
 
+	pdfKicker: 'Factuurextractie',
+	pdfTitle: 'Sleep een pdf, krijg de feiten.',
+	pdfSub:
+		'Stuur een pdf-factuur en krijg de transactiefeiten die erop staan terug, elk met de zekerheid van de extractie. Geef ze meteen door aan de analyse.',
+	pdfCardHead: 'Gehaald uit je factuur',
+	pdfFields: [
+		'Factuur- en leveringsdatum',
+		'Bedragen',
+		'Leverancier en klant',
+		'Het geclassificeerde object',
+		'Elke gefactureerde lijn'
+	],
+	pdfFoot: 'Elk veld draagt zijn extractiezekerheid.',
+
 	routesKicker: 'Elke route die je nodig hebt',
 	routesTitle: 'Getypeerd van begin tot eind.',
 	routesSub:
-		'Elke lijst die de UI nodig heeft is een endpoint. Categorieën, eigenschappen, partij- en transactietypes, transportopties, allemaal getypeerd. Bouw je interface er rechtstreeks op en ze blijft automatisch in sync met de engine, zonder manueel onderhoud.',
-	routeDesc: {
-		'/': 'Liveness-check (geen auth)',
-		'/box-analysis': 'Geciteerd btw-rooster voor een transactie',
-		'/inference/object': 'Gestructureerd object uit vrije tekst',
-		'/category': 'Objectcategorieën, met eigenschappen & types',
-		'/category/{value}': 'Eén objectcategorie op waarde',
-		'/category/broad': 'Brede categoriegroepen',
-		'/category/broad/{value}': 'Eén brede categorie op waarde',
-		'/property/object': 'Objecteigenschappen en hun argumenten',
-		'/property/object/{value}': 'Eén objecteigenschap op waarde',
-		'/property/party': 'Partijeigenschappen en hun argumenten',
-		'/property/party/{value}': 'Eén partijeigenschap op waarde',
-		'/party-type': 'Toegelaten partijtypes',
-		'/transaction-type': 'Toegelaten transactietypes',
-		'/transport-by': 'Toegelaten transportmiddelen'
-	},
+		'Analyse, factuurextractie, validatie van btw-nummers en elk vocabularium dat een transactie nodig heeft, elk als getypeerd endpoint. Elke route vereist een bearer token.',
+	routeGroups: [
+		{
+			name: 'Analyse',
+			desc: 'Btw-roosters en hun rechtsgrond',
+			routes: [
+				{
+					m: 'POST',
+					path: '/box-analysis',
+					d: 'Btw-roosters voor een transactie, met bedragen, juridische verantwoording, waarschuwingen en inconsistenties'
+				}
+			]
+		},
+		{
+			name: 'Factuur',
+			desc: 'Van pdf naar transactiefeiten',
+			routes: [
+				{
+					m: 'POST',
+					path: '/parse-invoice',
+					d: 'Data, bedragen, beide partijen, het geclassificeerde object en de gefactureerde lijnen uit een pdf-factuur, elk met zijn zekerheid'
+				}
+			]
+		},
+		{
+			name: 'Inferentie',
+			desc: 'Van vrije tekst naar structuur',
+			routes: [
+				{
+					m: 'POST',
+					path: '/inference/object',
+					d: 'Objecttype, transactietype en herkende eigenschappen uit een vrije beschrijving'
+				}
+			]
+		},
+		{
+			name: 'Btw-nummers',
+			desc: 'Validatie en formaten',
+			routes: [
+				{
+					m: 'POST',
+					path: '/vat-validation',
+					d: 'Valideer een EU-btw-nummer tegen een officieel register, of enkel op formaat, met elke reden waarom het faalde'
+				},
+				{
+					m: 'GET',
+					path: '/vat-template',
+					d: 'Verwacht btw-nummerformaat voor elk ondersteund land'
+				},
+				{ m: 'GET', path: '/vat-template/{country}', d: 'Verwacht btw-nummerformaat voor één land' }
+			]
+		},
+		{
+			name: 'Categorieën',
+			desc: 'Objectcategorieën en groeperingen',
+			routes: [
+				{
+					m: 'GET',
+					path: '/category',
+					d: 'Objectcategorieën, met brede categorie, transactietypes en aanvaarde eigenschappen'
+				},
+				{ m: 'GET', path: '/category/{value}', d: 'Eén objectcategorie' },
+				{ m: 'GET', path: '/category/broad', d: 'Brede categoriegroeperingen' },
+				{
+					m: 'GET',
+					path: '/category/broad/{value}',
+					d: 'Eén brede categorie, met de categorieën die ze groepeert'
+				}
+			]
+		},
+		{
+			name: 'Eigenschappen',
+			desc: 'Wat objecten en partijen kunnen dragen',
+			routes: [
+				{ m: 'GET', path: '/property/object', d: 'Objecteigenschappen en hun argumenten' },
+				{ m: 'GET', path: '/property/object/{value}', d: 'Eén objecteigenschap' },
+				{ m: 'GET', path: '/property/party', d: 'Partijeigenschappen en hun argumenten' },
+				{ m: 'GET', path: '/property/party/{value}', d: 'Eén partijeigenschap' }
+			]
+		},
+		{
+			name: 'Enums',
+			desc: 'Toegelaten waarden voor transactie-input',
+			routes: [
+				{ m: 'GET', path: '/transaction-type', d: 'Transactietypes' },
+				{ m: 'GET', path: '/party-type', d: 'Partijtypes' },
+				{ m: 'GET', path: '/transport-by', d: 'Transportopties' },
+				{ m: 'GET', path: '/country', d: 'Herkende landen' }
+			]
+		}
+	],
 	routesLink: 'Volledige referentie op api.vatmiraal.be/doc',
+
+	sdkKicker: 'TypeScript-SDK',
+	sdkTitle: 'Integreer in enkele minuten, volledig getypeerd.',
+	sdkSub:
+		'De officiële VATmiraal-SDK omhult elke route met volledige types, zodat je editor elke request en response kent nog voor je ze uitvoert.',
+	sdkInstall: '$ npm install @vatmiraal/vatmiraal-sdk',
+	sdkCopy: 'Kopieer',
+	sdkCopied: 'Gekopieerd',
+	sdkLink: 'Bekijk de SDK op npm →',
 
 	mcpKicker: 'Klaar voor agents',
 	mcpTitle: 'Je AI-workflows krijgen een bewezen antwoord, geen gok.',
 	mcpBody:
-		'Beschikbaar via een MCP-server, zodat je agents de engine aanroepen en een deterministische, geciteerde determinatie krijgen in plaats van een probabilistische gok.',
-
-	priceKicker: 'Prijzen',
-	priceTitle: 'Afgestemd op je gebruik.',
-	price: 'Op maat',
-	priceOptions: [
-		'REST API & getypeerd OpenAPI-schema',
-		'MCP-server voor AI-agents',
-		'Kant-en-klare ERP- & boekhoudconnectoren',
-		'Webhooks & e-facturatie',
-		'Dedicated support & SLA'
+		'Verbind Claude, ChatGPT of je eigen agent met de VATmiraal-MCP-server. De agent verzamelt de feiten in gesprek; de deterministische engine, niet het model, berekent de btw-roosters en hun rechtsgrond.',
+	mcpEndpoint: 'POST /mcp · Streamable HTTP · bearer token',
+	mcpPoints: [
+		{
+			h: 'Raadt nooit',
+			p: 'Ingebouwde instructies verbieden de agent een waarde te verzinnen. Wat ontbreekt of onduidelijk is, vraagt hij aan de gebruiker.'
+		},
+		{
+			h: 'Bevestigt vóór de analyse',
+			p: 'De agent valideert elk btw-nummer en legt de volledige transactie ter bevestiging voor, voor hij de analyse uitvoert.'
+		},
+		{
+			h: 'Rapporteert in gewone taal',
+			p: 'Elk btw-rooster komt terug met bedrag en rechtsgrond, plus eventuele waarschuwingen, in zakelijke taal, nooit ruwe JSON.'
+		}
 	],
-	priceDepends:
-		'De prijs hangt af van volume, blootstellingsrisico en de functies die je nodig hebt.',
-	priceCta: 'Koop de API',
-
-	ctaTitle: 'Bouw op een determinatie die je kunt bewijzen.',
-	ctaSub: 'Start met de API, of praat met ons over MCP en maatwerk.',
-
-	soonBadge: 'Binnenkort',
-	soonTitle: 'Het volledige platform komt eraan.',
-	soonBody:
-		'De volledige btw-werkruimte met transacties, het btw-rooster, aangiften, een wetsbibliotheek en audittraject. De API is vandaag beschikbaar; het platform volgt.',
-	soonCta: 'Kom op de wachtlijst',
-	soonCaption: 'Een voorproef van het VATmiraal-platform.'
+	mcpToolsLabel: 'Belangrijkste tools',
+	mcpTools: ['get_tax_grid_analysis', 'parse_invoice', 'validate_vat_number', 'infer_object'],
+	mcpToolsMore: 'Plus referentietools, resources en een kant-en-klare analyseprompt.'
 };

@@ -5,6 +5,8 @@ export const messages = {
 		'De juiste btw is de goedkoopste btw: elke transactie juist krijgen behoedt je voor dure correcties en recupereert de aftrek waar je recht op hebt, met de wetsbepaling achter elke conclusie.',
 	heroCtaPrimary: 'Vraag een demo aan',
 	heroCtaGhost: 'Bekijk de API →',
+	heroBuy: 'Koop de engine & agent',
+	forDevelopers: 'Voor developers →',
 
 	proofTx: 'Marketingdiensten · België → Nederland',
 	proofBadge: 'Bewezen',
@@ -20,9 +22,10 @@ export const messages = {
 		'Er verschijnt nu een Belgische vaste inrichting voor deze NL-klant, wat de plaats van dienst naar België kan verschuiven en 21% Belgische btw verschuldigd maakt. Bevestig de afnemer voor indiening.',
 
 	sectorsKicker: 'Gebouwd voor elke sector',
-	sectorsTitle: 'De moeilijke gevallen, waar ze ook zitten.',
+	sectorsTitle: 'De btw-diepgang die je bedrijf nodig heeft.',
 	sectorsSub:
-		'Elke sector heeft zijn eigen btw-valkuilen. VATmiraal bepaalt de juiste behandeling, met de rechtsgrond, voor die van jou.',
+		'Elke sector heeft zijn eigen btw-valkuilen. VATmiraal bepaalt de juiste behandeling, met de rechtsgrond.',
+	sectorCta: 'Bespreek je sector met ons →',
 	sectors: [
 		{
 			h: 'E-commerce',

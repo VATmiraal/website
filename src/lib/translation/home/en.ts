@@ -5,6 +5,8 @@ export const messages = {
 		'The correct VAT is the cheapest VAT: getting each transaction right protects you from costly corrections and recovers the deductions you are owed, with the legal provision behind every conclusion.',
 	heroCtaPrimary: 'Request a demo',
 	heroCtaGhost: 'See the API →',
+	heroBuy: 'Buy the engine & agent',
+	forDevelopers: 'For developers →',
 
 	proofTx: 'Marketing services · Belgium → Netherlands',
 	proofBadge: 'Proven',
@@ -20,9 +22,10 @@ export const messages = {
 		'A Belgian fixed establishment now appears for this NL customer, which could shift the place of supply to Belgium and make 21% BE VAT due. Confirm the recipient before filing.',
 
 	sectorsKicker: 'Built for every sector',
-	sectorsTitle: 'The hard cases, wherever they live.',
+	sectorsTitle: 'The VAT depth your business needs.',
 	sectorsSub:
-		'Every sector has its own VAT traps. VATmiraal determines the correct treatment, with its legal basis, for the ones that matter to yours.',
+		'Every sector has its own VAT pitfalls. VATmiraal determines the correct treatment, with its legal basis.',
+	sectorCta: 'Talk to us about your sector →',
 	sectors: [
 		{
 			h: 'E-commerce',

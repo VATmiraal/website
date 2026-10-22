@@ -5,6 +5,8 @@ export const messages = {
 		'La TVA correcte est la TVA la moins chère : traiter correctement chaque transaction vous évite des corrections coûteuses et récupère les déductions qui vous reviennent, avec la disposition légale derrière chaque conclusion.',
 	heroCtaPrimary: 'Demander une démo',
 	heroCtaGhost: "Voir l'API →",
+	heroBuy: "Acheter le moteur & l'agent",
+	forDevelopers: 'Pour les développeurs →',
 
 	proofTx: 'Services marketing · Belgique → Pays-Bas',
 	proofBadge: 'Prouvé',
@@ -20,9 +22,10 @@ export const messages = {
 		'Un établissement stable belge apparaît désormais pour ce client NL, ce qui pourrait déplacer le lieu de prestation vers la Belgique et rendre 21% de TVA belge exigible. Confirmez le preneur avant de déclarer.',
 
 	sectorsKicker: 'Conçu pour chaque secteur',
-	sectorsTitle: "Les cas difficiles, où qu'ils soient.",
+	sectorsTitle: 'La profondeur TVA dont votre entreprise a besoin.',
 	sectorsSub:
-		'Chaque secteur a ses propres pièges TVA. VATmiraal détermine le traitement correct, avec sa base légale, pour ceux qui comptent pour vous.',
+		'Chaque secteur a ses propres écueils TVA. VATmiraal détermine le traitement correct, avec sa base légale.',
+	sectorCta: 'Parlons de votre secteur →',
 	sectors: [
 		{
 			h: 'E-commerce',

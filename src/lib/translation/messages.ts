@@ -22,6 +22,18 @@ import { messages as custFr } from './cust/fr';
 import { messages as homeEn } from './home/en';
 import { messages as homeNl } from './home/nl';
 import { messages as homeFr } from './home/fr';
+import { messages as portalEn } from './portal/en';
+import { messages as portalNl } from './portal/nl';
+import { messages as portalFr } from './portal/fr';
+import { messages as heimdallEn } from './heimdall/en';
+import { messages as heimdallNl } from './heimdall/nl';
+import { messages as heimdallFr } from './heimdall/fr';
+import { messages as buyEn } from './buy/en';
+import { messages as buyNl } from './buy/nl';
+import { messages as buyFr } from './buy/fr';
+import { messages as teamEn } from './team/en';
+import { messages as teamNl } from './team/nl';
+import { messages as teamFr } from './team/fr';
 
 export const LOCALES = ['en', 'nl', 'fr'] as const;
 export type Locale = (typeof LOCALES)[number];
@@ -35,7 +47,11 @@ export const DICT = {
 		api: apiEn,
 		prod: prodEn,
 		cust: custEn,
-		home: homeEn
+		home: homeEn,
+		portal: portalEn,
+		heimdall: heimdallEn,
+		buy: buyEn,
+		team: teamEn
 	},
 	nl: {
 		common: commonNl,
@@ -45,7 +61,11 @@ export const DICT = {
 		api: apiNl,
 		prod: prodNl,
 		cust: custNl,
-		home: homeNl
+		home: homeNl,
+		portal: portalNl,
+		heimdall: heimdallNl,
+		buy: buyNl,
+		team: teamNl
 	},
 	fr: {
 		common: commonFr,
@@ -55,7 +75,11 @@ export const DICT = {
 		api: apiFr,
 		prod: prodFr,
 		cust: custFr,
-		home: homeFr
+		home: homeFr,
+		portal: portalFr,
+		heimdall: heimdallFr,
+		buy: buyFr,
+		team: teamFr
 	}
 };
 
