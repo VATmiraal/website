@@ -8,7 +8,8 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest (26.04) is unsupported by Playwright's dependency installer.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 

@@ -1,9 +1,15 @@
 export const messages = {
-	products: 'Producten',
+	home: 'Home',
+	products: 'Onze producten',
+	engine: 'Engine',
+	heimdall: 'Heimdall',
+	docs: 'Voor developers',
+	team: 'Team',
+	contact: 'Contacteer ons',
 	custom: 'Maatwerk',
 	blog: 'Blog',
 	demo: 'Demo',
 	impressum: 'Impressum',
 	privacy: 'Privacy',
-	buy: 'Koop de API'
+	buy: 'Kopen'
 };

@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { invalidateAll } from '$app/navigation';
 
-	let { lang }: { lang: string } = $props();
+	let { lang, tone = 'light' }: { lang: string; tone?: 'light' | 'dark' } = $props();
 
 	let code = $derived(lang.toLowerCase());
 	let active = $derived(page.data.lang === code);
@@ -13,7 +13,13 @@
 	}
 </script>
 
-<button type="button" class:active aria-pressed={active} onclick={setLanguage}>{lang}</button>
+<button
+	type="button"
+	class:active
+	class:dark={tone === 'dark'}
+	aria-pressed={active}
+	onclick={setLanguage}>{lang}</button
+>
 
 <style>
 	button {
@@ -38,5 +44,18 @@
 	button.active {
 		background: var(--color-bg-inverted);
 		color: var(--color-text-on-dark);
+	}
+
+	button.dark {
+		color: var(--color-text-on-dark-muted);
+	}
+
+	button.dark:hover {
+		color: var(--color-text-on-dark);
+	}
+
+	button.dark.active {
+		background: var(--color-text-on-dark);
+		color: var(--color-bg-inverted);
 	}
 </style>

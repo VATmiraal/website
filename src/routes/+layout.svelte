@@ -3,6 +3,7 @@
 	import Header from '../components/header.svelte';
 	import { resolve } from '$app/paths';
 	import { tr } from '$lib/translation/i18n';
+	import linkedLogo from '$lib/assets/InBug-Black.png';
 
 	let { children } = $props();
 
@@ -44,48 +45,60 @@
 {@render children()}
 
 <footer>
-	<p class="footer-tagline">{m.common.tagline}</p>
-	<p>
-		{m.common.footer}
-		<a href={resolve('/privacy')} class="legal-link">{m.nav.privacy}</a>
+	<div class="footer-links">
+		<a href={resolve('/team')} class="legal-link">{m.nav.team}</a>
 		<a href={resolve('/impressum')} class="legal-link">{m.nav.impressum}</a>
-	</p>
+		<a href={resolve('/privacy')} class="legal-link">{m.nav.privacy}</a>
+		<span class="copyright">{m.common.footer}</span>
+	</div>
+	<div class="footer-social">
+		<a
+			href="https://www.linkedin.com/company/vatmiraal"
+			target="_blank"
+			rel="noopener noreferrer"
+			aria-label="VATmiraal on LinkedIn"><img src={linkedLogo} alt="VATmiraal on LinkedIn" /></a
+		>
+	</div>
 </footer>
 
 <style>
 	footer {
-		background: var(--color-bg-inverted);
-		color: var(--color-text-on-dark-faint);
-		text-align: center;
-		padding: var(--space-5) var(--space-8);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: var(--space-4) var(--space-6);
+		padding: var(--space-5) 4%;
+		border-top: 1px solid var(--color-border);
+		background: var(--color-bg-subtle);
 		font-size: var(--font-size-sm);
 	}
 
-	footer p {
-		margin: 0;
-		padding-bottom: 1.5rem;
+	.footer-links {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2) var(--space-6);
+		flex-wrap: wrap;
+		line-height: 1.4;
 	}
 
-	.footer-tagline {
-		color: var(--color-text-on-dark-muted);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: var(--letter-spacing-snug);
-		padding-bottom: var(--space-2);
-	}
-
-	footer a {
-		color: inherit;
-		text-decoration: underline;
-		text-underline-offset: 2px;
-	}
-
-	footer a:hover {
-		opacity: 0.7;
+	.copyright {
+		color: var(--color-text-subtle);
 	}
 
 	.legal-link {
+		color: var(--color-text-muted);
 		font-weight: var(--font-weight-medium);
-		text-underline-offset: 3px;
-		margin-left: var(--space-4);
+		text-decoration: none;
+	}
+
+	.legal-link:hover {
+		color: var(--color-text);
+	}
+
+	.footer-social img {
+		display: block;
+		width: 1.25em;
+		height: auto;
 	}
 </style>

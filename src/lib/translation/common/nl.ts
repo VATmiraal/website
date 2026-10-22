@@ -1,4 +1,3 @@
 export const messages = {
-	tagline: 'Deterministisch. Controleerbaar. Van jou.',
-	footer: '© VATmiraal · btw-complexiteit, helder gemaakt.'
+	footer: '© 2026 VATmiraal. Alle rechten voorbehouden.'
 };

@@ -1,10 +1,76 @@
 export const messages = {
-	heroKicker: 'Produits · API',
-	heroTitle: 'Le moteur TVA, en API.',
-	heroSub:
-		'Chaque transaction renvoie une grille TVA citée, avec le montant par grille et la disposition légale qui la sous-tend. Déterministe, vérifiable, à vous.',
-	heroBuy: "Acheter l'API",
+	// ── Engine landing (/engine) ──
+	heroKicker: 'API VATmiraal',
+	heroTitle: 'Un moteur polyvalent pour une TVA sans faille.',
+	heroSub: 'VATmiraal propulse votre transformation ViDA, au sein de vos processus actuels.',
+	heroBuy: "Acheter le moteur & l'agent",
 	heroDocs: 'Lire la doc →',
+
+	featKicker: 'Conçu pour les fiscalistes',
+	featTitle: 'Le guichet unique de la TVA.',
+	featSub:
+		'En nous fondant sur la loi, nous offrons les fonctionnalités TVA essentielles de manière déterministe, flexible et fiable.',
+	fg: [
+		{
+			tag: 'Déterminer',
+			items: [
+				{
+					n: 'Détermination TVA',
+					d: 'Taux, lieu de prestation, exonération et redevable pour chaque transaction'
+				},
+				{ n: 'Autoliquidation', d: 'Correctement attribuée, en national comme en transfrontalier' },
+				{ n: 'Exonération partielle', d: 'Activités mixtes et prorata, restés défendables' },
+				{ n: 'Droit à déduction', d: "Sous- et sur-déduction détectées avant qu'elles ne coûtent" },
+				{
+					n: "À l'épreuve de l'audit",
+					d: 'Une trace juridique complète derrière chaque conclusion'
+				},
+				{ n: 'Audit inversé', d: 'Cohérence TVA de vos factures comptabilisées' }
+			]
+		},
+		{
+			tag: 'Vérifier',
+			items: [
+				{ n: 'Intégration VIES', d: 'Numéros de TVA UE validés en direct via VIES' },
+				{ n: 'Registres officiels', d: "Connecté aux registres officiels d'information fiscale" },
+				{
+					n: 'Contrôle de cohérence',
+					d: 'La même opération reçoit le même traitement, sur tout votre historique'
+				}
+			]
+		},
+		{
+			tag: 'Déclarer & récupérer',
+			items: [
+				{ n: 'Déclaration', d: 'Montants répartis dans les grilles de la déclaration TVA' },
+				{
+					n: 'Révision TVA',
+					d: "Révision des déductions sur biens d'investissement, suivie dans le temps"
+				},
+				{ n: 'Remboursement TVA', d: 'Demandes de remboursement préparées avec leur base légale' },
+				{
+					n: 'Déclaration OSS',
+					d: 'Ventes B2C transfrontalières préparées pour la déclaration OSS'
+				}
+			]
+		},
+		{
+			tag: 'Connecter',
+			items: [
+				{ n: 'Support PDF', d: "Données de facture extraites directement d'un PDF" },
+				{ n: 'Facturation électronique', d: "S'intègre aux factures électroniques structurées" },
+				{ n: 'Codes VATEX', d: "Motifs d'exonération exprimés en codes VATEX standard" }
+			]
+		}
+	],
+
+	// ── Developer page (/engine/dev) ──
+	docsKicker: 'Pour les développeurs',
+	docsTitle: "Comment fonctionne l'API.",
+	docsSub:
+		'Requêtes, réponses et routes, avec de vrais exemples. Pour la référence complète des endpoints, ouvrez la référence API.',
+	docsRefLink: 'Ouvrir la référence API →',
+	docsSpecLink: 'Spécification OpenAPI (JSON)',
 
 	deliversKicker: "Ce que l'API livre",
 	deliversTitle: 'Des résultats à chaque appel.',
@@ -35,61 +101,137 @@ export const messages = {
 		'Chaque grille porte sa justification légale et sa référence.',
 		'Avertissements et incohérences remontent avant la déclaration.'
 	],
-
 	infTitle: 'Texte libre en entrée, objet structuré en sortie.',
 	infBody:
 		"Transformez une description de ligne en objet typé (son type, le type de transaction déduit et les propriétés reconnues), prêt à insérer dans une transaction avant l'analyse.",
 	tabReq: 'Requête',
 	tabRes: 'Réponse',
 
+	pdfKicker: 'Extraction de factures',
+	pdfTitle: 'Déposez un PDF, obtenez les faits.',
+	pdfSub:
+		'Envoyez une facture PDF et recevez les faits de la transaction qu’elle indique, chacun avec son degré de certitude. Transmettez-les directement à l’analyse.',
+	pdfCardHead: 'Extrait de votre facture',
+	pdfFields: [
+		'Dates de facture et de livraison',
+		'Montants',
+		'Fournisseur et client',
+		"L'objet classé",
+		'Chaque ligne facturée'
+	],
+	pdfFoot: 'Chaque champ indique son degré de certitude.',
+
 	routesKicker: 'Toutes les routes nécessaires',
 	routesTitle: 'Typé de bout en bout.',
 	routesSub:
-		"Chaque liste dont l'UI a besoin est un endpoint. Catégories, propriétés, types de partie et de transaction, options de transport, toutes typées. Pilotez votre interface directement à partir d'elles et elle reste toujours synchronisée avec le moteur, sans maintenance manuelle.",
-	routeDesc: {
-		'/': 'Vérification de disponibilité (sans auth)',
-		'/box-analysis': 'Grille TVA citée pour une transaction',
-		'/inference/object': 'Objet structuré à partir de texte libre',
-		'/category': "Catégories d'objet, avec propriétés & types",
-		'/category/{value}': "Une catégorie d'objet par valeur",
-		'/category/broad': 'Regroupements en catégories larges',
-		'/category/broad/{value}': 'Une catégorie large par valeur',
-		'/property/object': "Propriétés d'objet et leurs arguments",
-		'/property/object/{value}': "Une propriété d'objet par valeur",
-		'/property/party': 'Propriétés de partie et leurs arguments',
-		'/property/party/{value}': 'Une propriété de partie par valeur',
-		'/party-type': 'Types de partie autorisés',
-		'/transaction-type': 'Types de transaction autorisés',
-		'/transport-by': 'Moyens de transport autorisés'
-	},
+		"Analyse, extraction de factures, validation des numéros de TVA et tout le vocabulaire d'une transaction, chacun en endpoint typé. Chaque route exige un bearer token.",
+	routeGroups: [
+		{
+			name: 'Analyse',
+			desc: 'Grilles TVA et leur base légale',
+			routes: [
+				{
+					m: 'POST',
+					path: '/box-analysis',
+					d: "Grilles TVA d'une transaction, avec montants, justifications légales, avertissements et incohérences"
+				}
+			]
+		},
+		{
+			name: 'Facture',
+			desc: 'Du PDF aux faits de la transaction',
+			routes: [
+				{
+					m: 'POST',
+					path: '/parse-invoice',
+					d: "Dates, montants, les deux parties, l'objet classé et les lignes facturées d'une facture PDF, chacun avec son degré de certitude"
+				}
+			]
+		},
+		{
+			name: 'Inférence',
+			desc: 'Du texte libre à la structure',
+			routes: [
+				{
+					m: 'POST',
+					path: '/inference/object',
+					d: "Type d'objet, type de transaction et propriétés reconnues à partir d'une description libre"
+				}
+			]
+		},
+		{
+			name: 'Numéros de TVA',
+			desc: 'Validation et formats',
+			routes: [
+				{
+					m: 'POST',
+					path: '/vat-validation',
+					d: "Valide un numéro de TVA UE auprès d'un registre officiel, ou sur le seul format, avec chaque motif d'échec"
+				},
+				{
+					m: 'GET',
+					path: '/vat-template',
+					d: 'Format attendu du numéro de TVA pour chaque pays pris en charge'
+				},
+				{
+					m: 'GET',
+					path: '/vat-template/{country}',
+					d: 'Format attendu du numéro de TVA pour un pays'
+				}
+			]
+		},
+		{
+			name: 'Catégories',
+			desc: "Catégories d'objets et regroupements",
+			routes: [
+				{
+					m: 'GET',
+					path: '/category',
+					d: "Catégories d'objets, avec catégorie large, types de transaction et propriétés acceptées"
+				},
+				{ m: 'GET', path: '/category/{value}', d: "Une catégorie d'objet" },
+				{ m: 'GET', path: '/category/broad', d: 'Regroupements de catégories larges' },
+				{
+					m: 'GET',
+					path: '/category/broad/{value}',
+					d: 'Une catégorie large, avec les catégories qu’elle regroupe'
+				}
+			]
+		},
+		{
+			name: 'Propriétés',
+			desc: 'Ce que portent objets et parties',
+			routes: [
+				{ m: 'GET', path: '/property/object', d: "Propriétés d'objet et leurs arguments" },
+				{ m: 'GET', path: '/property/object/{value}', d: "Une propriété d'objet" },
+				{ m: 'GET', path: '/property/party', d: 'Propriétés de partie et leurs arguments' },
+				{ m: 'GET', path: '/property/party/{value}', d: 'Une propriété de partie' }
+			]
+		},
+		{
+			name: 'Énumérations',
+			desc: 'Valeurs admises pour les entrées',
+			routes: [
+				{ m: 'GET', path: '/transaction-type', d: 'Types de transaction' },
+				{ m: 'GET', path: '/party-type', d: 'Types de partie' },
+				{ m: 'GET', path: '/transport-by', d: 'Options de transport' },
+				{ m: 'GET', path: '/country', d: 'Pays reconnus' }
+			]
+		}
+	],
 	routesLink: 'Référence complète sur api.vatmiraal.be/doc',
+
+	sdkKicker: 'SDK TypeScript',
+	sdkTitle: 'Intégrez en quelques minutes, typé de bout en bout.',
+	sdkSub:
+		"Le SDK officiel VATmiraal couvre chaque route avec des types complets : votre éditeur connaît chaque requête et réponse avant même l'exécution.",
+	sdkInstall: '$ npm install @vatmiraal/vatmiraal-sdk',
+	sdkCopy: 'Copier',
+	sdkCopied: 'Copié',
+	sdkLink: 'Voir le SDK sur npm →',
 
 	mcpKicker: 'Prêt pour les agents',
 	mcpTitle: 'Vos workflows IA obtiennent une réponse prouvée, pas une supposition.',
 	mcpBody:
-		"Exposé via un serveur MCP, pour que vos agents appellent le moteur et obtiennent une détermination déterministe et citée plutôt qu'une supposition probabiliste.",
-
-	priceKicker: 'Tarifs',
-	priceTitle: 'Adapté à votre usage.',
-	price: 'Sur devis',
-	priceOptions: [
-		'API REST & schéma OpenAPI typé',
-		'Serveur MCP pour agents IA',
-		'Connecteurs ERP & comptabilité préconfigurés',
-		'Webhooks & facturation électronique',
-		'Support dédié & SLA'
-	],
-	priceDepends:
-		"Le prix dépend du volume, du risque d'exposition et des fonctionnalités dont vous avez besoin.",
-	priceCta: "Acheter l'API",
-
-	ctaTitle: 'Construisez sur une détermination que vous pouvez prouver.',
-	ctaSub: "Commencez avec l'API, ou parlons MCP et conditions sur mesure.",
-
-	soonBadge: 'Bientôt',
-	soonTitle: 'La plateforme complète arrive.',
-	soonBody:
-		"L'espace de travail TVA complet, avec transactions, grille TVA, déclarations, bibliothèque légale et piste d'audit. L'API est disponible aujourd'hui ; la plateforme suit.",
-	soonCta: "Rejoindre la liste d'attente",
-	soonCaption: 'Un aperçu de la plateforme VATmiraal.'
+		"Connectez Claude, ChatGPT ou votre propre agent au serveur MCP VATmiraal. L'agent recueille les faits en conversation ; le moteur déterministe, pas le modèle, calcule les grilles TVA et leur base légale."
 };

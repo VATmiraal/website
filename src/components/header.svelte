@@ -1,15 +1,21 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import { onMount, tick } from 'svelte';
 
 	import { MAINTENANCE_MODE } from '$lib/maintenance';
 	import { tr } from '$lib/translation/i18n';
 	import LanguageButton from '$lib/components/LanguageButton.svelte';
 
-	import emailIcon from '$lib/assets/email-logo.svg';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 
 	let m = $derived(tr());
+
+	// The nav mirrors the design per page group.
+	let path = $derived(page.url.pathname);
+	// Heimdall is a dark surface — the header follows suit on its routes.
+	let isDark = $derived(path.startsWith('/heimdall'));
+	let isEngine = $derived(path.startsWith('/engine'));
 
 	let menuOpen = $state(false);
 	let hamburgerEl: HTMLButtonElement | undefined = $state();
@@ -65,22 +71,26 @@
 </script>
 
 {#snippet navLinks(onclick: (() => void) | undefined)}
-	<a href={resolve('/custom_solutions')} {onclick}>{m.nav.custom}</a>
-	<a href={resolve('/products')} {onclick}>{m.nav.products}</a>
-	<a href={resolve('/request_a_demo')} {onclick}>{m.nav.demo}</a>
-	<a href={resolve('/blog')} {onclick}>{m.nav.blog}</a>
+	{#if isDark}
+		<a href={resolve('/')} {onclick}>{m.nav.products}</a>
+		<a href={resolve('/team')} {onclick}>{m.nav.team}</a>
+	{:else if isEngine}
+		<a href={resolve('/engine')} {onclick}>{m.nav.home}</a>
+		<a href={resolve('/')} {onclick}>{m.nav.products}</a>
+		<a href={resolve('/engine/dev')} {onclick}>{m.nav.docs}</a>
+		<a href={resolve('/team')} {onclick}>{m.nav.team}</a>
+	{/if}
 {/snippet}
 
-{#snippet langSwitch()}
+{#snippet langSwitch(tone: 'light' | 'dark')}
 	<div class="lang-switch" role="group" aria-label="Language">
-		<LanguageButton lang="EN" />
-		<LanguageButton lang="NL" />
-		<LanguageButton lang="FR" />
+		<LanguageButton lang="EN" {tone} />
+		<LanguageButton lang="NL" {tone} />
+		<LanguageButton lang="FR" {tone} />
 	</div>
 {/snippet}
 
 {#snippet socialIcons(onclick: (() => void) | undefined)}
-	<a href="mailto:info@vatmiraal.be" {onclick}><img src={emailIcon} alt="Email VATmiraal" /></a>
 	<a
 		href="https://www.linkedin.com/company/vatmiraal"
 		target="_blank"
@@ -89,7 +99,7 @@
 	>
 {/snippet}
 
-<div id="header" class:maintenance={MAINTENANCE_MODE}>
+<div id="header" class:maintenance={MAINTENANCE_MODE} class:dark={isDark}>
 	<a id="vatmiraal" href={resolve('/')} onclick={closeMenu}>
 		<picture>
 			<source srcset="/logo_icon.svg" media="(max-width: 768px)" />
@@ -103,13 +113,18 @@
 	{/if}
 	<div id="header-actions">
 		{#if !MAINTENANCE_MODE}
-			{@render langSwitch()}
-		{/if}
-		<div id="social-media">
-			{@render socialIcons(undefined)}
-		</div>
-		{#if !MAINTENANCE_MODE}
-			<a class="buy-cta" href={resolve('/products/api')}>{m.nav.buy}</a>
+			{#if !isEngine && !isDark}
+				<a class="action-link" href={resolve('/team')}>{m.nav.team}</a>
+			{/if}
+			{@render langSwitch(isDark ? 'dark' : 'light')}
+			{#if !isDark}
+				<div id="social-media">
+					{@render socialIcons(undefined)}
+				</div>
+			{/if}
+			{#if !isEngine && !isDark}
+				<a class="contact-cta" href="mailto:info@vatmiraal.be">{m.nav.contact}</a>
+			{/if}
 		{/if}
 	</div>
 	{#if !MAINTENANCE_MODE}
@@ -138,15 +153,23 @@
 		aria-label="Primary navigation"
 		tabindex="-1"
 		onkeydown={onMenuKeydown}
+		class:dark={isDark}
 	>
 		<nav id="mobile-nav" aria-label="Primary">
 			{@render navLinks(closeMenu)}
+			{#if !isEngine && !isDark}
+				<a href={resolve('/team')} onclick={closeMenu}>{m.nav.team}</a>
+			{/if}
 		</nav>
-		<a class="buy-cta" href={resolve('/products/api')} onclick={closeMenu}>{m.nav.buy}</a>
-		{@render langSwitch()}
-		<div id="mobile-social">
-			{@render socialIcons(closeMenu)}
-		</div>
+		{#if !isEngine && !isDark}
+			<a class="contact-cta" href="mailto:info@vatmiraal.be" onclick={closeMenu}>{m.nav.contact}</a>
+		{/if}
+		{@render langSwitch(isDark ? 'dark' : 'light')}
+		{#if !isDark}
+			<div id="mobile-social">
+				{@render socialIcons(closeMenu)}
+			</div>
+		{/if}
 	</div>
 {/if}
 
@@ -181,7 +204,7 @@
 	}
 
 	#vatmiraal img {
-		height: 5em;
+		height: 2.5em;
 		width: auto;
 	}
 
@@ -195,8 +218,8 @@
 	#nav-links a {
 		color: var(--color-text);
 		text-decoration: none;
-		font-weight: var(--font-weight-medium);
-		font-size: 1.2em;
+		font-weight: var(--font-weight-semibold);
+		font-size: 1em;
 		transition: opacity var(--duration-base) var(--easing);
 	}
 
@@ -211,6 +234,18 @@
 		gap: var(--space-5);
 	}
 
+	.action-link {
+		color: var(--color-text);
+		text-decoration: none;
+		font-weight: var(--font-weight-semibold);
+		font-size: 1em;
+		transition: opacity var(--duration-base) var(--easing);
+	}
+
+	.action-link:hover {
+		opacity: 0.55;
+	}
+
 	.lang-switch {
 		display: inline-flex;
 		align-items: center;
@@ -219,7 +254,7 @@
 		overflow: hidden;
 	}
 
-	.buy-cta {
+	.contact-cta {
 		display: inline-flex;
 		align-items: center;
 		height: var(--control-height-md);
@@ -234,8 +269,60 @@
 		transition: opacity var(--duration-base) var(--easing);
 	}
 
-	.buy-cta:hover {
+	.contact-cta:hover {
 		opacity: 0.85;
+	}
+
+	/* ─── Dark surface (Heimdall routes) ─── */
+	#header.dark {
+		background: rgba(15, 15, 15, 0.92);
+		border-bottom: 1px solid var(--color-border-on-dark);
+	}
+
+	#header.dark #vatmiraal img {
+		filter: brightness(0) invert(1);
+	}
+
+	#header.dark #nav-links a {
+		color: var(--color-text-on-dark);
+	}
+
+	#header.dark .lang-switch {
+		border-color: var(--color-border-on-dark);
+	}
+
+	#header.dark #social-media img {
+		filter: brightness(0) invert(1);
+	}
+
+	#header.dark .contact-cta {
+		background: var(--color-bg);
+		color: var(--color-text);
+	}
+
+	#header.dark #hamburger span {
+		background: var(--color-text-on-dark);
+	}
+
+	#mobile-menu.dark {
+		background: var(--color-bg-inverted);
+	}
+
+	#mobile-menu.dark #mobile-nav a {
+		color: var(--color-text-on-dark);
+	}
+
+	#mobile-menu.dark .lang-switch {
+		border-color: var(--color-border-on-dark);
+	}
+
+	#mobile-menu.dark #mobile-social img {
+		filter: brightness(0) invert(1);
+	}
+
+	#mobile-menu.dark .contact-cta {
+		background: var(--color-bg);
+		color: var(--color-text);
 	}
 
 	#social-media {
@@ -380,7 +467,7 @@
 
 	@media (max-width: 768px) {
 		#vatmiraal img {
-			height: 3.2em;
+			height: 2.2em;
 		}
 	}
 </style>

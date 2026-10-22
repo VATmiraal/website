@@ -6,6 +6,7 @@ export const messages = {
 	labelLegalForm: 'Rechtsvorm',
 	labelVat: 'Btw-nummer',
 	labelEmail: 'E-mail',
+	labelPhone: 'Telefoon',
 	legalForm: 'Vennootschap naar Belgisch recht',
 	back: '← Terug naar home'
 };
