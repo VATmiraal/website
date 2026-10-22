@@ -20,11 +20,10 @@
 	<div class="video">
 		<iframe
 			referrerpolicy="strict-origin-when-cross-origin"
-			src="https://www.youtube.com/embed/mRUog4OA9jE?autoplay=1&mute=1&loop=1&playlist=mRUog4OA9jE&playsinline=1&rel=0&modestbranding=1&controls=0&disablekb=1&fs=0&iv_load_policy=3"
+			src="https://www.youtube.com/embed/mRUog4OA9jE?autoplay=1&mute=1&loop=1&playlist=mRUog4OA9jE&playsinline=1&rel=0&modestbranding=1&controls=1&fs=1&iv_load_policy=3"
 			title="Heimdall"
 			allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
 			allowfullscreen
-			tabindex="-1"
 		></iframe>
 	</div>
 
@@ -92,13 +91,11 @@
 
 	.video iframe {
 		position: absolute;
-		left: 0;
-		top: -80px;
+		inset: 0;
 		display: block;
 		width: 100%;
-		height: calc(100% + 160px);
+		height: 100%;
 		border: 0;
-		pointer-events: none;
 	}
 
 	.notify {
