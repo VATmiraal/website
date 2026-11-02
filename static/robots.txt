@@ -20,3 +20,6 @@ Disallow: /
 
 User-agent: Bytespider
 Disallow: /
+
+# Sitemap
+Sitemap: https://vatmiraal.be/sitemap.xml

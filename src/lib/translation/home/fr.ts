@@ -11,7 +11,7 @@ export const messages = {
 		},
 		{
 			h: 'Banques & finance',
-			p: 'Services financiers exonérés avec déduction partielle (prorata et affectation réelle), restés défendables.'
+			p: 'Services financiers exonérés avec déduction partielle (prorata et affectation réelle), maintenus défendables.'
 		},
 		{
 			h: 'Pouvoirs locaux',
@@ -27,11 +27,11 @@ export const messages = {
 		},
 		{
 			h: 'Industrie',
-			p: 'Transactions en chaîne et ABC, autoliquidation et lieu de prestation tout au long de la chaîne.'
+			p: "Transactions en chaîne et ABC, autoliquidation et lieu de l'opération tout au long de la chaîne."
 		},
 		{
 			h: 'Transport de personnes',
-			p: 'Lieu de prestation selon la distance parcourue, par pays, trajets nationaux et internationaux traités séparément.'
+			p: "Lieu de l'opération selon la distance parcourue, par pays, trajets nationaux et internationaux traités séparément."
 		}
 	]
 };

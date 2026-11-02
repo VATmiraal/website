@@ -7,7 +7,7 @@ export const messages = {
 	heroDocs: 'Lire la doc →',
 
 	featKicker: 'Conçu pour les fiscalistes',
-	featTitle: 'Le guichet unique de la TVA.',
+	featTitle: 'La solution tout-en-un pour la TVA.',
 	featSub:
 		'En nous fondant sur la loi, nous offrons les fonctionnalités TVA essentielles de manière déterministe, flexible et fiable.',
 	fg: [
@@ -16,11 +16,14 @@ export const messages = {
 			items: [
 				{
 					n: 'Détermination TVA',
-					d: 'Taux, lieu de prestation, exonération et redevable pour chaque transaction'
+					d: "Taux, lieu de l'opération, exonération et redevable pour chaque transaction"
 				},
 				{ n: 'Autoliquidation', d: 'Correctement attribuée, en national comme en transfrontalier' },
-				{ n: 'Exonération partielle', d: 'Activités mixtes et prorata, restés défendables' },
-				{ n: 'Droit à déduction', d: "Sous- et sur-déduction détectées avant qu'elles ne coûtent" },
+				{ n: 'Exonération partielle', d: 'Activités mixtes et prorata, maintenus défendables' },
+				{
+					n: 'Droit à déduction',
+					d: "Sous- et sur-déduction détectées avant qu'elles ne vous coûtent"
+				},
 				{
 					n: "À l'épreuve de l'audit",
 					d: 'Une trace juridique complète derrière chaque conclusion'
@@ -57,7 +60,7 @@ export const messages = {
 		{
 			tag: 'Connecter',
 			items: [
-				{ n: 'Support PDF', d: "Données de facture extraites directement d'un PDF" },
+				{ n: 'Prise en charge des PDF', d: "Données de facture extraites directement d'un PDF" },
 				{ n: 'Facturation électronique', d: "S'intègre aux factures électroniques structurées" },
 				{ n: 'Codes VATEX', d: "Motifs d'exonération exprimés en codes VATEX standard" }
 			]
@@ -132,7 +135,7 @@ export const messages = {
 			routes: [
 				{
 					m: 'POST',
-					path: '/box-analysis',
+					path: '/tax-grid-analysis',
 					d: "Grilles TVA d'une transaction, avec montants, justifications légales, avertissements et incohérences"
 				}
 			]

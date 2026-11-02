@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
+	import { localePath } from '$lib/translation/i18n';
 	import { dev } from '$app/environment';
 	import { tick, type Snippet } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -56,7 +56,7 @@
 	function closePopup() {
 		showPopup = false;
 		previouslyFocused?.focus?.();
-		goto(resolve(redirectTo as '/'));
+		goto(localePath(redirectTo));
 	}
 
 	function onPopupKeydown(event: KeyboardEvent) {

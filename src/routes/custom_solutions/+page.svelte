@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import { tr } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
@@ -30,9 +30,9 @@
 	};
 </script>
 
+<Seo title={`${m.cust.title} — VATmiraal`} description={m.cust.sub} />
+
 <svelte:head>
-	<title>{m.cust.title} — VATmiraal</title>
-	<meta name="description" content={m.cust.sub} />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>
@@ -52,7 +52,11 @@
 	<div class="cta">
 		<h2>{m.cust.ctaTitle}</h2>
 		<p>{m.cust.sub}</p>
-		<Button href={resolve('/request_a_demo')} variant="primary" size="lg">{m.cust.ctaBtn}</Button>
+		<Button
+			href="mailto:info@vatmiraal.be?subject=Custom%20solution%20enquiry"
+			variant="primary"
+			size="lg">{m.cust.ctaBtn}</Button
+		>
 	</div>
 </section>
 

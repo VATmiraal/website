@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tr } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import { FileText, Check } from '@lucide/svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CodeBlock from '$lib/components/CodeBlock.svelte';
@@ -42,10 +43,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{m.api.docsTitle} — VATmiraal</title>
-	<meta name="description" content={m.api.docsSub} />
-</svelte:head>
+<Seo title={`${m.api.docsTitle} — VATmiraal`} description={m.api.docsSub} />
 
 <!-- Hero -->
 <section class="hero">
@@ -74,10 +72,10 @@
 	</div>
 </section>
 
-<!-- box-analysis -->
+<!-- tax-grid-analysis -->
 <section class="split">
 	<div class="split-copy">
-		<span class="mono-kicker">POST /box-analysis</span>
+		<span class="mono-kicker">POST /tax-grid-analysis</span>
 		<h2>{m.api.boxTitle}</h2>
 		<p>{m.api.boxBody}</p>
 		<ul class="points">
@@ -89,14 +87,14 @@
 	<div class="split-code">
 		<Tabs
 			bind:active={boxTab}
-			label="box-analysis"
+			label="tax-grid-analysis"
 			tabs={[
 				{ id: 'req', label: m.api.tabReq },
 				{ id: 'res', label: m.api.tabRes }
 			]}
 		/>
 		{#if boxTab === 'req'}
-			<CodeBlock label="POST /box-analysis" code={boxReq} />
+			<CodeBlock label="POST /tax-grid-analysis" code={boxReq} />
 		{:else}
 			<CodeBlock label="200 OK" code={boxRes} />
 		{/if}

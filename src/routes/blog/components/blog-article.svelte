@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { page } from '$app/state';
+	import { localePath } from '$lib/translation/i18n';
 	import Button from '$lib/components/Button.svelte';
 	import ShareBar from '$lib/components/ShareBar.svelte';
 	import type { Snippet } from 'svelte';
@@ -33,7 +33,7 @@
 	{@render children()}
 
 	<div id="back-wrap">
-		<Button href={`${base}${backHref}`} variant="ghost">← {backLabel}</Button>
+		<Button href={localePath(backHref)} variant="ghost">← {backLabel}</Button>
 	</div>
 </article>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import {
 		Scale,
@@ -64,9 +64,13 @@
 	const BadgeIcon = $derived(sectorIcons[sec]);
 </script>
 
+<Seo title={`${m.api.heroTitle} — VATmiraal`} description={m.api.heroSub} />
+
 <svelte:head>
-	<title>{m.api.heroTitle} — VATmiraal</title>
-	<meta name="description" content={m.api.heroSub} />
+	<!-- Warm the sector photos so the first selection isn't a cold fetch. -->
+	{#each sectorPhotos as src (src)}
+		<link rel="preload" as="image" href={src} fetchpriority="low" />
+	{/each}
 </svelte:head>
 
 <!-- Hero -->
@@ -74,7 +78,7 @@
 	<h1>{m.api.heroTitle}</h1>
 	<p class="hero-sub">{m.api.heroSub}</p>
 	<div class="hero-cta">
-		<Button href={resolve('/engine/buy')} variant="primary" size="lg">{m.api.heroBuy}</Button>
+		<Button href={localePath('/engine/buy')} variant="primary" size="lg">{m.api.heroBuy}</Button>
 	</div>
 </section>
 
@@ -167,7 +171,7 @@
 		</div>
 
 		<div class="sec-panel">
-			<div class="sec-photo" style="background-image:url('{sectorPhotos[sec]}')"></div>
+			<div class="sec-photo sec-{sec}"></div>
 			<div class="sec-scrim"></div>
 			<span class="sec-badge"
 				><BadgeIcon size={30} color="var(--color-accent-on-dark)" strokeWidth={1.75} /></span
@@ -524,6 +528,28 @@
 		z-index: -2;
 		background-size: cover;
 		background-position: center;
+	}
+
+	.sec-photo.sec-0 {
+		background-image: url('/sectors/ecommerce.jpg');
+	}
+	.sec-photo.sec-1 {
+		background-image: url('/sectors/banks.jpg');
+	}
+	.sec-photo.sec-2 {
+		background-image: url('/sectors/government.jpg');
+	}
+	.sec-photo.sec-3 {
+		background-image: url('/sectors/hospitals.jpg');
+	}
+	.sec-photo.sec-4 {
+		background-image: url('/sectors/schools.jpg');
+	}
+	.sec-photo.sec-5 {
+		background-image: url('/sectors/manufacturing.jpg');
+	}
+	.sec-photo.sec-6 {
+		background-image: url('/sectors/transport.jpg');
 	}
 
 	.sec-scrim {

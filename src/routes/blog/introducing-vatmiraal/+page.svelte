@@ -1,10 +1,13 @@
 <script lang="ts">
 	import BlogArticle from '../components/blog-article.svelte';
+	import Seo from '$lib/components/Seo.svelte';
+	import { SITE_URL } from '$lib/site';
+	import { localePath } from '$lib/translation/i18n';
 	import type { IBlogPostData } from '$lib/types';
 
 	let { data }: { data: IBlogPostData } = $props();
 
-	const schema = {
+	let schema = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: 'Introducing VATmiraal',
@@ -13,19 +16,20 @@
 			'@type': 'Person',
 			name: 'Jan De Meyer'
 		},
-		publisher: { '@id': 'https://vatmiraal.be/#organization' },
-		url: 'https://vatmiraal.be/blog/introducing-vatmiraal',
+		publisher: { '@id': `${SITE_URL}/#organization` },
+		url: `${SITE_URL}${localePath('/blog/introducing-vatmiraal')}`,
 		description:
 			'Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates. Formal logic and constraint solving for VAT compliance.'
-	};
+	});
 </script>
 
+<Seo
+	title="Introducing VATmiraal — VATmiraal Blog"
+	description="Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates."
+	type="article"
+/>
+
 <svelte:head>
-	<title>Introducing VATmiraal &mdash; VATmiraal Blog</title>
-	<meta
-		name="description"
-		content="Three tools built on the same rules engine: the Assistant, the Analyser, and Advanced Booking Templates."
-	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>

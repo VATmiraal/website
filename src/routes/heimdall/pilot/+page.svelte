@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tr } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import FormspreeForm from '$lib/components/FormspreeForm.svelte';
 
@@ -7,10 +8,7 @@
 	let f = $derived(m.heimdall.form);
 </script>
 
-<svelte:head>
-	<title>{f.title} — Heimdall</title>
-	<meta name="description" content={f.sub} />
-</svelte:head>
+<Seo title={`${f.title} — Heimdall`} description={f.sub} />
 
 <section class="pilot">
 	<div class="intro">

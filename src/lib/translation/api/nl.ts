@@ -16,7 +16,7 @@ export const messages = {
 			items: [
 				{
 					n: 'Btw-determinatie',
-					d: 'Tarief, plaats van levering, vrijstelling en btw-schuldenaar voor elke transactie'
+					d: 'Tarief, plaats van de handeling, vrijstelling en btw-schuldenaar voor elke transactie'
 				},
 				{
 					n: 'Verlegging van heffing',
@@ -26,9 +26,12 @@ export const messages = {
 					n: 'Gemengde en gedeeltelijke btw-plicht',
 					d: 'Gemengde activiteiten en pro-rata, verdedigbaar gehouden'
 				},
-				{ n: 'Recht op aftrek', d: 'Te weinig en te veel aftrek gevat voor het je geld kost' },
-				{ n: 'Auditbestendig', d: 'Een volledig juridisch spoor achter elk besluit' },
-				{ n: 'Reverse audit', d: 'Btw-consistentie van je geboekte facturen' }
+				{
+					n: 'Recht op aftrek',
+					d: 'Te weinig en te veel aftrek opgespoord voordat het je geld kost'
+				},
+				{ n: 'Auditbestendig', d: 'Volledige juridische onderbouwing achter elke conclusie' },
+				{ n: 'Omgekeerde audit', d: 'Btw-consistentie van je geboekte facturen' }
 			]
 		},
 		{
@@ -135,7 +138,7 @@ export const messages = {
 			routes: [
 				{
 					m: 'POST',
-					path: '/box-analysis',
+					path: '/tax-grid-analysis',
 					d: 'Btw-roosters voor een transactie, met bedragen, juridische verantwoording, waarschuwingen en inconsistenties'
 				}
 			]
