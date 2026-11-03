@@ -6,13 +6,13 @@ export const messages = {
 	edu: 'Opleiding',
 	people: {
 		jan: {
-			role: 'Oprichter',
-			bio: 'Fiscalist met ervaring in vennootschaps- en personenbelasting, accountancy en corporate finance.',
+			role: 'Medeoprichter',
+			bio: 'Fiscalist gespecialiseerd in btw, met ervaring in vennootschaps- en personenbelasting, accountancy en corporate finance.',
 			creds: ['CFO bij Eniris', 'Consultant bij Deloitte', 'Accountant sinds 2020'],
 			edu: ['HOGENT', 'Fiscale Hogeschool Brussel', 'KU Leuven']
 		},
 		niels: {
-			role: 'Oprichter',
+			role: 'Medeoprichter',
 			bio: 'Meer dan twaalf jaar in accountancy, vandaag verantwoordelijk voor digitale transformatie en innovatie bij by Watson.',
 			creds: [
 				'Verantwoordelijke digitale transformatie bij by Watson',

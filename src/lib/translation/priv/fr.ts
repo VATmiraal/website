@@ -1,13 +1,13 @@
 export const messages = {
 	metaTitle: 'Politique de confidentialité — VATmiraal',
 	metaDescription:
-		'Comment VATmiraal collecte, utilise et protège les données personnelles issues de ses formulaires de démo et de liste d’attente, et vos droits au titre du RGPD.',
+		'Comment VATmiraal collecte, utilise et protège les données personnelles que vous partagez via nos formulaires de contact, et vos droits au titre du RGPD.',
 	kicker: 'Mentions légales',
 	title: 'Politique de confidentialité',
 	intro:
 		'Comment nous traitons les données personnelles que vous nous confiez, et les droits dont vous disposez.',
 	updatedLabel: 'Dernière mise à jour',
-	updated: '26 juillet 2026',
+	updated: '2 novembre 2026',
 	sections: [
 		{
 			heading: 'Qui sommes-nous',
@@ -17,12 +17,12 @@ export const messages = {
 			heading: 'Quelles données nous collectons et pourquoi',
 			items: [
 				{
-					name: 'Formulaire de demande de démo :',
-					body: 'votre adresse e-mail, le nom de votre société et votre fonction. Nous les utilisons uniquement pour répondre à votre demande et planifier une démo.'
+					name: 'Formulaire de demande engine & agent :',
+					body: 'votre intérêt (engine, agent ou les deux), votre nom complet, votre e-mail professionnel, votre société, votre fonction, le volume mensuel de transactions estimé, et ce que vous indiquez dans le champ de texte libre. Nous les utilisons uniquement pour répondre à votre demande concernant l’engine et l’agent VATmiraal.'
 				},
 				{
-					name: 'Formulaire de liste d’attente :',
-					body: 'votre nom et votre adresse e-mail. Nous les utilisons uniquement pour vous prévenir par e-mail lors du lancement de la plateforme VATmiraal.'
+					name: 'Formulaire pilote Heimdall :',
+					body: 'votre nom, votre e-mail professionnel et votre cabinet. Nous les utilisons uniquement pour organiser une licence pilote Heimdall.'
 				},
 				{
 					name: 'Préférence de langue :',
@@ -56,7 +56,7 @@ export const messages = {
 		},
 		{
 			heading: 'Combien de temps nous les conservons',
-			body: 'Nous conservons les données de la liste d’attente jusqu’au lancement de la plateforme ou jusqu’à ce que vous demandiez leur suppression, selon la première de ces deux éventualités. Nous conservons les données de demande de démo tant que nous sommes en contact actif avec vous. Ensuite, nous les supprimons.'
+			body: 'Nous conservons les données de demande et de pilote tant que nous sommes en contact actif avec vous. Ensuite, nous les supprimons.'
 		},
 		{
 			heading: 'Vos droits',

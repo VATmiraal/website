@@ -1,20 +1,18 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+	import { localePath } from '$lib/translation/i18n';
 	import Button from '$lib/components/Button.svelte';
 	import BlogPostCard from './components/blog-post-card.svelte';
+	import Seo from '$lib/components/Seo.svelte';
 
 	import type { IBlogIndexData } from '$lib/types';
 
 	let { data }: { data: IBlogIndexData } = $props();
 </script>
 
-<svelte:head>
-	<title>Blog — VATmiraal</title>
-	<meta
-		name="description"
-		content="Articles on explainable VAT, computational legal reasoning, and the tools we're building at VATmiraal."
-	/>
-</svelte:head>
+<Seo
+	title="Blog — VATmiraal"
+	description="Articles on explainable VAT, computational legal reasoning, and the tools we're building at VATmiraal."
+/>
 
 <div id="page">
 	<h1>Blog</h1>
@@ -30,7 +28,7 @@
 		{/each}
 	</div>
 
-	<Button href={resolve('/')} variant="ghost">← Back to home</Button>
+	<Button href={localePath('/')} variant="ghost">← Back to home</Button>
 </div>
 
 <style>

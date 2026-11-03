@@ -1,12 +1,12 @@
 export const messages = {
 	metaTitle: 'Privacy Policy — VATmiraal',
 	metaDescription:
-		'How VATmiraal collects, uses and protects personal data from its demo and waitlist forms, and your rights under the GDPR.',
+		'How VATmiraal collects, uses and protects the personal data you share through its contact forms, and your rights under the GDPR.',
 	kicker: 'Legal',
 	title: 'Privacy Policy',
 	intro: 'How we handle the personal data you share with us, and the rights you have over it.',
 	updatedLabel: 'Last updated',
-	updated: '26 July 2026',
+	updated: '2 November 2026',
 	sections: [
 		{
 			heading: 'Who we are',
@@ -16,12 +16,12 @@ export const messages = {
 			heading: 'What we collect and why',
 			items: [
 				{
-					name: 'Demo request form:',
-					body: 'your email address, company name and role. We use these only to reply to your request and schedule a demo.'
+					name: 'Engine & agent enquiry form:',
+					body: 'your interest (engine, agent or both), full name, work email, company, role, expected monthly transaction volume, and anything you add in the free-text field. We use these only to respond to your enquiry about the VATmiraal engine and agent.'
 				},
 				{
-					name: 'Waitlist form:',
-					body: 'your name and email address. We use these only to email you when the VATmiraal platform launches.'
+					name: 'Heimdall pilot form:',
+					body: 'your name, work email and firm. We use these only to arrange a Heimdall pilot licence.'
 				},
 				{
 					name: 'Language preference:',
@@ -55,7 +55,7 @@ export const messages = {
 		},
 		{
 			heading: 'How long we keep it',
-			body: 'We keep waitlist details until the platform launches or until you ask to be removed, whichever comes first. We keep demo request details for as long as we are in active contact with you. After that we delete them.'
+			body: 'We keep enquiry and pilot details for as long as we are in active contact with you. After that we delete them.'
 		},
 		{
 			heading: 'Your rights',

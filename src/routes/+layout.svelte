@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '../app.css';
 	import Header from '../components/header.svelte';
-	import { resolve } from '$app/paths';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
+	import { SITE_URL, SITE_NAME } from '$lib/site';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 
 	let { children } = $props();
@@ -13,10 +13,10 @@
 		{
 			'@context': 'https://schema.org',
 			'@type': 'Organization',
-			'@id': 'https://vatmiraal.be/#organization',
-			name: 'VATmiraal',
-			url: 'https://vatmiraal.be',
-			logo: 'https://vatmiraal.be/logo.svg',
+			'@id': `${SITE_URL}/#organization`,
+			name: SITE_NAME,
+			url: SITE_URL,
+			logo: `${SITE_URL}/logo.svg`,
 			email: 'info@vatmiraal.be',
 			description:
 				'Explainable VAT decisions, ready for just-in-time audit, built for accountants and tax professionals.',
@@ -25,17 +25,16 @@
 		{
 			'@context': 'https://schema.org',
 			'@type': 'WebSite',
-			'@id': 'https://vatmiraal.be/#website',
-			name: 'VATmiraal',
-			url: 'https://vatmiraal.be',
-			publisher: { '@id': 'https://vatmiraal.be/#organization' }
+			'@id': `${SITE_URL}/#website`,
+			name: SITE_NAME,
+			url: SITE_URL,
+			publisher: { '@id': `${SITE_URL}/#organization` }
 		}
 	];
 </script>
 
 <svelte:head>
 	<link rel="icon" type="image/svg+xml" href="/logo_icon_dark.svg" />
-	<meta property="og:image" content="https://vatmiraal.be/logo.svg" />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schemas)}<${'/script'}>`}
 </svelte:head>
@@ -46,9 +45,9 @@
 
 <footer>
 	<div class="footer-links">
-		<a href={resolve('/team')} class="legal-link">{m.nav.team}</a>
-		<a href={resolve('/impressum')} class="legal-link">{m.nav.impressum}</a>
-		<a href={resolve('/privacy')} class="legal-link">{m.nav.privacy}</a>
+		<a href={localePath('/team')} class="legal-link">{m.nav.team}</a>
+		<a href={localePath('/impressum')} class="legal-link">{m.nav.impressum}</a>
+		<a href={localePath('/privacy')} class="legal-link">{m.nav.privacy}</a>
 		<span class="copyright">{m.common.footer}</span>
 	</div>
 	<div class="footer-social">

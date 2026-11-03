@@ -16,12 +16,12 @@ export const messages = {
 			items: [
 				{
 					n: 'VAT determination',
-					d: 'Rate, place of supply, exemption and VAT debtor for every transaction'
+					d: 'Rate, place of supply, exemption and person liable for VAT for every transaction'
 				},
 				{ n: 'Reverse charge', d: 'Correctly attributed, domestic and cross-border' },
 				{ n: 'Partial exemption', d: 'Mixed activities and pro-rata, kept defensible' },
 				{ n: 'Right to deduct', d: 'Under- and over-deduction caught before they cost you' },
-				{ n: 'Audit proof', d: 'A complete legal trail behind every conclusion' },
+				{ n: 'Audit-proof', d: 'A complete legal trail behind every conclusion' },
 				{ n: 'Reverse audit', d: 'VAT consistency of your booked invoices' }
 			]
 		},
@@ -123,7 +123,7 @@ export const messages = {
 			routes: [
 				{
 					m: 'POST',
-					path: '/box-analysis',
+					path: '/tax-grid-analysis',
 					d: 'Tax grids for a transaction, with amounts, legal justifications, warnings and inconsistencies'
 				}
 			]

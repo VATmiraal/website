@@ -1,13 +1,13 @@
 export const messages = {
 	metaTitle: 'Privacybeleid — VATmiraal',
 	metaDescription:
-		'Hoe VATmiraal persoonsgegevens uit de demo- en wachtlijstformulieren verzamelt, gebruikt en beschermt, en uw rechten onder de AVG.',
+		'Hoe VATmiraal persoonsgegevens verzamelt, gebruikt en beschermt die u via onze contactformulieren deelt, en uw rechten onder de AVG.',
 	kicker: 'Juridische informatie',
 	title: 'Privacybeleid',
 	intro:
 		'Hoe we omgaan met de persoonsgegevens die u met ons deelt, en welke rechten u daarover heeft.',
 	updatedLabel: 'Laatst bijgewerkt',
-	updated: '26 juli 2026',
+	updated: '2 november 2026',
 	sections: [
 		{
 			heading: 'Wie we zijn',
@@ -17,12 +17,12 @@ export const messages = {
 			heading: 'Welke gegevens we verzamelen en waarom',
 			items: [
 				{
-					name: 'Demoaanvraagformulier:',
-					body: 'uw e-mailadres, bedrijfsnaam en functie. We gebruiken deze uitsluitend om op uw aanvraag te reageren en een demo in te plannen.'
+					name: 'Aanvraagformulier engine & agent:',
+					body: 'uw interesse (engine, agent of beide), volledige naam, werk-e-mail, bedrijf, functie, verwacht maandelijks transactievolume, en wat u in het vrije tekstveld invult. We gebruiken deze uitsluitend om op uw aanvraag over de VATmiraal-engine en -agent te reageren.'
 				},
 				{
-					name: 'Wachtlijstformulier:',
-					body: 'uw naam en e-mailadres. We gebruiken deze uitsluitend om u te e-mailen zodra het VATmiraal-platform gelanceerd wordt.'
+					name: 'Heimdall-pilotformulier:',
+					body: 'uw naam, werk-e-mail en kantoor. We gebruiken deze uitsluitend om een Heimdall-pilotlicentie te regelen.'
 				},
 				{
 					name: 'Taalvoorkeur:',
@@ -56,7 +56,7 @@ export const messages = {
 		},
 		{
 			heading: 'Hoe lang we ze bewaren',
-			body: 'We bewaren wachtlijstgegevens tot het platform gelanceerd wordt of tot u vraagt om verwijderd te worden, afhankelijk van wat zich het eerst voordoet. We bewaren demoaanvraaggegevens zolang we actief contact met u hebben. Daarna verwijderen we ze.'
+			body: 'We bewaren aanvraag- en pilotgegevens zolang we actief contact met u hebben. Daarna verwijderen we ze.'
 		},
 		{
 			heading: 'Uw rechten',

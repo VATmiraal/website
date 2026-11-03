@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tr } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import FormspreeForm from '$lib/components/FormspreeForm.svelte';
 
@@ -17,10 +18,7 @@
 	let buyPick = $state('both');
 </script>
 
-<svelte:head>
-	<title>{b.title} — VATmiraal</title>
-	<meta name="description" content={b.sub} />
-</svelte:head>
+<Seo title={`${b.title} — VATmiraal`} description={b.sub} />
 
 <section class="page">
 	<div class="wrap">

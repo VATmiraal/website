@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import { localePath } from '$lib/translation/i18n';
 
 	let {
 		href,
@@ -9,8 +9,7 @@
 	}: { href: string; title: string; meta: string; excerpt: string } = $props();
 </script>
 
-<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- href is a runtime-built blog pathname; resolve() only accepts static literal routes -->
-<a class="post" href={`${base}${href}`}>
+<a class="post" href={localePath(href)}>
 	<h2>{title}</h2>
 	<p class="post-meta">{meta}</p>
 	<p class="post-excerpt">{excerpt}</p>

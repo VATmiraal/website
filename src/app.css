@@ -6,6 +6,10 @@
 	box-sizing: border-box;
 }
 
+.app-root {
+	display: contents;
+}
+
 @font-face {
 	font-family: 'Inter';
 	src: url('/Inter-VariableFont_opsz,wght.ttf') format('truetype');

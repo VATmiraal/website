@@ -38,8 +38,8 @@
 		{/if}
 	{/if}
 	<ul class="channels">
-		{#each PLATFORMS as platform, i (platform)}
-			<li style="--i: {i};">
+		{#each PLATFORMS as platform (platform)}
+			<li>
 				<ShareButton {platform} {title} {url} />
 			</li>
 		{/each}
@@ -81,8 +81,28 @@
 	}
 
 	.channels li {
+		--i: 0;
 		animation: rise var(--duration-slow) var(--easing) both;
 		animation-delay: calc(var(--i) * 60ms);
+	}
+
+	.channels li:nth-child(2) {
+		--i: 1;
+	}
+	.channels li:nth-child(3) {
+		--i: 2;
+	}
+	.channels li:nth-child(4) {
+		--i: 3;
+	}
+	.channels li:nth-child(5) {
+		--i: 4;
+	}
+	.channels li:nth-child(6) {
+		--i: 5;
+	}
+	.channels li:nth-child(7) {
+		--i: 6;
 	}
 
 	@keyframes rise {

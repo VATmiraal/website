@@ -1,19 +1,13 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import Button from '$lib/components/Button.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let m = $derived(tr());
 </script>
 
-<svelte:head>
-	<title>Impressum — VATmiraal</title>
-	<meta
-		name="description"
-		content="Legal information for VATmiraal: company registration details, address, and VAT number."
-	/>
-</svelte:head>
+<Seo title="Impressum — VATmiraal" description={m.impr.metaDescription} />
 
 <div id="page">
 	<SectionHeader level="h1" kicker={m.impr.kicker} title={m.impr.title} subtitle={m.impr.intro} />
@@ -21,10 +15,13 @@
 	<div id="content">
 		<dl>
 			<dt>{m.impr.labelCompany}</dt>
-			<dd>VATmiraal, BV</dd>
+			<dd>VATmiraal BV</dd>
 
-			<dt>{m.impr.labelLegalForm}</dt>
-			<dd>{m.impr.legalForm}</dd>
+			<dt>{m.impr.labelAddress}</dt>
+			<dd>{m.impr.address}</dd>
+
+			<dt>{m.impr.labelRegister}</dt>
+			<dd>{m.impr.register}</dd>
 
 			<dt>{m.impr.labelVat}</dt>
 			<dd>BE 1037.608.406</dd>
@@ -38,7 +35,7 @@
 	</div>
 
 	<div id="cta">
-		<Button href={resolve('/')} variant="ghost">{m.impr.back}</Button>
+		<Button href={localePath('/')} variant="ghost">{m.impr.back}</Button>
 	</div>
 </div>
 

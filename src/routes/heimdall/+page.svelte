@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import { Play, Pause, Rewind, FastForward, Maximize, Minimize } from '@lucide/svelte';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let m = $derived(tr());
 	let hp = $derived(m.heimdall.page);
@@ -46,10 +46,7 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Heimdall — VATmiraal</title>
-	<meta name="description" content={hp.sub} />
-</svelte:head>
+<Seo title="Heimdall — VATmiraal" description={hp.sub} />
 
 <section class="heimdall">
 	<div class="divider"></div>
@@ -97,7 +94,7 @@
 		</div>
 	</div>
 
-	<a class="notify" href={resolve('/heimdall/pilot')}>{hp.notify}</a>
+	<a class="notify" href={localePath('/heimdall/pilot')}>{hp.notify}</a>
 </section>
 
 <style>

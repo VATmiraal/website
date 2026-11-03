@@ -1,5 +1,7 @@
 export const messages = {
 	contact: 'Contact us',
+	metaDescription:
+		'Explainable, audit-ready VAT automation for accountants and tax teams: a deterministic VAT reasoning engine and an AI agent, built in Belgium.',
 	heroKicker: 'VAT & indirect tax',
 	heroTitle: 'Audit-ready compliance for the digital age of accounting.',
 	heroSubParts: [
@@ -28,7 +30,7 @@ export const messages = {
 			'Automatic assistance on the hard cases',
 			'Agent-ready, via an MCP server'
 		],
-		cta: 'Visit VATmiraal →'
+		cta: 'Visit VATmiraal Engine →'
 	},
 	hd: {
 		audience: 'For accountants',

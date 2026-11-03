@@ -1,9 +1,11 @@
 export const messages = {
 	contact: 'Contactez-nous',
+	metaDescription:
+		"Automatisation TVA explicable et prête pour l'audit, pour comptables et équipes fiscales : un moteur de raisonnement TVA déterministe et un agent IA, conçus en Belgique.",
 	heroKicker: 'TVA & taxes indirectes',
 	heroTitle: "Une conformité prête pour l'audit, à l'ère de la comptabilité numérique.",
 	heroSubParts: [
-		{ t: 'Nous proposons un mélange astucieux de ', w: 400 },
+		{ t: 'Nous proposons un mélange ingénieux de ', w: 400 },
 		{ t: 'systèmes déterministes', w: 400 },
 		{ t: " et d'", w: 400 },
 		{ t: 'IA', w: 400 },
@@ -23,12 +25,12 @@ export const messages = {
 		title: 'Un moteur polyvalent pour une TVA sans faille.',
 		body: 'VATmiraal propulse votre transformation ViDA, au sein de vos processus actuels.',
 		points: [
-			'API de raisonnement TVA aux réponses citées',
+			'API TVA qui rapporte des réponses citées',
 			'Automatisation sur mesure de vos processus TVA',
 			'Assistance automatique sur les cas difficiles',
 			'Prêt pour les agents IA, via un serveur MCP'
 		],
-		cta: 'Visiter VATmiraal →'
+		cta: 'Visiter VATmiraal Engine →'
 	},
 	hd: {
 		audience: 'Pour les comptables',
@@ -43,9 +45,9 @@ export const messages = {
 		cta: 'Découvrir Heimdall →'
 	},
 	aboutKicker: 'Qui sommes-nous',
-	aboutTitle: 'Le droit fiscal, traduit en raisonnement.',
+	aboutTitle: 'Le droit fiscal, formalisé en logique mathématique.',
 	aboutBody:
-		'Nous sommes une entreprise belge de tax tech. Notre moteur encode la législation TVA en logique : il raisonne de vos faits vers une conclusion au lieu de deviner. La même entrée donne toujours la même réponse, avec toute la trace juridique derrière.',
+		'Nous sommes une entreprise belge de tax tech. Notre moteur encode la législation TVA dans un langage logique : il raisonne de vos faits vers une conclusion au lieu de deviner. La même entrée donne toujours la même réponse, avec toute la trace juridique derrière.',
 	aboutCta: "Parler à l'équipe →",
 	rights: 'Tous droits réservés.'
 };

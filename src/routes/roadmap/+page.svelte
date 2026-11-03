@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+	import { localePath } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
 	import RoadmapTree, { type IRoadmapBranch } from '$lib/components/RoadmapTree.svelte';
@@ -65,13 +66,10 @@
 	];
 </script>
 
-<svelte:head>
-	<title>Roadmap — VATmiraal</title>
-	<meta
-		name="description"
-		content="What's next for VATmiraal: logic engine extensions, multi-jurisdiction support, and integration paths (ERP, API, agentic, chat bot)."
-	/>
-</svelte:head>
+<Seo
+	title="Roadmap — VATmiraal"
+	description="What's next for VATmiraal: logic engine extensions, multi-jurisdiction support, and integration paths (ERP, API, agentic, chat bot)."
+/>
 
 <div id="page">
 	<SectionHeader
@@ -102,7 +100,7 @@
 	<div id="cta">
 		<p>Missing something you need?</p>
 		<Button href="mailto:info@vatmiraal.be" variant="primary">Get in touch</Button>
-		<Button href={resolve('/')} variant="ghost">← Back to home</Button>
+		<Button href={localePath('/')} variant="ghost">← Back to home</Button>
 	</div>
 </div>
 

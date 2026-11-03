@@ -1,10 +1,13 @@
 <script lang="ts">
 	import BlogArticle from '../components/blog-article.svelte';
+	import Seo from '$lib/components/Seo.svelte';
+	import { SITE_URL } from '$lib/site';
+	import { localePath } from '$lib/translation/i18n';
 	import type { IBlogPostData } from '$lib/types';
 
 	let { data }: { data: IBlogPostData } = $props();
 
-	const schema = {
+	let schema = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: 'From TAXMAN to VATmiraal: Fifty Years of Teaching Machines the Law',
@@ -13,19 +16,20 @@
 			'@type': 'Person',
 			name: 'Jan De Meyer'
 		},
-		publisher: { '@id': 'https://vatmiraal.be/#organization' },
-		url: 'https://vatmiraal.be/blog/from-taxman-to-vatmiraal',
+		publisher: { '@id': `${SITE_URL}/#organization` },
+		url: `${SITE_URL}${localePath('/blog/from-taxman-to-vatmiraal')}`,
 		description:
 			'A history of computational legal reasoning, from symbolic AI and expert systems to LLMs and neuro-symbolic architectures, and how VATmiraal fits in.'
-	};
+	});
 </script>
 
+<Seo
+	title="From TAXMAN to VATmiraal — VATmiraal Blog"
+	description="A history of computational legal reasoning, from symbolic AI and expert systems to LLMs and neuro-symbolic architectures."
+	type="article"
+/>
+
 <svelte:head>
-	<title>From TAXMAN to VATmiraal &mdash; VATmiraal Blog</title>
-	<meta
-		name="description"
-		content="A history of computational legal reasoning, from symbolic AI and expert systems to LLMs and neuro-symbolic architectures."
-	/>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<${'script'} type="application/ld+json">${JSON.stringify(schema)}<${'/script'}>`}
 </svelte:head>

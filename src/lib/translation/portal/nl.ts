@@ -1,5 +1,7 @@
 export const messages = {
 	contact: 'Contacteer ons',
+	metaDescription:
+		'Verklaarbare, auditbestendige btw-automatisering voor accountants en fiscale teams: een deterministische btw-redeneer-engine en een AI-agent, gebouwd in België.',
 	heroKicker: 'Btw & indirecte belastingen',
 	heroTitle: 'Auditklare compliance voor het digitale tijdperk van boekhouden.',
 	heroSubParts: [
@@ -28,7 +30,7 @@ export const messages = {
 			'Automatische bijstand bij de moeilijke gevallen',
 			'Klaar voor AI-agents, via een MCP-server'
 		],
-		cta: 'Bezoek VATmiraal →'
+		cta: 'Bezoek VATmiraal Engine →'
 	},
 	hd: {
 		audience: 'Voor accountants',

@@ -1,16 +1,13 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import Button from '$lib/components/Button.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let m = $derived(tr());
 </script>
 
-<svelte:head>
-	<title>{m.priv.metaTitle}</title>
-	<meta name="description" content={m.priv.metaDescription} />
-</svelte:head>
+<Seo title={m.priv.metaTitle} description={m.priv.metaDescription} />
 
 <div id="page">
 	<SectionHeader level="h1" kicker={m.priv.kicker} title={m.priv.title} subtitle={m.priv.intro} />
@@ -35,7 +32,7 @@
 	</div>
 
 	<div id="cta">
-		<Button href={resolve('/')} variant="ghost">{m.priv.back}</Button>
+		<Button href={localePath('/')} variant="ghost">{m.priv.back}</Button>
 	</div>
 </div>
 

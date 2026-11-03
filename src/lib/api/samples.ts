@@ -1,30 +1,30 @@
 // Static request/response examples for the developer page.
 // Locale-independent; shown verbatim in the code tabs.
+// Mirrors the SDK's /tax-grid-analysis shape (B2B service to an EU customer).
 
-export const boxReq = `POST /box-analysis
+export const boxReq = `POST /tax-grid-analysis
 Content-Type: application/json
 
 {
   "perspective": "supplier",
   "transaction": {
-    "taxable_point": "2025-04-10",
+    "taxable_point": "2026-03-14",
     "type": "service",
-    "taxable_amount": 7200,
+    "taxable_amount": 9800,
     "vat_amount": 0,
     "supplier": {
       "type": "company",
-      "vat_number": "BE0700800900",
+      "vat_number": "BE0403170701",
       "country": "belgium",
       "properties": []
     },
     "receiver": {
       "type": "company",
-      "vat_number": "NL123456789B01",
-      "country": "netherlands",
+      "vat_number": "DE811569869",
+      "country": "germany",
       "properties": []
     },
     "object": {
-      "classification": "consulting",
       "type": "general_service",
       "properties": []
     }
@@ -34,32 +34,36 @@ Content-Type: application/json
 export const boxRes = `200 OK
 
 {
-  "boxes": [
+  "status": "consistent",
+  "grids": [
     {
-      "box": "44",
-      "amount": 7200,
+      "grid": "44",
+      "amount": 9800,
       "justifications": [
         {
-          "applies": true,
-          "justification": "Services to a taxable person are located where the customer is established.",
           "legal_reference": {
-            "code": "WBTW", "article": "21", "paragraph": "2"
+            "article": "21", "paragraph": "2", "section": "n/a", "subsection": "n/a", "book": "wbtw"
           },
-          "context": { "type": "place_of_supply", "location": "netherlands" }
+          "context": { "type": "place", "location": "germany" },
+          "justification": "De afnemer van de dienst is een als zodanig handelende belastingplichtige; de zetel, vaste inrichting of verblijfplaats waarvoor de dienst wordt verricht, bevindt zich in Duitsland.",
+          "applies": true
+        },
+        {
+          "legal_reference": { "code": "box44" },
+          "justification": "B2B dienst met plaats in de lidstaat van de medecontractant (art. 21 §2 W.BTW); afnemer is schuldenaar via verlegging — op te nemen in de IC-opgave als code S",
+          "applies": true
         }
       ]
-    },
-    { "box": "48", "amount": 0, "justifications": [] }
+    }
   ],
-  "warnings": [],
-  "inconsistencies": []
+  "warnings": []
 }`;
 
 export const infReq = `POST /inference/object
 Content-Type: application/json
 
 {
-  "description": "consulting hours invoiced to a Dutch company"
+  "description": "consulting hours invoiced to a German company"
 }`;
 
 export const infRes = `200 OK

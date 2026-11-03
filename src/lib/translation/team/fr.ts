@@ -6,13 +6,13 @@ export const messages = {
 	edu: 'Formation',
 	people: {
 		jan: {
-			role: 'Fondateur',
-			bio: "Fiscaliste expérimenté en impôt des sociétés et des personnes physiques, en comptabilité et en finance d'entreprise.",
+			role: 'Cofondateur',
+			bio: "Fiscaliste spécialisé en TVA, avec une expérience en impôt des sociétés et des personnes physiques, en comptabilité et en finance d'entreprise.",
 			creds: ['CFO chez Eniris', 'Consultant chez Deloitte', 'Comptable depuis 2020'],
 			edu: ['HOGENT', 'Fiscale Hogeschool Brussel', 'KU Leuven']
 		},
 		niels: {
-			role: 'Fondateur',
+			role: 'Cofondateur',
 			bio: "Plus de douze ans en comptabilité, aujourd'hui responsable de la transformation digitale et de l'innovation chez by Watson.",
 			creds: [
 				'Responsable transformation digitale chez by Watson',

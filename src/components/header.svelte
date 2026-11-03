@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import { splitLocale } from '$lib/translation/locale';
 	import { onMount, tick } from 'svelte';
 
 	import { MAINTENANCE_MODE } from '$lib/maintenance';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
 	import LanguageButton from '$lib/components/LanguageButton.svelte';
 
 	import linkedLogo from '$lib/assets/InBug-Black.png';
@@ -12,10 +12,15 @@
 	let m = $derived(tr());
 
 	// The nav mirrors the design per page group.
-	let path = $derived(page.url.pathname);
+	// Strip the /en|/nl|/fr prefix so the per-surface nav matches flat routes.
+	let path = $derived(splitLocale(page.url.pathname).rest);
 	// Heimdall is a dark surface — the header follows suit on its routes.
 	let isDark = $derived(path.startsWith('/heimdall'));
 	let isEngine = $derived(path.startsWith('/engine'));
+	// Team and the legal pages share a simple Home / product-shortcut nav.
+	let isTeamNav = $derived(
+		path.startsWith('/team') || path.startsWith('/privacy') || path.startsWith('/impressum')
+	);
 
 	let menuOpen = $state(false);
 	let hamburgerEl: HTMLButtonElement | undefined = $state();
@@ -72,13 +77,17 @@
 
 {#snippet navLinks(onclick: (() => void) | undefined)}
 	{#if isDark}
-		<a href={resolve('/')} {onclick}>{m.nav.products}</a>
-		<a href={resolve('/team')} {onclick}>{m.nav.team}</a>
+		<a href={localePath('/')} {onclick}>{m.nav.products}</a>
+		<a href={localePath('/team')} {onclick}>{m.nav.team}</a>
 	{:else if isEngine}
-		<a href={resolve('/engine')} {onclick}>{m.nav.home}</a>
-		<a href={resolve('/')} {onclick}>{m.nav.products}</a>
-		<a href={resolve('/engine/dev')} {onclick}>{m.nav.docs}</a>
-		<a href={resolve('/team')} {onclick}>{m.nav.team}</a>
+		<a href={localePath('/engine')} {onclick}>{m.nav.home}</a>
+		<a href={localePath('/')} {onclick}>{m.nav.products}</a>
+		<a href={localePath('/engine/dev')} {onclick}>{m.nav.docs}</a>
+		<a href={localePath('/team')} {onclick}>{m.nav.team}</a>
+	{:else if isTeamNav}
+		<a href={localePath('/')} {onclick}>{m.nav.home}</a>
+		<a href={localePath('/heimdall')} {onclick}>{m.nav.heimdall}</a>
+		<a href={localePath('/engine')} {onclick}>{m.nav.engine}</a>
 	{/if}
 {/snippet}
 
@@ -100,7 +109,7 @@
 {/snippet}
 
 <div id="header" class:maintenance={MAINTENANCE_MODE} class:dark={isDark}>
-	<a id="vatmiraal" href={resolve('/')} onclick={closeMenu}>
+	<a id="vatmiraal" href={localePath('/')} onclick={closeMenu}>
 		<picture>
 			<source srcset="/logo_icon.svg" media="(max-width: 768px)" />
 			<img src="/logo.svg" alt="VATmiraal" />
@@ -114,7 +123,7 @@
 	<div id="header-actions">
 		{#if !MAINTENANCE_MODE}
 			{#if !isEngine && !isDark}
-				<a class="action-link" href={resolve('/team')}>{m.nav.team}</a>
+				<a class="action-link" href={localePath('/team')}>{m.nav.team}</a>
 			{/if}
 			{@render langSwitch(isDark ? 'dark' : 'light')}
 			{#if !isDark}
@@ -158,7 +167,7 @@
 		<nav id="mobile-nav" aria-label="Primary">
 			{@render navLinks(closeMenu)}
 			{#if !isEngine && !isDark}
-				<a href={resolve('/team')} onclick={closeMenu}>{m.nav.team}</a>
+				<a href={localePath('/team')} onclick={closeMenu}>{m.nav.team}</a>
 			{/if}
 		</nav>
 		{#if !isEngine && !isDark}

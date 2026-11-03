@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
+	import { splitLocale, localeHref } from '$lib/translation/locale';
+	import { isLocale } from '$lib/translation/messages';
 
 	let { lang, tone = 'light' }: { lang: string; tone?: 'light' | 'dark' } = $props();
 
@@ -8,8 +10,11 @@
 	let active = $derived(page.data.lang === code);
 
 	async function setLanguage(): Promise<void> {
+		if (!isLocale(code)) return;
+		const { rest } = splitLocale(page.url.pathname);
+		// Remember the choice for later visits to an unprefixed URL.
 		document.cookie = `lang=${code}; path=/; max-age=31536000; SameSite=Lax`;
-		await invalidateAll();
+		await goto(localeHref(rest, code) + page.url.search);
 	}
 </script>
 

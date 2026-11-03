@@ -1,28 +1,26 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import { Check } from '@lucide/svelte';
 	import { MAINTENANCE_MODE } from '$lib/maintenance';
-	import { tr } from '$lib/translation/i18n';
+	import { tr, localePath } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let m = $derived(tr());
 	let p = $derived(m.portal);
 	let heroSubParts = $derived(p.heroSubParts as { t: string; w: number }[]);
 	let vmPoints = $derived(p.vm.points as string[]);
 	let hdPoints = $derived(p.hd.points as string[]);
+
+	let seoTitle = $derived(
+		MAINTENANCE_MODE ? "VATmiraal — We'll be back soon" : `VATmiraal — ${p.heroTitle}`
+	);
+	let seoDescription = $derived(
+		MAINTENANCE_MODE
+			? 'VATmiraal is updating its website and will be back online soon.'
+			: p.metaDescription
+	);
 </script>
 
-<svelte:head>
-	{#if MAINTENANCE_MODE}
-		<title>VATmiraal — We'll be back soon</title>
-		<meta
-			name="description"
-			content="VATmiraal is updating its website and will be back online soon."
-		/>
-	{:else}
-		<title>VATmiraal — {p.heroTitle}</title>
-		<meta name="description" content={p.vm.body} />
-	{/if}
-</svelte:head>
+<Seo title={seoTitle} description={seoDescription} />
 
 {#if MAINTENANCE_MODE}
 	<section id="maintenance">
@@ -39,9 +37,7 @@
 	<section class="hero">
 		<h1>{p.heroTitle}</h1>
 		<p class="hero-sub">
-			{#each heroSubParts as part, i (i)}<span style="font-weight:{part.w}" class:em={part.w > 400}
-					>{part.t}</span
-				>{/each}
+			{#each heroSubParts as part, i (i)}<span class:em={part.w > 400}>{part.t}</span>{/each}
 		</p>
 	</section>
 
@@ -50,7 +46,7 @@
 		<span class="kicker">{p.productsKicker}</span>
 		<div class="product-grid">
 			<!-- VATmiraal · the engine -->
-			<a class="product light" href={resolve('/engine')}>
+			<a class="product light" href={localePath('/engine')}>
 				<img class="product-logo" src="/logo.svg" alt="VATmiraal" />
 				<span class="audience">{p.vm.audience}</span>
 				<h2>{p.vm.title}</h2>
@@ -68,7 +64,7 @@
 			</a>
 
 			<!-- Heimdall · the agent -->
-			<a class="product dark" href={resolve('/heimdall')}>
+			<a class="product dark" href={localePath('/heimdall')}>
 				<span class="wordmark">Heimdall</span>
 				<span class="audience">{p.hd.audience}</span>
 				<h2>{p.hd.title}</h2>
@@ -134,7 +130,12 @@
 		color: var(--color-text-muted);
 	}
 
+	.hero-sub span {
+		font-weight: 400;
+	}
+
 	.hero-sub .em {
+		font-weight: 700;
 		color: var(--color-text);
 	}
 

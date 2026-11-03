@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tr } from '$lib/translation/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 
 	interface IPerson {
@@ -31,10 +32,7 @@
 	]);
 </script>
 
-<svelte:head>
-	<title>{t.title} — VATmiraal</title>
-	<meta name="description" content={t.sub} />
-</svelte:head>
+<Seo title={`${t.title} — VATmiraal`} description={t.sub} />
 
 <section class="intro">
 	<span class="divider"></span>
