@@ -22,7 +22,7 @@ const config = {
 				],
 				'img-src': ['self', 'data:'],
 				'font-src': ['self'],
-				'connect-src': ['self', 'https://formspree.io'],
+				'connect-src': ['self', 'https://formspree.io', 'https://api.vatmiraal.be'],
 				'form-action': ['self', 'https://formspree.io'],
 				'base-uri': ['self'],
 				'object-src': ['none'],

@@ -1,0 +1,527 @@
+/* Heimdall legal-document styling, ported from the source pages and scoped under .vm-doc.
+   Light "cream paper + ink" theme by design; the dark chrome is the shared header/footer. */
+.vm-doc {
+	--bg: #f8f8f6;
+	--surface: #ffffff;
+	--ink: #0f0f0f;
+	--muted: rgba(15, 15, 15, 0.72);
+	--faint: rgba(15, 15, 15, 0.52);
+	--line: rgba(15, 15, 15, 0.09);
+	--line-strong: rgba(15, 15, 15, 0.14);
+	--edge: rgba(15, 15, 15, 0.32);
+	--accent: #2c3e76;
+	--accent-tint: #eef0f7;
+	--mark: #1b2a4a;
+	--proof: #1f6b4f;
+	--proof-tint: #e7f0eb;
+	--inv: #0f0f0f;
+	--on-dark: #f8f8f6;
+	--font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+	color-scheme: light;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font);
+	font-size: 15.5px;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+.vm-doc h1,
+.vm-doc h2,
+.vm-doc h3 {
+	margin: 0;
+	font-weight: 800;
+	line-height: 1.15;
+	letter-spacing: -0.025em;
+	text-wrap: balance;
+	font-feature-settings: 'cv11', 'ss03';
+}
+.vm-doc h1 {
+	font-size: clamp(1.9rem, 4vw, 2.6rem);
+	letter-spacing: -0.035em;
+}
+.vm-doc h2 {
+	font-size: 1.25rem;
+	letter-spacing: -0.015em;
+}
+.vm-doc p {
+	margin: 0;
+}
+.vm-doc td,
+.vm-doc th,
+.vm-doc .num {
+	font-variant-numeric: tabular-nums;
+}
+.vm-doc :focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+.vm-doc .wrap {
+	max-width: 900px;
+	margin: 0 auto;
+	padding-left: max(16px, env(safe-area-inset-left, 0px));
+	padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.vm-doc .kicker {
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--faint);
+}
+.vm-doc .title {
+	padding-block: 48px 28px;
+	display: grid;
+	gap: 12px;
+}
+.vm-doc .rule {
+	width: 48px;
+	height: 2px;
+	background: var(--accent);
+}
+.vm-doc .meta {
+	color: var(--muted);
+	font-size: 0.92rem;
+}
+.vm-doc article {
+	padding-block: 30px;
+	border-top: 1px solid var(--line);
+	display: grid;
+	gap: 16px;
+	scroll-margin-top: 84px;
+}
+.vm-doc .cl {
+	display: grid;
+	gap: 0;
+}
+.vm-doc .cl > div {
+	display: grid;
+	grid-template-columns: 48px minmax(0, 1fr);
+	gap: 12px;
+	padding-block: 9px;
+}
+.vm-doc .cl > div > span:first-child {
+	color: var(--faint);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+.vm-doc .cl ol {
+	margin: 6px 0 0;
+	padding-left: 1.4em;
+	display: grid;
+	gap: 4px;
+}
+.vm-doc .cl ol li::marker {
+	color: var(--faint);
+}
+.vm-doc dl {
+	margin: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+	gap: 10px 20px;
+}
+.vm-doc dt {
+	font-weight: 700;
+}
+.vm-doc dd {
+	margin: 0;
+	color: var(--muted);
+}
+.vm-doc dd a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+@media (max-width: 600px) {
+	.vm-doc dl {
+		grid-template-columns: 1fr;
+		gap: 2px;
+	}
+	.vm-doc dd {
+		margin-bottom: 10px;
+	}
+}
+.vm-doc .card {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	box-shadow: var(--shadow);
+	min-width: 0;
+}
+.vm-doc .tbl {
+	overflow-x: auto;
+}
+.vm-doc table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 0.93rem;
+}
+.vm-doc th {
+	font-size: 0.68rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--faint);
+	text-align: right;
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--line-strong);
+	vertical-align: bottom;
+	white-space: nowrap;
+}
+.vm-doc td {
+	padding: 11px 16px;
+	border-bottom: 1px solid var(--line);
+	text-align: right;
+	white-space: nowrap;
+}
+.vm-doc th:first-child,
+.vm-doc td:first-child {
+	text-align: left;
+}
+.vm-doc tr:last-child td {
+	border-bottom: 0;
+}
+@media (max-width: 520px) {
+	.vm-doc table {
+		font-size: 0.86rem;
+	}
+	.vm-doc th,
+	.vm-doc td {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.vm-doc th {
+		letter-spacing: 0.04em;
+	}
+}
+.vm-doc .tbl table {
+	font-size: 0.88rem;
+}
+.vm-doc .tbl th {
+	white-space: normal;
+	letter-spacing: 0.05em;
+	padding: 10px 12px;
+}
+.vm-doc .tbl td {
+	padding: 10px 12px;
+}
+.vm-doc .tbl td:first-child {
+	white-space: normal;
+}
+.vm-doc .tracks {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	padding-block: 30px;
+	border-top: 1px solid var(--line);
+}
+.vm-doc .tracks > a.track {
+	padding: 20px 22px;
+	display: grid;
+	gap: 10px;
+	align-content: start;
+	color: inherit;
+	text-decoration: none;
+	transition:
+		border-color 0.15s,
+		box-shadow 0.15s;
+}
+.vm-doc .tracks > a.track:hover {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 1px var(--accent);
+}
+.vm-doc .tracks h2 {
+	font-size: 1.15rem;
+}
+.vm-doc .tracks h2 span {
+	color: var(--accent);
+}
+.vm-doc .tracks .k {
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+.vm-doc .tracks ul {
+	margin: 0;
+	padding-left: 1.1em;
+	display: grid;
+	gap: 4px;
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+.vm-doc .calc-link {
+	grid-column: 1 / -1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 22px;
+	border-radius: 10px;
+	background: var(--inv);
+	color: var(--on-dark);
+	text-decoration: none;
+	font-weight: 600;
+}
+.vm-doc .calc-link:hover {
+	background: var(--accent);
+}
+@media (max-width: 640px) {
+	.vm-doc .tracks {
+		grid-template-columns: 1fr;
+	}
+}
+.vm-doc .hl {
+	color: inherit;
+	text-decoration: none;
+}
+.vm-doc .hl:hover::after,
+.vm-doc .hl:focus-visible::after {
+	content: ' #';
+	color: var(--accent);
+	font-weight: 600;
+}
+.vm-doc [id] {
+	scroll-margin-top: 84px;
+}
+.vm-doc .titlebar {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+.vm-doc .pdfbtn {
+	font: inherit;
+	font-size: 0.88rem;
+	font-weight: 600;
+	height: 38px;
+	padding: 0 16px;
+	border-radius: 8px;
+	border: 1px solid var(--inv);
+	background: var(--inv);
+	color: var(--on-dark);
+	cursor: pointer;
+}
+.vm-doc .pdfbtn:hover {
+	background: var(--accent);
+	border-color: var(--accent);
+}
+.vm-doc .pdfbtn[disabled] {
+	opacity: 0.6;
+	cursor: progress;
+}
+.vm-doc .pdfmsg {
+	font-size: 0.82rem;
+	color: var(--muted);
+}
+.vm-doc .back {
+	color: var(--accent);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+.vm-doc .back:hover {
+	text-decoration: underline;
+}
+.vm-doc .intro {
+	color: var(--muted);
+	max-width: 70ch;
+}
+
+/* Calculator */
+.vm-doc .calc {
+	display: grid;
+	grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+}
+.vm-doc .calc-in {
+	padding: 20px 22px;
+	border-right: 1px solid var(--line);
+	display: grid;
+	gap: 16px;
+	align-content: start;
+}
+.vm-doc .calc-out {
+	padding: 20px 22px;
+	min-width: 0;
+	display: grid;
+	gap: 14px;
+	align-content: start;
+}
+@media (max-width: 720px) {
+	.vm-doc .calc {
+		grid-template-columns: 1fr;
+	}
+	.vm-doc .calc-in {
+		border-right: 0;
+		border-bottom: 1px solid var(--line);
+	}
+}
+.vm-doc .fld {
+	display: grid;
+	gap: 6px;
+}
+.vm-doc .fld label,
+.vm-doc .fld .lb {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var(--muted);
+}
+.vm-doc .fld input {
+	font: inherit;
+	font-variant-numeric: tabular-nums;
+	height: 40px;
+	padding: 0 12px;
+	border: 1px solid var(--line-strong);
+	border-radius: 8px;
+	background: var(--surface);
+	color: var(--ink);
+	width: 100%;
+}
+.vm-doc .fld input:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 1px;
+}
+.vm-doc .seg {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	border: 1px solid var(--line-strong);
+	border-radius: 8px;
+	overflow: hidden;
+}
+.vm-doc .seg button {
+	font: inherit;
+	font-size: 0.85rem;
+	font-weight: 600;
+	height: 38px;
+	border: 0;
+	background: var(--surface);
+	color: var(--muted);
+	cursor: pointer;
+}
+.vm-doc .seg button + button {
+	border-left: 1px solid var(--line-strong);
+}
+.vm-doc .seg button[aria-pressed='true'] {
+	background: var(--inv);
+	color: var(--on-dark);
+}
+.vm-doc .small {
+	font-size: 0.82rem;
+	color: var(--faint);
+}
+.vm-doc .bd {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.9rem;
+}
+.vm-doc .bd th {
+	font-size: 0.66rem;
+	padding: 8px 12px;
+}
+.vm-doc .bd td {
+	padding: 8px 12px;
+}
+.vm-doc .bd tr.tot td {
+	font-weight: 800;
+	background: var(--accent-tint);
+	border-top: 1px solid var(--line-strong);
+}
+.vm-doc .bd tr.sub td {
+	color: var(--muted);
+}
+.vm-doc .bd tr.alt td {
+	color: var(--muted);
+	font-size: 0.85rem;
+	border-top: 1px dashed var(--line-strong);
+}
+.vm-doc .bd tr.alt.cheaper td {
+	color: var(--ink);
+	font-weight: 700;
+}
+.vm-doc .bdwrap {
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	overflow-x: auto;
+}
+.vm-doc .side {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 24px;
+	align-items: start;
+}
+.vm-doc .side > article {
+	align-content: start;
+}
+@media (max-width: 720px) {
+	.vm-doc .side {
+		grid-template-columns: 1fr;
+	}
+}
+.vm-doc .rules {
+	margin: 0;
+	padding-left: 1.1em;
+	display: grid;
+	gap: 8px;
+	color: var(--muted);
+}
+.vm-doc .rules b {
+	color: var(--ink);
+}
+.vm-doc .sharebar {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+.vm-doc .sharebtn {
+	font: inherit;
+	font-size: 0.88rem;
+	font-weight: 600;
+	height: 38px;
+	padding: 0 16px;
+	border-radius: 8px;
+	border: 1px solid var(--inv);
+	background: var(--inv);
+	color: var(--on-dark);
+	cursor: pointer;
+}
+.vm-doc .sharebtn:hover {
+	background: var(--accent);
+	border-color: var(--accent);
+}
+.vm-doc .sharebtn.ghost {
+	background: var(--surface);
+	color: var(--ink);
+	border-color: var(--line-strong);
+}
+.vm-doc .sharebtn.ghost:hover {
+	background: var(--surface);
+	color: var(--accent);
+	border-color: var(--accent);
+}
+.vm-doc .fb {
+	display: grid;
+	gap: 6px;
+}
+.vm-doc .fb textarea {
+	font: inherit;
+	font-size: 0.82rem;
+	width: 100%;
+	border: 1px solid var(--line-strong);
+	border-radius: 8px;
+	padding: 10px;
+	background: var(--surface);
+	color: var(--ink);
+	resize: vertical;
+}
+.vm-doc .full {
+	color: var(--accent);
+	font-weight: 600;
+	text-decoration: none;
+}
+.vm-doc .full:hover {
+	text-decoration: underline;
+}

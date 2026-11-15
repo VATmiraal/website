@@ -17,7 +17,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (!locale) {
 		// Non-localized endpoints and static files keep their path.
-		if (rest === '/robots.txt' || rest === '/sitemap.xml' || /\.[a-z0-9]+$/i.test(rest)) {
+		if (
+			rest === '/robots.txt' ||
+			rest === '/sitemap.xml' ||
+			rest.startsWith('/mock-api') ||
+			/\.[a-z0-9]+$/i.test(rest)
+		) {
 			event.locals.lang = DEFAULT_LOCALE;
 			return resolve(event, {
 				transformPageChunk: ({ html }) => html.replace('%lang%', DEFAULT_LOCALE)

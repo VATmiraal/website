@@ -16,6 +16,8 @@
 	let path = $derived(splitLocale(page.url.pathname).rest);
 	// Heimdall is a dark surface — the header follows suit on its routes.
 	let isDark = $derived(path.startsWith('/heimdall'));
+	// Pricing is underlined on the rates and calculator pages.
+	let isPricing = $derived(path === '/heimdall/rates' || path === '/heimdall/calculator');
 	let isEngine = $derived(path.startsWith('/engine'));
 	// Team and the legal pages share a simple Home / product-shortcut nav.
 	let isTeamNav = $derived(
@@ -77,7 +79,11 @@
 
 {#snippet navLinks(onclick: (() => void) | undefined)}
 	{#if isDark}
+		<a href={localePath('/heimdall')} {onclick}>{m.nav.home}</a>
 		<a href={localePath('/')} {onclick}>{m.nav.products}</a>
+		<a href={localePath('/heimdall/rates')} aria-current={isPricing ? 'page' : undefined} {onclick}
+			>{m.nav.pricing}</a
+		>
 		<a href={localePath('/team')} {onclick}>{m.nav.team}</a>
 	{:else if isEngine}
 		<a href={localePath('/engine')} {onclick}>{m.nav.home}</a>
@@ -294,6 +300,17 @@
 
 	#header.dark #nav-links a {
 		color: var(--color-text-on-dark);
+		padding-block: 2px;
+		border-bottom: 2px solid transparent;
+	}
+
+	#header.dark #nav-links a:hover {
+		opacity: 1;
+		color: #8fa0d6;
+	}
+
+	#header.dark #nav-links a[aria-current='page'] {
+		border-bottom-color: #8fa0d6;
 	}
 
 	#header.dark .lang-switch {

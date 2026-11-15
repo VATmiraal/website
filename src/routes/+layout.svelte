@@ -1,13 +1,18 @@
 <script lang="ts">
 	import '../app.css';
+	import { page } from '$app/state';
 	import Header from '../components/header.svelte';
 	import { tr, localePath } from '$lib/translation/i18n';
+	import { splitLocale } from '$lib/translation/locale';
 	import { SITE_URL, SITE_NAME } from '$lib/site';
 	import linkedLogo from '$lib/assets/InBug-Black.png';
 
 	let { children } = $props();
 
 	let m = $derived(tr());
+
+	// Heimdall is a dark surface — the footer follows suit and drops the Privacy link there.
+	let isDark = $derived(splitLocale(page.url.pathname).rest.startsWith('/heimdall'));
 
 	const schemas = [
 		{
@@ -43,11 +48,13 @@
 
 {@render children()}
 
-<footer>
+<footer class:dark={isDark}>
 	<div class="footer-links">
 		<a href={localePath('/team')} class="legal-link">{m.nav.team}</a>
 		<a href={localePath('/impressum')} class="legal-link">{m.nav.impressum}</a>
-		<a href={localePath('/privacy')} class="legal-link">{m.nav.privacy}</a>
+		{#if !isDark}
+			<a href={localePath('/privacy')} class="legal-link">{m.nav.privacy}</a>
+		{/if}
 		<span class="copyright">{m.common.footer}</span>
 	</div>
 	<div class="footer-social">
@@ -99,5 +106,28 @@
 		display: block;
 		width: 1.25em;
 		height: auto;
+	}
+
+	/* ─── Dark surface (Heimdall routes) ─── */
+	footer.dark {
+		background: #0f0f0f;
+		border-top: 1px solid rgba(248, 248, 246, 0.15);
+		color: rgba(248, 248, 246, 0.7);
+	}
+
+	footer.dark .legal-link {
+		color: rgba(248, 248, 246, 0.7);
+	}
+
+	footer.dark .legal-link:hover {
+		color: #f8f8f6;
+	}
+
+	footer.dark .copyright {
+		color: rgba(248, 248, 246, 0.45);
+	}
+
+	footer.dark .footer-social img {
+		filter: brightness(0) invert(1);
 	}
 </style>

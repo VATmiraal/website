@@ -3,6 +3,7 @@ export const messages = {
 	products: 'Our products',
 	engine: 'Engine',
 	heimdall: 'Heimdall',
+	pricing: 'Pricing',
 	docs: 'For developers',
 	team: 'Team',
 	contact: 'Contact us',

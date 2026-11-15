@@ -5,9 +5,7 @@
 
 	let m = $derived(tr());
 	let is404 = $derived(page.status === 404);
-	let heading = $derived(
-		is404 ? m.common.notFound : page.error?.message || 'Something went wrong.'
-	);
+	let heading = $derived(is404 ? m.common.notFound : m.common.error);
 </script>
 
 <svelte:head>
@@ -18,7 +16,18 @@
 <section id="error">
 	<span class="status">{page.status}</span>
 	<h1>{heading}</h1>
-	{#if is404}<p>{m.common.notFoundBody}</p>{/if}
+	{#if is404}
+		<p>{m.common.notFoundBody}</p>
+	{:else}
+		<p>
+			{m.common.errorReach}
+			<a href="mailto:info@vatmiraal.be">info@vatmiraal.be</a>
+			{m.common.or}
+			<a href="https://www.linkedin.com/company/vatmiraal" target="_blank" rel="noopener noreferrer"
+				>LinkedIn</a
+			>.
+		</p>
+	{/if}
 	<Button href={localePath('/')} variant="primary">{m.common.backHome}</Button>
 </section>
 
