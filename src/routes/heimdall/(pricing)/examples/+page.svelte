@@ -150,11 +150,11 @@
 					{/if}
 				</article>
 			{/each}
-		</div>
 
-		<a class="calc-link" href={localePath('/heimdall/calculator')} style="margin-top:28px">
-			<span>{calcTitle}</span><span aria-hidden="true">→</span>
-		</a>
+			<a class="calc-link" href={localePath('/heimdall/calculator')}>
+				<span>{calcTitle}</span><span aria-hidden="true">→</span>
+			</a>
+		</div>
 	</div>
 </main>
 
