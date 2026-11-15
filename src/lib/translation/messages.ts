@@ -31,6 +31,18 @@ import { messages as buyFr } from './buy/fr';
 import { messages as teamEn } from './team/en';
 import { messages as teamNl } from './team/nl';
 import { messages as teamFr } from './team/fr';
+import { messages as ratesEn } from './rates/en';
+import { messages as ratesNl } from './rates/nl';
+import { messages as ratesFr } from './rates/fr';
+import { messages as serviceEn } from './service/en';
+import { messages as serviceNl } from './service/nl';
+import { messages as serviceFr } from './service/fr';
+import { messages as calcEn } from './calc/en';
+import { messages as calcNl } from './calc/nl';
+import { messages as calcFr } from './calc/fr';
+import { messages as examplesEn } from './examples/en';
+import { messages as examplesNl } from './examples/nl';
+import { messages as examplesFr } from './examples/fr';
 
 export const LOCALES = ['en', 'nl', 'fr'] as const;
 export type Locale = (typeof LOCALES)[number];
@@ -47,7 +59,11 @@ export const DICT = {
 		portal: portalEn,
 		heimdall: heimdallEn,
 		buy: buyEn,
-		team: teamEn
+		team: teamEn,
+		rates: ratesEn,
+		service: serviceEn,
+		calc: calcEn,
+		examples: examplesEn
 	},
 	nl: {
 		common: commonNl,
@@ -60,7 +76,11 @@ export const DICT = {
 		portal: portalNl,
 		heimdall: heimdallNl,
 		buy: buyNl,
-		team: teamNl
+		team: teamNl,
+		rates: ratesNl,
+		service: serviceNl,
+		calc: calcNl,
+		examples: examplesNl
 	},
 	fr: {
 		common: commonFr,
@@ -73,7 +93,11 @@ export const DICT = {
 		portal: portalFr,
 		heimdall: heimdallFr,
 		buy: buyFr,
-		team: teamFr
+		team: teamFr,
+		rates: ratesFr,
+		service: serviceFr,
+		calc: calcFr,
+		examples: examplesFr
 	}
 };
 

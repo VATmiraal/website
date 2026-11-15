@@ -13,7 +13,8 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:unit": "vitest",
-		"test": "bun run test:unit -- --run"
+		"test": "bun run test:unit -- --run",
+		"provision:pdfs": "bun scripts/provision-pdfs.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",
@@ -29,7 +30,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.14.0",
 		"globals": "^17.3.0",
-		"playwright": "^1.58.1",
+		"playwright": "^1.65.1",
 		"prettier": "^3.8.1",
 		"prettier-plugin-svelte": "^3.4.1",
 		"svelte": "^5.49.2",
@@ -41,6 +42,10 @@
 		"vitest-browser-svelte": "^2.0.2"
 	},
 	"dependencies": {
+		"@vatmiraal/vatmiraal-sdk": "^0.4.0",
+		"result-interface": "^2.4.1",
+		"jspdf": "2.5.1",
+		"jspdf-autotable": "3.8.2",
 		"simple-icons": "^16.18.0"
 	}
 }
