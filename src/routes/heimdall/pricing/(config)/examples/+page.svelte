@@ -244,6 +244,7 @@
 	}
 	.result strong {
 		font-size: var(--font-size-lg);
+		white-space: nowrap;
 	}
 	.per {
 		font-size: var(--font-size-sm);
