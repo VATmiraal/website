@@ -4,7 +4,7 @@ import { result, error as asError } from 'result-interface';
 const { fetchPricing } = vi.hoisted(() => ({ fetchPricing: vi.fn() }));
 vi.mock('@vatmiraal/vatmiraal-sdk', () => ({ VatmiraalClient: class {}, fetchPricing }));
 
-import { load } from '../../src/routes/heimdall/(pricing)/+layout';
+import { load } from '../../src/routes/heimdall/pricing/(config)/+layout';
 
 const config = {
 	version: '2026-11-12',

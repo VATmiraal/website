@@ -93,7 +93,7 @@
 				ex,
 				setup,
 				worked: build(ex.kind),
-				clauseHref: localePath('/heimdall/rates') + '#' + lang + '-' + ex.section + '-' + ex.n
+				clauseHref: localePath('/heimdall/pricing') + '#' + lang + '-' + ex.section + '-' + ex.n
 			};
 		})
 	);
@@ -105,7 +105,7 @@
 	<div class="wrap" style="padding-bottom:48px">
 		<div class="title">
 			<div class="rule"></div>
-			<a class="back" href={localePath('/heimdall/rates')}>{m.back}</a>
+			<a class="back" href={localePath('/heimdall/pricing')}>{m.back}</a>
 			<h1>{m.title}</h1>
 			<p class="intro">{m.intro}</p>
 		</div>
@@ -151,7 +151,7 @@
 				</article>
 			{/each}
 
-			<a class="calc-link" href={localePath('/heimdall/calculator')}>
+			<a class="calc-link" href={localePath('/heimdall/pricing/calculator')}>
 				<span>{calcTitle}</span><span aria-hidden="true">→</span>
 			</a>
 		</div>
@@ -244,6 +244,7 @@
 	}
 	.result strong {
 		font-size: var(--font-size-lg);
+		white-space: nowrap;
 	}
 	.per {
 		font-size: var(--font-size-sm);

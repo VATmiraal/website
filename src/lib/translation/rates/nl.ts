@@ -14,7 +14,7 @@ export const messages: IRatesMessages = {
 				desc: [
 					{
 						text: 'De dienst zoals omschreven in de Dienstbeschrijving Heimdall.',
-						path: '/heimdall/service-description',
+						path: '/heimdall/pricing/service-description',
 						hash: 'nl-definities'
 					}
 				]
