@@ -217,7 +217,7 @@
 		if (mode === 'committed') lines.push(`${s.iC}: ${formatInt(num(committedInput), lang)}`);
 		lines.push(`${s.iV}: ${formatInt(num(actualInput), lang)}`, `${s.iS}: ${shareInput} %`, '');
 		for (const row of summary) lines.push(`${row.label}: ${row.value}`);
-		const ratesUrl = page.url.origin + localePath('/heimdall/rates');
+		const ratesUrl = page.url.origin + localePath('/heimdall/pricing/rates');
 		lines.push('', `${c.fullTerms.replace(' →', '')}: ${ratesUrl}`, 'info@vatmiraal.be');
 		return lines.join('\n');
 	}
@@ -298,7 +298,7 @@
 	<div class="wrap" style="padding-bottom:48px">
 		<div class="title">
 			<div class="rule"></div>
-			<a class="back" href={localePath('/heimdall/rates')}>{c.back}</a>
+			<a class="back" href={localePath('/heimdall/pricing/rates')}>{c.back}</a>
 			<h1>{c.title}</h1>
 			<p class="intro">{c.intro}</p>
 		</div>
@@ -391,7 +391,7 @@
 			</div>
 		</div>
 
-		<a class="calc-link" href={localePath('/heimdall/examples')} style="margin-top:28px">
+		<a class="calc-link" href={localePath('/heimdall/pricing/examples')} style="margin-top:28px">
 			<span>{m.examples.title}</span><span aria-hidden="true">→</span>
 		</a>
 
@@ -413,7 +413,7 @@
 						<li><b>{rule.lead}</b> {rule.text}</li>
 					{/each}
 				</ul>
-				<a class="full" href={localePath('/heimdall/rates') + '#' + r.definitions.id}
+				<a class="full" href={localePath('/heimdall/pricing/rates') + '#' + r.definitions.id}
 					>{c.fullTerms}</a
 				>
 			</article>

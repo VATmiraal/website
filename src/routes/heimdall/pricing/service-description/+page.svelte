@@ -26,7 +26,7 @@
 		try {
 			// `?pdfOrigin=` lets the provisioning script bake production links from a local run.
 			const origin = page.url.searchParams.get('pdfOrigin') || page.url.origin;
-			const calcUrl = origin + localeHref('/heimdall/calculator', lang);
+			const calcUrl = origin + localeHref('/heimdall/pricing/calculator', lang);
 			const doc = await buildPdf({ root: docRoot, lang, calcUrl, origin });
 			doc.save(`VATmiraal-Heimdall-${lang}.pdf`);
 			pdfMsg = msgs.saved;
@@ -52,7 +52,7 @@
 		<div bind:this={docRoot}>
 			<div class="title">
 				<div class="rule"></div>
-				<a class="back" href={localePath('/heimdall/rates')}>{sv.back}</a>
+				<a class="back" href={localePath('/heimdall/pricing/rates')}>{sv.back}</a>
 				<div class="kicker">{sv.kicker}</div>
 				<div class="titlebar">
 					<h1>{sv.title}</h1>

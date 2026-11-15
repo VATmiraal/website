@@ -18,7 +18,7 @@
 	let r = $derived(m.rates);
 	let lang = $derived((isLocale(page.data.lang) ? page.data.lang : 'en') as Lang);
 
-	const calcPath = '/heimdall/calculator';
+	const calcPath = '/heimdall/pricing/calculator';
 
 	let docRoot: HTMLElement | undefined = $state();
 	let pdfBusy = $state(false);
@@ -33,7 +33,7 @@
 			// `?pdfOrigin=` lets the provisioning script bake production links from a local run.
 			const origin = page.url.searchParams.get('pdfOrigin') || page.url.origin;
 			const calcUrl = origin + localeHref(calcPath, lang);
-			const examplesUrl = origin + localeHref('/heimdall/examples', lang);
+			const examplesUrl = origin + localeHref('/heimdall/pricing/examples', lang);
 			const doc = await buildPdf({ root: docRoot, lang, calcUrl, examplesUrl, origin });
 			doc.save(`VATmiraal-tarieven-${lang}.pdf`);
 			pdfMsg = msgs.saved;
@@ -89,7 +89,11 @@
 					stdHead={r.rates.tableHead.standard}
 					premHead={r.rates.tableHead.premium}
 				/>
-				<a class="calc-link" href={localePath('/heimdall/examples')} style="margin-top:14px">
+				<a
+					class="calc-link"
+					href={localePath('/heimdall/pricing/examples')}
+					style="margin-top:14px"
+				>
 					<span>{m.examples.title}</span><span aria-hidden="true">→</span>
 				</a>
 			</article>

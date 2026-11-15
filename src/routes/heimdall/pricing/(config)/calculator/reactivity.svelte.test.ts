@@ -5,7 +5,7 @@ import { render } from 'vitest-browser-svelte';
 vi.mock('$app/state', () => ({
 	page: {
 		data: { lang: 'en' },
-		url: new URL('http://localhost/en/heimdall/calculator')
+		url: new URL('http://localhost/en/heimdall/pricing/calculator')
 	}
 }));
 

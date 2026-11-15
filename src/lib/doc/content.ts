@@ -8,7 +8,7 @@ export interface ILink {
 	text: string;
 	/** External absolute URL (opens in a new tab). */
 	url?: string;
-	/** In-site flat path, localised at render time, e.g. "/heimdall/service-description". */
+	/** In-site flat path, localised at render time, e.g. "/heimdall/pricing/service-description". */
 	path?: string;
 	/** Anchor id (already language-prefixed, e.g. "nl-premium"). */
 	hash?: string;
