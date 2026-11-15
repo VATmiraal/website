@@ -154,7 +154,7 @@ export const messages: IServiceMessages = {
 						'A planned extension forms part of Heimdall from the date on which VATmiraal announces its availability by email. It counts as new functionality within the meaning of ',
 						{
 							text: 'term and renewal',
-							path: '/heimdall/pricing/rates',
+							path: '/heimdall/pricing',
 							hash: 'en-term-and-renewal'
 						},
 						' in the Rates. VATmiraal does not commit to an availability date.'
@@ -218,7 +218,7 @@ export const messages: IServiceMessages = {
 					n: '7.1',
 					lead: [
 						'Heimdall is charged per invoice according to the ',
-						{ text: 'Rates', path: '/heimdall/pricing/rates', hash: 'en-definitions' },
+						{ text: 'Rates', path: '/heimdall/pricing', hash: 'en-definitions' },
 						'.'
 					]
 				},
@@ -234,7 +234,7 @@ export const messages: IServiceMessages = {
 						'An extension of this description counts as new functionality within the meaning of ',
 						{
 							text: 'term and renewal',
-							path: '/heimdall/pricing/rates',
+							path: '/heimdall/pricing',
 							hash: 'en-term-and-renewal'
 						},
 						' in the Rates.'

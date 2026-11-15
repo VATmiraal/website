@@ -82,7 +82,7 @@
 		<a href={localePath('/heimdall')} {onclick}>{m.nav.home}</a>
 		<a href={localePath('/')} {onclick}>{m.nav.products}</a>
 		<a
-			href={localePath('/heimdall/pricing/rates')}
+			href={localePath('/heimdall/pricing')}
 			aria-current={isPricing ? 'page' : undefined}
 			{onclick}>{m.nav.pricing}</a
 		>

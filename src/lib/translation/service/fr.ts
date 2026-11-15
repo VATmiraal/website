@@ -158,7 +158,7 @@ export const messages: IServiceMessages = {
 						'Une extension prévue fait partie de Heimdall à compter de la date à laquelle VATmiraal communique sa disponibilité par e-mail. Elle vaut fonctionnalité nouvelle au sens de ',
 						{
 							text: 'durée et renouvellement',
-							path: '/heimdall/pricing/rates',
+							path: '/heimdall/pricing',
 							hash: 'fr-duree-et-renouvellement'
 						},
 						' dans les Tarifs. VATmiraal ne s’engage sur aucune date de disponibilité.'
@@ -222,7 +222,7 @@ export const messages: IServiceMessages = {
 					n: '7.1',
 					lead: [
 						'Heimdall est facturé par facture selon les ',
-						{ text: 'Tarifs', path: '/heimdall/pricing/rates', hash: 'fr-definitions' },
+						{ text: 'Tarifs', path: '/heimdall/pricing', hash: 'fr-definitions' },
 						'.'
 					]
 				},
@@ -238,7 +238,7 @@ export const messages: IServiceMessages = {
 						'Une extension de la présente description vaut fonctionnalité nouvelle au sens de ',
 						{
 							text: 'durée et renouvellement',
-							path: '/heimdall/pricing/rates',
+							path: '/heimdall/pricing',
 							hash: 'fr-duree-et-renouvellement'
 						},
 						' dans les Tarifs.'

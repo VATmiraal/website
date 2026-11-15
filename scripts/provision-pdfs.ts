@@ -20,7 +20,7 @@ mkdirSync(outDir, { recursive: true });
 
 const langs = ['en', 'nl', 'fr'] as const;
 const pages = [
-	{ path: '/heimdall/pricing/rates', prefix: 'contract', wait: '.tbl' },
+	{ path: '/heimdall/pricing', prefix: 'contract', wait: '.tbl' },
 	{ path: '/heimdall/pricing/service-description', prefix: 'heimdall_definition', wait: '.vm-doc' }
 ] as const;
 

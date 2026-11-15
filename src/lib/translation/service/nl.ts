@@ -156,7 +156,7 @@ export const messages: IServiceMessages = {
 						'Een geplande uitbreiding maakt deel uit van Heimdall vanaf de datum waarop VATmiraal haar beschikbaarheid per e-mail meedeelt. Zij geldt als nieuwe functionaliteit in de zin van ',
 						{
 							text: 'duur en verlenging',
-							path: '/heimdall/pricing/rates',
+							path: '/heimdall/pricing',
 							hash: 'nl-duur-en-verlenging'
 						},
 						' in de Tarieven. VATmiraal verbindt zich niet tot een datum van beschikbaarheid.'
@@ -220,7 +220,7 @@ export const messages: IServiceMessages = {
 					n: '7.1',
 					lead: [
 						'Heimdall wordt per factuur aangerekend volgens de ',
-						{ text: 'Tarieven', path: '/heimdall/pricing/rates', hash: 'nl-definities' },
+						{ text: 'Tarieven', path: '/heimdall/pricing', hash: 'nl-definities' },
 						'.'
 					]
 				},
@@ -236,7 +236,7 @@ export const messages: IServiceMessages = {
 						'Een uitbreiding van deze dienstbeschrijving geldt als nieuwe functionaliteit in de zin van ',
 						{
 							text: 'duur en verlenging',
-							path: '/heimdall/pricing/rates',
+							path: '/heimdall/pricing',
 							hash: 'nl-duur-en-verlenging'
 						},
 						' in de Tarieven.'

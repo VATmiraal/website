@@ -52,7 +52,7 @@
 		<div bind:this={docRoot}>
 			<div class="title">
 				<div class="rule"></div>
-				<a class="back" href={localePath('/heimdall/pricing/rates')}>{sv.back}</a>
+				<a class="back" href={localePath('/heimdall/pricing')}>{sv.back}</a>
 				<div class="kicker">{sv.kicker}</div>
 				<div class="titlebar">
 					<h1>{sv.title}</h1>
