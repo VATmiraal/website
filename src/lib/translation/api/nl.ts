@@ -63,6 +63,10 @@ export const messages = {
 		{
 			tag: 'Koppelen',
 			items: [
+				{
+					n: 'ERP-integratie',
+					d: 'Koppelt aan je ERP via de API, of via een integratie op maat'
+				},
 				{ n: 'Pdf-ondersteuning', d: 'Factuurgegevens rechtstreeks uit een pdf gehaald' },
 				{ n: 'E-facturatie', d: 'Integreert met gestructureerde e-facturen' },
 				{ n: 'VATEX-codes', d: 'Vrijstellingsredenen uitgedrukt als standaard VATEX-codes' }

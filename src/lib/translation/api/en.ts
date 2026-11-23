@@ -48,6 +48,10 @@ export const messages = {
 		{
 			tag: 'Connect',
 			items: [
+				{
+					n: 'ERP integration',
+					d: 'Connects to your ERP through the API, or through a custom integration'
+				},
 				{ n: 'PDF support', d: 'Invoice facts extracted straight from a PDF' },
 				{ n: 'E-invoicing', d: 'Integrates with structured e-invoices' },
 				{ n: 'VATEX codes', d: 'Exemption reasons expressed as standard VATEX codes' }

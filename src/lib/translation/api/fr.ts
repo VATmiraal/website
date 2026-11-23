@@ -60,6 +60,10 @@ export const messages = {
 		{
 			tag: 'Connecter',
 			items: [
+				{
+					n: 'Intégration ERP',
+					d: "Se connecte à votre ERP via l'API, ou via une intégration sur mesure"
+				},
 				{ n: 'Prise en charge des PDF', d: "Données de facture extraites directement d'un PDF" },
 				{ n: 'Facturation électronique', d: "S'intègre aux factures électroniques structurées" },
 				{ n: 'Codes VATEX', d: "Motifs d'exonération exprimés en codes VATEX standard" }
