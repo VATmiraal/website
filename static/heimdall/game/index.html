@@ -100,6 +100,7 @@ button:focus-visible,#scene:focus-visible{outline:2px solid var(--acc);outline-o
 /* bought upgrades leave the list and become a quiet row of chips, so the list only changes when you buy */
 .owned{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;align-items:center}
 .owned[hidden]{display:none}
+.shopHd{display:flex;align-items:baseline;gap:8px}.shopHd .kick{flex:1}#lPause,#bShopX,#shopBar,#shopBg{display:none}
 .owned .ok{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-right:2px}
 .owned .chip{font-size:12px;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:2px 9px;white-space:nowrap}
 .foot{font-size:12px;color:var(--faint);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -146,10 +147,24 @@ button:focus-visible,#scene:focus-visible{outline:2px solid var(--acc);outline-o
   #tap,#fill{min-height:48px;font-size:16px}.cbtns button{min-height:44px;font-size:14px}
   .inv{padding:8px 10px}.inv b{font-size:14px}.inv .kick{font-size:10.5px}.why,.agl,#chkWhy{font-size:12.5px}.res{font-size:12px}.rnote{font-size:11px;margin-top:4px}
   .kick{font-size:10.5px;margin-bottom:6px}
-  .ups{display:flex;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-  .ups{align-items:stretch}.up{flex:0 0 62%;scroll-snap-align:start;padding:7px 9px;align-content:start}
-  .up .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.up .fx{height:4.05em;min-height:0}.up .fx i{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .owned{flex:0 0 62%;scroll-snap-align:start;margin:0;gap:4px;align-content:flex-start;padding:7px 9px;border:1px dashed var(--line2);border-radius:10px}.owned .chip{font-size:11px;padding:1px 7px}.owned .ok{font-size:10px;flex:1 1 100%}
+  /* upgrades: a bar at the bottom opens a sheet; the game pauses while it is open */
+  .wrap{padding-bottom:76px}
+  #upsCard{display:none}
+  body.shopOpen{overflow:hidden}
+  body.shopOpen #upsCard{display:block;position:fixed;left:0;right:0;bottom:0;z-index:9;max-height:80vh;overflow-y:auto;overscroll-behavior:contain;margin:0;border-radius:16px 16px 0 0;padding:12px 12px 22px;box-shadow:0 -10px 30px rgba(0,0,0,.18)}
+  body.shopOpen #shopBg{display:block;position:fixed;inset:0;z-index:8;background:rgba(15,15,15,.45)}
+  .shopHd{position:sticky;top:-12px;background:var(--card);margin:-12px -12px 8px;padding:12px 12px 6px;z-index:1}
+  #lPause{display:inline;font-size:11px;color:var(--faint)}
+  #bShopX{display:block;border:0;background:var(--ins-t);border-radius:8px;min-width:36px;min-height:32px;font-size:14px;cursor:pointer}
+  #shopBar{display:flex;position:fixed;left:10px;right:10px;bottom:max(10px,env(safe-area-inset-bottom));z-index:7;min-height:50px;padding:0 16px;align-items:center;justify-content:space-between;gap:10px;border:0;border-radius:12px;background:var(--mark);color:#fff;font-size:15px;box-shadow:0 4px 16px rgba(0,0,0,.2);cursor:pointer}
+  #shopBar span{font-size:13px;opacity:.8;font-variant-numeric:tabular-nums}
+  #shopBar.can{background:var(--att)}#shopBar.can span{opacity:1;font-weight:700}
+  #shopBar.pop{animation:barPop .5s var(--ease)}
+  @keyframes barPop{40%{transform:scale(1.04)}}
+  .ups{display:flex;flex-direction:column;gap:8px}
+  .up{padding:10px 12px;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px}.up .c{grid-row:span 2;align-self:center}
+  .up .d{display:block;font-size:12.5px;line-height:1.35}.up .fx{min-height:0;font-size:12px}.up .fx i{display:inline}
+  .owned{margin-top:4px}.owned .chip{font-size:11px;padding:1px 7px}.owned .ok{font-size:10px}
   .evon #chk{display:none} /* a dossier event takes the place of the sample check until it is answered */
   .inv .res{min-height:0}
   .rrow{grid-template-columns:minmax(0,1fr) auto;padding:5px 0;gap:4px 8px}.rrow span{font-size:12.5px;line-height:1.25}.seg{gap:3px}.seg button{min-height:30px;padding:0 6px;font-size:11.5px}#rNote{display:none}
@@ -193,13 +208,14 @@ button:focus-visible,#scene:focus-visible{outline:2px solid var(--acc);outline-o
       <section class="card" id="rules" hidden><p class="kick" id="lRules"></p><div id="ruleRows"></div><p class="rnote" id="rNote"></p></section>
       <button id="fill" hidden><span id="lFill"></span><small id="vFill"></small><i class="cd" id="fillCd"></i></button>
     </div>
-    <section class="card">
-      <p class="kick" id="lUps"></p>
+    <section class="card" id="upsCard" aria-label="upgrades">
+      <div class="shopHd"><p class="kick" id="lUps"></p><span id="lPause"></span><button id="bShopX" aria-label="✕">✕</button></div>
       <div class="ups" id="ups"><div class="owned" id="owned" hidden></div></div>
     </section>
     <div class="foot"><span id="lNote"></span><button id="bReset"></button></div>
   </div>
 </main>
+<div id="shopBg"></div><button id="shopBar" hidden><b id="shopL"></b><span id="shopS"></span></button>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
 <script>
 {
@@ -209,7 +225,7 @@ const S={
   iK:'Een spel van ongeveer tien minuten',iH:'Van typmachine tot Heimdall',iP:'Leid een boekhoudkantoor door zes tijdperken, van de typemachine tot Heimdall. Elk tijdperk duurt anderhalve tot twee minuten. Verdien zoveel mogelijk met zo weinig mogelijk fouten. Elke fout die de btw-controleur vindt, kost een boete.',start:'Begin',jump:'Of begin bij tijdperk',
   era:{1:['Tijdperk 1','Typemachine en grootboek','Elke factuur wordt met de hand ingetikt en in het grootboek geschreven.'],2:['Tijdperk 2','De spreadsheet','Formules rekenen zelf. Eén formule doortrekken boekt tientallen rijen tegelijk.'],6:['Tijdperk 6','Heimdall','Heimdall staat aan de poort. Wat klopt, gaat door. Wat niet klopt, houdt hij tegen, met de wettelijke reden. Wat ontbreekt, vraagt hij.'],5:['Tijdperk 5','De AI-agent','Je agents boeken alles zelf, razendsnel en altijd 99% zeker. Jij bent de steekproef: klopt wat ze boekten?'],4:['Tijdperk 4','Het ERP en de cloud','Het ERP boekt zelf, volgens jouw standaardregels per leveranciersgroep. Zet de regels juist. Wat het ERP niet herkent, beland bij jou als uitzondering.'],3:['Tijdperk 3','Het boekhoudpakket','Kies voor elke factuur de juiste btw-code, of importeer hele stapels met de code die het pakket voorstelt.']},
   goal:'Verwerkt in dit tijdperk',left:'nog {t} tot eind {y}',inv:'facturen',hours:'Omzet',cli:'Klanten',newCli:'+1 klant',tray:'In de bak',rate:'Per minuut',fines:'Boetes tot nu toe',
-  tap:{1:'Typ',2:'Typ rij'},fill:'Doortrekken',macroRun:'Macro: +{n} rijen',macroIn:'macro {s} s',fillRows:'rijen',fillWait:'wacht op facturen…',ups:'Investeren',h:'u',owned:'×',max:'Maximum',bought:'In huis',
+  tap:{1:'Typ',2:'Typ rij'},fill:'Doortrekken',macroRun:'Macro: +{n} rijen',macroIn:'macro {s} s',fillRows:'rijen',fillWait:'wacht op facturen…',ups:'Investeren',h:'u',owned:'×',max:'Maximum',bought:'In huis',shopN:'{n} te koop',shopNx:'volgende: {p}',paused:'spel gepauzeerd',
   U:{clerk:['Bediende','Typt zelf een factuur om de 4 seconden.'],calc:['Rekenmachine','Totalen in één slag: minder aanslagen per factuur.'],arch:['Archiefkast','Alles netjes geklasseerd: je kan elke factuur beter aanrekenen, ook in latere tijdperken.'],elec:['Elektrische typemachine','Minder aanslagen, en je bedienden typen sneller.'],spec:['Btw-specialist','Kent het nieuwe wetboek en vult de btw-lijn zelf in. Blijft bij je kantoor.'],
      staff:['Bediende met pc','Nog een collega die zelf rijen invoert.'],pcs:["Pc's voor iedereen",'Je bedienden uit de jaren 70 ruilen hun typemachine in voor een pc.'],disk:['Harde schijf','Nooit meer diskettes wisselen.'],cell:['Tarief in één cel','Het btw-tarief staat op één plek in plaats van in elke formule.'],ads2:['Advertentie in de krant','Meer klanten vragen naar je, je kan meer aanrekenen. Herhaalbaar.'],ads3:['Klantenavond','Een receptie voor je klanten: je reputatie groeit, je tarief mee. Herhaalbaar.'],keys:['Sneltoetsen','Terugkerende leveranciers boek je met één toets.'],laser:['Laserprinter','Facturen aan klanten, netjes en snel.'],mem:['Geheugenuitbreiding','Grotere bladen passen in het geheugen.'],printer:['Matrixprinter','Je facturen aan klanten rollen er vanzelf uit.'],
      staff3:['Boekhouder met pakket','Nog een collega die zelf boekt, met de standaardcode.'],fiche:['Leveranciersfiches','Het pakket onthoudt de btw-code per leverancier.'],eumod:['EU-module','Een update van je pakket voor de eenheidsmarkt.'],maint:['Onderhoudscontract','Je leverancier stuurt elke tariefwijziging op diskette.'],net:['Netwerk','Iedereen werkt in hetzelfde dossier.'],pent:['Pentium','Een snellere pc: grotere imports, kortere wachttijd.'],y2k:['Millenniumpatch','Leert je pakket dat na 1999 het jaar 2000 komt.'],
@@ -332,7 +348,7 @@ const S={
   iK:'A game of about ten minutes',iH:'From typewriter to Heimdall',iP:'Run an accounting office through six eras, from the typewriter to Heimdall. Each era lasts one and a half to two minutes. Earn as much as you can with as few errors as you can. Every error the tax auditor finds costs a fine.',start:'Start',jump:'Or start at era',
   era:{1:['Era 1','Typewriter and ledger','Every invoice is typed by hand and written into the ledger.'],2:['Era 2','The spreadsheet','Formulas do the maths. Fill one formula down and dozens of rows are booked at once.'],6:['Era 6','Heimdall','Heimdall stands at the gate. What is correct passes. What is not, he stops, with the legal reason. What is missing, he asks for.'],5:['Era 5','The AI agent','Your agents book everything themselves, lightning fast and always 99% sure. You are the sample check: is what they booked correct?'],4:['Era 4','The ERP and the cloud','The ERP books on its own, following your default rule per supplier group. Set the rules right. Whatever the ERP does not recognise lands with you as an exception.'],3:['Era 3','The accounting package','Pick the right VAT code for each invoice, or import whole stacks with the code the package suggests.']},
   goal:'Processed this era',left:'{t} left until end {y}',inv:'invoices',hours:'Revenue',cli:'Clients',newCli:'+1 client',tray:'In the tray',rate:'Per minute',fines:'Fines so far',
-  tap:{1:'Type',2:'Type row'},fill:'Fill down',macroRun:'Macro: +{n} rows',macroIn:'macro {s} s',fillRows:'rows',fillWait:'waiting for invoices…',ups:'Invest',h:'h',owned:'×',max:'Maximum',bought:'In place',
+  tap:{1:'Type',2:'Type row'},fill:'Fill down',macroRun:'Macro: +{n} rows',macroIn:'macro {s} s',fillRows:'rows',fillWait:'waiting for invoices…',ups:'Invest',h:'h',owned:'×',max:'Maximum',bought:'In place',shopN:'{n} affordable',shopNx:'next: {p}',paused:'game paused',
   U:{clerk:['Clerk','Types an invoice every 4 seconds.'],calc:['Adding machine','Totals in one go: fewer keystrokes per invoice.'],arch:['Filing cabinet','Everything filed: you can bill each invoice better, in later eras too.'],elec:['Electric typewriter','Fewer keystrokes, and your clerks type faster.'],spec:['VAT specialist','Knows the new code and fills in the VAT line himself. Stays with your firm.'],
      staff:['Clerk with a PC','Another colleague who enters rows on their own.'],pcs:['PCs for everyone','Your clerks from the seventies trade their typewriters for PCs.'],disk:['Hard disk','No more swapping floppies.'],cell:['Rate in one cell','The VAT rate lives in one place instead of in every formula.'],ads2:['Newspaper advert','More clients ask for you; you can charge more. Repeatable.'],ads3:['Client evening','A reception for your clients: your reputation grows, and your rate with it. Repeatable.'],keys:['Keyboard shortcuts','Recurring suppliers take a single key.'],laser:['Laser printer','Invoices to clients, neat and fast.'],mem:['Memory upgrade','Bigger sheets fit in memory.'],printer:['Dot-matrix printer','Your invoices to clients roll out by themselves.'],
      staff3:['Bookkeeper with a package','Another colleague who books on their own, with the default code.'],fiche:['Supplier records','The package remembers the VAT code per supplier.'],eumod:['EU module','An update of your package for the single market.'],maint:['Maintenance contract','Your vendor sends every rate change on floppy.'],net:['Network','Everyone works in the same file.'],pent:['Pentium','A faster PC: bigger imports, shorter wait.'],y2k:['Millennium patch','Teaches your package that 2000 comes after 1999.'],
@@ -455,7 +471,7 @@ const S={
   iK:'Un jeu d\'environ dix minutes',iH:'De la machine à écrire à Heimdall',iP:'Dirigez un bureau comptable à travers six époques, de la machine à écrire à Heimdall. Chaque époque dure une minute et demie à deux minutes. Gagnez le plus possible avec le moins d\'erreurs possible. Chaque erreur que trouve le contrôleur TVA coûte une amende.',start:'Commencer',jump:'Ou commencer à l\'époque',
   era:{1:['Époque 1','Machine à écrire et grand livre','Chaque facture est tapée à la main et inscrite dans le grand livre.'],2:['Époque 2','Le tableur','Les formules calculent. Recopiez une formule vers le bas et des dizaines de lignes sont comptabilisées d\'un coup.'],6:['Époque 6','Heimdall','Heimdall garde la porte. Ce qui est correct passe. Ce qui ne l\'est pas, il l\'arrête, avec la raison juridique. Ce qui manque, il le demande.'],5:['Époque 5','L\'agent IA','Vos agents comptabilisent tout eux-mêmes, à toute vitesse et toujours sûrs à 99 %. C\'est vous l\'échantillon : ce qu\'ils ont comptabilisé est-il correct ?'],4:['Époque 4','L\'ERP et le cloud','L\'ERP comptabilise seul, selon votre règle par défaut par groupe de fournisseurs. Réglez bien les règles. Ce que l\'ERP ne reconnaît pas atterrit chez vous comme exception.'],3:['Époque 3','Le logiciel comptable','Choisissez le bon code TVA pour chaque facture, ou importez des piles entières avec le code que propose le logiciel.']},
   goal:'Traité à cette époque',left:'Encore {t} jusqu\'à fin {y}',inv:'factures',hours:'Chiffre d\'affaires',cli:'Clients',newCli:'+1 client',tray:'Dans le bac',rate:'Par minute',fines:'Amendes jusqu\'ici',
-  tap:{1:'Taper',2:'Taper la ligne'},fill:'Recopier vers le bas',macroRun:'Macro : +{n} lignes',macroIn:'macro {s} s',fillRows:'lignes',fillWait:'en attente de factures…',ups:'Investir',h:'h',owned:'×',max:'Maximum',bought:'Déjà en place',
+  tap:{1:'Taper',2:'Taper la ligne'},fill:'Recopier vers le bas',macroRun:'Macro : +{n} lignes',macroIn:'macro {s} s',fillRows:'lignes',fillWait:'en attente de factures…',ups:'Investir',h:'h',owned:'×',max:'Maximum',bought:'Déjà en place',shopN:'{n} à votre portée',shopNx:'prochain : {p}',paused:'jeu en pause',
   U:{clerk:['Employée','Tape une facture toutes les 4 secondes.'],calc:['Machine à calculer','Les totaux d\'un coup : moins de frappes par facture.'],arch:['Armoire de classement','Tout bien classé : vous facturez mieux chaque facture, aux époques suivantes aussi.'],elec:['Machine à écrire électrique','Moins de frappes, et vos employées tapent plus vite.'],spec:['Spécialiste TVA','Connaît le nouveau code et remplit lui-même la ligne TVA. Reste dans votre bureau.'],
      staff:['Employée avec un PC','Une collègue de plus qui saisit des lignes seule.'],pcs:['Des PC pour tout le monde','Vos employées des années septante échangent leur machine à écrire contre un PC.'],disk:['Disque dur','Plus besoin de changer de disquette.'],cell:['Le taux dans une cellule','Le taux de TVA est à un seul endroit au lieu d\'être dans chaque formule.'],ads2:['Annonce dans le journal','Plus de clients vous demandent ; vous pouvez facturer plus cher. Répétable.'],ads3:['Soirée clients','Une réception pour vos clients : votre réputation grandit, et votre tarif aussi. Répétable.'],keys:['Raccourcis clavier','Les fournisseurs récurrents en une seule touche.'],laser:['Imprimante laser','Les factures aux clients, propres et rapides.'],mem:['Extension de mémoire','Des feuilles plus grandes tiennent en mémoire.'],printer:['Imprimante matricielle','Vos factures aux clients sortent toutes seules.'],
      staff3:['Comptable avec un logiciel','Une collègue de plus qui comptabilise seule, avec le code par défaut.'],fiche:['Fiches fournisseurs','Le logiciel retient le code TVA par fournisseur.'],eumod:['Module UE','Une mise à jour de votre logiciel pour le marché unique.'],maint:['Contrat de maintenance','Votre fournisseur envoie chaque changement de taux sur disquette.'],net:['Réseau','Tout le monde travaille dans le même fichier.'],pent:['Pentium','Un PC plus rapide : de plus gros imports, moins d\'attente.'],y2k:['Correctif an 2000','Apprend à votre logiciel que 2000 vient après 1999.'],
@@ -840,6 +856,9 @@ function ui(force){
   for(const u of visibleUps()){const b=$('u_'+u.id);if(!b)continue;const n=s.up[u.id],d=s.hours<costOf(u,n);if(b.disabled!==d)b.disabled=d;
     setT(b.querySelector('em'),u.max>1&&n?L.owned+n:'');const nw=['spec','eumod','y2k','maint'].includes(u.id)&&!n;if(b.classList.contains('new')!==nw)b.classList.toggle('new',nw);
     setT(b.querySelector('.c'),money(costOf(u,n)));setT(b.querySelector('.fx i'),fxText(u.id))}
+  {const op=visibleUps().filter(u=>s.up[u.id]<u.max),aff=op.filter(u=>s.hours>=costOf(u,s.up[u.id])).length,nx=op.length?Math.min(...op.map(u=>costOf(u,s.up[u.id]))):null,bar=$('shopBar');
+    bar.hidden=shopOpen||!(s.started&&(s.phase==='play'||s.phase==='free'));setT($('shopL'),L.ups);setT($('shopS'),aff?tpl(L.shopN,{n:aff}):nx!=null?tpl(L.shopNx,{p:money(nx)}):'');
+    if(bar.classList.contains('can')!==aff>0)bar.classList.toggle('can',aff>0);if(aff>barCan){bar.classList.remove('pop');void bar.offsetWidth;bar.classList.add('pop')}barCan=aff;setT($('lPause'),L.paused)}
 }
 
 
@@ -1180,7 +1199,12 @@ function renderRules(){
 }
 function showEra(){$('ovEra').classList.add('show');setTimeout(()=>$('ovEra').classList.remove('show'),3400);if(s.era>=2)setTimeout(()=>hintNow(s.era===6?(s.heim?'hTodo':'hNoHeim'):s.era===5?'hChk':s.era===4?'hRules':s.era===3?'hCode':'hFill'),3600)}
 function startGame(){s.started=true;if(s.mus)Music.start(1);$('ovIntro').classList.remove('show');showEra();s.lastProg=s.t;save()}
-const playing=()=>s.started&&(s.phase==='play'||s.phase==='free'||s.phase==='eye');
+const playing=()=>s.started&&!shopOpen&&(s.phase==='play'||s.phase==='free'||s.phase==='eye');
+/* phones: the upgrades live in a sheet; opening it pauses the game */
+let shopOpen=false,barCan=0;const PHONE=matchMedia('(max-width:600px)');
+function shop(o){if(o&&!(s.started&&(s.phase==='play'||s.phase==='free')))return;shopOpen=!!o;if(o)fillEnd();document.body.classList.toggle('shopOpen',shopOpen);if(o)$('upsCard').scrollTop=0;ui()}
+$('shopBar').onclick=()=>shop(true);$('bShopX').onclick=$('shopBg').onclick=()=>shop(false);
+PHONE.addEventListener('change',()=>{if(!PHONE.matches&&shopOpen)shop(false)});
 let snap6=null;try{snap6=localStorage.getItem('vtth2snap')}catch(e){}
 
 /* ================= hints ================= */
@@ -1496,7 +1520,7 @@ let held=false;function release(){held=false;fillEnd()}
 ['pointerup','pointercancel','blur'].forEach(ev=>addEventListener(ev,()=>{if(fill.on&&fill.src==='in')release()}));
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&fill.on)release()});
 F.addEventListener('contextmenu',e=>e.preventDefault());
-addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;if($('modal').classList.contains('show'))return;const tg=e.target;
+addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;if(shopOpen){if(e.key==='Escape')shop(false);return}if($('modal').classList.contains('show'))return;const tg=e.target;
   if(s.era===6&&s.heim&&s.started&&s.phase==='play'&&(e.key==='1'||e.key==='2')){e.preventDefault();if(e.key==='1')handleTodo();else forceTodo();return}
   if((s.era===5||(s.era===6&&!s.heim))&&s.started&&s.phase==='play'&&(e.key==='3'||e.key==='4')){e.preventDefault();judgeEv(e.key==='3');return}
   if((s.era===5||(s.era===6&&!s.heim))&&s.started&&s.phase==='play'&&(e.key==='1'||e.key==='2')){e.preventDefault();judge(e.key==='1');return}
