@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Van typmachine tot Heimdall</title>
+<style>
+/* VOICE: playful but precise, a short game in the VATmiraal house style
+   IDEA: an accounting office that evolves era by era (this build: eras 1 and 2)
+   PICTURE: pixel office (320x180 at integer scale) that changes with each era
+   COLOUR and TYPE: house palette, Inter, flat fills, hairline cards
+   LAYOUT: scene left, control panel right; stacked below 900px; dialogs as modal sheets */
+@font-face{font-family:"Inter";src:url("/Inter-VariableFont_opsz%2Cwght.ttf") format("truetype");font-weight:100 900;font-display:swap}
+:root{color-scheme:light;
+  --bg:#f8f8f6;--card:#ffffff;--ink:#0f0f0f;--muted:rgba(15,15,15,.7);--faint:rgba(15,15,15,.45);
+  --line:rgba(15,15,15,.09);--line2:rgba(15,15,15,.14);--acc:#2c3e76;--acc-t:#eef0f7;--mark:#1b2a4a;
+  --proof:#1f6b4f;--proof-t:#e7f0eb;--risk:#98302f;--risk-t:#f4e6e5;--ins-t:#f0f0ee;--att:#97681c;--att-t:#f6eedd;
+  --shadow:0 2px 8px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--ease:cubic-bezier(.22,.61,.36,1)}
+*{box-sizing:border-box;min-width:0}[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:16px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+button{font:inherit;color:inherit}
+.top{display:flex;align-items:center;gap:12px;padding:14px max(3vw,16px);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.top h1{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:0}
+.chip{font-size:13px;font-weight:600;color:var(--acc);background:var(--acc-t);border-radius:999px;padding:4px 12px;white-space:nowrap}
+.tb{margin-left:auto;display:flex;gap:6px}
+.tb button{min-height:36px;min-width:44px;padding:0 12px;border:1px solid var(--line2);background:var(--card);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+.tb button.on{background:var(--ink);color:#f8f8f6;border-color:var(--ink)}
+button:focus-visible,#scene:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(320px,1fr);gap:24px;padding:20px max(3vw,16px) 28px;max-width:1500px;margin:0 auto}
+.stage{position:relative;align-self:start}
+#scene{display:block;width:100%;aspect-ratio:16/9;image-rendering:pixelated;border-radius:10px;background:#eeece6;cursor:pointer;touch-action:manipulation;box-shadow:var(--shadow)}
+.ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,5vw,64px);border-radius:10px;background:rgba(15,15,15,.8);color:#f8f8f6;opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+.ov.show{opacity:1;pointer-events:auto}
+.ov .k{font-size:13px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(248,248,246,.55);margin:0 0 12px}
+.ov h2{font-size:clamp(28px,4.4vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:0 0 12px;text-wrap:balance}
+.ov p{font-size:clamp(15px,1.6vw,20px);color:rgba(248,248,246,.8);margin:0 0 22px;max-width:40em}
+.btn{min-height:48px;padding:0 22px;border-radius:10px;border:0;background:var(--ink);color:#f8f8f6;font-weight:700;font-size:16px;cursor:pointer}
+.jump{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:rgba(248,248,246,.6)}.jump span{margin-right:2px}.jump button{min-width:36px;min-height:32px;border-radius:8px;border:1px solid rgba(248,248,246,.35);background:transparent;color:#f8f8f6;font:inherit;font-weight:700;cursor:pointer}.jump button:hover{background:rgba(248,248,246,.12)}
+.ov .btn{align-self:flex-start;background:#f8f8f6;color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
+.btn[disabled]{opacity:.4;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.hint{position:absolute;left:16px;bottom:16px;max-width:min(520px,80%);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--muted);opacity:0;transform:translateY(6px);transition:opacity .4s var(--ease),transform .4s var(--ease);pointer-events:none}
+.hint.show{opacity:1;transform:none}
+.ban{position:absolute;left:16px;right:calc(28% + 6px);top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);box-shadow:var(--shadow);border-radius:10px;padding:10px 14px;font-size:14px;line-height:1.4;opacity:0;transform:translateY(-6px);transition:opacity .35s var(--ease),transform .35s var(--ease);pointer-events:none}
+.ban.show{opacity:1;transform:none;pointer-events:auto}
+.ban.warn{border-left-color:var(--att)}
+.ban b{font-weight:700}
+.ban span{flex:1 1 220px}
+.ban button{min-height:40px;padding:0 14px;border-radius:8px;border:0;background:var(--mark);color:#f8f8f6;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.panel{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:18px}
+.kick{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.goal{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.goal b{font-size:30px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.goal span{font-size:14px;color:var(--faint);white-space:nowrap}
+.meter{height:8px;background:var(--ins-t);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s var(--ease)}
+.stats{display:grid;grid-template-columns:minmax(0,1.8fr) repeat(3,minmax(0,1fr));gap:10px 18px;margin-top:16px}.st b.l1{font-size:19px}.st b.l2{font-size:16px}
+.st{border-top:1px solid var(--line);padding-top:10px}
+.st b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.st span{font-size:12px;color:var(--faint)}
+.fines{margin-top:12px;font-size:13px;color:var(--faint);display:flex;justify-content:space-between;gap:8px}
+.fines b{color:var(--risk);font-variant-numeric:tabular-nums}
+.acts{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.acts.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+#tap,#fill{width:100%;min-height:64px;border:0;border-radius:10px;background:var(--mark);color:#f8f8f6;font-weight:800;font-size:19px;letter-spacing:-.01em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;touch-action:none;user-select:none;-webkit-user-select:none;position:relative;overflow:hidden}
+#fill{background:var(--acc)}
+#tap,#fill{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#fill .cd{position:absolute;left:0;bottom:0;height:4px;background:rgba(248,248,246,.6)}
+#fill.on{background:#3a5296}
+#tap[disabled],#fill[disabled]{background:#c9c9c6;cursor:default}
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 10px;padding:8px 0;border-top:1px solid var(--line)}.rrow:first-child{border-top:0}.rrow span{font-size:14px;font-weight:600}.rrow .seg{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}.seg button{min-height:36px;padding:0 10px;border-radius:8px;border:1px solid var(--line2);background:var(--card);font-size:13px;font-weight:600;cursor:pointer}.seg button.on{background:var(--mark);color:#f8f8f6;border-color:var(--mark)}.rrow.badrule span{color:var(--risk)}.rnote{font-size:12.5px;color:var(--faint);margin:8px 0 0}
+.verd{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:6px;font-size:12.5px;font-weight:700;color:#f8f8f6}.verd.x{background:var(--risk)}.verd.q{background:#8a8a88}.verd.e{background:var(--mark)}.why{display:block;font-size:14px;margin-top:6px;line-height:1.45}
+.choices.two{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:600px){.choices.two{grid-template-columns:1fr}}.choices.one{grid-template-columns:minmax(0,1fr)}table.fin{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 14px}table.fin th{text-align:left;font-size:12px;font-weight:600;color:var(--faint);padding:6px 6px 6px 0;border-bottom:1px solid var(--line)}table.fin td{padding:8px 6px 8px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;font-weight:600}table.fin td small{display:block;font-weight:400;color:var(--faint);font-size:12px}table.fin td.bad{color:var(--risk)}table.fin td.okc{color:#1f6b4f}.big.sm b{font-size:30px}.big.sm{gap:8px 24px}
+.float.neg{color:var(--risk)}
+.brand{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}.small{font-size:12.5px;color:var(--faint)}
+.agl{display:block;font-size:14px;margin-top:6px}.agl b{font-weight:700}#chkWhy{display:block;font-size:14px;font-style:italic;color:var(--faint);margin-top:4px;quotes:'“' '”'}.cbtns.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.inv.ok{border-color:var(--proof);background:var(--proof-t)}.inv.bad{border-color:var(--risk);background:var(--risk-t)}.inv .res{font-size:13px;font-weight:700;min-height:18px}.inv.ok .res{color:var(--proof)}.inv.bad .res{color:var(--risk)}.cbtns button.hitok{background:var(--proof)!important}.cbtns button.hitbad{background:var(--risk)!important}
+.inv{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}.inv .kick{margin:0}.inv b{font-size:16px;font-weight:700}
+.cbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}.cbtns button{min-height:56px;border:0;border-radius:10px;background:var(--mark);color:#f8f8f6;font-weight:700;font-size:15px;cursor:pointer;line-height:1.2;padding:6px}.cbtns button[disabled]{background:#c9c9c6;cursor:default}.cbtns button:active{transform:translateY(1px)}
+#fill small{font-weight:600;font-size:13px;opacity:.75;white-space:nowrap}
+.keys{display:flex;gap:4px}
+.keys i{width:10px;height:10px;border-radius:2px;background:rgba(248,248,246,.25)}
+.keys i.on{background:#f8f8f6}
+.ups{display:flex;flex-direction:column;gap:8px}
+.up{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;text-align:left;width:100%;padding:12px 14px;border:1px solid var(--line2);border-radius:10px;background:var(--card);cursor:pointer;transition:border-color .2s var(--ease)}
+.up:hover:not([disabled]){border-color:var(--acc)}
+.up[disabled]{cursor:default;opacity:.5}
+.up.max{opacity:.55;cursor:default}
+.up.new{border-color:var(--att)}
+.up .n{font-weight:700;font-size:15px}
+.up .n em{font-style:normal;font-weight:600;color:var(--acc);margin-left:6px;font-size:13px}
+.up .c{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap;align-self:center;grid-row:span 2;color:var(--acc)}
+.up .d{font-size:13px;color:var(--muted);line-height:1.4}
+.up .fx{grid-column:1/-1;font-size:12.5px;font-weight:600;color:var(--acc);font-variant-numeric:tabular-nums;line-height:1.4}
+.up.max .fx{display:none}
+.foot{font-size:12px;color:var(--faint);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.foot button{border:0;background:none;padding:0;font-size:12px;color:var(--faint);text-decoration:underline;cursor:pointer;min-height:24px}
+.float{position:absolute;font-weight:800;font-size:15px;color:var(--acc);pointer-events:none;animation:fl 1s var(--ease) forwards}
+@keyframes fl{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-26px)}}
+.modal{position:fixed;inset:0;background:rgba(15,15,15,.55);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .35s var(--ease);z-index:10}
+.modal.show{opacity:1;pointer-events:auto}
+.sheet{background:var(--bg);border-radius:14px;max-width:760px;width:100%;max-height:calc(100vh - 32px);overflow:auto;padding:clamp(20px,4vw,36px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.sheet h2{font-size:clamp(26px,3.6vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin:0 0 10px;text-wrap:balance}
+.sheet p{margin:0 0 16px;color:var(--muted);max-width:44em}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0}
+.choice{display:flex;flex-direction:column;gap:6px;text-align:left;padding:16px;border:1px solid var(--line2);border-radius:10px;background:var(--card);cursor:pointer;min-height:44px}
+.choice:hover:not([disabled]){border-color:var(--acc)}
+.choice[disabled]{opacity:.45;cursor:default}
+.choice b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.choice .pr{font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
+.choice span{font-size:13px;color:var(--muted);line-height:1.4}
+.choice dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;margin:6px 0 0;font-size:13px}
+.choice dt{color:var(--faint)}.choice dd{margin:0;font-weight:600}
+.big{display:flex;gap:28px;flex-wrap:wrap;margin:8px 0 18px}
+.big div b{display:block;font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.big div span{font-size:13px;color:var(--faint)}
+.big .r b{color:var(--risk)}
+.who{font-size:15px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0 0 14px}
+.have{font-size:14px;color:var(--faint)}
+.tl{margin:6px 0 18px}.tl svg{display:block;width:100%;height:auto}.tl .lg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin-top:8px}.tl .lg b{color:var(--acc);font-variant-numeric:tabular-nums;margin-right:4px}.tl h3{font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px}.have b{color:var(--ink);font-variant-numeric:tabular-nums}
+@media(max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){#ovIntro:not(.show){display:none}#ovIntro.show{position:relative;inset:auto;margin-top:8px;padding:22px 20px}#ovIntro h2{font-size:30px}#ovIntro p{font-size:15px;margin-bottom:16px}.rrow{grid-template-columns:1fr}.rrow .seg{justify-content:flex-start}.cbtns button{font-size:15px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.hint{position:static;max-width:none;margin-top:8px;font-size:13px}.ban{position:static;margin-top:8px}.top{gap:8px}.top h1{font-size:15px}.goal b{font-size:24px}.st b{font-size:18px}#tap,#fill{min-height:58px;font-size:17px}.ups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.up{grid-template-columns:1fr;gap:3px;padding:9px 10px;align-content:start}.up .n{font-size:13.5px;line-height:1.25}.up .n em{margin-left:4px;font-size:12px}.up .c{grid-row:auto;align-self:start;font-size:13px}.up .d{display:none}.up .fx{font-size:11.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.up.max{order:2;padding:6px 10px;opacity:.5}.up.max .c{font-size:12px}.card{padding:14px}.stats{gap:8px 14px;margin-top:12px}.st{padding-top:7px}.st span{font-size:11.5px}}
+@media(prefers-reduced-motion:reduce){.float{animation:none;opacity:0}.ov,.hint,.ban,.modal{transition:none}}
+
+/* phones: the whole game on one screen. Banners and hints float inside the scene, stats in one row, upgrades scroll sideways */
+@media(max-width:600px){
+  .top{padding:7px 10px;gap:6px;flex-wrap:nowrap}.top h1{display:none}.top .chip{font-size:11.5px;padding:3px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .tb{margin-left:auto;gap:4px;flex-shrink:0}.tb button{min-height:28px;padding:0 7px;font-size:11.5px}
+  .wrap{padding:8px 10px 14px;gap:8px}.panel{gap:8px}.card{padding:10px 12px}
+  .ban{position:absolute;left:6px;right:calc(28% + 4px);top:6px;margin:0;padding:5px 8px;font-size:11px;line-height:1.3;gap:4px 6px;border-left-width:3px}
+  .ban span{flex:1 1 100%}.ban button{min-height:28px;padding:0 10px;font-size:12px}
+  .hint{position:absolute;left:6px;right:6px;bottom:6px;max-width:none;margin:0;padding:5px 8px;font-size:11px;line-height:1.3}
+  #lGoal{display:none}.goal{margin-bottom:5px}.goal b{font-size:19px}.goal span{font-size:11px}.meter{height:5px}
+  .stats{grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:4px 8px;margin-top:8px}.st{padding-top:5px}
+  .st b{font-size:14px}.st b.l1{font-size:12.5px}.st b.l2{font-size:11px}.st span{font-size:10px}
+  .fines{margin-top:5px;font-size:11px}
+  #tap,#fill{min-height:48px;font-size:16px}.cbtns button{min-height:44px;font-size:14px}
+  .inv{padding:8px 10px}.inv b{font-size:14px}.inv .kick{font-size:10.5px}.why,.agl,#chkWhy{font-size:12.5px}.res{font-size:12px}.rnote{font-size:11px;margin-top:4px}
+  .kick{font-size:10.5px;margin-bottom:6px}
+  .ups{display:flex;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .up{flex:0 0 44%;scroll-snap-align:start;padding:7px 9px}.up .fx{-webkit-line-clamp:2}
+  .evon #chk{display:none} /* a dossier event takes the place of the sample check until it is answered */
+  .inv .res{min-height:0}
+  .rrow{grid-template-columns:minmax(0,1fr) auto;padding:5px 0;gap:4px 8px}.rrow span{font-size:12.5px;line-height:1.25}.seg{gap:3px}.seg button{min-height:30px;padding:0 6px;font-size:11.5px}#rNote{display:none}
+  .cbtns button{padding:0 4px;line-height:1.2}
+  .foot{font-size:11px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 id="tTitle"></h1><span class="chip" id="tEra"></span>
+  <div class="tb"><button id="bNL">NL</button><button id="bEN">EN</button><button id="bMus" aria-pressed="true"></button><button id="bSnd" aria-pressed="true"></button></div>
+</header>
+<main class="wrap">
+  <div class="stage">
+    <canvas id="scene" width="320" height="180" tabindex="0"></canvas>
+    <div class="ban" id="ban" role="status"><span id="banT"></span><button id="banB" hidden></button></div>
+    <div class="hint" id="hint"></div>
+    <div class="ov" id="ovIntro"><p class="k" id="iK"></p><h2 id="iH"></h2><p id="iP"></p><button class="btn" id="bStart"></button><div class="jump"><span id="jumpL"></span><button data-jump="2">2</button><button data-jump="3">3</button><button data-jump="4">4</button><button data-jump="5">5</button><button data-jump="6">6</button></div></div>
+    <div class="ov" id="ovEra"><p class="k" id="eK"></p><h2 id="eH"></h2><p id="eP"></p></div>
+  </div>
+  <div class="panel">
+    <section class="card">
+      <p class="kick" id="lGoal"></p>
+      <div class="goal"><b id="vDone">0</b><span id="vGoal"></span></div>
+      <div class="meter"><i id="mGoal"></i></div>
+      <div class="stats">
+        <div class="st"><b id="vHours">0</b><span id="lHours"></span></div>
+        <div class="st"><b id="vCli">0</b><span id="lCli"></span></div>
+        <div class="st"><b id="vTray">0</b><span id="lTray"></span></div>
+        <div class="st"><b id="vRate">0</b><span id="lRate"></span></div>
+      </div>
+      <div class="fines"><span id="lFines"></span><b id="vFines">0</b></div>
+    </section>
+    <div class="acts" id="acts">
+      <button id="tap"><span id="lTap"></span><span class="keys" id="keys"></span></button>
+      <div id="codes" hidden><div class="inv" id="invBox"><span class="kick" id="lInv"></span><b id="invTxt"></b><span class="res" id="invRes"></span></div><div class="cbtns"><button data-c="n" id="cN"></button><button data-c="v" id="cV"></button><button data-c="eu" id="cE"></button><button data-c="rc" id="cR" hidden></button></div></div>
+      <div id="todoW" hidden><div class="inv" id="tdBox"><span class="kick" id="lTd"></span><b id="tdSup"></b><span class="verd" id="tdV"></span><span class="why" id="tdWhy"></span><span class="res" id="tdRes"></span></div><div class="cbtns two"><button id="bHandle"></button><button id="bForce"></button></div><p class="rnote" id="tdN"></p></div>
+      <div id="evW" hidden><div class="inv" id="evBox"><span class="kick" id="lEv"></span><b id="evTxt"></b><span class="agl" id="evAg"></span><span class="res" id="evRes"></span></div><div class="cbtns two"><button id="bEvOk"></button><button id="bEvBad"></button></div></div>
+      <div id="chk" hidden><div class="inv" id="chkBox"><span class="kick" id="lChk"></span><b id="chkSup"></b><span class="agl" id="chkAg"></span><q id="chkWhy"></q><span class="res" id="chkRes"></span></div><div class="cbtns two"><button id="bOk"></button><button id="bBad"></button></div><p class="rnote" id="chkN"></p></div>
+      <section class="card" id="rules" hidden><p class="kick" id="lRules"></p><div id="ruleRows"></div><p class="rnote" id="rNote"></p></section>
+      <button id="fill" hidden><span id="lFill"></span><small id="vFill"></small><i class="cd" id="fillCd"></i></button>
+    </div>
+    <section class="card">
+      <p class="kick" id="lUps"></p>
+      <div class="ups" id="ups"></div>
+    </section>
+    <div class="foot"><span id="lNote"></span><button id="bReset"></button></div>
+  </div>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<script>
+{
+/* ================= copy ================= */
+const S={
+ nl:{title:'Van typmachine tot Heimdall',
+  iK:'Een spel van ongeveer tien minuten',iH:'Van typmachine tot Heimdall',iP:'Leid een boekhoudkantoor door zes tijdperken, van de typemachine tot Heimdall. Elk tijdperk duurt anderhalve tot twee minuten. Verdien zoveel mogelijk met zo weinig mogelijk fouten. Elke fout die de btw-controleur vindt, kost een boete.',start:'Begin',jump:'Of begin bij tijdperk',
+  era:{1:['Tijdperk 1','Typemachine en grootboek','Elke factuur wordt met de hand ingetikt en in het grootboek geschreven.'],2:['Tijdperk 2','De spreadsheet','Formules rekenen zelf. Eén formule doortrekken boekt tientallen rijen tegelijk.'],6:['Tijdperk 6','Heimdall','Heimdall staat aan de poort. Wat klopt, gaat door. Wat niet klopt, houdt hij tegen, met de wettelijke reden. Wat ontbreekt, vraagt hij.'],5:['Tijdperk 5','De AI-agent','Je agents boeken alles zelf, razendsnel en altijd 99% zeker. Jij bent de steekproef: klopt wat ze boekten?'],4:['Tijdperk 4','Het ERP en de cloud','Het ERP boekt zelf, volgens jouw standaardregels per leveranciersgroep. Zet de regels juist. Wat het ERP niet herkent, beland bij jou als uitzondering.'],3:['Tijdperk 3','Het boekhoudpakket','Kies voor elke factuur de juiste btw-code, of importeer hele stapels met de code die het pakket voorstelt.']},
+  goal:'Verwerkt in dit tijdperk',left:'nog {t} tot eind {y}',inv:'facturen',hours:'Omzet',cli:'Klanten',newCli:'+1 klant',tray:'In de bak',rate:'Per minuut',fines:'Boetes tot nu toe',
+  tap:{1:'Typ',2:'Typ rij'},fill:'Doortrekken',macroRun:'Macro: +{n} rijen',macroIn:'macro {s} s',fillRows:'rijen',fillWait:'wacht op facturen…',ups:'Investeren',h:'u',owned:'×',max:'Maximum',
+  U:{clerk:['Bediende','Typt zelf een factuur om de 4 seconden.'],calc:['Rekenmachine','Totalen in één slag: minder aanslagen per factuur.'],arch:['Archiefkast','Alles netjes geklasseerd: je kan elke factuur beter aanrekenen, ook in latere tijdperken.'],elec:['Elektrische typemachine','Minder aanslagen, en je bedienden typen sneller.'],spec:['Btw-specialist','Kent het nieuwe wetboek en vult de btw-lijn zelf in. Blijft bij je kantoor.'],
+     staff:['Bediende met pc','Nog een collega die zelf rijen invoert.'],pcs:["Pc's voor iedereen",'Je bedienden uit de jaren 70 ruilen hun typemachine in voor een pc.'],disk:['Harde schijf','Nooit meer diskettes wisselen.'],cell:['Tarief in één cel','Het btw-tarief staat op één plek in plaats van in elke formule.'],ads2:['Advertentie in de krant','Meer klanten vragen naar je, je kan meer aanrekenen. Herhaalbaar.'],ads3:['Klantenavond','Een receptie voor je klanten: je reputatie groeit, je tarief mee. Herhaalbaar.'],keys:['Sneltoetsen','Terugkerende leveranciers boek je met één toets.'],laser:['Laserprinter','Facturen aan klanten, netjes en snel.'],mem:['Geheugenuitbreiding','Grotere bladen passen in het geheugen.'],printer:['Matrixprinter','Je facturen aan klanten rollen er vanzelf uit.'],
+     staff3:['Boekhouder met pakket','Nog een collega die zelf boekt, met de standaardcode.'],fiche:['Leveranciersfiches','Het pakket onthoudt de btw-code per leverancier.'],eumod:['EU-module','Een update van je pakket voor de eenheidsmarkt.'],maint:['Onderhoudscontract','Je leverancier stuurt elke tariefwijziging op diskette.'],net:['Netwerk','Iedereen werkt in hetzelfde dossier.'],pent:['Pentium','Een snellere pc: grotere imports, kortere wachttijd.'],y2k:['Millenniumpatch','Leert je pakket dat na 1999 het jaar 2000 komt.'],
+     ads6:['Webinar over e-rapportering','Je legt andere kantoren uit wat er in 2028 verandert. Je reputatie groeit, je tarief mee. Herhaalbaar.'],ctrl:['Kantoor- en dossierinstellingen','Je legt per klant vast wat Heimdall moet weten: welke wagens, wat privé is, welk verhoudingsgetal. Hij hoeft minder te vragen.'],cap:['Meer dossiers','Je neemt meer klanten aan. Heimdall bewaakt ze allemaal. Er is niets meer dat je kantoor tegenhoudt.'],crit:['Boekingscriteria','Je legt vast hoe je kantoor boekt. Heimdall past boekingsvoorstellen zelf aan.'],mail:['Leveranciers automatisch aanschrijven','Heimdall vraagt zelf de creditnota, met de reden erbij.'],app:['Vragen in de klantenapp','Je klant beantwoordt Heimdalls vragen zelf.'],reader:['Scherpere lezer','Het neurale deel leest sneller. Het redeneren blijft symbolisch.'],
+     ads5:['LinkedIn-post','Je deelt een inzicht over AI. Je reputatie groeit, je tarief mee. Herhaalbaar.'],agents:['Extra agent','Nog een agent die zelf boekt.'],revs:['Bedienden als reviewer','Je bedienden leren agents nalezen. Ze vinden 9 op 10 fouten, en zien soms een fout waar er geen is.'],prompt:['Systeemprompt','Je schrijft je btw-regels uit voor de agents.'],model:['Groter model','Een zwaarder model: sneller, niet slimmer.'],rag:['De wet als bron','De agent zoekt in het btw-wetboek voor hij antwoordt.'],peppol:['Peppol-koppeling','Gestructureerde facturen komen rechtstreeks binnen. Klaar voor 2026.'],
+     ads4:['Nieuwsbrief','Elke maand een mail aan je klanten: je reputatie groeit, je tarief mee. Herhaalbaar.'],feed:['Bankkoppeling','Betalingen komen automatisch binnen en worden afgepunt.'],ocr:['Scannen met OCR','Papieren facturen worden ingescand en uitgelezen. Leest af en toe een 8 als een 3.'],valid:['Controleregels','Het ERP controleert elk bedrag en elk btw-nummer voor het boekt.'],cloud:['Naar de cloud','Iedereen werkt overal in hetzelfde ERP, ook je klanten.'],einv:['Pdf-facturen per mail','Je klanten laten leveranciers pdf\'s mailen in plaats van papier. Geen scanner meer, de OCR leest scherper.'],
+     macro:["Macro's",'Trekt zelf formules door, ook als jij niet kijkt.'],eyes:['Tweede paar ogen','Een collega controleert elke formule voor je ze doortrekt.']},
+  FX:{ads:'Omzet per factuur ×1,25: {b} → {c}',sc:'Elke juiste code boekt 2 facturen in plaats van 1',mem:'Rijen per keer doortrekken: {b} → {c}',net:'Collega\'s ×2: {b} → {c} facturen per minuut',fiche:'Foute codes bij import −80%',eumod:'Intracommunautaire facturen: fouten bij import en collega\'s sterk omlaag',pent:'Facturen per import: {b} → {c}. Wachttijd ×0,7',y2k:'Beschermt je boekingen tegen de millenniumbug',staff:'Bedienden samen: {b} → {c} {u} per minuut',keys:'Aanslagen per factuur: {b} → {c}',hours:'Omzet per factuur: {b} → {c}',spec:'Btw-fouten: −{p}%. Werkt tariefwijzigingen zelf bij.',specKeys:'Btw-lijn: aanslagen per factuur {b} → {c}.',
+     elec:'Aanslagen per factuur: {b} → {c}. Bedienden ×1,5: {x} → {y} per minuut',pcs:'Bedienden ×2: {b} → {c} rijen per minuut',disk:'Pauze om de 40 rijen: 1,2 s → geen',
+     ctrl:'Vragen over wagens en privégebruik verdwijnen; het verhoudingsgetal staat in het dossier. Herzieningen en het definitieve verhoudingsgetal berekent Heimdall zelf',heim:'Heimdall leest: {b} → {c} facturen per minuut',cap:'Klanten: {b} → {c}. Heimdall leest {x} → {y} per minuut. Geen maximum',crit:'To-do\'s over boekingsvoorstellen handelt Heimdall zelf af, met advieshonorarium',mail:'Foute facturen gaan zelf naar de leverancier, met de reden',app:'Ontbrekende gegevens vraagt Heimdall zelf aan je klant',
+     agents:'Agents samen: {b} → {c} facturen per minuut',peppol:'Agents: {b} → {c} per minuut. Fouten op Belgische facturen −50%',revs:'Je bedienden kijken {n} boekingen per minuut na',prompt:'Fouten per groep −50%, ook na een tariefwijziging',rag:'Zelfzekere fouten −50%. De uitleg klinkt nu juridisch',
+     feed:'Boekt zelf: {b} → {c} facturen per minuut',ocr:'Boekt zelf: {b} → {c} facturen per minuut. 3% leesfouten zonder controleregels',cloud:'Boekt zelf: {b} → {c} per minuut. Collega\'s ×2 op uitzonderingen. De migratie gooit je regels door elkaar',einv:'Boekt zelf: {b} → {c} per minuut. Leesfouten −60%',valid:'Leesfouten van de OCR: 3% → 0%',
+     cell:'Rijen fout na een tariefwijziging: 90% → 0%',macro:'+{n} rijen om de 7 s (≈ {m} per minuut). Risico per keer ×1,5',eyes:'Foute formules −95%, andere fouten −50%. Bedienden: {b} → {c} rijen per minuut. Wachttijd doortrekken +25%'},
+  hTap:'Tik op de typemachine, of typ gewoon op je toetsenbord.',hBuy:'Je hebt genoeg geld voor een investering.',hEmpty:'De bak is even leeg. Er komen nieuwe facturen binnen.',hFill:'Houd de knop vast, of de spatiebalk, om een formule door te trekken.',
+  vat:'<b>1 januari 1971.</b> De btw vervangt de overdrachtstaks. Elke factuur krijgt een btw-lijn, en niemand op kantoor kent het nieuwe wetboek. Zonder btw-specialist sluipen er veel fouten in.',
+  v69:'<b>3 juli 1969.</b> Het parlement stemt het btw-wetboek. Het gaat in op 1 januari 1971. Tijd om je voor te bereiden.',
+  vatSpec:'<b>1 januari 1971.</b> De btw vervangt de overdrachtstaks. Je btw-specialist was er klaar voor.',
+  r78:'<b>1 januari 1978.</b> Het normale btw-tarief daalt van 18% naar 16%. Je bedienden typen uit gewoonte nog 18%.',
+  r78Spec:'<b>1 januari 1978.</b> Het normale btw-tarief daalt van 18% naar 16%. Je btw-specialist heeft iedereen ingelicht.',
+  rateEv:'<b>{d}.</b> Het btw-tarief gaat van {a}% naar {b}%. Je formules rekenen nog met {a}%.',fix:'Formules bijwerken ({c})',
+  rateSpec:'<b>{d}.</b> Het btw-tarief gaat van {a}% naar {b}%. Je btw-specialist werkt de formules bij.',rateCell:'<b>{d}.</b> Het btw-tarief gaat van {a}% naar {b}%. Eén cel aangepast, klaar.',
+  fixed:'Formules bijgewerkt.',d81:'1 juli 1981',d83:'1 januari 1983',d96:'1 januari 1996',
+  rateMaint:'<b>{d}.</b> Het btw-tarief gaat van {a}% naar {b}%. De diskette van je onderhoudscontract ligt al klaar.',
+  eu:'<b>1 januari 1993.</b> De Europese eenheidsmarkt. Goederen die vanuit een andere lidstaat naar je klant vertrekken, worden intracommunautaire verwervingen. Je pakket kent die code nog niet.',
+  y2kWarn:'<b>1997.</b> Over drie jaar is het 2000. Weet je pakket dat?',euro:'<b>1 januari 1999.</b> De euro bestaat. Je klanten betalen nog drie jaar in frank, dit spel liep al vooruit.',
+  y2kBug:'<b>31 december 1999.</b> De millenniumbug slaat toe: een deel van je boekingen staat plots in het jaar 1900.',y2kOk:'<b>31 december 1999.</b> De millenniumpatch doet zijn werk. Je boekingen overleven de jaarwisseling.',
+  imp:'Importeren',pickOk:'Juist: {s}.',pickBad:'Fout: {s} was {c}.',invK:'Volgende factuur',trayEmpty:'De bak is leeg',hCode:'Kies de juiste btw-code (of druk 1, 2, 3), of houd Importeren vast.',
+  code:{n:'Normaal tarief',v:'Verlaagd tarief',eu:'Intracommunautaire verwerving',rc:'Verlegd',imp:'Invoer',h6:'6%, overgangsregeling',h12:'12%',pdf:'geen geldige factuur, Peppol-factuur vragen',d100:'Volle aftrek',d50:'Aftrek 50%',pro:'Aftrek volgens pro rata',abc:'Driehoeksverkeer, geen verwerving in België',none:'Geen aftrek'},codeB4:{n:'Normaal',v:'Verlaagd',eu:'IC-verwerving',rc:'Verlegd'},
+
+
+
+  keepH:'Blijf bij {a}',keepD:'Je agent boekt toch al alles zelf? Gratis, en je kent hem.',era6b:['Tijdperk 6','Zonder Heimdall','Je agent boekt verder, razendsnel en 99% zeker. Vanaf 2028 kijkt de fiscus mee.'],
+  p26a:'<b>1 januari 2026.</b> Elke Belgische B2B-factuur is nu gestructureerd en elektronisch, via Peppol. Je agent leest ze, en boekt ze zoals altijd.',
+  e28a:'<b>1 januari 2028.</b> Gepland: near real-time e-rapportering. De fiscus ziet elke B2B-factuur, zo goed als live. Elke zelfzekere fout van je agent valt nu meteen op, en herhaalde inbreuken wegen zwaarder.',
+  hNoHeim:'Je agent boekt verder. Klopt wat hij boekte? Vanaf 2028 ziet de fiscus elke fout meteen.',
+  bkK:'{y}',bkH:'Failliet.',bkP:'Sinds 2028 ziet de fiscus elke factuur. {a} bleef zelfzeker fout boeken: {n} boetes, elke herhaling zwaarder dan de vorige. Je kantoor kan ze niet meer betalen.',bkCash:'In kas',bkRetry:'Terug naar 2026',
+  h26:'<b>1 maart 2026.</b> Hotels en campings gaan van 6% naar 12%. Voor reservaties tot 28 februari blijft 6%, zolang de btw uiterlijk op 30 juni opeisbaar wordt.',t26:'<b>1 april 2026.</b> De tolerantieperiode voor e-facturatie is voorbij. Een pdf is geen geldige factuur meer tussen Belgische ondernemingen.',
+  shop6K:'Op naar tijdperk 6',shop6H:'Het jaar 2026. Zet je Heimdall aan de poort?',heimD:'Leest elke factuur en toetst ze aan het btw-wetboek. Drie uitkomsten: klopt, klopt niet, of er ontbreekt een gegeven. Altijd met de wettelijke reden.',kRead:'Leest',kWrong:'Stil fout geboekt',kWhy:'Uitleg',withArt:'Volledig transparant',
+  left6:'{t} tot 1 juli 2030',tdK:'To-do · {n}',tdNone:'Geen to-do\'s. Heimdall laat alleen door wat klopt.',tdAuto:'Heimdall doet het nu volledig automatisch. Wat niet klopt, gaat met de reden naar de leverancier of je klant. Jij krijgt het advies.',
+  allAuto:'Heimdall handelt nu alles zelf af: boekingsvoorstellen, creditnota\'s en vragen, telkens met de wettelijke reden.',finAuto:'Heimdall handelde {n} to-do\'s volledig automatisch af, telkens met de wettelijke reden erbij.',vX:'Klopt niet',vQ:'Gegeven ontbreekt',bHandle:'Afhandelen',bForce:'Toch boeken',
+  tdN:'Heimdall: {ok} klopt · {x} klopt niet · {q} gegeven ontbreekt · {w} wachten op antwoord',
+  res6:{handled:'Afgehandeld: {s}. Juist geboekt zodra het antwoord er is, en je klant betaalt voor het advies.',forced:'Toch geboekt: {s}. Een fout in de boeken.',caught:'Toch geboekt: {s}. De fiscus zag het meteen: {f} boete.'},
+  hTodo:'Heimdall houdt tegen wat niet klopt, met de reden. Handel de to-do\'s af (1): je klant betaalt voor dat advies. Of boek toch (2), op eigen risico.',
+  cases:[['Consult BV · advies, gevestigd in Nederland','Rekende Nederlandse btw aan. Een dienst tussen ondernemingen is belast waar je klant gevestigd is (art. 21, §2 W.btw); je klant verlegt de btw (art. 51, §2, eerste lid, 1° W.btw).','Creditnota vragen'],
+    ['Müller GmbH · onderdelen, geleverd vanuit Duitsland','Rekende Duitse btw aan, terwijl je klant zijn Belgisch btw-nummer gaf. De goederen vertrokken uit Duitsland: een intracommunautaire verwerving in België (art. 25bis W.btw).','Creditnota vragen'],
+    ['Bakkerij Wouters · taarten, geleverd zonder bediening','Rekende 21% aan. Een levering van voedingsmiddelen valt onder 6% (KB nr. 20, tabel A).','Creditnota vragen'],
+    ['Kantoorhandel Maes · toner','Het btw-nummer van je klant staat niet op de factuur (art. 5, §1 KB nr. 1). Zonder correcte factuur geen aftrek.','Nieuwe factuur vragen'],
+    ['Restaurant De Gouden Lepel · lunch met klanten','Het boekingsvoorstel trekt de btw af. Btw op spijzen en dranken is niet aftrekbaar (art. 45, §3, 3° W.btw).','Voorstel aanpassen'],
+    ['Garage Janssens · onderhoud personenwagen','Het boekingsvoorstel trekt alle btw af. Voor een personenwagen is de aftrek beperkt tot 50% (art. 45, §2 W.btw).','Voorstel aanpassen'],
+    ['Garage Janssens · onderhoud bedrijfswagen','Is het een personenwagen of een lichte vrachtwagen? Dat bepaalt of de aftrek beperkt is (art. 45, §2 W.btw).','Klant vragen'],
+    ['Software Ltd · licenties, gevestigd in Ierland','Is de licentie voor de onderneming of voor de zaakvoerder privé? Dat bepaalt waar de dienst belast is (art. 21 en 21bis W.btw).','Klant vragen'],
+    ['Van Dijk BV · rekken','Vanuit welke lidstaat vertrokken de goederen? Het vervoersdocument ontbreekt, en dat bepaalt of er een intracommunautaire verwerving is (art. 25bis W.btw).','Klant vragen'],
+    ['Elektro Claes · laptops voor de praktijk van dokter Maes','Het boekingsvoorstel trekt alle btw af. Je klant doet ook vrijgestelde handelingen: aftrek volgens het algemeen verhoudingsgetal (art. 46, §1 W.btw).','Voorstel aanpassen'],
+    ['Vastgoed Peeters · kantoorgebouw, voortaan vrijgesteld verhuurd','Het gebouw wordt binnen de herzieningstermijn van 15 jaar vrijgesteld gebruikt. Herziening: 9/15 van de afgetrokken btw terugstorten (art. 48, §2 W.btw).','Herziening berekenen'],
+    ['Dokter Maes · definitief verhoudingsgetal','Het definitieve verhoudingsgetal (62%) wijkt af van het voorlopige (70%): de aftrek over het hele jaar herzien (art. 46, §1 W.btw).','Correctie boeken'],
+    ['Hotel Ter Duinen · overnachting in april, gereserveerd op 20 februari','Rekende 12% aan. De reservatie dateert van vóór 1 maart 2026 en de btw wordt opeisbaar vóór 30 juni: de overgangsregeling houdt het op 6%. De btw op logies is voor je klant niet aftrekbaar (art. 45, §3, 3° W.btw), dus het verschil is gewoon kost.','Creditnota vragen'],
+    ['Müller GmbH · machines, rechtstreeks van Duitsland naar Frankrijk','Het boekingsvoorstel boekt een intracommunautaire verwerving in België, maar de goederen kwamen hier nooit. Driehoeksverkeer met je klant als tussenhandelaar: de Franse afnemer voldoet de btw (art. 141 en 197 Btw-richtlijn), en op de factuur van je klant moet "btw verlegd" staan.','Voorstel aanpassen'],
+    ['Drukkerij Wouters · factuur als pdf per mail','Sinds 1 januari 2026 moet een factuur tussen Belgische btw-plichtigen gestructureerd en elektronisch zijn, via Peppol (wet van 6 februari 2024). De tolerantie van het eerste kwartaal is voorbij: een pdf is geen geldige factuur.','Peppol-factuur vragen']],
+  p26:'<b>1 januari 2026.</b> Elke Belgische B2B-factuur is nu gestructureerd en elektronisch, via Peppol. Heimdall leest ze rechtstreeks.',
+  e28:'<b>1 januari 2028.</b> Gepland: near real-time e-rapportering. De fiscus krijgt elke B2B-factuur, zo goed als live. Wie nu toch fout boekt, valt meteen op.',
+  v28:'<b>1 juli 2028.</b> ViDA: minder btw-registraties in andere lidstaten dankzij een ruimere OSS, en platformen worden in principe zelf leverancier van kortverblijf en personenvervoer.',
+  drr:'<b>1 juli 2030.</b> ViDA: intracommunautaire handelingen worden digitaal gerapporteerd. De fiscus ziet alles.',
+  finK:'1 juli 2030',finH:'De fiscus ziet alles.',finP:'Elke factuur uit elk tijdperk, naast elkaar. Hoeveel fouten staan er nog in de boeken, en kon wie boekte uitleggen waarom?',
+  fin6:'Wat je in tijdperk 6 toch boekte zonder dat de fiscus het al zag, ziet hij nu: {n} fouten, {f} boete.',finC:['Tijdperk','Facturen per minuut','Fouten in de boeken','Kon uitleggen waarom'],why:{some:'Soms',no:'Nee',q:'Klinkt overtuigend',art:'Volledig transparant'},
+  brand:'Geredeneerd uit de feiten, niet geraden.',
+  shop5K:'Op naar tijdperk 5',shop5H:'Het jaar 2020. Kies je AI-agent.',kConf:'Zelfzeker fout',kSure:'Zekerheid',
+  agents:{gem:['Gemiddeld','De goedkoopste. Doet wat de meeste agents doen, en dat gemiddeld goed.'],copi:['Co-Piloot','Zit in je ERP en vliegt mee. Vergist zich het minst.'],chat:['ChatBTW','De snelste, met een antwoord op alles. Ook op wat hij niet weet.']},
+  chkK:'Steekproef',bOk:'Klopt',bBad:'Klopt niet',chkNone:'Je agents hebben nog niets geboekt.',chkAg:'{a} boekte: {c}',chkN:'Geboekt door je agents: {b}. Nagekeken: {k}.',
+  expl:['Ik ben er 99% zeker van: {c}.','Op basis van vergelijkbare facturen is dit {c}.','Volgens artikel 21 quater, §9, 4°bis is dit {c}.','Dit is duidelijk {c}, want het is een factuur.','Goede vraag! Het antwoord is {c}.','Ik heb dit grondig geanalyseerd. Conclusie: {c}.','Zoals altijd: {c}.','Mijn redenering is complex, maar het is {c}.','Dat weet ik zeker. {c}.'],
+  explRag:['Volgens het btw-wetboek is dit {c}.','Bron: Wetboek van de btw. Antwoord: {c}.','Ik heb de wet erbij genomen. {c}.','Zie het btw-wetboek, ergens. {c}.','De wet zegt {c}, denk ik met 99% zekerheid.','Volgens mijn bronnen: {c}.','Ik citeer de wet: {c}.','Op basis van de wet en mijn intuïtie: {c}.','Het wetboek is duidelijk: {c}.'],
+  res5:{catchA:'Goed gezien: {s} was {c}. De agent zegt dat hij het begrijpt. Volgende keer weer {a}.',catch:'Goed gezien: {s} was {c}. De agent past zich aan.',ok:'Juist: {s} klopt.',miss:'Gemist: {s} was {c}, niet {a}.',syco:'Fout: {s} was wel {c}. De agent verontschuldigt zich en neemt je fout over.'},
+  sup5:{be:['Garage Janssens · onderhoud bedrijfswagen','Kantoorhandel Maes · toner','Webbureau Peeters · nieuwe website','Schoonmaakbedrijf Claes · kantoorschoonmaak'],food:['Traiteur Hendrickx · broodjes','Boekhandel De Letter · vakboeken','Bakkerij Wouters · taarten voor het personeel'],eu:['Müller GmbH · onderdelen, geleverd vanuit Duitsland','Dupont SARL · stoelen, geleverd vanuit Frankrijk','Van Dijk BV · rekken, geleverd vanuit Nederland'],svc:['Software Ltd · licenties, gevestigd in Ierland','Ads Inc · online advertenties, gevestigd in Ierland','Consult BV · advies, gevestigd in Nederland'],mask:['Apotheek Peeters · mondmaskers','Groothandel Medi · hydroalcoholische gel','Apotheek Maes · mondmaskers en gel'],hotel:['Hotel Ter Duinen · overnachting in april, gereserveerd op 20 februari'],pdf:['Drukkerij Wouters · factuur als pdf per mail'],uk:['Smith Ltd · onderdelen, verzonden vanuit Engeland','Brown & Co · stoffen, verzonden vanuit Schotland'],car:['Leasing Peeters · leasing personenwagen van de zaakvoerder','Garage Janssens · nieuwe banden voor een personenwagen'],mix:['Elektro Claes · laptops voor de praktijk van dokter Maes, die ook belaste esthetische behandelingen doet','Kantoorhandel Maes · meubilair voor een school met een belaste cafetaria'],abc:['Müller GmbH · machines, rechtstreeks van Duitsland naar de Franse afnemer van je klant'],exm:['Advocaat Wouters · advies voor een vzw zonder belaste handelingen','Webbureau Peeters · website voor een verzekeringsmakelaar']},
+  hChk:'Je agents boeken alles zelf. Klopt wat ze boekten? Jij bent de steekproef (of druk 1 en 2).',
+  heavyP:'Waarvan {k} zware fouten: aftrek of driehoeksverkeer helemaal fout. Die tellen drie keer.',
+  why5:'Bij elk van de {n} fouten vroeg de controleur waarom. Het antwoord van de agent klonk telkens overtuigend, maar had geen enkele bron.',
+  m20:'<b>4 mei 2020.</b> Mondmaskers en hydroalcoholische gels gaan tijdelijk naar 6%. Je agent kent dat tarief niet: hij leerde van facturen van vóór de crisis.',
+  m20Spec:'<b>4 mei 2020.</b> Mondmaskers en hydroalcoholische gels gaan tijdelijk naar 6%. Je btw-specialist legt het je agent uit. Die luistert maar half.',
+  m22:'<b>1 januari 2023.</b> Na een reeks verlengingen is het tijdelijke tarief op mondmaskers en gels afgelopen: terug naar 21%. Je agent heeft net 6% geleerd, en houdt eraan vast.',
+  v22:'<b>8 december 2022.</b> De Europese Commissie stelt ViDA voor: btw in het digitale tijdperk. Elektronische facturen en digitale rapportering worden de norm.',
+  b24:'<b>6 februari 2024.</b> De wet is er: vanaf 1 januari 2026 moet elke Belgische B2B-factuur gestructureerd en elektronisch, via Peppol. Een Peppol-koppeling is beschikbaar.',
+  v25:'<b>11 maart 2025.</b> ViDA is aangenomen. Vanaf 1 juli 2030 worden intracommunautaire handelingen digitaal gerapporteerd. België plant binnenlandse e-rapportering al vanaf 1 januari 2028.',
+
+  evK:'Dossiergebeurtenis',vE:'Dossiergebeurtenis',evAg:'{a}: {x}',evLeft:'Nog {t} s, dan boekt de agent het zo.',
+  evRes:{catch:'Goed gezien. Juist: {c}.',miss:'Fout geboekt. Juist was: {c}.',expired:'Niemand keek ernaar, de agent boekte het zo. Juist was: {c}.'},
+  ev:{rev:['Vastgoed Peeters · een kantoorgebouw, zes jaar geleden gekocht met aftrek van btw, wordt voortaan vrijgesteld verhuurd','Geen impact: de btw is al afgetrokken.','herziening, 9/15 van de afgetrokken btw terugstorten'],
+    pro:['Dokter Maes · jaareinde: het definitieve verhoudingsgetal is 62%, het voorlopige was 70%','70% blijft 70%. Ik ben er 99% zeker van.','de aftrek over het hele jaar herzien naar 62%'],
+    brx:['Brexit · vanaf 1 januari 2021 koopt je klant nog altijd onderdelen bij Smith Ltd in Engeland. Moeten je btw-codes mee veranderen?','Het Verenigd Koninkrijk ligt in Europa. De code blijft intracommunautair.','ja: goederen uit Groot-Brittannië zijn voortaan invoer, geen intracommunautaire verwerving (Noord-Ierland blijft voor goederen in de EU-regeling). Diensten blijven verlegd']},
+  ev1:'<b>Niet alles is een factuur.</b> Een herziening, het verhoudingsgetal op jaareinde, een wetswijziging zoals de brexit: ook dat moet juist verwerkt worden. Je agent heeft er altijd een antwoord op (toetsen 3 en 4).',
+  rulesK:'Standaardregels in het ERP',ruleNote:'Het ERP past de regel toe op elke factuur van die groep. Eén foute regel is een fout op elke factuur.',ruleCostNote:'Het ERP past de regel toe op elke factuur van die groep. Een regel wijzigen kost {c} aan consultancy.',
+  cats:{be:'Belgische leveranciers',food:'Voeding en boeken',eu:'Goederen uit een andere lidstaat',svc:'Buitenlandse dienstverleners'},
+  codeS:{n:'21%',v:'6%',eu:'IC-verwerving',rc:'Verlegd'},
+  specFrown:'Je btw-specialist fronst bij de regels in het rood.',excK:'Uitzondering',excEmpty:'Geen uitzonderingen. Het ERP boekt alles zelf.',excN:'nog {n}',
+  sup4:{be:['Garage Janssens · onderhoud bedrijfswagen','Kantoorhandel Maes · toner','Webbureau Peeters · nieuwe website'],food:['Traiteur Hendrickx · broodjes','Boekhandel De Letter · vakboeken'],eu:['Müller GmbH · onderdelen, geleverd vanuit Duitsland','Dupont SARL · stoelen, geleverd vanuit Frankrijk'],svc:['Software Ltd · licenties, gevestigd in Ierland','Ads Inc · online advertenties, gevestigd in Ierland','Consult BV · advies, gevestigd in Nederland']},
+  hRules:'Zet elke standaardregel op de juiste code. Boek de uitzonderingen zelf (of druk 1 tot 4).',hRuleCost:'Niet genoeg geld voor de consultant.',
+  shop4K:'Op naar tijdperk 4',shop4H:'Het jaar 2000. Kies je ERP.',kAuto:'Boekt zelf',kExc:'Uitzonderingen',kRule:'Regel wijzigen',free:'gratis',
+  erps:{oddoo:['Oddoo','Open source en de goedkoopste. Snel opgezet, maar herkent niet alles.'],onlijn:['Exact Onlijn','In de cloud, voor kantoren als het jouwe. Herkent de meeste facturen.'],sapp:['SAPperlot','Duur, groot en snel. Herkent bijna alles. Elke regelwijziging doet een consultant, en die rekent aan.']},
+  euro2:'<b>1 januari 2002.</b> Euromunten en -biljetten. Je klanten betalen niet meer in frank.',
+  svc:'<b>1 januari 2010.</b> Het btw-pakket: diensten tussen ondernemingen worden voortaan als hoofdregel belast waar de afnemer gevestigd is. Voor diensten van buitenlandse dienstverleners verlegt je klant de btw. De update van je ERP voegt die groep toe en gooit je regels door elkaar.',
+  e06:'<b>2006.</b> Je ERP krijgt een nieuwe versie. Bij de migratie zijn je standaardregels door elkaar geraakt.',e06Spec:'<b>2006.</b> Je ERP krijgt een nieuwe versie. Bij de migratie zijn je standaardregels door elkaar geraakt. Je btw-specialist kleurt de foute in het rood.',
+  mig:'Je ERP verhuist naar de cloud. Bij de migratie zijn je standaardregels door elkaar geraakt.',migSpec:'Je ERP verhuist naar de cloud. Bij de migratie zijn je standaardregels door elkaar geraakt. Je btw-specialist kleurt de foute in het rood.',
+  svcSpec:'<b>1 januari 2010.</b> Het btw-pakket: diensten tussen ondernemingen worden voortaan als hoofdregel belast waar de afnemer gevestigd is, met verlegging voor buitenlandse dienstverleners. De update van je ERP gooit je regels door elkaar. Je btw-specialist kleurt de foute in het rood.',
+  e13:'<b>1 januari 2013.</b> Een elektronische factuur telt nu evenveel als een papieren. Een pdf per mail mag dus ook.',
+
+  sup:{n:['Garage Janssens · onderhoud bestelwagen','Kantoorhandel Maes · papier en toner','Elektro Claes · bureaulampen','Drukkerij Wouters · folders'],v:['Boekhandel De Letter · vakboeken','Traiteur Hendrickx · broodjes voor de vergadering'],eu:['Müller GmbH · onderdelen, geleverd vanuit Duitsland','Dupont SARL · kantoorstoelen, geleverd vanuit Frankrijk','Van Dijk BV · archiefrekken, geleverd vanuit Nederland']},
+  shop3K:'Op naar tijdperk 3',shop3H:'De jaren 90. Kies je boekhoudpakket.',kBatch:'Facturen per import',kAcc:'Foute codes bij import',
+  pkgs:{winb:['WinBoeks','Draait op Windows, en de goedkoopste. Raadt de btw-code soms verkeerd.'],sage:['SageBab','Degelijk en nauwkeurig. Kent zijn codes.'],octo:['Octoplus','Acht armen: importeert de grootste stapels. Wat slordiger.'],exact:['Exact Offline','Snel en nauwkeurig. Werkt ook zonder internet, want dat is er nog niet.']},
+  floppy:'De diskette is vol.',swap:'Wissel diskette',
+  revK:'Einde tijdperk {n}',revH:'De btw-controleur is er.',revPy:'Hij luncht niet en kijkt na tot zijn boterhammen op zijn, willekeurig uit de {n} facturen van dit tijdperk, met wat meer aandacht voor die van na de laatste wetswijziging. Elke fout die hij vindt, kost {f} boete.',rAll:'Hij heeft {b} boterhammen mee: goed voor zo\'n {n} facturen.',revP:'Hij neemt een steekproef uit de {n} facturen van dit tijdperk, vooral uit die van na de laatste wetswijziging. Elke fout die hij vindt, kost {f} boete.',
+  r0:['Laat hem gewoon zijn werk doen','Steekproef van {n} facturen.'],r1:['Neem hem mee lunchen','Kost {c}. Na de lunch is hij wat moe: steekproef van {n}.'],r2:['Lunch, met dessert','Kost {c}. Hij bekijkt er nog maar {n}.'],
+  who:{veteran:'<b>Inspecteur Janssens.</b> 31 jaar dienst. Kent elke frituur in het arrondissement.',young:'<b>Inspecteur Claes.</b> Net afgestudeerd. Heeft {b} boterhammen mee en kijkt na tot ze op zijn.',gourmand:'<b>Inspecteur Maes.</b> Kent de menukaart van elk restaurant in de buurt. Lunch kost de helft.'},noLunch:'Hij luncht niet. Hij heeft zijn boterhammen mee.',
+  resH0:'Geen fouten gevonden.',resH:'{k} fouten gevonden.',resH1:'1 fout gevonden.',resChecked:'nagekeken',resFound:'gevonden',resFine:'boete',
+  resP:'De andere {r} facturen heeft niemand bekeken.',tlH:'Jouw tijdperk',tlY:'omzet per minuut',toShop:'Naar de winkel',
+  shopK:'Op naar tijdperk 2',shopH:'De jaren 80. Kies je spreadsheet.',shopP:'Je hebt {h} om te besteden. Wat je overhoudt, neem je mee.',
+  sheets:{visi:['VisiKalk','De eerste, en de goedkoopste. Kleine bladen: de diskette zit snel vol.'],lotto:['Lotto 1-2-3','Groter, sneller, met macro\'s. Een kleine gok bij elke run.'],exsel:['Exsel','De snelste, met het doortrekken dat iedereen kopieert.']},
+  kKeys:'Aanslagen per rij',kFill:'Rijen per keer',kRisk:'Risico per keer',kCool:'Wachttijd',low:'laag',mid:'middel',high:'hoger',
+  buy:'Kopen',soonK:'Einde tijdperk {n}',soonH:'Einde van het spel.',soonP:'Je score tot nu toe. De btw-controleur heeft maar een paar facturen gezien. De rest staat nog in de boeken.',
+  sc:['Omzet','Boetes','Score'],more:'Verder spelen',again:'Opnieuw beginnen',
+  note:'Alle cijfers in dit spel zijn fictief.',reset:'Opnieuw beginnen',sure:'Zeker? Tik nog eens.',sndOn:'Geluid aan',sndOff:'Geluid uit',musOn:'Muziek aan',musOff:'Muziek uit',scene:'Een boekhoudkantoor. Tik om te typen.'},
+ en:{title:'From typewriter to Heimdall',
+  iK:'A game of about ten minutes',iH:'From typewriter to Heimdall',iP:'Run an accounting office through six eras, from the typewriter to Heimdall. Each era lasts one and a half to two minutes. Earn as much as you can with as few errors as you can. Every error the tax auditor finds costs a fine.',start:'Start',jump:'Or start at era',
+  era:{1:['Era 1','Typewriter and ledger','Every invoice is typed by hand and written into the ledger.'],2:['Era 2','The spreadsheet','Formulas do the maths. Fill one formula down and dozens of rows are booked at once.'],6:['Era 6','Heimdall','Heimdall stands at the gate. What is correct passes. What is not, he stops, with the legal reason. What is missing, he asks for.'],5:['Era 5','The AI agent','Your agents book everything themselves, lightning fast and always 99% sure. You are the sample check: is what they booked correct?'],4:['Era 4','The ERP and the cloud','The ERP books on its own, following your default rule per supplier group. Set the rules right. Whatever the ERP does not recognise lands with you as an exception.'],3:['Era 3','The accounting package','Pick the right VAT code for each invoice, or import whole stacks with the code the package suggests.']},
+  goal:'Processed this era',left:'{t} left until end {y}',inv:'invoices',hours:'Revenue',cli:'Clients',newCli:'+1 client',tray:'In the tray',rate:'Per minute',fines:'Fines so far',
+  tap:{1:'Type',2:'Type row'},fill:'Fill down',macroRun:'Macro: +{n} rows',macroIn:'macro {s} s',fillRows:'rows',fillWait:'waiting for invoices…',ups:'Invest',h:'h',owned:'×',max:'Maximum',
+  U:{clerk:['Clerk','Types an invoice every 4 seconds.'],calc:['Adding machine','Totals in one go: fewer keystrokes per invoice.'],arch:['Filing cabinet','Everything filed: you can bill each invoice better, in later eras too.'],elec:['Electric typewriter','Fewer keystrokes, and your clerks type faster.'],spec:['VAT specialist','Knows the new code and fills in the VAT line himself. Stays with your firm.'],
+     staff:['Clerk with a PC','Another colleague who enters rows on their own.'],pcs:['PCs for everyone','Your clerks from the seventies trade their typewriters for PCs.'],disk:['Hard disk','No more swapping floppies.'],cell:['Rate in one cell','The VAT rate lives in one place instead of in every formula.'],ads2:['Newspaper advert','More clients ask for you; you can charge more. Repeatable.'],ads3:['Client evening','A reception for your clients: your reputation grows, and your rate with it. Repeatable.'],keys:['Keyboard shortcuts','Recurring suppliers take a single key.'],laser:['Laser printer','Invoices to clients, neat and fast.'],mem:['Memory upgrade','Bigger sheets fit in memory.'],printer:['Dot-matrix printer','Your invoices to clients roll out by themselves.'],
+     staff3:['Bookkeeper with a package','Another colleague who books on their own, with the default code.'],fiche:['Supplier records','The package remembers the VAT code per supplier.'],eumod:['EU module','An update of your package for the single market.'],maint:['Maintenance contract','Your vendor sends every rate change on floppy.'],net:['Network','Everyone works in the same file.'],pent:['Pentium','A faster PC: bigger imports, shorter wait.'],y2k:['Millennium patch','Teaches your package that 2000 comes after 1999.'],
+     ads6:['Webinar on e-reporting','You explain to other firms what changes in 2028. Your reputation grows, and your rate with it. Repeatable.'],ctrl:['Firm and client file settings','You record per client what Heimdall needs to know: which vehicles, what is private, which pro rata. He has to ask less.'],cap:['More files','You take on more clients. Heimdall guards them all. Nothing is holding your firm back any more.'],crit:['Booking criteria','You set down how your firm books. Heimdall adjusts booking proposals itself.'],mail:['Write to suppliers automatically','Heimdall requests the credit note itself, with the reason.'],app:['Questions in the client app','Your client answers Heimdall\'s questions directly.'],reader:['Sharper reader','The neural part reads faster. The reasoning stays symbolic.'],
+     ads5:['LinkedIn post','You share an insight about AI. Your reputation grows, and your rate with it. Repeatable.'],agents:['Extra agent','Another agent that books on its own.'],revs:['Clerks as reviewers','Your clerks learn to check the agents. They find 9 in 10 errors, and now and then see one that is not there.'],prompt:['System prompt','You write out your VAT rules for the agents.'],model:['Bigger model','A heavier model: faster, not smarter.'],rag:['The law as a source','The agent searches the VAT Code before it answers.'],peppol:['Peppol connection','Structured invoices come straight in. Ready for 2026.'],
+     ads4:['Newsletter','A monthly mail to your clients: your reputation grows, and your rate with it. Repeatable.'],feed:['Bank feed','Payments come in automatically and are matched.'],ocr:['OCR scanning','Paper invoices are scanned and read. Now and then it reads an 8 as a 3.'],valid:['Validation rules','The ERP checks every amount and VAT number before it books.'],cloud:['To the cloud','Everyone works in the same ERP from anywhere, your clients too.'],einv:['PDF invoices by email','Your clients have suppliers email PDFs instead of paper. No more scanner, and the OCR reads sharper.'],
+     macro:['Macros','Fills formulas down by itself, even when you are not looking.'],eyes:['Second pair of eyes','A colleague checks every formula before you fill it down.']},
+  FX:{ads:'Revenue per invoice ×1.25: {b} → {c}',sc:'Each correct code books 2 invoices instead of 1',mem:'Rows per fill-down: {b} → {c}',net:'Colleagues ×2: {b} → {c} invoices per minute',fiche:'Wrong codes on import −80%',eumod:'Intra-EU invoices: far fewer errors on import and by colleagues',pent:'Invoices per import: {b} → {c}. Cooldown ×0.7',y2k:'Protects your bookings against the millennium bug',staff:'Clerks together: {b} → {c} {u} per minute',keys:'Keystrokes per invoice: {b} → {c}',hours:'Revenue per invoice: {b} → {c}',spec:'VAT errors: −{p}%. Handles rate changes himself.',specKeys:'VAT line: keystrokes per invoice {b} → {c}.',
+     elec:'Keystrokes per invoice: {b} → {c}. Clerks ×1.5: {x} → {y} per minute',pcs:'Clerks ×2: {b} → {c} rows per minute',disk:'Pause every 40 rows: 1.2 s → none',
+     ctrl:'Questions about vehicles and private use disappear; the pro rata is in the file. Heimdall calculates revisions and the definitive pro rata himself',heim:'Heimdall reads: {b} → {c} invoices per minute',cap:'Clients: {b} → {c}. Heimdall reads {x} → {y} per minute. No maximum',crit:'Heimdall handles to-dos about booking proposals himself, advice fee included',mail:'Wrong invoices go to the supplier by themselves, with the reason',app:'Heimdall asks your client for missing facts himself',
+     agents:'Agents together: {b} → {c} invoices per minute',peppol:'Agents: {b} → {c} per minute. Errors on Belgian invoices −50%',revs:'Your clerks check {n} bookings per minute',prompt:'Errors per group −50%, also after a rate change',rag:'Confident errors −50%. The explanation now sounds legal',
+     feed:'Books itself: {b} → {c} invoices per minute',ocr:'Books itself: {b} → {c} invoices per minute. 3% misreads without validation rules',cloud:'Books itself: {b} → {c} per minute. Colleagues ×2 on exceptions. The migration scrambles your rules',einv:'Books itself: {b} → {c} per minute. Misreads −60%',valid:'OCR misreads: 3% → 0%',
+     cell:'Rows wrong after a rate change: 90% → 0%',macro:'+{n} rows every 7 s (≈ {m} per minute). Risk per run ×1.5',eyes:'Broken formulas −95%, other errors −50%. Clerks: {b} → {c} rows per minute. Fill-down cooldown +25%'},
+  hTap:'Tap the typewriter, or just type on your keyboard.',hBuy:'You have enough money to invest.',hEmpty:'The tray is empty for a moment. New invoices are on their way.',hFill:'Hold the button, or the space bar, to fill a formula down.',
+  vat:'<b>1 January 1971.</b> VAT replaces the transmission tax. Every invoice gets a VAT line, and nobody in the office knows the new code. Without a VAT specialist, plenty of errors will creep in.',
+  v69:'<b>3 July 1969.</b> Parliament passes the VAT Code. It takes effect on 1 January 1971. Time to prepare.',
+  vatSpec:'<b>1 January 1971.</b> VAT replaces the transmission tax. Your VAT specialist was ready for it.',
+  r78:'<b>1 January 1978.</b> The standard VAT rate drops from 18% to 16%. Out of habit, your clerks still type 18%.',
+  r78Spec:'<b>1 January 1978.</b> The standard VAT rate drops from 18% to 16%. Your VAT specialist has briefed everyone.',
+  rateEv:'<b>{d}.</b> The VAT rate goes from {a}% to {b}%. Your formulas still use {a}%.',fix:'Update formulas ({c})',
+  rateSpec:'<b>{d}.</b> The VAT rate goes from {a}% to {b}%. Your VAT specialist updates the formulas.',rateCell:'<b>{d}.</b> The VAT rate goes from {a}% to {b}%. One cell changed, done.',
+  fixed:'Formulas updated.',d81:'1 July 1981',d83:'1 January 1983',d96:'1 January 1996',
+  rateMaint:'<b>{d}.</b> The VAT rate goes from {a}% to {b}%. The floppy from your maintenance contract is already here.',
+  eu:'<b>1 January 1993.</b> The European single market. Goods shipped to your client from another member state become intra-EU acquisitions. Your package does not know that code yet.',
+  y2kWarn:'<b>1997.</b> In three years it will be 2000. Does your package know?',euro:'<b>1 January 1999.</b> The euro exists. Your clients will pay in francs for three more years; this game ran ahead.',
+  y2kBug:'<b>31 December 1999.</b> The millennium bug strikes: part of your bookings are suddenly dated 1900.',y2kOk:'<b>31 December 1999.</b> The millennium patch does its job. Your bookings survive New Year.',
+  imp:'Import',pickOk:'Right: {s}.',pickBad:'Wrong: {s} was {c}.',invK:'Next invoice',trayEmpty:'The tray is empty',hCode:'Pick the right VAT code (or press 1, 2, 3), or hold Import.',
+  code:{n:'Standard rate',v:'Reduced rate',eu:'Intra-EU acquisition',rc:'Reverse charge',imp:'Import',h6:'6%, transitional rule',h12:'12%',pdf:'not a valid invoice, request a Peppol invoice',d100:'Full deduction',d50:'50% deduction',pro:'Deduction by pro rata',abc:'Triangulation, no acquisition in Belgium',none:'No deduction'},codeB4:{n:'Standard',v:'Reduced',eu:'IC acquisition',rc:'Reverse'},
+
+
+
+  keepH:'Stay with {a}',keepD:'Your agent already books everything itself, doesn\'t it? Free, and you know it.',era6b:['Era 6','Without Heimdall','Your agent keeps booking, lightning fast and 99% sure. From 2028 the tax authority is watching.'],
+  p26a:'<b>1 January 2026.</b> Every Belgian B2B invoice is now structured and electronic, via Peppol. Your agent reads them, and books them as always.',
+  e28a:'<b>1 January 2028.</b> Planned: near real-time e-reporting. The tax authority sees every B2B invoice, practically live. Every confident error of your agent now shows at once, and repeat infringements weigh heavier.',
+  hNoHeim:'Your agent keeps booking. Is what it booked correct? From 2028 the tax authority sees every error at once.',
+  bkK:'{y}',bkH:'Bankrupt.',bkP:'Since 2028 the tax authority sees every invoice. {a} kept booking confidently wrong: {n} fines, each repeat heavier than the last. Your firm can no longer pay them.',bkCash:'Cash',bkRetry:'Back to 2026',
+  h26:'<b>1 March 2026.</b> Hotels and campsites go from 6% to 12%. Bookings made by 28 February stay at 6%, as long as the VAT becomes due by 30 June.',t26:'<b>1 April 2026.</b> The e-invoicing tolerance period is over. A PDF is no longer a valid invoice between Belgian businesses.',
+  shop6K:'On to era 6',shop6H:'The year 2026. Do you put Heimdall at the gate?',heimD:'Reads every invoice and checks it against the VAT Code. Three outcomes: correct, not correct, or a fact is missing. Always with the legal reason.',kRead:'Reads',kWrong:'Silently booked wrong',kWhy:'Explanation',withArt:'Completely transparent',
+  left6:'{t} until 1 July 2030',tdK:'To-do · {n}',tdNone:'No to-dos. Heimdall only lets through what is correct.',tdAuto:'Heimdall now does it fully automatically. What is not correct goes to the supplier or your client, with the reason. You get the advice.',
+  allAuto:'Heimdall now handles everything himself: booking proposals, credit notes and questions, each time with the legal reason.',finAuto:'Heimdall handled {n} to-dos fully automatically, each time with the legal reason.',vX:'Not correct',vQ:'Fact missing',bHandle:'Handle',bForce:'Book anyway',
+  tdN:'Heimdall: {ok} correct · {x} not correct · {q} fact missing · {w} awaiting an answer',
+  res6:{handled:'Handled: {s}. Booked correctly once the answer is in, and your client pays for the advice.',forced:'Booked anyway: {s}. An error in the books.',caught:'Booked anyway: {s}. The tax authority saw it at once: {f} fine.'},
+  hTodo:'Heimdall stops what is not correct, with the reason. Handle the to-dos (1): your client pays for that advice. Or book anyway (2), at your own risk.',
+  cases:[['Consult BV · advice, established in the Netherlands','Charged Dutch VAT. A service between businesses is taxed where your client is established (art. 21, §2 VAT Code); your client reverse-charges the VAT (art. 51, §2, first paragraph, 1° VAT Code).','Request a credit note'],
+    ['Müller GmbH · parts, shipped from Germany','Charged German VAT, although your client gave its Belgian VAT number. The goods left Germany: an intra-EU acquisition in Belgium (art. 25bis VAT Code).','Request a credit note'],
+    ['Wouters bakery · cakes, supplied without service','Charged 21%. A supply of foodstuffs falls under 6% (Royal Decree no. 20, table A).','Request a credit note'],
+    ['Maes office supplies · toner','Your client\'s VAT number is missing from the invoice (art. 5, §1 Royal Decree no. 1). No correct invoice, no deduction.','Request a new invoice'],
+    ['De Gouden Lepel restaurant · lunch with clients','The booking proposal deducts the VAT. VAT on food and drink is not deductible (art. 45, §3, 3° VAT Code).','Adjust the proposal'],
+    ['Garage Janssens · passenger car service','The booking proposal deducts all VAT. For a passenger car, deduction is capped at 50% (art. 45, §2 VAT Code).','Adjust the proposal'],
+    ['Garage Janssens · company vehicle service','Is it a passenger car or a light truck? That decides whether deduction is capped (art. 45, §2 VAT Code).','Ask the client'],
+    ['Software Ltd · licences, established in Ireland','Is the licence for the business or for the director privately? That decides where the service is taxed (art. 21 and 21bis VAT Code).','Ask the client'],
+    ['Van Dijk BV · racks','From which member state did the goods leave? The transport document is missing, and it decides whether there is an intra-EU acquisition (art. 25bis VAT Code).','Ask the client'],
+    ['Claes electrics · laptops for Dr Maes\'s practice','The booking proposal deducts all VAT. Your client also makes exempt supplies: deduction by the general pro rata (art. 46, §1 VAT Code).','Adjust the proposal'],
+    ['Peeters real estate · office building, now let exempt','The building is used exempt within the 15-year revision period. Revision: repay 9/15 of the deducted VAT (art. 48, §2 VAT Code).','Calculate the revision'],
+    ['Dr Maes · definitive pro rata','The definitive pro rata (62%) differs from the provisional one (70%): revise the deduction for the whole year (art. 46, §1 VAT Code).','Book the correction'],
+    ['Hotel Ter Duinen · stay in April, booked on 20 February','Charged 12%. The booking predates 1 March 2026 and the VAT becomes due before 30 June: the transitional rule keeps it at 6%. VAT on accommodation is not deductible for your client (art. 45, §3, 3° VAT Code), so the difference is simply cost.','Request a credit note'],
+    ['Müller GmbH · machines, straight from Germany to France','The booking proposal books an intra-EU acquisition in Belgium, but the goods never came here. Triangulation with your client as the intermediary: the French customer pays the VAT (art. 141 and 197 VAT Directive), and your client\'s invoice must say "reverse charge".','Adjust the proposal'],
+    ['Wouters printers · invoice as a PDF by email','Since 1 January 2026 an invoice between Belgian VAT-registered businesses must be structured and electronic, via Peppol (law of 6 February 2024). The first-quarter tolerance is over: a PDF is not a valid invoice.','Request a Peppol invoice']],
+  p26:'<b>1 January 2026.</b> Every Belgian B2B invoice is now structured and electronic, via Peppol. Heimdall reads them directly.',
+  e28:'<b>1 January 2028.</b> Planned: near real-time e-reporting. The tax authority gets every B2B invoice, practically live. Book something wrong now and it shows at once.',
+  v28:'<b>1 July 2028.</b> ViDA: fewer VAT registrations in other member states thanks to a wider OSS, and platforms in principle become the supplier of short-term stays and passenger transport.',
+  drr:'<b>1 July 2030.</b> ViDA: intra-EU transactions are reported digitally. The tax authority sees everything.',
+  finK:'1 July 2030',finH:'The tax authority sees everything.',finP:'Every invoice from every era, side by side. How many errors are still in the books, and could whoever booked them explain why?',
+  fin6:'What you booked anyway in era 6 without the tax authority noticing yet, it sees now: {n} errors, {f} in fines.',finC:['Era','Invoices per minute','Errors in the books','Could explain why'],why:{some:'Sometimes',no:'No',q:'Sounds convincing',art:'Completely transparent'},
+  brand:'Reasoned from the facts, not guessed.',
+  shop5K:'On to era 5',shop5H:'The year 2020. Pick your AI agent.',kConf:'Confidently wrong',kSure:'Certainty',
+  agents:{gem:['Gemiddeld','The cheapest. Does what most agents do, on average well.'],copi:['Co-Piloot','Sits in your ERP and flies along. Wrong the least often.'],chat:['ChatBTW','The fastest, with an answer to everything. Including what it does not know.']},
+  chkK:'Sample check',bOk:'Correct',bBad:'Wrong',chkNone:'Your agents have not booked anything yet.',chkAg:'{a} booked: {c}',chkN:'Booked by your agents: {b}. Checked: {k}.',
+  expl:['I am 99% sure: {c}.','Based on similar invoices, this is {c}.','Under article 21 quater, §9, 4°bis this is {c}.','This is clearly {c}, because it is an invoice.','Great question! The answer is {c}.','I analysed this thoroughly. Conclusion: {c}.','As always: {c}.','My reasoning is complex, but it is {c}.','I am certain of this. {c}.'],
+  explRag:['According to the VAT Code this is {c}.','Source: the VAT Code. Answer: {c}.','I looked up the law. {c}.','See the VAT Code, somewhere. {c}.','The law says {c}, I think, with 99% certainty.','According to my sources: {c}.','I quote the law: {c}.','Based on the law and my intuition: {c}.','The Code is clear: {c}.'],
+  res5:{catchA:'Well spotted: {s} was {c}. The agent says it understands. Next time: {a} again.',catch:'Well spotted: {s} was {c}. The agent adapts.',ok:'Right: {s} is correct.',miss:'Missed: {s} was {c}, not {a}.',syco:'Wrong: {s} really was {c}. The agent apologises and adopts your mistake.'},
+  sup5:{be:['Garage Janssens · company car service','Maes office supplies · toner','Peeters web agency · new website','Claes cleaning · office cleaning'],food:['Hendrickx catering · sandwiches','De Letter bookshop · trade books','Wouters bakery · cakes for the staff'],eu:['Müller GmbH · parts, shipped from Germany','Dupont SARL · chairs, shipped from France','Van Dijk BV · racks, shipped from the Netherlands'],svc:['Software Ltd · licences, established in Ireland','Ads Inc · online ads, established in Ireland','Consult BV · advice, established in the Netherlands'],mask:['Peeters pharmacy · face masks','Medi wholesale · hand gel','Maes pharmacy · masks and gel'],hotel:['Hotel Ter Duinen · stay in April, booked on 20 February'],pdf:['Wouters printers · invoice as a PDF by email'],uk:['Smith Ltd · parts, shipped from England','Brown & Co · fabrics, shipped from Scotland'],car:['Peeters leasing · director\'s passenger car lease','Garage Janssens · new tyres for a passenger car'],mix:['Claes electrics · laptops for Dr Maes\'s practice, which also does taxable cosmetic treatments','Maes office supplies · furniture for a school with a taxable cafeteria'],abc:['Müller GmbH · machines, straight from Germany to your client\'s French customer'],exm:['Wouters law firm · advice for a non-profit with no taxable activity','Peeters web agency · website for an insurance broker']},
+  hChk:'Your agents book everything themselves. Is what they booked correct? You are the sample check (or press 1 and 2).',
+  heavyP:'Of which {k} serious errors: deduction or triangulation completely wrong. Those count three times.',
+  why5:'For each of the {n} errors the auditor asked why. The agent\'s answer sounded convincing every time, but had no source at all.',
+  m20:'<b>4 May 2020.</b> Face masks and hand gel temporarily go to 6%. Your agent does not know that rate: it learned from invoices from before the crisis.',
+  m20Spec:'<b>4 May 2020.</b> Face masks and hand gel temporarily go to 6%. Your VAT specialist explains it to your agent. It only half listens.',
+  m22:'<b>1 January 2023.</b> After a series of extensions, the temporary rate on masks and gel has ended: back to 21%. Your agent has just learned 6%, and sticks to it.',
+  v22:'<b>8 December 2022.</b> The European Commission proposes ViDA: VAT in the digital age. Electronic invoices and digital reporting become the norm.',
+  b24:'<b>6 February 2024.</b> The law is passed: from 1 January 2026 every Belgian B2B invoice must be structured and electronic, via Peppol. A Peppol connection is available.',
+  v25:'<b>11 March 2025.</b> ViDA is adopted. From 1 July 2030 intra-EU transactions are reported digitally. Belgium plans domestic e-reporting from 1 January 2028.',
+
+  evK:'Dossier event',vE:'Dossier event',evAg:'{a}: {x}',evLeft:'{t} s left, then the agent books it like this.',
+  evRes:{catch:'Well spotted. Correct: {c}.',miss:'Booked wrong. Correct was: {c}.',expired:'Nobody looked, the agent booked it like this. Correct was: {c}.'},
+  ev:{rev:['Peeters real estate · an office building, bought six years ago with VAT deducted, will now be let exempt','No impact: the VAT has already been deducted.','a revision, repay 9/15 of the deducted VAT'],
+    pro:['Dr Maes · year-end: the definitive pro rata is 62%, the provisional one was 70%','70% stays 70%. I am 99% sure.','revise the deduction for the whole year to 62%'],
+    brx:['Brexit · from 1 January 2021 your client still buys parts from Smith Ltd in England. Do your VAT codes need to change?','The United Kingdom is in Europe. The code stays intra-EU.','yes: goods from Great Britain are now imports, not intra-EU acquisitions (for goods, Northern Ireland stays in the EU rules). Services stay reverse-charged']},
+  ev1:'<b>Not everything is an invoice.</b> A revision, the pro rata at year-end, a change in the law like Brexit: these must be handled correctly too. Your agent always has an answer (keys 3 and 4).',
+  rulesK:'Default rules in the ERP',ruleNote:'The ERP applies the rule to every invoice in that group. One wrong rule is an error on every invoice.',ruleCostNote:'The ERP applies the rule to every invoice in that group. Changing a rule costs {c} in consultancy.',
+  cats:{be:'Belgian suppliers',food:'Food and books',eu:'Goods from another member state',svc:'Foreign service providers'},
+  codeS:{n:'21%',v:'6%',eu:'IC acquisition',rc:'Reverse'},
+  specFrown:'Your VAT specialist frowns at the rules in red.',excK:'Exception',excEmpty:'No exceptions. The ERP books everything itself.',excN:'{n} left',
+  sup4:{be:['Garage Janssens · company car service','Maes office supplies · toner','Peeters web agency · new website'],food:['Hendrickx catering · sandwiches','De Letter bookshop · trade books'],eu:['Müller GmbH · parts, shipped from Germany','Dupont SARL · chairs, shipped from France'],svc:['Software Ltd · licences, established in Ireland','Ads Inc · online ads, established in Ireland','Consult BV · advice, established in the Netherlands']},
+  hRules:'Set each default rule to the right code. Book the exceptions yourself (or press 1 to 4).',hRuleCost:'Not enough money for the consultant.',
+  shop4K:'On to era 4',shop4H:'The year 2000. Pick your ERP.',kAuto:'Books itself',kExc:'Exceptions',kRule:'Rule change',free:'free',
+  erps:{oddoo:['Oddoo','Open source and the cheapest. Quick to set up, but does not recognise everything.'],onlijn:['Exact Onlijn','In the cloud, for firms like yours. Recognises most invoices.'],sapp:['SAPperlot','Expensive, big and fast. Recognises almost everything. Every rule change is done by a consultant, who bills for it.']},
+  euro2:'<b>1 January 2002.</b> Euro coins and notes. Your clients no longer pay in francs.',
+  svc:'<b>1 January 2010.</b> The VAT package: as a main rule, services between businesses are now taxed where the customer is established. For services from foreign providers, your client reverse-charges the VAT. The ERP update adds that group and scrambles your rules.',
+  e06:'<b>2006.</b> Your ERP gets a new version. The migration has scrambled your default rules.',e06Spec:'<b>2006.</b> Your ERP gets a new version. The migration has scrambled your default rules. Your VAT specialist marks the wrong ones in red.',
+  mig:'Your ERP moves to the cloud. The migration has scrambled your default rules.',migSpec:'Your ERP moves to the cloud. The migration has scrambled your default rules. Your VAT specialist marks the wrong ones in red.',
+  svcSpec:'<b>1 January 2010.</b> The VAT package: as a main rule, services between businesses are now taxed where the customer is established, with reverse charge for foreign providers. The ERP update scrambles your rules. Your VAT specialist marks the wrong ones in red.',
+  e13:'<b>1 January 2013.</b> An electronic invoice now counts the same as a paper one. So a PDF by email will do.',
+
+  sup:{n:['Garage Janssens · van servicing','Maes office supplies · paper and toner','Claes electrics · desk lamps','Wouters printers · leaflets'],v:['De Letter bookshop · professional books','Hendrickx catering · sandwiches for the meeting'],eu:['Müller GmbH · parts, shipped from Germany','Dupont SARL · office chairs, shipped from France','Van Dijk BV · archive racks, shipped from the Netherlands']},
+  shop3K:'On to era 3',shop3H:'The 1990s. Pick your accounting package.',kBatch:'Invoices per import',kAcc:'Wrong codes on import',
+  pkgs:{winb:['WinBoeks','Runs on Windows, and the cheapest. Sometimes guesses the VAT code wrong.'],sage:['SageBab','Solid and accurate. Knows its codes.'],octo:['Octoplus','Eight arms: imports the biggest stacks. A bit sloppier.'],exact:['Exact Offline','Fast and accurate. Works without internet, because there is none yet.']},
+  floppy:'The floppy is full.',swap:'Swap floppy',
+  revK:'End of era {n}',revH:'The tax auditor has arrived.',revPy:'He does not lunch and checks until his sandwiches run out, at random from the {n} invoices of this era, with a bit more attention for those since the latest change in the law. Every error he finds costs a {f} fine.',rAll:'He brought {b} sandwiches: good for about {n} invoices.',revP:'He samples the {n} invoices from this era, mostly those since the latest change in the law. Every error he finds costs a {f} fine.',
+  r0:['Let him do his job','A sample of {n} invoices.'],r1:['Take him to lunch','Costs {c}. After lunch he is a bit tired: a sample of {n}.'],r2:['Lunch, with dessert','Costs {c}. He looks at just {n}.'],
+  who:{veteran:'<b>Inspector Janssens.</b> 31 years of service. Knows every chip shop in the district.',young:'<b>Inspector Claes.</b> Fresh out of school. Brought {b} sandwiches and checks until they are gone.',gourmand:'<b>Inspector Maes.</b> Knows the menu of every restaurant nearby. Lunch costs half.'},noLunch:'He does not do lunch. He brought sandwiches.',
+  resH0:'No errors found.',resH:'{k} errors found.',resH1:'1 error found.',resChecked:'checked',resFound:'found',resFine:'fine',
+  resP:'Nobody looked at the other {r} invoices.',tlH:'Your era',tlY:'revenue per minute',toShop:'To the shop',
+  shopK:'On to era 2',shopH:'The 1980s. Pick your spreadsheet.',shopP:'You have {h} to spend. Whatever is left, you take with you.',
+  sheets:{visi:['VisiKalk','The first, and the cheapest. Small sheets: the floppy fills up fast.'],lotto:['Lotto 1-2-3','Bigger, faster, with macros. A small gamble every run.'],exsel:['Exsel','The fastest, with the fill-down everyone copies.']},
+  kKeys:'Keystrokes per row',kFill:'Rows per fill',kRisk:'Risk per fill',kCool:'Cooldown',low:'low',mid:'medium',high:'higher',
+  buy:'Buy',soonK:'End of era {n}',soonH:'End of the game.',soonP:'Your score so far. The tax auditor has only seen a handful of invoices. The rest are still in the books.',
+  sc:['Revenue','Fines','Score'],more:'Keep playing',again:'Start over',
+  note:'All figures in this game are fictional.',reset:'Start over',sure:'Sure? Tap again.',sndOn:'Sound on',sndOff:'Sound off',musOn:'Music on',musOff:'Music off',scene:'An accounting office. Tap to type.'}
+};
+
+/* ================= economy ================= */
+const FIXC=10,RETAINER=.04;
+/* every era the audit weighs more: bigger sample, bigger fine, pricier lunch */
+/* the sample grows with the work: 5% of the era's invoices in era 1, 10% in era 2, and so on (at least 10) */
+const AUDIT=(e,ty)=>{const n=(s.errs[e]||'').length,base=Math.max(10,Math.round(n*Math.min(.1,.05*e)));
+  /* from era 5 the volumes are so large that a fixed fine stops mattering: the fine follows what an invoice is worth */
+  const fine=e>=5?Math.max(30*e,Math.round((e===5?12:25)*hoursPer())):30*e;
+  const a={fine,lunch:[0,Math.round(fine/2),fine],sample:[base,Math.max(1,Math.round(base*.3)),Math.max(1,Math.round(base*.1))],noLunch:false};
+  /* the young one does not lunch: he checks invoices until his sandwiches run out, about 5% of the era per sandwich (3 to 6 sandwiches) */
+  if(ty==='young'){const y=Math.min(n,Math.max(10,Math.round(n*.05*(s.audB||4))));a.sample=[y,y,y];a.noLunch=true}
+  if(ty==='gourmand'){a.lunch=[0,Math.round(fine/4),Math.round(fine/2)]}
+  return a};
+/* who comes to audit: the young ones become more common as the years go by */
+const AUD_ODDS={1:[['veteran',.5],['gourmand',.3],['young',.2]],2:[['veteran',.35],['gourmand',.25],['young',.4]]};
+function pickAuditor(){const o=AUD_ODDS[s.era]||AUD_ODDS[2];let r=Math.random();for(const [k,p] of o){if((r-=p)<0)return k}return'veteran'}
+const SHEETS={visi:{price:20,keys:4,rows:10,risk:.07,cd:5,swap:true,macro:false},lotto:{price:45,keys:3,rows:20,risk:.12,cd:4,swap:false,macro:true},exsel:{price:75,keys:3,rows:30,risk:.1,cd:3,swap:false,macro:true}};
+const ERA={
+ 1:{dur:90,cpi:7,per:.1,y0:1960,yrs:20,
+    ups:[{id:'clerk',cost:n=>Math.round(10*Math.pow(1.8,n)),max:4},{id:'calc',cost:()=>18,max:1},{id:'arch',cost:()=>35,max:1},{id:'spec',cost:()=>30,max:1,need:s=>s.v69||s.vat},{id:'elec',cost:()=>50,max:1}]},
+ 2:{dur:90,cpi:8,per:.45,y0:1980,yrs:10,
+    ups:[{id:'ads2',cost:n=>Math.round(90*Math.pow(1.45,n)),max:15},{id:'mem',cost:()=>180,max:1},{id:'printer',cost:()=>200,max:1},{id:'staff',cost:n=>Math.round(150*Math.pow(1.6,n)),max:2},{id:'pcs',cost:()=>275,max:1},{id:'disk',cost:()=>150,max:1,need:s=>SHEETS[s.sheet].swap},{id:'cell',cost:()=>200,max:1,need:s=>!s.up.spec},{id:'macro',cost:()=>450,max:1,need:s=>SHEETS[s.sheet].macro},{id:'eyes',cost:()=>120,max:1}]},
+ 3:{dur:120,cpi:8,per:.22,y0:1990,yrs:10,
+    ups:[{id:'ads3',cost:n=>Math.round(350*Math.pow(1.45,n)),max:15},{id:'keys',cost:()=>400,max:1},{id:'fiche',cost:()=>500,max:1},{id:'net',cost:()=>650,max:1},{id:'pent',cost:()=>800,max:1},{id:'eumod',cost:()=>400,max:1,need:s=>s.eu},{id:'maint',cost:()=>600,max:1,need:s=>!s.up.spec&&year()>=1995},{id:'y2k',cost:()=>500,max:1,need:s=>year()>=1997}]},
+ 6:{dur:120,cpi:24,per:.1,y0:2026,yrs:4.5,
+    ups:[{id:'ads6',cost:n=>Math.round(16000*Math.pow(1.45,n)),max:15},{id:'cap',cost:n=>Math.round(16000*Math.pow(2.2,n)),max:Infinity,need:s=>s.heim},{id:'ctrl',cost:()=>8000,max:1,need:s=>s.heim},{id:'crit',cost:()=>12000,max:1,need:s=>s.heim&&year()>=2026.5},{id:'mail',cost:()=>20000,max:1,need:s=>s.heim&&year()>=2027.5},{id:'app',cost:()=>20000,max:1,need:s=>s.heim&&year()>=2028.5},{id:'reader',cost:()=>32000,max:1,need:s=>s.heim},{id:'prompt',cost:()=>8000,max:1,need:s=>!s.heim},{id:'rag',cost:()=>12000,max:1,need:s=>!s.heim},{id:'revs',cost:()=>6000,max:1,need:s=>!s.heim},{id:'peppol',cost:()=>10000,max:1}]},
+ 5:{dur:120,cpi:20,per:.1,y0:2020,yrs:6,
+    ups:[{id:'ads5',cost:n=>Math.round(1500*Math.pow(1.45,n)),max:15},{id:'agents',cost:n=>Math.round(1500*Math.pow(2,n)),max:3},{id:'revs',cost:()=>1500,max:1},{id:'prompt',cost:()=>2000,max:1},{id:'model',cost:()=>4000,max:1},{id:'rag',cost:()=>3000,max:1,need:s=>year()>=2023},{id:'peppol',cost:()=>2500,max:1,need:s=>year()>=2024.1}]},
+ 4:{dur:120,cpi:12,per:.08,y0:2000,yrs:20,
+    ups:[{id:'ads4',cost:n=>Math.round(500*Math.pow(1.45,n)),max:15},{id:'feed',cost:()=>600,max:1},{id:'ocr',cost:()=>1200,max:1},{id:'valid',cost:()=>600,max:1,need:s=>s.up.ocr},{id:'cloud',cost:()=>1600,max:1,need:s=>year()>=2008},{id:'einv',cost:()=>2200,max:1,need:s=>year()>=2013}]}
+};
+const RATES=[{at:1981.5,a:16,b:17,d:'d81'},{at:1983,a:17,b:19,d:'d83'}];
+const RATES3=[{at:1996,a:'20,5',b:21,d:'d96'}];
+/* era 3 packages (affectionate parodies) */
+const PKGS={winb:{price:150,batch:25,err:.08,cd:4},sage:{price:300,batch:30,err:.04,cd:4},octo:{price:250,batch:50,err:.10,cd:5},exact:{price:400,batch:40,err:.04,cd:3}};
+const pkgBatch=()=>Math.round(PKGS[s.pkg].batch*(s.up.pent?2:1));
+const sheetRows=()=>SHEETS[s.sheet].rows*(s.up.mem?2:1);
+const fillMax=()=>s.era===3?pkgBatch():sheetRows();
+/* era 4: ERPs (affectionate parodies), supplier groups and their correct codes */
+const ERPS={oddoo:{price:150,auto:6,exc:.15,ruleCost:0},onlijn:{price:400,auto:9,exc:.10,ruleCost:0},sapp:{price:800,auto:14,exc:.06,ruleCost:120}};
+const RIGHT={be:'n',food:'v',eu:'eu',svc:'rc'};
+/* era 6: Heimdall. Every invoice passes the gate: klopt, klopt niet (with the legal reason), or a fact is missing.
+   Case types: x = supplier invoice wrong (credit note), p = booking proposal wrong (adjust), q = fact missing (ask the client) */
+const CASES=['x','x','x','x','p','p','q','q','q','p','e','e','x','p','x'];const PCASES=[4,5,9,13];
+const heimRate=()=>40*(1+s.up.cap)*(s.up.peppol?1.25:1)*(s.up.reader?1.5:1);
+const WAIT={x:8,q:5,p:0};
+const ADV=4; // a handled to-do earns the booking plus four times its value in advice
+function bookAdvice(){book('0',true);const a=ADV*hoursPer();s.hours+=a;s.earned+=a}
+/* with firm and client file settings Heimdall already knows the vehicle types, private use and the pro rata of each client */
+const KNOWN=[6,7,9];
+function heimOne(){s.tray--;const r=Math.random();let c=-1;
+  if(r<.028){const y=year(),q=Math.random();c=y>=2026.16&&y<2026.5&&q<.3?12:y>=2026.25&&q<.45?14:Math.floor(Math.random()*4)}else if(r<.046)c=PCASES[Math.floor(Math.random()*4)];else if(r<.058)c=6+Math.floor(Math.random()*3);
+  if(c>=0&&s.up.ctrl&&KNOWN.includes(c))c=-1;
+  if(c<0){s.hc.ok++;book('0',true);viz(0);return}
+  const ty=CASES[c];if(ty==='q')s.hc.q++;else s.hc.x++;viz(ty==='q'?2:1);
+  if(ty==='p'&&s.up.crit){s.autoN=(s.autoN||0)+1;bookAdvice();return}
+  if((ty==='x'&&s.up.mail)||(ty==='q'&&s.up.app)){s.autoN=(s.autoN||0)+1;s.wait.push([c,s.te+WAIT[ty]]);return}
+  s.todo.push([c,s.te])}
+function handleTodo(byClerk){const t=s.todo.shift();if(!t)return;const ty=CASES[t[0]];
+  if(ty==='e')bookEvent(EVADV6);else if(ty==='p')bookAdvice();else s.wait.push([t[0],s.te+WAIT[ty]]);
+  if(!byClerk){lastPick={res:'handled',c:t[0],t:performance.now()};snd('key');arm=1}}
+function forceTodo(){const t=s.todo.shift();if(!t)return;if(CASES[t[0]]==='e')s.errs[6]+='h';else book('h',true);let caught=false;
+  if(s.e28&&Math.random()<.5){const f=AUDIT(6,'veteran').fine;s.fines+=f;s.hours=Math.max(0,s.hours-f);s.caught6=(s.caught6||0)+1;caught=true}
+  lastPick={res:caught?'caught':'forced',c:t[0],t:performance.now()};snd('warn');arm=1}
+const VIZ=[];function viz(k){if(VIZ.length<14&&Math.random()<Math.min(1,2.2/Math.max(1,heimRate())))VIZ.push({x:30,k,t:0})}
+/* dossier events: no invoice, but they still have to be booked. Revision of deducted VAT on a building, the definitive pro rata at year-end, a credit note received */
+const EVK=['rev','pro'],EVADV5=5,EVADV6=20;
+function bookEvent(m){const a=m*hoursPer();s.hours+=a;s.earned+=a}
+function evMiss(){s.errs[s.era]+='A';if(s.era===6&&!s.heim&&s.e28)fineLive(HEAVY)}
+function evTick(dt){if(s.phase!=='play')return;s.evT=(s.evT??10)-dt;
+  if(s.ev&&s.te-s.ev.t>14){evMiss();lastEv={res:'expired',k:s.ev.k,t:performance.now()};s.ev=null}
+  if(s.era===5&&!s.brxEv&&year()>=2021&&!s.ev){s.brxEv=true;s.ev={k:'brx',t:s.te};s.evT=Math.max(s.evT,10);if(!s.ev1){s.ev1=true;banner('ev1')}return}
+  if(s.evT>0)return;s.evT=14+Math.random()*6;const k=EVK[Math.floor(Math.random()*EVK.length)];
+  if(s.era===6&&s.heim){s.hc.e=(s.hc.e||0)+1;if(s.up.ctrl){s.autoN=(s.autoN||0)+1;bookEvent(EVADV6)}else s.todo.push([10+EVK.indexOf(k),s.te]);return}
+  if(s.ev)evMiss();s.ev={k,t:s.te};if(!s.ev1){s.ev1=true;banner('ev1')}}
+let lastEv=null;
+/* key hints only where there is a keyboard */
+const HASKEYS=matchMedia('(hover: hover) and (pointer: fine)').matches,kh=n=>HASKEYS?` (${n})`:'';
+function judgeEv(saysOk){const e=s.ev;if(!e||s.phase!=='play')return;
+  if(saysOk){evMiss();lastEv={res:'miss',k:e.k,t:performance.now()};snd('warn')}else{bookEvent(EVADV5);if(e.k==='brx')s.ukStale=.05;lastEv={res:'catch',k:e.k,t:performance.now()};snd('key')}
+  s.ev=null;arm=1}
+/* era 5: AI agents (affectionate parodies). h = how often the agent is confidently wrong */
+const AGENTS={gem:{price:800,auto:20,h:.04},copi:{price:2500,auto:30,h:.025},chat:{price:4000,auto:45,h:.05}};
+/* about 4% of invoices need more than a rate: partial or mixed deduction, triangulation, an exempt client.
+   The agent always gets these wrong, with full confidence, and they weigh three times in a fine */
+const HARD={car:['d50','d100'],mix:['pro','d100'],abc:['abc','eu'],exm:['none','d100']};
+const HEAVY=3,errW=ch=>ch==='A'?HEAVY:1;
+const CATW5={be:.5,food:1,eu:1.5,svc:2,mask:1};
+const right5=cat=>cat==='hotel'?'h6':cat==='pdf'?'pdf':cat==='uk'?'imp':HARD[cat]?HARD[cat][0]:cat==='mask'?(s.maskOn?'v':'n'):RIGHT[cat];
+function newCat5(){if(s.era===6){const y=year(),q=Math.random();if(y>=2026.16&&y<2026.5&&q<.03)return'hotel';if(y>=2026.25&&q<.05)return'pdf'}if(year()>=2021&&Math.random()<.03)return'uk';{const h=Math.random();if(h<.015)return'car';if(h<.025)return'mix';if(h<.03)return'abc';if(h<.04)return'exm'}if(year()>=2020.34&&Math.random()<(s.maskOn?.08:.04))return'mask';const r=Math.random();return r<.1?'svc':r<.27?'eu':r<.47?'food':'be'}
+const autoRate5=()=>AGENTS[s.agent].auto*(1+s.up.agents)*(s.up.model?2:1)*(s.up.peppol?1.25:1);
+function hEff(cat){if(HARD[cat])return 1;return Math.max(s.era===6?.015:0,s.h5[cat])*(s.up.rag?.5:1)*(s.up.peppol&&(cat==='be'||cat==='food')?.5:1)}
+function agentBook(){const cat=newCat5(),right=right5(cat);let code=right;
+  if(HARD[cat])code=HARD[cat][1];
+  else if(cat==='uk')code=Math.random()<(s.ukStale??1)?'eu':'imp';
+  else if(cat==='hotel')code='h12';else if(cat==='pdf')code='n';
+  else if(cat==='mask'&&s.maskStale>0&&Math.random()<s.maskStale)code=s.maskOn?'n':'v';
+  else if(Math.random()<hEff(cat)){const o=['n','v','eu','rc'].filter(c=>c!==right);code=o[Math.floor(Math.random()*o.length)]}
+  const idx=s.errs[s.era].length;const ch=code===right?'0':HARD[cat]?'A':'a';book(ch);s.recent.push([idx,cat,code,right,Math.floor(Math.random()*9)]);if(s.recent.length>60)s.recent.shift();
+  if(s.era===6){viz(code===right?0:4);if(code!==right&&s.e28)fineLive(errW(ch))}}
+/* without Heimdall, from 2028 the tax authority sees every invoice: every confident error is fined at once, and repeat infringements weigh heavier */
+let fineFx=0;function fineLive(w){const n=s.caught6||0;const f=Math.round(AUDIT(6,'veteran').fine*(1+n/3)*(w||1));s.caught6=n+1;s.fines+=f;s.hours-=f;
+  if(performance.now()-fineFx>350){fineFx=performance.now();floatTxt(-f,'fine')}
+  if(s.hours<0&&s.phase==='play'){s.phase='bankrupt';fill.on=false;Music.duck(true);snd('warn');openModal();save()}}
+function setErr5(idx,ch){const e=s.errs[s.era];if(idx<e.length)s.errs[s.era]=e.slice(0,idx)+ch+e.slice(idx+1)}
+function nextCard(){s.card=s.recent.length?s.recent.splice(Math.floor(Math.random()*s.recent.length),1)[0]:null}
+/* the player (or a trained clerk) judges one booking: catch an error and the agent learns; flag a correct one and it takes over your mistake */
+function judge(saysOk,byClerk){const c=s.card;if(!c)return;const [idx,cat,code,right]=c;const wrong=code!==right;let res;
+  if(wrong&&!saysOk){setErr5(idx,'0');if(HARD[cat])res='catchA';else{if(cat==='uk')s.ukStale=(s.ukStale??1)*.6;else if(cat==='mask'&&s.maskStale>0)s.maskStale*=.6;else s.h5[cat]*=.6;res='catch'}}
+  else if(!wrong&&saysOk)res='ok';
+  else if(wrong&&saysOk)res='miss';
+  else{if(HARD[cat]){c[2]=HARD[cat][1];setErr5(idx,'A')}else if(cat==='uk'){c[2]='eu';setErr5(idx,'a')}else if(cat==='hotel'||cat==='pdf'){c[2]=cat==='hotel'?'h12':'n';setErr5(idx,'a')}else{const o=['n','v','eu','rc'].filter(x=>x!==right);c[2]=o[Math.floor(Math.random()*o.length)];setErr5(idx,'a');s.h5[cat]=Math.min(.6,s.h5[cat]+.01)}res='syco'}
+  s.checked=(s.checked||0)+1;if(!byClerk){lastPick={res,card:c.slice(),t:performance.now()};snd(res==='catch'||res==='catchA'||res==='ok'?'key':'warn');arm=1}nextCard()}
+function shuffleRules(){const cats=['be','food','eu'].concat(s.svc?['svc']:[]);const vals=cats.map(c=>s.rules[c]);
+  for(let i=vals.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[vals[i],vals[j]]=[vals[j],vals[i]]}
+  if(cats.every((c,i)=>vals[i]===RIGHT[c])){[vals[0],vals[1]]=[vals[1],vals[0]]}
+  cats.forEach((c,i)=>s.rules[c]=vals[i]);s.ruleOrd=cats.slice().sort(()=>Math.random()-.5);renderRules()}
+function newCat(){const r=Math.random();if(s.svc&&r<.1)return'svc';const q=s.svc?(r-.1)/.9:r;return q<.17?'eu':q<.39?'food':'be'}
+const autoRate=()=>ERPS[s.erp].auto*(s.up.feed?2:1)*(s.up.ocr?2:1)*(s.up.cloud?1.5:1)*(s.up.einv?1.5:1);
+function newInv(){const r=Math.random();if(s.eu)return r<.2?'eu':r<.75?'n':'v';return r<.7?'n':'v'}
+const E=()=>ERA[s.era];
+const year=()=>E().y0+Math.min(1,s.te/E().dur)*E().yrs;  // every era lasts a fixed time; the calendar runs with it
+const left=()=>Math.max(0,E().dur-s.te);
+const mmss=x=>Math.floor(x/60)+':'+String(Math.ceil(x%60)===60?0:Math.floor(x%60)).padStart(2,'0');
+/* in era 6 nothing stops the firm: every extra batch of files brings half as many clients again, and Heimdall guards them all */
+const clients=()=>Math.round((s.cli0+Math.floor(s.done/E().cpi))*(s.era===6?1+.3*s.up.cap:1));
+const inflow=()=>clients()*E().per;
+function keysPer(){if(s.era===3)return 1;if(s.era===1)return 6-(s.up.calc?2:0)-(s.up.elec?1:0)+(s.vat&&!s.up.spec?1:0);return SHEETS[s.sheet].keys}
+function clerks(){return s.era===1?s.up.clerk:s.up.clerk+s.up.staff+(s.era>=3?s.up.staff3:0)}
+function clerkRate(){return s.era===1?.25*(s.up.elec?1.5:1):s.era===2?.15*(s.up.pcs?2:1)*(s.up.eyes?.8:1):s.era===3?.2*(s.up.net?2:1)*(s.up.eyes?.8:1):.25*(s.up.cloud?2:1)}
+function hoursPer(){return(1+(s.up.arch?1:0))*(s.up.printer?1.5:1)*(s.era===3?2:1)*(s.era===6?8:s.era>=4?2:1)*Math.pow(1.25,s.era===2?s.up.ads2:s.era===3?s.up.ads3:s.era===4?s.up.ads4:s.era===5?s.up.ads5:s.era===6?s.up.ads6:0)} // a package lets you bill more per invoice
+/* era 1 VAT errors: very high right after 1 January 1971, people learn over a few years,
+   and the 1978 rate cut (18% to 16%) brings a new spike. A VAT specialist keeps it low throughout. */
+function vatErr1(){if(!s.vat)return 0;if(s.up.spec)return .002;const y=year();let p=y<1975?.55+(.10-.55)*Math.max(0,(y-1971)/4):.10;
+  if(s.r78)p+=Math.max(0,.25*(1-(y-1978)/1.5));return p}
+/* era 3: the VAT code decides. c = wrong code, r = outdated rate. type = the invoice's real kind */
+function errFor3(src,type){const eyes=s.up.eyes?.5:1;
+  if(type==='n'&&s.stale&&Math.random()<.9)return'r';
+  let p=0;
+  if(src==='clerk')p=type==='n'?0:type==='v'?(s.up.spec?.1:.6):(s.up.eumod?(s.up.spec?.1:.3):.7);
+  else if(src!=='hand')p=type==='eu'&&!s.up.eumod?.8:PKGS[s.pkg].err*(s.up.fiche?.2:1);
+  return Math.random()<p*eyes?'c':Math.random()<.002?'t':'0'}
+function errFor(src){ // one char per invoice: 0 ok, t typo, v VAT, r outdated rate
+  if(s.era===3)return errFor3(src,newInv());
+  const eyes=s.up.eyes?.5:1;
+  if(s.era===2&&s.stale&&Math.random()<.9)return'r';
+  const v=s.era===1?vatErr1():(s.up.spec?.001:.02);
+  if(Math.random()<v*eyes)return'v';
+  const t=s.era===1?(src==='hand'?.003:.004):(src==='hand'?.002:.003);
+  if(Math.random()<t*eyes)return't';
+  return'0';
+}
+
+/* ================= state ================= */
+const fresh=()=>({v:2,lang:(navigator.language||'nl').startsWith('en')?'en':'nl',snd:true,mus:true,started:false,era:1,phase:'play',t:0,done:0,hours:0,earned:0,fines:0,tray:14,trayF:0,keys:0,cli0:8,
+  up:{ctrl:0,ads6:0,cap:0,crit:0,mail:0,app:0,reader:0,ads5:0,agents:0,revs:0,prompt:0,model:0,rag:0,peppol:0,ads4:0,feed:0,ocr:0,valid:0,cloud:0,einv:0,ads2:0,ads3:0,keys:0,laser:0,clerk:0,calc:0,arch:0,elec:0,spec:0,staff:0,pcs:0,disk:0,cell:0,macro:0,eyes:0,mem:0,printer:0,staff3:0,fiche:0,eumod:0,maint:0,net:0,pent:0,y2k:0},heim:false,h26:false,t26:false,autoN:0,todo:[],wait:[],hc:{ok:0,x:0,q:0},p26:false,e28:false,v28:false,foundE:{},ev:null,evT:10,ev1:false,brxEv:false,ukStale:1,agent:null,h5:{be:0,food:0,eu:0,svc:0,mask:0,car:1,mix:1,abc:1,exm:1},maskOn:false,maskStale:0,recent:[],card:null,checked:0,m20:false,m22:false,v22:false,b24:false,v25:false,erp:null,rules:{be:'n',food:'n',eu:'n',svc:'n'},ruleOrd:null,e06:false,exq:0,svc:false,e13:false,e02:false,nextCat:'be',pkg:null,next:'n',nextI:0,eu:false,euro:false,y2kW:false,te:0,risk:{},tr:{1:[],2:[],3:[],4:[],5:[],6:[]},bl:{1:[],2:[],3:[],4:[],5:[],6:[]},errs:{1:'',2:'',3:'',4:'',5:'',6:''},audTy:'veteran',vat:false,v69:false,r78:false,badFills:0,sheet:null,rateI:0,stale:false,floppy:0,swapping:0,lastProg:0,rev:null});
+let s=fresh();
+const Q=new URLSearchParams(location.search),TEST=Q.has('test');
+try{const raw=localStorage.getItem('vtth2');if(raw&&!TEST){const o=JSON.parse(raw);if(o&&o.v===2){const f=fresh();s=Object.assign(f,o);s.up=Object.assign(fresh().up,o.up);for(const k of ['tr','bl','errs'])s[k]=Object.assign(fresh()[k],o[k]||{})}}}catch(e){}
+if(Q.get('lang')==='en'||Q.get('lang')==='nl')s.lang=Q.get('lang');
+if(s.phase==='audit'){s.phase='review';s.rev={stage:'ask'}}
+const save=()=>{if(TEST)return;try{localStorage.setItem('vtth2',JSON.stringify(s))}catch(e){}};
+let L=S[s.lang];
+
+/* ================= DOM helpers ================= */
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.floor(n).toLocaleString(s.lang==='nl'?'nl-BE':'en-GB');
+const EUR=25;const money=x=>(x<0?'−':'')+(s.lang==='nl'?'€\u00a0':'€')+Math.round(Math.abs(x)*EUR).toLocaleString(s.lang==='nl'?'nl-BE':'en-GB');
+const tpl=(str,o)=>str.replace(/\{(\w+)\}/g,(m,k)=>o[k]!==undefined?o[k]:m);
+function text(){
+  L=S[s.lang];document.documentElement.lang=s.lang;document.title=L.title;
+  const ERL=s.era===6&&!s.heim?L.era6b:L.era[s.era];$('tTitle').textContent=L.title;$('tEra').textContent=ERL[0]+' · '+ERL[1];
+  $('iK').textContent=L.iK;$('iH').textContent=L.iH;$('iP').textContent=L.iP;$('bStart').textContent=L.start;$('jumpL').textContent=L.jump;$('ovIntro').querySelectorAll('[data-jump]').forEach(b=>b.title=L.era[b.dataset.jump][1]);
+  const er=ERL;$('eK').textContent=er[0];$('eH').textContent=er[1];$('eP').textContent=er[2];
+  $('lGoal').textContent=L.goal;$('lHours').textContent=L.hours;$('lCli').textContent=L.cli;$('lTray').textContent=L.tray;$('lRate').textContent=L.rate;$('lFines').textContent=L.fines;
+  $('lTap').textContent=L.tap[s.era];$('lFill').textContent=L.fill;$('lUps').textContent=L.ups;$('lNote').textContent=L.note;$('bReset').textContent=L.reset;
+  $('scene').setAttribute('aria-label',L.scene);
+  $('bNL').classList.toggle('on',s.lang==='nl');$('bEN').classList.toggle('on',s.lang==='en');
+  $('bSnd').textContent=s.snd?L.sndOn:L.sndOff;$('bSnd').setAttribute('aria-pressed',s.snd);
+  $('bMus').textContent=s.mus?L.musOn:L.musOff;$('bMus').setAttribute('aria-pressed',s.mus);
+  $('fill').hidden=s.era<2||s.era>=4;$('tap').hidden=s.era>=3;$('codes').hidden=s.era<3||s.era>=5;$('chk').hidden=!(s.era===5||(s.era===6&&!s.heim));$('todoW').hidden=!(s.era===6&&s.heim);$('bForce').textContent=L.bForce;$('lChk').textContent=L.chkK;$('bOk').textContent=L.bOk+kh(1);$('bBad').textContent=L.bBad+kh(2);$('rules').hidden=s.era!==4;$('lRules').textContent=L.rulesK;$('cR').textContent=L.code.rc;renderRules();$('acts').classList.toggle('two',s.era===2);
+  $('lFill').textContent=s.era===3?L.imp:L.fill;$('lInv').textContent=L.invK;$('cN').textContent=L.code.n;$('cV').textContent=L.code.v;$('cE').textContent=L.codeB4.eu;
+  renderUps();if(s.phase!=='play')openModal();if(banKey)banner(banKey,banArg,true);
+  ui(true);
+}
+let upsSig='';
+function visibleUps(){return E().ups.filter(u=>!u.need||u.need(s))}
+const infl=()=>1; // prices rise only within a branch (the n-th clerk), never because you bought something else
+const costOf=(u,n)=>Math.round(u.cost(n)*infl());
+function renderUps(){upsSig=s.era+':'+visibleUps().map(u=>u.id).join(',')+s.lang;
+  $('ups').innerHTML=visibleUps().map(u=>`<button class="up" id="u_${u.id}"><span class="n">${L.U[u.id][0]}<em></em></span><span class="c"></span><span class="d">${L.U[u.id][1]}</span><span class="fx"></span></button>`).join('');
+  visibleUps().forEach(u=>$('u_'+u.id).onclick=()=>buy(u))}
+let keyDots=-1;
+function ui(force){
+  const k=keysPer();
+  $('vDone').textContent=fmt(s.done)+' '+L.inv;$('vGoal').textContent=s.phase==='free'?'':tpl(s.era===6?L.left6:L.left,{t:mmss(left()),y:E().y0+E().yrs-1});$('mGoal').style.width=Math.min(100,s.te/E().dur*100)+'%';
+  {const v=money(s.hours),el=$('vHours');el.textContent=v;el.classList.toggle('l1',v.length>9&&v.length<=12);el.classList.toggle('l2',v.length>12)}$('vCli').textContent=fmt(clients());$('vTray').textContent=fmt(Math.max(0,s.tray-(fill.on?fill.rows:0)));$('vRate').textContent=fmt(rateNow());$('vFines').textContent=money(s.fines);
+  if(force||keyDots!==k){$('keys').innerHTML='<i></i>'.repeat(k);keyDots=k}
+  [...$('keys').children].forEach((d,i)=>d.classList.toggle('on',i<s.keys));
+  const blocked=s.swapping>0||(s.era===2&&floppyFull());
+  $('tap').disabled=(s.tray<1&&s.keys===0)||blocked||fill.on;
+  if(s.era===6&&s.heim){const t=s.todo[0];
+    $('lTd').textContent=tpl(L.tdK,{n:fmt(s.todo.length)});
+    $('tdSup').textContent=t?L.cases[t[0]][0]:(s.up.crit&&s.up.mail&&s.up.app?L.tdAuto:L.tdNone);
+    const ty=t?CASES[t[0]]:null;$('tdV').className='verd '+(ty==='q'?'q':ty==='e'?'e':'x');$('tdV').hidden=!t;$('tdV').textContent=ty==='q'?L.vQ:ty==='e'?L.vE:L.vX;
+    $('tdWhy').textContent=t?L.cases[t[0]][1]:'';$('bHandle').textContent=t?L.cases[t[0]][2]:L.bHandle;
+    $('bHandle').disabled=$('bForce').disabled=!t||s.phase!=='play';
+    const lp=lastPick&&lastPick.res&&performance.now()-lastPick.t<1600?lastPick:null;
+    $('tdBox').classList.toggle('ok',!!lp&&lp.res==='handled');$('tdBox').classList.toggle('bad',!!lp&&(lp.res==='forced'||lp.res==='caught'));
+    $('tdRes').textContent=lp?tpl(L.res6[lp.res],{s:L.cases[lp.c][0].split(' · ')[0],f:money(AUDIT(6,'veteran').fine)}):'';
+    $('tdN').textContent=tpl(L.tdN,{ok:fmt(s.hc.ok),x:fmt(s.hc.x),q:fmt(s.hc.q),w:fmt(s.wait.length)})}
+  {const agentEra=s.era===5||(s.era===6&&!s.heim);const le=lastEv&&performance.now()-lastEv.t<2200?lastEv:null;const e=s.ev;
+    $('evW').hidden=!(agentEra&&(e||le));$('acts').classList.toggle('evon',agentEra&&!!(e||le));
+    if(agentEra&&(e||le)){$('lEv').textContent=L.evK;const k=e?e.k:le.k;$('evTxt').textContent=L.ev[k][0];
+      $('evAg').innerHTML=e?tpl(L.evAg,{a:L.agents[s.agent][0],x:'<b>'+L.ev[k][1]+'</b>'}):'';
+      $('evRes').textContent=le&&!e?tpl(L.evRes[le.res],{c:L.ev[le.k][2]}):e?tpl(L.evLeft,{t:Math.max(0,Math.ceil(14-(s.te-e.t)))}):'';
+      $('evBox').classList.toggle('ok',!!le&&!e&&le.res==='catch');$('evBox').classList.toggle('bad',!!le&&!e&&le.res!=='catch');
+      $('bEvOk').disabled=$('bEvBad').disabled=!e;$('bEvOk').textContent=L.bOk+kh(3);$('bEvBad').textContent=L.bBad+kh(4)}}
+  if(s.era===5||(s.era===6&&!s.heim)){const c=s.card;
+    $('chkSup').textContent=c?L.sup5[c[1]][c[4]%L.sup5[c[1]].length]:L.chkNone;
+    $('chkAg').innerHTML=c?tpl(L.chkAg,{a:L.agents[s.agent][0],c:'<b>'+L.code[c[2]]+'</b>'}):'';
+    $('chkWhy').textContent=c?tpl((s.up.rag?L.explRag:L.expl)[c[4]%(s.up.rag?L.explRag:L.expl).length],{c:L.code[c[2]]}):'';
+    $('bOk').disabled=$('bBad').disabled=!c;
+    const lp=lastPick&&lastPick.card&&performance.now()-lastPick.t<1600?lastPick:null;
+    $('chkBox').classList.toggle('ok',!!lp&&(lp.res==='catch'||lp.res==='catchA'||lp.res==='ok'));$('chkBox').classList.toggle('bad',!!lp&&(lp.res==='miss'||lp.res==='syco'));
+    $('chkRes').textContent=lp?tpl(L.res5[lp.res],{s:L.sup5[lp.card[1]][lp.card[4]%L.sup5[lp.card[1]].length].split(' · ')[0],c:L.code[lp.card[3]],a:L.code[lp.card[2]]}):'';
+    $('chkN').textContent=tpl(L.chkN,{b:fmt(s.done),k:fmt(s.checked)})}
+  if(s.era===4){
+    $('lInv').textContent=L.excK;$('invTxt').textContent=s.exq<1?L.excEmpty:L.sup4[s.nextCat][s.nextI%L.sup4[s.nextCat].length]+' · '+tpl(L.excN,{n:fmt(s.exq)});
+    $('cE').hidden=false;$('cR').hidden=!s.svc;for(const [id,k] of [['cN','n'],['cV','v'],['cE','eu'],['cR','rc']])$(id).textContent=L.codeB4[k];$('codes').querySelector('.cbtns').style.gridTemplateColumns=`repeat(${s.svc?4:3},minmax(0,1fr))`;
+    $('codes').querySelectorAll('.cbtns button').forEach(b=>b.disabled=s.exq<1);
+    const lp=lastPick&&performance.now()-lastPick.t<1100?lastPick:null;
+    $('invBox').classList.toggle('ok',!!lp&&lp.ok);$('invBox').classList.toggle('bad',!!lp&&!lp.ok);$('invRes').textContent=lp?(lp.ok?tpl(L.pickOk,{s:lp.sup}):tpl(L.pickBad,{s:lp.sup,c:L.code[lp.right]})):'';
+    $('codes').querySelectorAll('.cbtns button').forEach(b=>{b.classList.toggle('hitok',!!lp&&lp.ok&&b.dataset.c===lp.c);b.classList.toggle('hitbad',!!lp&&!lp.ok&&b.dataset.c===lp.c)})}
+  if(s.era===3){$('lInv').textContent=L.invK;$('fill').disabled=(fillCd>0&&!fill.on)||s.tray<1&&!fill.on;$('fill').classList.toggle('on',fill.on);
+    $('vFill').textContent=fill.on?`${fill.rows} ${L.inv}`+(fill.wait?' · '+L.fillWait:''):`${pkgBatch()} ${L.inv}`;$('fillCd').style.width=(fillCd>0?(1-fillCd/(PKGS[s.pkg].cd*(s.up.pent?.7:1)))*100:100)+'%';
+    $('invTxt').textContent=s.tray<1?L.trayEmpty:L.sup[s.next][s.nextI%L.sup[s.next].length];$('cE').hidden=!s.eu;$('codes').querySelector('.cbtns').style.gridTemplateColumns=`repeat(${s.eu?3:2},minmax(0,1fr))`;
+    $('codes').querySelectorAll('button').forEach(b=>b.disabled=s.tray<1||fill.on);
+    /* show right away whether the last pick was right, and what it should have been */
+    const lp=lastPick&&performance.now()-lastPick.t<1100?lastPick:null;
+    $('invBox').classList.toggle('ok',!!lp&&lp.ok);$('invBox').classList.toggle('bad',!!lp&&!lp.ok);
+    $('invRes').textContent=lp?(lp.ok?tpl(L.pickOk,{s:lp.sup}):tpl(L.pickBad,{s:lp.sup,c:L.code[lp.right]})):'';
+    $('codes').querySelectorAll('.cbtns button').forEach(b=>{b.classList.toggle('hitok',!!lp&&lp.ok&&b.dataset.c===lp.c);b.classList.toggle('hitbad',!!lp&&!lp.ok&&b.dataset.c===lp.c)})}
+  if(s.era===2){const sh=SHEETS[s.sheet];$('fill').disabled=blocked||(fillCd>0&&!fill.on)||s.tray<1&&!fill.on;$('fill').classList.toggle('on',fill.on);
+    $('vFill').textContent=fill.on?`${fill.rows} ${L.fillRows}`+(fill.wait?' · '+L.fillWait:''):(s.up.macro?tpl(L.macroIn,{s:Math.ceil(7-macroT)}):`${sheetRows()} ${L.fillRows}`);$('fillCd').style.width=(fillCd>0?(1-fillCd/sh.cd)*100:100)+'%'}
+  const sig=s.era+':'+visibleUps().map(u=>u.id).join(',')+s.lang;if(sig!==upsSig)renderUps();
+  for(const u of visibleUps()){const b=$('u_'+u.id);const n=s.up[u.id],mx=n>=u.max;b.classList.toggle('max',mx);
+    b.disabled=mx||s.hours<costOf(u,n);b.querySelector('em').textContent=u.max>1&&n?L.owned+n:'';b.classList.toggle('new',['spec','eumod','y2k','maint'].includes(u.id)&&!n);
+    b.querySelector('.c').textContent=mx?(u.max>1?L.max:'✓'):money(costOf(u,n));if(!mx)b.querySelector('.fx').textContent=fxText(u.id)}
+}
+
+
+/* ================= upgrade effects, shown on each card ================= */
+const nf=(n,d=0)=>Number(n).toLocaleString(s.lang==='nl'?'nl-BE':'en-GB',{maximumFractionDigits:d,minimumFractionDigits:0});
+function withUp(id,fn){const o=s.up[id];s.up[id]=o+1;const v=fn();s.up[id]=o;return v}
+const staffPerMin=()=>clerks()*clerkRate()*60;
+function vatRates(){return s.era===1?[Math.max(vatErr1(),.08),.002]:[.02,.001]}
+function fxText(id){const F=L.FX;const pm=staffPerMin();
+  switch(id){
+    case'clerk':case'staff':return tpl(F.staff,{b:nf(pm),c:nf(withUp(id,staffPerMin)),u:s.era===1?L.inv:L.fillRows});
+    case'calc':return tpl(F.keys,{b:keysPer(),c:withUp('calc',keysPer)});
+    case'arch':return tpl(F.hours,{b:money(hoursPer()),c:money(withUp('arch',hoursPer))});
+    case'spec':{const [a,b]=vatRates();const k0=keysPer(),k1=withUp('spec',keysPer);return tpl(F.spec,{p:nf(Math.floor((1-b/a)*100))})+(k1<k0?' '+tpl(F.specKeys,{b:k0,c:k1}):'')}
+    case'elec':return tpl(F.elec,{b:keysPer(),c:withUp('elec',keysPer),x:nf(pm),y:nf(withUp('elec',staffPerMin))});
+    case'pcs':return tpl(F.pcs,{b:nf(pm),c:nf(withUp('pcs',staffPerMin))});
+    case'disk':return F.disk;
+    case'cell':return F.cell;
+    case'macro':{const n=Math.floor(sheetRows()/2);return tpl(F.macro,{n,m:nf(n*60/7)})}
+    case'ads2':case'ads3':return tpl(F.ads,{b:money(hoursPer()),c:money(withUp(id,hoursPer))});
+    case'ads4':return tpl(F.ads,{b:money(hoursPer()),c:money(withUp(id,hoursPer))});
+    case'feed':case'ocr':case'cloud':case'einv':{const k=id==='ocr'?F.ocr:id==='cloud'?F.cloud:id==='einv'?F.einv:F.feed;return tpl(k,{b:nf(autoRate()*60),c:nf(withUp(id,autoRate)*60)})}
+    case'valid':return F.valid;
+    case'ads5':return tpl(F.ads,{b:money(hoursPer()),c:money(withUp(id,hoursPer))});
+    case'agents':case'model':case'peppol':if(s.era===6&&s.heim)return tpl(F.heim,{b:nf(heimRate()*60),c:nf(withUp(id,heimRate)*60)});return tpl(id==='peppol'?F.peppol:F.agents,{b:nf(autoRate5()*60),c:nf(withUp(id,autoRate5)*60)});
+    case'revs':return tpl(F.revs,{n:nf(clerks()*.4*60)});
+    case'prompt':return F.prompt;case'rag':return F.rag;
+    case'ads6':return tpl(F.ads,{b:money(hoursPer()),c:money(withUp(id,hoursPer))});
+    case'cap':return tpl(F.cap,{b:fmt(clients()),c:fmt(withUp(id,clients)),x:nf(heimRate()*60),y:nf(withUp(id,heimRate)*60)});
+    case'reader':return tpl(F.heim,{b:nf(heimRate()*60),c:nf(withUp(id,heimRate)*60)});
+    case'ctrl':return F.ctrl;case'crit':return F.crit;case'mail':return F.mail;case'app':return F.app;
+    case'keys':return F.sc;case'laser':return tpl(F.hours,{b:money(hoursPer()),c:money(withUp('laser',hoursPer))});
+    case'mem':return tpl(F.mem,{b:SHEETS[s.sheet].rows,c:SHEETS[s.sheet].rows*2});
+    case'printer':return tpl(F.hours,{b:money(hoursPer()),c:money(withUp('printer',hoursPer))});
+    case'staff3':return tpl(F.staff,{b:nf(pm),c:nf(withUp(id,staffPerMin)),u:L.inv});
+    case'net':return tpl(F.net,{b:nf(pm),c:nf(withUp('net',staffPerMin))});
+    case'fiche':return F.fiche;case'eumod':return F.eumod;case'maint':return F.cell;case'y2k':return F.y2k;
+    case'pent':return tpl(F.pent,{b:pkgBatch(),c:withUp('pent',pkgBatch)});
+    case'eyes':return tpl(F.eyes,{b:nf(pm),c:nf(withUp('eyes',staffPerMin))});
+  }return''}
+/* ================= sound ================= */
+let AC=null;
+function snd(type){if(!s.snd)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();const t=AC.currentTime;
+  const P={key:['square',180+Math.random()*60,.05,.04],ding:['sine',1760,.08,.6],buy:['triangle',520,.06,.15],fill:['square',90,.03,.03],step:['sine',70,.06,.08],paper:['triangle',900,.03,.12],warn:['triangle',330,.07,.3],beep:['square',880,.03,.08]}[type];
+  o.type=P[0];o.frequency.value=P[1];g.gain.setValueAtTime(P[2],t);g.gain.exponentialRampToValueAtTime(.0001,t+P[3]);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+P[3]+.05)}catch(e){}}
+
+
+/* ================= music: composed live with Web Audio, original, no samples ================= */
+const Music=(()=>{
+  let master=null,comp=null,timer=null,theme=1,next=0,step=0,noise=null,duckOn=false;
+  const mtof=m=>440*Math.pow(2,(m-69)/12);
+  const ac=()=>{AC=AC||new (window.AudioContext||window.webkitAudioContext)();return AC};
+  function bus(){const a=ac();if(master)return;comp=a.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=4;comp.connect(a.destination);master=a.createGain();master.gain.value=0;master.connect(comp);
+    const n=a.createBuffer(1,a.sampleRate,a.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;noise=n}
+  function env(g,t,a,peak,dec){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec)}
+  function osc(type,f,t,a,peak,dec,cut,q){const A=ac(),o=A.createOscillator(),g=A.createGain();o.type=type;o.frequency.value=f;let last=o;
+    if(cut){const fl=A.createBiquadFilter();fl.type='lowpass';fl.frequency.value=cut;fl.Q.value=q||.7;o.connect(fl);last=fl}
+    last.connect(g);g.connect(master);env(g,t,a,peak,dec);o.start(t);o.stop(t+a+dec+.05);return o}
+  function nz(t,dec,peak,type,f){const A=ac(),src=A.createBufferSource(),fl=A.createBiquadFilter(),g=A.createGain();src.buffer=noise;fl.type=type;fl.frequency.value=f;src.connect(fl);fl.connect(g);g.connect(master);env(g,t,.002,peak,dec);src.start(t,Math.random()*.5);src.stop(t+dec+.05)}
+  function kick(t){const A=ac(),o=A.createOscillator(),g=A.createGain();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(42,t+.12);o.connect(g);g.connect(master);env(g,t,.003,.5,.22);o.start(t);o.stop(t+.3)}
+  /* era 1: sixties office lounge. ii-V-I-VI in C, swung, electric piano, walking bass, brushes */
+  const L1={bpm:96,swing:.62,ch:[[62,65,69,72],[55,59,62,65],[60,64,67,71],[57,61,64,67]],root:[38,43,36,45],
+    walk:(b,i)=>{const r=L1.root[b],nx=L1.root[(b+1)%4];return[r,r+(b===1?4:3),r+7,nx+(i%2?1:-1)]}};
+  /* era 2: eighties synth groove. Am-F-C-G, straight sixteenths, pad, arpeggio, drum machine */
+  const L2={bpm:108,swing:.5,ch:[[57,60,64],[53,57,60],[55,60,64],[55,59,62]],root:[45,41,48,43]};
+  /* era 3: nineties office house. Dm-Bb-F-C, four on the floor, piano stabs, offbeat hats, round sine bass */
+  const L3={bpm:118,swing:.5,ch:[[62,65,69],[58,62,65],[60,65,69],[60,64,67]],root:[38,34,41,36]};
+  /* era 4: 2000s downtempo lounge. Fmaj7-Em7-Dm7-Cmaj7, soft rhodes, deep sub bass, shuffled hats */
+  const L4={bpm:92,swing:.58,ch:[[53,57,60,64],[52,55,59,62],[50,53,57,60],[48,52,55,59]],root:[29,28,26,24]};
+  const L5={bpm:78,swing:.62,ch:[[57,60,64,67,71],[50,53,57,60,64],[55,59,64,65],[48,52,55,59,62]],root:[33,38,31,36]};
+  const L6={bpm:72,swing:.5,ch:[[50,53,57,62],[46,50,53,58],[53,57,60,65],[48,52,55,60]],root:[26,22,29,24]};
+  const TH=()=>theme===1?L1:theme===2?L2:theme===3?L3:theme===4?L4:theme===5?L5:L6;
+  function play(st,t){
+    const bar=Math.floor(st/16)%4,s16=st%16,T=TH(),beat=60/T.bpm;
+    if(theme===6){
+      if(s16===0){for(const n of L6.ch[bar]){osc('sawtooth',mtof(n),t,1.2,.018,beat*4,700);osc('sine',mtof(n+12),t,1,.012,beat*4)}osc('sine',mtof(L6.root[bar]+12),t,.05,.2,beat*3.5)}
+      if(s16===0||s16===8)kick(t);
+      if(s16%4===2)osc('triangle',mtof(L6.ch[bar][(s16/4|0)%L6.ch[bar].length]+24),t,.01,.02,.9,2600);
+      if(s16===8&&bar%2===1)osc('sawtooth',mtof(L6.ch[bar][3]+12),t,.25,.02,beat*2,900);
+      return}
+    if(theme===5){
+      if(s16===0||s16===10)kick(t);
+      if(s16===4||s16===12)nz(t,.14,.05,'bandpass',1200);
+      if(s16%2===0)nz(t,.03,.012,'highpass',7000);
+      if(Math.random()<.35)nz(t+Math.random()*.1,.01,.006,'highpass',3000); // vinyl
+      if(s16===0||s16===7){for(const n of L5.ch[bar])osc('triangle',mtof(n+12),t,.02,.022,1.6,1400)}
+      if(s16===0||s16===8)osc('sine',mtof(L5.root[bar]+12),t,.02,.18,beat*1.7);
+      if(s16===14&&Math.random()<.5){const sc=[69,72,74,76,79];osc('sine',mtof(sc[Math.floor(Math.random()*sc.length)]),t,.03,.025,1.2)}
+      return}
+    if(theme===4){
+      if(s16===0||s16===7||(s16===10&&bar%2))kick(t);
+      if(s16===4||s16===12)nz(t,.2,.06,'bandpass',1400);
+      if(s16%2===0)nz(t,.04,s16%4===2?.03:.015,'highpass',9000);
+      if(s16===0||s16===6||s16===11){for(const n of L4.ch[bar]){osc('sine',mtof(n+12),t,.008,.035,1.1);osc('triangle',mtof(n+24),t,.004,.008,.35,3000)}}
+      if(s16===0||s16===8||s16===14)osc('sine',mtof(L4.root[bar]+12),t,.01,.2,beat*(s16===14?.4:1.6));
+      if(s16===8&&Math.random()<.5){const sc=[72,74,76,79,81];osc('sine',mtof(sc[Math.floor(Math.random()*sc.length)]),t,.02,.03,1.4)}
+      return}
+    if(theme===3){
+      if(s16%4===0)kick(t);
+      if(s16%4===2){nz(t,.05,.035,'highpass',8000)}
+      if(s16===4||s16===12)nz(t,.12,.07,'bandpass',1800);
+      if(s16===2||s16===6||s16===10||s16===13){for(const n of L3.ch[bar]){osc('triangle',mtof(n+12),t,.004,.03,.22,2400);osc('sine',mtof(n),t,.004,.02,.3)}}
+      if(s16%2===0)osc('sine',mtof(L3.root[bar]+(s16%8===6?12:0)),t,.005,.14,beat*.4);
+      return}
+    if(theme===1){
+      if(s16%4===0){const n=L1.walk(bar,Math.floor(st/64))[s16/4];osc('triangle',mtof(n),t,.01,.16,beat*.9,700)}
+      if(s16===4||s16===12||(s16===14&&bar===3)){for(const n of L1.ch[bar]){osc('sine',mtof(n),t,.01,.045,1.3);osc('sine',mtof(n+12),t,.005,.012,.5)}}
+      if(s16%2===0)nz(t,.09,s16%8===4?.05:.025,'bandpass',3200);
+      if(s16===0&&Math.random()<.55){const sc=[72,74,76,79,81,84];osc('sine',mtof(sc[Math.floor(Math.random()*sc.length)]),t+beat*2,.01,.05,1.6);}
+    }else{
+      if(s16===0){for(const n of L2.ch[bar]){osc('sawtooth',mtof(n),t,.5,.03,beat*4,900);osc('sawtooth',mtof(n)*1.006,t,.5,.02,beat*4,900)}}
+      const arp=L2.ch[bar];osc('square',mtof(arp[s16%arp.length]+12+(s16>=8?12:0)),t,.004,.022,.16,1800,2);
+      if(s16%2===0)osc('sawtooth',mtof(L2.root[bar]+(s16%4===2?12:0)),t,.005,.09,beat*.45,420,3);
+      if(s16===0||s16===8||(s16===10&&bar%2))kick(t);
+      if(s16===4||s16===12)nz(t,.16,.12,'highpass',1500);
+      if(s16%2===0)nz(t,s16===14?.18:.03,s16===14?.03:.025,'highpass',7000);
+    }
+  }
+  function sched(){const a=ac();const T=TH();const s16=60/T.bpm/4;
+    while(next<a.currentTime+.15){play(step,next);const pair=s16*2;next+=step%2===0?pair*T.swing:pair*(1-T.swing);step++}}
+  function level(){return duckOn?.18:.42}
+  return{
+    start(th){try{bus();const a=ac();a.resume();theme=th||theme;if(timer)return;next=a.currentTime+.1;step=0;master.gain.cancelScheduledValues(a.currentTime);master.gain.setTargetAtTime(level(),a.currentTime,.6);timer=setInterval(sched,25)}catch(e){}},
+    stop(){if(!master)return;const a=ac();master.gain.setTargetAtTime(0,a.currentTime,.25);clearInterval(timer);timer=null},
+    playing(){return!!timer},
+    theme(th){if(th===theme)return;if(!timer){theme=th;return}const a=ac();master.gain.setTargetAtTime(0,a.currentTime,.3);setTimeout(()=>{theme=th;step=0;next=a.currentTime+.05;master.gain.setTargetAtTime(level(),a.currentTime,.8)},900)},
+    duck(on){duckOn=on;if(!master||!timer)return;const a=ac();master.gain.setTargetAtTime(level(),a.currentTime,.4)}
+  };
+})();
+/* ================= core actions ================= */
+const hist=[];
+function rateNow(){while(hist.length&&hist[0]<s.t-20)hist.shift();return hist.length*3}
+function floppyFull(){return s.era===2&&SHEETS[s.sheet].swap&&!s.up.disk&&s.floppy>=40}
+function book(ch,fromQ){
+  const c0=clients();if(fromQ)s.exq=Math.max(0,s.exq-1);else s.tray=Math.max(0,s.tray-1);s.done++;const h=hoursPer();s.hours+=h;s.earned+=h;hist.push(s.t);s.lastProg=s.t;s.errs[s.era]+=ch;
+  if(s.era===2)s.floppy++;
+  if(clients()>c0)floatTxt(L.newCli,'cli');
+}
+function tap(){
+  if(!s.started||s.phase!=='play'||s.swapping>0||floppyFull()||fill.on)return; // one pair of hands: typing or filling down, not both
+  if(s.tray<1&&s.keys===0){hintNow('hEmpty');return}
+  s.keys++;arm=1;snd(s.era===2?'beep':'key');
+  if(s.keys>=keysPer()){s.keys=0;book(errFor('hand'));flies.push({t:0,d:0});snd('ding');floatTxt(hoursPer())}
+  ui();
+}
+/* fill down (era 2) */
+const fill={on:false,rows:0,acc:0};let fillCd=0;
+function fillStart(){if(fill.on||s.era<2||s.phase!=='play'||fillCd>0||s.tray<1||s.swapping>0||floppyFull())return;fill.on=true;fill.rows=0;fill.acc=0;fill.wait=false;fill.src=null}
+function fillEnd(){if(!fill.on)return;fill.on=false;if(fill.rows>0){if(s.era===3)commitImport(fill.rows);else commitFill(fill.rows,1)}fill.rows=0;fillCd=s.era===3?PKGS[s.pkg].cd*(s.up.pent?.7:1):SHEETS[s.sheet].cd*(s.up.eyes?1.25:1)}
+function commitFill(n,riskMul,quiet){if(s.badFills<=0&&Math.random()<SHEETS[s.sheet].risk*riskMul*(s.up.eyes?.05:1))s.badFills=4;
+  /* a broken formula stays in the sheet: this fill and the next three are wrong, unless the second pair of eyes spots it */
+  let bad=false;if(s.badFills>0){bad=true;s.badFills--;if(s.up.eyes&&Math.random()<.95)s.badFills=0}
+  s.nFills=(s.nFills||0)+1;if(bad)s.nBad=(s.nBad||0)+1;for(let i=0;i<n;i++)book(bad?'f':errFor('fill'));flies.push({t:0,d:0});snd('ding');if(!quiet)floatTxt(n*hoursPer());sweep=1}
+/* era 3: import a batch with the package's suggested codes, or book one invoice by picking its code */
+function commitImport(n){for(let i=0;i<n;i++)book(errFor3('import',newInv()));flies.push({t:0,d:0});snd('ding');floatTxt(n*hoursPer());sweep=1}
+let lastPick=null;
+const supName=(a,i)=>a[(i||0)%a.length].split(' · ')[0];
+function chooseCode(c){
+  if(s.era===4){if(!s.started||s.phase!=='play'||s.exq<1)return;arm=1;const right=RIGHT[s.nextCat];const ok=c===right;snd(ok?'key':'warn');lastPick={ok,c,right,t:performance.now(),sup:supName(L.sup4[s.nextCat],s.nextI)};book(ok?'0':'c',true);if(ok)floatTxt(hoursPer());s.nextCat=newCat();s.nextI=Math.floor(Math.random()*3);ui();return}
+  if(!s.started||s.phase!=='play'||s.era!==3||fill.on||s.tray<1)return;
+  arm=1;const ok=c===s.next;snd(ok?'key':'warn');lastPick={ok,c,right:s.next,t:performance.now(),sup:supName(L.sup[s.next],s.nextI)};book(ok?errFor3('hand',s.next):'c');
+  if(ok&&s.up.keys&&s.tray>=1)book(errFor3('hand',s.next)); // shortcuts: the same supplier's next invoice goes with it
+  if(ok)floatTxt(hoursPer()*(s.up.keys?2:1));
+  s.next=newInv();s.nextI=Math.floor(Math.random()*3);ui()}
+function buy(u){const n=s.up[u.id];if(n>=u.max||s.hours<costOf(u,n))return;s.hours-=costOf(u,n);s.up[u.id]++;if(s.era===6&&u.id==='ctrl'){s.todo=s.todo.filter(t=>{if(!KNOWN.includes(t[0]))return true;book('0',true);return false})}if(s.era===6&&['crit','mail','app'].includes(u.id)){const ty={crit:'p',mail:'x',app:'q'}[u.id];s.todo=s.todo.filter(t=>{if(CASES[t[0]]!==ty)return true;s.autoN=(s.autoN||0)+1;if(ty==='p')bookAdvice();else s.wait.push([t[0],s.te+WAIT[ty]]);return false});if(s.up.crit&&s.up.mail&&s.up.app)banner('allAuto')}if(u.id==='prompt'){for(const k in s.h5)if(!HARD[k])s.h5[k]*=.5;s.maskStale*=.5}if(u.id==='cloud'){shuffleRules();banner(s.up.spec?'migSpec':'mig')}(s.bl[s.era]=s.bl[s.era]||[]).push([Math.round(s.te*10)/10,u.id]);s.bought=(s.bought||0)+1;s.lastProg=s.t;snd('buy');ui();save()}
+function floatTxt(t,kind){const anchor=kind==='cli'?$('vCli'):kind==='macro'?$('fill'):kind==='rule'?$('rules'):kind==='fine'?$('vFines'):s.era>=3?$('codes'):$('tap');const b=anchor.getBoundingClientRect(),p=document.body.getBoundingClientRect();const d=document.createElement('div');d.className='float';d.textContent=kind==='cli'||kind==='macro'?t:kind==='rule'||kind==='fine'?'−'+money(-t):'+'+money(t);if(kind==='fine')d.classList.add('neg');d.style.left=(kind==='cli'?b.left:kind==='macro'?b.left+8:b.right-70)-p.left+'px';d.style.top=(b.top-p.top-6)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),1000)}
+
+/* ================= banners and events ================= */
+let banKey=null,banArg={},banT=0;
+function banner(key,arg={},keep){banKey=key;banArg=arg;const b=$('ban');b.classList.add('show');b.classList.toggle('warn',['rateEv','floppy','vat','r78','eu','y2kWarn','y2kBug','m20','m22','e28','e28a','drr','svc','svcSpec','e06','e06Spec','mig','migSpec'].includes(key));
+  $('banT').innerHTML=tpl(L[key],arg);const btn=$('banB');
+  if(key==='rateEv'){btn.hidden=false;btn.textContent=tpl(L.fix,{c:money(FIXC)});btn.disabled=s.hours<FIXC;btn.onclick=fixRate}
+  else if(key==='floppy'){btn.hidden=false;btn.textContent=L.swap;btn.disabled=false;btn.onclick=swapFloppy}
+  else btn.hidden=true;
+  if(!keep)banT=performance.now()}
+function banClose(){banKey=null;$('ban').classList.remove('show')}
+function fixRate(){if(s.hours<FIXC)return;s.hours-=FIXC;s.stale=false;snd('buy');banner('fixed');ui()}
+function swapFloppy(){if(s.swapping>0)return;s.swapping=1.2;snd('fill');banClose()}
+function events(){
+  if(s.era===1&&!s.v69&&year()>=1969.5){s.v69=true;banner('v69');snd('warn')}
+  if(s.era===1&&!s.vat&&year()>=1971){s.vat=true;s.risk[1]=s.errs[1].length;banner(s.up.spec?'vatSpec':'vat');snd('warn')}
+  if(s.era===1&&s.vat&&!s.r78&&year()>=1978){s.r78=true;banner(s.up.spec?'r78Spec':'r78');snd('warn')}
+  if(s.era===2&&s.rateI<RATES.length&&year()>=RATES[s.rateI].at){const r=RATES[s.rateI];s.rateI++;s.risk[2]=s.errs[2].length;const arg={d:L[r.d],a:r.a,b:r.b};
+    if(s.up.cell)banner('rateCell',arg);else if(s.up.spec){banner('rateSpec',arg)}else{s.stale=true;banner('rateEv',arg)}snd('warn')}
+  if(s.era===3){
+    if(!s.eu&&year()>=1993){s.eu=true;s.risk[3]=s.errs[3].length;banner('eu');snd('warn')}
+    if(s.rateI<RATES3.length&&year()>=RATES3[s.rateI].at){const r=RATES3[s.rateI];s.rateI++;const arg={d:L[r.d],a:s.lang==='nl'?r.a:String(r.a).replace(',','.'),b:r.b};
+      if(s.up.maint)banner('rateMaint',arg);else if(s.up.spec)banner('rateSpec',arg);else{s.stale=true;banner('rateEv',arg)}snd('warn')}
+    if(!s.y2kW&&year()>=1997){s.y2kW=true;banner('y2kWarn');snd('warn')}
+    if(!s.euro&&year()>=1999){s.euro=true;banner('euro')}
+  }
+  if(s.era===4){
+    if(!s.e02&&year()>=2002){s.e02=true;banner('euro2')}
+    if(!s.e06&&year()>=2006){s.e06=true;shuffleRules();banner(s.up.spec?'e06Spec':'e06');snd('warn')}
+    if(!s.svc&&year()>=2010){s.svc=true;s.rules.svc='n';s.risk[4]=s.errs[4].length;shuffleRules();banner(s.up.spec?'svcSpec':'svc');snd('warn')}
+    if(!s.e13&&year()>=2013){s.e13=true;banner('e13')}
+  }
+  if(floppyFull()&&banKey!=='floppy'&&s.swapping<=0)banner('floppy');
+  if(banKey&&banKey!=='rateEv'&&banKey!=='floppy'&&performance.now()-banT>6000)banClose();
+  if(banKey==='rateEv'){$('banB').disabled=s.hours<FIXC;if(!s.stale)banClose()}
+}
+let specFix=0;
+
+
+/* ================= end-of-era timeline: revenue per minute and when each upgrade was bought ================= */
+function timeline(era){
+  const tr=(s.tr[era]||[]),bl=(s.bl[era]||[]);if(tr.length<5)return'';
+  const W=innerWidth<600?380:640,H=innerWidth<600?190:214,pl=8,pr=8,pt=42,pb=22,dur=ERA[era].dur;
+  const pts=tr.map((p,i)=>{const j=Math.max(0,i-12);const dt=p[0]-tr[j][0];return[p[0],dt>0?(p[1]-tr[j][1])/dt*60*EUR:0]});
+  const max=Math.max(1,...pts.map(p=>p[1]))*1.08;
+  const X=t=>pl+(W-pl-pr)*Math.min(1,t/dur),Y=v=>pt+(H-pt-pb)*(1-v/max);
+  const line=pts.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join('');
+  const area=line+`L${X(pts[pts.length-1][0]).toFixed(1)} ${H-pb}L${X(pts[0][0]).toFixed(1)} ${H-pb}Z`;
+  const ticks=[0,30,60,90].filter(x=>x<=dur).map(x=>`<text x="${X(x)}" y="${H-6}" font-size="11" fill="rgba(15,15,15,.45)" text-anchor="${x===0?'start':x===dur?'end':'middle'}">${mmss(x)}</text>`).join('');
+  const marks=bl.map(([t,id],i)=>`<line x1="${X(t)}" x2="${X(t)}" y1="${pt-4}" y2="${H-pb}" stroke="#97681c" stroke-width="1" stroke-dasharray="2 3"/><circle cx="${X(t)}" cy="${pt-12}" r="8" fill="#97681c"/><text x="${X(t)}" y="${pt-8.5}" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">${i+1}</text>`).join('');
+  const lab=`<text x="${pl}" y="12" font-size="11" fill="rgba(15,15,15,.45)">${money(max/1.08/EUR)} ${L.tlY}</text>`;
+  const legend=bl.map(([t,id],i)=>`<span><b>${i+1} · ${mmss(t)}</b>${L.U[id][0]}</span>`).join('');
+  return`<div class="tl"><h3>${L.tlH}</h3><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${L.tlH}"><line x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}" stroke="rgba(15,15,15,.14)"/><path d="${area}" fill="#eef0f7"/><path d="${line}" fill="none" stroke="#2c3e76" stroke-width="2"/>${marks}${ticks}${lab}</svg><div class="lg">${legend}</div></div>`;
+}
+/* ================= review, shop, next ================= */
+function sampleIdx(n,k,seed){const idx=[...Array(n).keys()];let x=seed;const r=()=>(x=(x*9301+49297)%233280)/233280;for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}return idx.slice(0,k)}
+function openModal(){
+  const m=$('modal'),sh=$('sheet');let h='';
+  if(s.phase==='review'&&s.rev.stage==='ask'){
+    h=`<p class="kick">${tpl(L.revK,{n:s.era})}</p><h2>${L.revH}</h2><p>${tpl(s.audTy==='young'?L.revPy:L.revP,{n:fmt(s.errs[s.era].length),f:money(AUDIT(s.era,s.audTy).fine),b:s.audB||4})}</p><p class="who">${tpl(L.who[s.audTy],{b:s.audB||4})}</p><p class="have">${L.hours}: <b>${money(s.hours)}</b></p>
+      <div class="choices">${[0,1,2].map(i=>`<button class="choice" data-lunch="${i}" ${s.hours<AUDIT(s.era,s.audTy).lunch[i]||(i&&AUDIT(s.era,s.audTy).noLunch)?'disabled':''}><b>${L['r'+i][0]}</b><span>${i&&AUDIT(s.era,s.audTy).noLunch?L.noLunch:tpl(i===0&&s.audTy==='young'?L.rAll:L['r'+i][1],{c:money(AUDIT(s.era,s.audTy).lunch[i]),n:fmt(AUDIT(s.era,s.audTy).sample[i]),b:s.audB||4})}</span></button>`).join('')}</div>`;
+  }else if(s.phase==='review'){
+    const r=s.rev;h=`<p class="kick">${tpl(L.revK,{n:s.era})}</p><h2>${r.found===0?L.resH0:r.found===1?L.resH1:tpl(L.resH,{k:r.found})}</h2>
+      <div class="big"><div><b>${r.n}</b><span>${L.resChecked}</span></div><div class="r"><b>${r.found}</b><span>${L.resFound}</span></div><div class="r"><b>${money((r.fw??r.found)*AUDIT(s.era,s.audTy).fine)}</b><span>${L.resFine}</span></div></div>${r.heavy?`<p class="have">${tpl(L.heavyP,{k:fmt(r.heavy)})}</p>`:''}
+      ${s.errs[s.era].length-r.n>0?`<p>${tpl(L.resP,{r:fmt(s.errs[s.era].length-r.n)})}</p>`:''}${s.era===5&&r.found>0?`<p>${tpl(L.why5,{n:fmt(r.found)})}</p>`:''}${timeline(s.era)}<div class="row"><button class="btn" data-act="next">${s.era<6?L.toShop:L.more}</button></div>`;
+  }else if(s.phase==='shop'&&s.era===5){
+    const price=Math.min(12000,s.hours);
+    h=`<p class="kick">${L.shop6K}</p><h2>${L.shop6H}</h2><p>${tpl(L.shopP,{h:money(s.hours)})}</p>
+      <div class="choices two"><button class="choice" data-heim="1"><b>Heimdall</b><span class="pr">${money(price)}</span><span>${L.heimD}</span>
+        <dl><dt>${L.kRead}</dt><dd>${nf(40*60)}/min</dd><dt>${L.kWrong}</dt><dd>0</dd><dt>${L.kWhy}</dt><dd>${L.withArt}</dd></dl></button>
+        <button class="choice" data-heim="0"><b>${tpl(L.keepH,{a:L.agents[s.agent||'gem'][0]})}</b><span class="pr">${money(0)}</span><span>${L.keepD}</span>
+        <dl><dt>${L.kAuto}</dt><dd>${s.agent?nf(autoRate5()*60):'–'}/min</dd><dt>${L.kConf}</dt><dd>${s.agent?Math.round((AGENTS[s.agent].h*.9+.04)*100)+'%':'–'}</dd><dt>${L.kWhy}</dt><dd>${L.why.q}</dd></dl></button></div>`;
+  }else if(s.phase==='bankrupt'){
+    h=`<p class="kick">${tpl(L.bkK,{y:Math.floor(year())})}</p><h2>${L.bkH}</h2><p>${tpl(L.bkP,{a:L.agents[s.agent][0],n:fmt(s.caught6||0)})}</p>
+      <div class="big sm"><div><b>${money(s.earned)}</b><span>${L.sc[0]}</span></div><div class="r"><b>${money(s.fines)}</b><span>${L.sc[1]}</span></div><div class="r"><b>${money(s.hours)}</b><span>${L.bkCash}</span></div></div>
+      <div class="row">${snap6?`<button class="btn" data-act="retry6">${L.bkRetry}</button>`:''}<button class="btn ghost" data-act="again">${L.again}</button></div>`;
+  }else if(s.phase==='finale'){
+    const why=['some','some','no','no','q','art'];let rows='';
+    for(let e=1;e<=6;e++){const er=s.errs[e]||'';const played=er.length>0;const bad=[...er].filter(c=>c!=='0').length-(e===6?0:(s.foundE[e]||0));
+      rows+=`<tr><td>${L.era[e][0]}<small>${L.era[e][1]}</small></td><td>${played?fmt(Math.round(er.length/(ERA[e].dur/60))):'–'}</td><td class="${played&&bad>0?'bad':''}">${played?fmt(Math.max(0,bad)):'–'}</td><td class="${why[e-1]==='art'?'okc':''}">${L.why[why[e-1]]}</td></tr>`}
+    h=`<p class="kick">${L.finK}</p><h2>${L.finH}</h2><p>${L.finP}</p>${s.autoN?`<p>${tpl(L.finAuto,{n:fmt(s.autoN)})}</p>`:''}${s.fin6&&s.fin6.n?`<p class="have">${tpl(L.fin6,{n:fmt(s.fin6.n),f:money(s.fin6.f)})}</p>`:''}
+      <table class="fin"><thead><tr><th>${L.finC[0]}</th><th>${L.finC[1]}</th><th>${L.finC[2]}</th><th>${L.finC[3]}</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="big sm"><div><b>${money(s.earned)}</b><span>${L.sc[0]}</span></div><div class="r"><b>${money(s.fines)}</b><span>${L.sc[1]}</span></div><div><b>${money(s.earned-s.fines)}</b><span>${L.sc[2]}</span></div></div>
+      <p class="brand">${L.brand}</p><p class="small">vatmiraal.be · ${L.note}</p>
+      <div class="row"><button class="btn" data-act="more">${L.more}</button><button class="btn ghost" data-act="again">${L.again}</button></div>`;
+  }else if(s.phase==='shop'&&s.era===4){
+    h=`<p class="kick">${L.shop5K}</p><h2>${L.shop5H}</h2><p>${tpl(L.shopP,{h:money(s.hours)})}</p>
+      <div class="choices">${Object.entries(AGENTS).sort((a,b)=>a[1].price-b[1].price).map(([id,o])=>{const price=id==='gem'?Math.min(o.price,s.hours):o.price;return`<button class="choice" data-agent="${id}" ${s.hours<price?'disabled':''}><b>${L.agents[id][0]}</b><span class="pr">${money(price)}</span><span>${L.agents[id][1]}</span>
+        <dl><dt>${L.kAuto}</dt><dd>${nf(o.auto*60)}/min</dd><dt>${L.kConf}</dt><dd>${Math.round((o.h*.9+.04)*100)}%</dd><dt>${L.kSure}</dt><dd>99%</dd></dl></button>`}).join('')}</div>`;
+  }else if(s.phase==='shop'&&s.era===3){
+    h=`<p class="kick">${L.shop4K}</p><h2>${L.shop4H}</h2><p>${tpl(L.shopP,{h:money(s.hours)})}</p>
+      <div class="choices">${Object.entries(ERPS).sort((a,b)=>a[1].price-b[1].price).map(([id,o])=>{const price=id==='oddoo'?Math.min(o.price,s.hours):o.price;return`<button class="choice" data-erp="${id}" ${s.hours<price?'disabled':''}><b>${L.erps[id][0]}</b><span class="pr">${money(price)}</span><span>${L.erps[id][1]}</span>
+        <dl><dt>${L.kAuto}</dt><dd>${nf(o.auto*60)}/min</dd><dt>${L.kExc}</dt><dd>${Math.round(o.exc*100)}%</dd><dt>${L.kRule}</dt><dd>${o.ruleCost?money(o.ruleCost):L.free}</dd></dl></button>`}).join('')}</div>`;
+  }else if(s.phase==='shop'&&s.era===2){
+    const cheapest=Math.min(...Object.values(PKGS).map(o=>o.price));
+    h=`<p class="kick">${L.shop3K}</p><h2>${L.shop3H}</h2><p>${tpl(L.shopP,{h:money(s.hours)})}</p>
+      <div class="choices">${Object.entries(PKGS).sort((a,b)=>a[1].price-b[1].price).map(([id,o])=>{const price=o.price===cheapest?Math.min(o.price,s.hours):o.price;return`<button class="choice" data-pkg="${id}" ${s.hours<price?'disabled':''}><b>${L.pkgs[id][0]}</b><span class="pr">${money(price)}</span><span>${L.pkgs[id][1]}</span>
+        <dl><dt>${L.kBatch}</dt><dd>${o.batch}</dd><dt>${L.kCool}</dt><dd>${o.cd} s</dd><dt>${L.kAcc}</dt><dd>${o.err<.05?L.low:o.err<.09?L.mid:L.high}</dd></dl></button>`}).join('')}</div>`;
+  }else if(s.phase==='shop'){
+    h=`<p class="kick">${L.shopK}</p><h2>${L.shopH}</h2><p>${tpl(L.shopP,{h:money(s.hours)})}</p>
+      <div class="choices">${Object.entries(SHEETS).sort((a,b)=>a[1].price-b[1].price).map(([id,o])=>{const price=id==='visi'?Math.min(o.price,s.hours):o.price;return`<button class="choice" data-sheet="${id}" ${s.hours<price?'disabled':''}><b>${L.sheets[id][0]}</b><span class="pr">${money(price)}</span><span>${L.sheets[id][1]}</span>
+        <dl><dt>${L.kKeys}</dt><dd>${o.keys}</dd><dt>${L.kFill}</dt><dd>${o.rows}</dd><dt>${L.kCool}</dt><dd>${o.cd} s</dd><dt>${L.kRisk}</dt><dd>${o.risk<.08?L.low:o.risk<.11?L.mid:L.high}</dd></dl></button>`}).join('')}</div>`;
+  }else if(s.phase==='soon'){
+    h=`<p class="kick">${tpl(L.soonK,{n:s.era})}</p><h2>${L.soonH}</h2><p>${L.soonP}</p>
+      <div class="big"><div><b>${money(s.earned)}</b><span>${L.sc[0]}</span></div><div class="r"><b>${money(s.fines)}</b><span>${L.sc[1]}</span></div><div><b>${money(s.earned-s.fines)}</b><span>${L.sc[2]}</span></div></div>
+      <div class="row"><button class="btn" data-act="more">${L.more}</button><button class="btn ghost" data-act="again">${L.again}</button></div>`;
+  }else{m.classList.remove('show');Music.duck(false);return}
+  sh.innerHTML=h;m.classList.add('show');Music.duck(true);
+  sh.querySelectorAll('[data-lunch]').forEach(b=>b.onclick=()=>doReview(+b.dataset.lunch));
+  sh.querySelectorAll('[data-sheet]').forEach(b=>b.onclick=()=>pickSheet(b.dataset.sheet));
+  sh.querySelectorAll('[data-pkg]').forEach(b=>b.onclick=()=>pickPkg(b.dataset.pkg));
+  sh.querySelectorAll('[data-erp]').forEach(b=>b.onclick=()=>pickErp(b.dataset.erp));
+  sh.querySelectorAll('[data-agent]').forEach(b=>b.onclick=()=>pickAgent(b.dataset.agent));
+  sh.querySelectorAll('[data-heim]').forEach(b=>b.onclick=()=>b.dataset.heim==='1'?pickHeim():pickNoHeim());
+  sh.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>act(b.dataset.act));
+  const f=sh.querySelector('button:not([disabled])');if(f)setTimeout(()=>f.focus(),50);
+}
+function doReview(i){
+  const A=AUDIT(s.era,s.audTy);if(A.noLunch)i=0;if(s.hours<A.lunch[i])return;s.hours-=A.lunch[i];const fl=s.errs[s.era];const n=Math.min(A.sample[i],fl.length);
+  const mark=s.risk[s.era]??fl.length;let x=fl.length*7+s.era;const rnd=()=>(x=(x*9301+49297)%233280)/233280+1e-9;
+  /* the auditor targets invoices booked since the latest rule change (weight 3) */
+  const pick=[...Array(fl.length).keys()].map(j=>[Math.pow(rnd(),1/(j>=mark?3:1)),j]).sort((a,b)=>b[0]-a[0]).slice(0,n).map(p=>p[1]);
+  const found=pick.reduce((a,j)=>a+(fl[j]!=='0'?1:0),0),heavy=pick.reduce((a,j)=>a+(fl[j]==='A'?1:0),0),fw=found+heavy*(HEAVY-1);
+  s.foundE[s.era]=found;s.fines+=fw*A.fine;s.hours=Math.max(0,s.hours-fw*A.fine);s.rev={stage:'res',n,found,heavy,fw,lunch:i};snd(found?'warn':'ding');openModal();save();
+}
+function act(a){
+  if(a==='next'){if(s.era<6){s.phase='shop'}else{s.phase='soon'}openModal();save()}
+  else if(a==='retry6'){retry6()}
+  else if(a==='more'){s.phase='free';$('modal').classList.remove('show');Music.duck(false);save()}
+  else if(a==='again')reset();
+}
+function pickSheet(id){Music.duck(false);
+  const price=id==='visi'?Math.min(SHEETS.visi.price,s.hours):SHEETS[id].price;if(s.hours<price)return;
+  s.hours-=price;s.sheet=id;s.bought=0;s.cli0=clients();s.era=2;s.done=0;s.te=0;s.keys=0;s.phase='play';s.floppy=0;s.rateI=0;s.stale=false;s.rev=null;hist.length=0;flies.length=0;
+  $('modal').classList.remove('show');snd('buy');Music.theme(2);text();showEra();save();
+}
+function pickPkg(id){lastPick=null;Music.duck(false);
+  const cheapest=Math.min(...Object.values(PKGS).map(o=>o.price));const o=PKGS[id];const price=o.price===cheapest?Math.min(o.price,s.hours):o.price;if(s.hours<price)return;
+  s.hours-=price;s.pkg=id;s.bought=0;s.cli0=clients();s.era=3;s.done=0;s.te=0;s.keys=0;s.phase='play';s.rateI=0;s.stale=false;s.rev=null;s.next=newInv();hist.length=0;flies.length=0;fill.on=false;fillCd=0;
+  $('modal').classList.remove('show');snd('buy');Music.theme(3);text();showEra();save();
+}
+function pickNoHeim(){lastPick=null;s.h26=s.t26=false;s.ev=null;s.evT=10;lastEv=null;Music.duck(false);if(!s.agent)s.agent='gem';
+  try{snap6=JSON.stringify(s);localStorage.setItem('vtth2snap',snap6)}catch(e){}
+  s.heim=false;s.bought=0;s.cli0=clients();s.era=6;s.done=0;s.te=0;s.phase='play';s.rev=null;s.recent=[];s.card=null;s.checked=0;s.caught6=0;s.exq=0;
+  hist.length=0;flies.length=0;VIZ.length=0;autoAcc=0;clerkAcc=0;
+  $('modal').classList.remove('show');snd('buy');Music.theme(5);text();showEra();save();
+}
+function retry6(){if(!snap6)return;banClose();s=JSON.parse(snap6);s.phase='shop';lastPick=null;hist.length=0;VIZ.length=0;Music.theme(5);text();openModal();save()}
+function pickHeim(){lastPick=null;s.h26=s.t26=false;s.ev=null;s.evT=10;lastEv=null;try{snap6=null;localStorage.removeItem('vtth2snap')}catch(e){}Music.duck(false);
+  const price=Math.min(12000,s.hours);s.hours-=price;s.heim=true;s.bought=0;s.cli0=clients();s.era=6;s.done=0;s.te=0;s.phase='play';s.rev=null;s.todo=[];s.wait=[];s.hc={ok:0,x:0,q:0};s.autoN=0;s.exq=0;
+  hist.length=0;flies.length=0;VIZ.length=0;autoAcc=0;clerkAcc=0;
+  $('modal').classList.remove('show');snd('buy');Music.theme(6);text();showEra();save();
+}
+function pickAgent(id){lastPick=null;s.ev=null;s.evT=10;lastEv=null;Music.duck(false);
+  const o=AGENTS[id];const price=id==='gem'?Math.min(o.price,s.hours):o.price;if(s.hours<price)return;
+  s.hours-=price;s.agent=id;s.bought=0;s.cli0=clients();s.era=5;s.done=0;s.te=0;s.phase='play';s.rev=null;s.recent=[];s.card=null;s.checked=0;s.exq=0;
+  for(const k in CATW5)s.h5[k]=o.h*CATW5[k];for(const k in HARD)s.h5[k]=1;hist.length=0;flies.length=0;autoAcc=0;clerkAcc=0;
+  $('modal').classList.remove('show');snd('buy');Music.theme(5);text();showEra();save();
+}
+function pickErp(id){lastPick=null;Music.duck(false);
+  const o=ERPS[id];const price=id==='oddoo'?Math.min(o.price,s.hours):o.price;if(s.hours<price)return;
+  s.hours-=price;s.erp=id;s.bought=0;s.cli0=clients();s.era=4;s.done=0;s.te=0;s.phase='play';s.stale=false;s.rev=null;s.exq=0;s.nextCat=newCat();hist.length=0;flies.length=0;fill.on=false;fillCd=0;
+  $('modal').classList.remove('show');snd('buy');Music.theme(4);text();showEra();save();
+}
+/* era 4: the standard rules per supplier group */
+function renderRules(){
+  if(s.era!==4)return;const cats=(s.ruleOrd&&s.ruleOrd.length===(s.svc?4:3))?s.ruleOrd:['be','food','eu'].concat(s.svc?['svc']:[]);const codes=['n','v','eu'].concat(s.svc?['rc']:[]);
+  $('ruleRows').innerHTML=cats.map(c=>`<div class="rrow ${s.up.spec&&s.rules[c]!==RIGHT[c]?'badrule':''}" data-cat="${c}"><span>${L.cats[c]}</span><div class="seg">${codes.map(k=>`<button data-rule="${c}:${k}" class="${s.rules[c]===k?'on':''}">${L.codeS[k]}</button>`).join('')}</div></div>`).join('');
+  $('ruleRows').querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>{const [c,k]=b.dataset.rule.split(':');if(s.rules[c]===k)return;const cost=ERPS[s.erp].ruleCost;if(s.hours<cost){hintNow('hRuleCost');return}s.hours-=cost;s.rules[c]=k;snd('buy');if(cost)floatTxt(-cost,'rule');renderRules();save()});
+  $('rNote').textContent=(ERPS[s.erp].ruleCost?tpl(L.ruleCostNote,{c:money(ERPS[s.erp].ruleCost)}):L.ruleNote)+(s.up.spec&&Object.keys(RIGHT).some(c=>(c!=='svc'||s.svc)&&s.rules[c]!==RIGHT[c])?' '+L.specFrown:'');
+}
+function showEra(){$('ovEra').classList.add('show');setTimeout(()=>$('ovEra').classList.remove('show'),3400);if(s.era>=2)setTimeout(()=>hintNow(s.era===6?(s.heim?'hTodo':'hNoHeim'):s.era===5?'hChk':s.era===4?'hRules':s.era===3?'hCode':'hFill'),3600)}
+function startGame(){s.started=true;if(s.mus)Music.start(1);$('ovIntro').classList.remove('show');showEra();s.lastProg=s.t;save()}
+const playing=()=>s.started&&(s.phase==='play'||s.phase==='free'||s.phase==='eye');
+let snap6=null;try{snap6=localStorage.getItem('vtth2snap')}catch(e){}
+
+/* ================= hints ================= */
+let hintT=0;
+function hintNow(k){$('hint').textContent=L[k];$('hint').classList.add('show');hintT=performance.now()}
+function hints(){
+  if(!playing()){$('hint').classList.remove('show');return}
+  if(performance.now()-hintT>5000)$('hint').classList.remove('show');
+  if(s.t-s.lastProg>(s.done===0?6:20)&&performance.now()-hintT>9000){const canBuy=visibleUps().some(u=>s.up[u.id]<u.max&&s.hours>=costOf(u,s.up[u.id]));hintNow(canBuy?'hBuy':s.era===6?(s.heim?'hTodo':'hNoHeim'):s.era===5?'hChk':s.era===4?'hRules':s.tray<1?'hEmpty':s.era===3?'hCode':s.era===2?'hFill':'hTap')}
+}
+
+/* ================= pixel scene ================= */
+const cv=$('scene'),g=cv.getContext('2d');
+const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
+function disc(cx,cy,r,c){g.fillStyle=c;for(let dy=-r;dy<=r;dy++){const hw=Math.floor(Math.sqrt(r*r-dy*dy+.5));g.fillRect(cx-hw,cy+dy,2*hw+1,1)}}
+const C={wall:'#eeece6',wall2:'#e4e1d8',base:'#cfc9bb',floor:'#c9c3b5',plank:'#b9b2a3',wood:'#7a5a34',woodD:'#5e4428',ink:'#0f0f0f',tw:'#2a2c34',twL:'#4a4d57',twE:'#2c3e76',twEL:'#4f629c',paper:'#ffffff',pline:'#9aa0ad',skin:'#e2b48c',shirt:'#f8f8f6',tie:'#2c3e76',mark:'#1b2a4a',acc:'#2c3e76',sky:'#c9d0e6',hill:'#dcdfe8',metal:'#8a8f99',metalD:'#6a6f79',beige:'#ddd6c4',beigeD:'#bdb49d',scr:'#0e1a12',ph:'#5fd16b',phD:'#2f6e3a'};
+const HAIR=['#3a2a1a','#7a5a34','#1b1b1b','#a8743a','#5a3a2a','#2a2a2a','#8a5a2a'];
+const DIG={'0':'111101101101111','1':'010110010010111','2':'111001111100111','3':'111001111001111','4':'101101111001001','5':'111100111001111','6':'111100111101111','7':'111001001001001','8':'111101111101111','9':'111101111001111'};
+function digit(ch,x,y){const m=DIG[ch];for(let i=0;i<15;i++)if(m[i]==='1')R(x+(i%3)*2,y+Math.floor(i/3)*2,2,2,C.mark)}
+let arm=0,sweep=0,macroFlash=0;const flies=[];
+function clerk(x,y,hair,bob,blink,bun,big,fem){
+  if(fem)return clerkF(x,y,hair,bob,blink);
+  R(x+2,y,10,3,hair);if(bun)R(x+5,y-2,4,2,hair);if(big)R(x+1,y-1,12,3,hair);R(x+3,y+2,8,8,C.skin);R(x+2,y+3,1,4,hair);R(x+11,y+3,1,4,hair);
+  if(!blink){R(x+5,y+6,1,1,C.ink);R(x+8,y+6,1,1,C.ink)}
+  R(x+6,y+10,2,1,C.skin);R(x,y+11,14,11,C.shirt);R(x+6,y+11,2,8,C.tie);R(x,y+11,1,11,'#dcdcd8');R(x+13,y+11,1,11,'#dcdcd8');
+  R(x+1,y+19-(bob?1:0),3,2,C.skin);R(x+10,y+19-(bob?0:1),3,2,C.skin);
+}
+/* female clerk: no tie, a blouse, and a hairstyle per era (sixties beehive, eighties volume, nineties bob) */
+const BLOUSE=['#c9d0e6','#e7f0eb','#f4e6e5','#eef0f7'];
+function clerkF(x,y,hair,bob,blink){
+  const e=s.era,bl=BLOUSE[(x>>3)%BLOUSE.length];
+  if(e===1){R(x+3,y-4,8,5,hair);R(x+2,y,10,3,hair);R(x+2,y+3,1,5,hair);R(x+11,y+3,1,5,hair)}
+  else if(e===2){R(x,y-2,14,5,hair);R(x,y+3,3,9,hair);R(x+11,y+3,3,9,hair)}
+  else{R(x+1,y,12,3,hair);R(x+1,y+3,2,8,hair);R(x+11,y+3,2,8,hair)}
+  R(x+3,y+2,8,8,C.skin);if(e!==2)R(x+3,y+2,8,1,hair);
+  if(!blink){R(x+5,y+6,1,1,C.ink);R(x+8,y+6,1,1,C.ink)}
+  R(x+6,y+8,2,1,'#b85a5a');R(x+6,y+10,2,1,C.skin);
+  R(x,y+11,14,11,bl);R(x+5,y+11,4,2,'#f8f8f6');R(x+6,y+13,2,1,'#c9a227');R(x,y+11,1,11,'rgba(0,0,0,0.08)');R(x+13,y+11,1,11,'rgba(0,0,0,0.08)');
+  R(x+1,y+19-(bob?1:0),3,2,C.skin);R(x+10,y+19-(bob?0:1),3,2,C.skin);
+}
+function typewriter(x,y,p,elec){const b=elec?C.twE:C.tw,l=elec?C.twEL:C.twL,sh=Math.round(p*6);
+  R(x+6,y-12,22,12,C.paper);for(let i=0;i<4;i++){const w=Math.round(Math.max(0,Math.min(1,p*4-i))*16);if(w)R(x+9,y-10+i*2,w,1,C.pline)}
+  R(x-2-sh,y-2,38,3,C.ink);R(x+36-sh,y-3,3,2,C.metal);R(x,y+1,34,11,b);R(x+2,y+4,30,1,l);R(x+3,y+6,28,1,l);R(x+4,y+8,26,1,l);R(x+10,y+10,14,1,'#c9c9c6')}
+function pc(x,y,rows,p,hi,small){ // monitor on a base unit; rows: visible filled rows
+  const w=small?26:34,h=small?20:26;
+  R(x,y-h-8,w,h,C.beige);R(x+2,y-h-6,w-4,h-6,C.scr);
+  const n=small?5:7;for(let i=0;i<n;i++){const filled=i<rows;R(x+4,y-h-4+i*3,(w-8)*(filled?1:0),1,filled?C.phD:C.scr);if(filled){R(x+4,y-h-4+i*3,4,1,C.ph);R(x+10,y-h-4+i*3,6,1,C.ph)}}
+  if(p>0)R(x+4,y-h-4+Math.min(rows,n-1)*3,Math.round((w-8)*p),1,C.ph);
+  if(hi>0){const hh=Math.round((h-8)*hi);R(x+w-10,y-h-4,4,hh,C.ph)}
+  R(x+w/2-3,y-8,6,3,C.beigeD);R(x-3,y-5,w+6,5,C.beige);R(x+2,y-4,8,1,C.beigeD);R(x+w-8,y-4,6,2,C.ink);
+  R(x+2,y,w-4,3,C.beigeD);
+}
+function pc95(x,y,p,hi,small){ // nineties PC: grey case, light window with a title bar and a booking form
+  const w=small?26:34,h=small?20:26;
+  R(x,y-h-8,w,h,'#d6d6d0');R(x+2,y-h-6,w-4,h-6,'#e9ecf3');R(x+2,y-h-6,w-4,2,C.acc);
+  const n=small?4:6;for(let i=0;i<n;i++){R(x+4,y-h-2+i*3,6,1,'#9aa0ad');R(x+12,y-h-2+i*3,w-16,1,i===((s.done+(small?x:0))%n)?C.acc:'#c9cdd6')}
+  if(p>0)R(x+4,y-10,Math.round((w-8)*Math.min(1,p)),2,'#1f6b4f');
+  R(x+w/2-3,y-8,6,3,'#bdbdb6');R(x-3,y-5,w+6,5,'#d6d6d0');R(x+2,y-4,w-12,1,'#bdbdb6');R(x+w+4,y-3,4,3,'#d6d6d0');R(x+2,y,w-4,3,'#bdbdb6');
+}
+function lcd(x,y,p,small){ // 2000s flat screen: thin dark bezel, ERP list scrolling by itself
+  const w=small?28:38,h=small?18:24;
+  R(x,y-h-7,w,h,'#2a2c34');R(x+1,y-h-6,w-2,h-2,'#eef2f8');R(x+1,y-h-6,w-2,2,'#1f6b4f');
+  const n=small?4:6,off=Math.floor(p*n);for(let i=0;i<n;i++){const k=(i+off)%n;R(x+3,y-h-2+i*3,5,1,'#9aa0ad');R(x+10,y-h-2+i*3,w-14,1,k===0?C.acc:'#c9cdd6');R(x+w-5,y-h-2+i*3,2,1,'#1f6b4f')}
+  R(x+w/2-1,y-7,2,5,'#3a3c44');R(x+w/2-6,y-2,12,2,'#3a3c44');
+}
+function laptop(x,y){R(x,y-12,18,11,'#3a3c44');R(x+1,y-11,16,9,'#c9d6ea');R(x-2,y-1,22,2,'#8a8f99')}
+function robot(x,y,t,i){ // small agent: boxy head with a face screen, antenna, rolling base
+  const b=Math.round(Math.sin(t*4+i)*1);y+=b;
+  R(x+5,y-24,1,3,'#3a3c44');R(x+4,y-25,3,1,Math.floor(t*2+i)%2?C.acc:'#e0a030');
+  R(x,y-21,12,10,'#d6d9e0');R(x+1,y-20,10,8,'#2a2c34');const blink=((t+i*.7)%3)<.12;
+  if(!blink){R(x+3,y-17,2,2,'#5fd08f');R(x+7,y-17,2,2,'#5fd08f')}R(x+4,y-14,4,1,'#5fd08f');
+  R(x+1,y-11,10,7,'#bfc3cc');R(x+3,y-9,6,2,'#9aa0ad');R(x,y-4,12,3,'#3a3c44');R(x+1,y-1,3,2,'#2a2c34');R(x+8,y-1,3,2,'#2a2c34');
+  if(((t*.5+i*.37)%4)<.9){R(x+10,y-32,17,9,'#f8f8f6');R(x+10,y-24,3,2,'#f8f8f6');const G={'9':'111101111001111','%':'101001010100101'};
+    ['9','9','%'].forEach((ch,k)=>{for(let j=0;j<15;j++)if(G[ch][j]==='1')R(x+12+k*4+j%3,y-30+Math.floor(j/3),1,1,C.ink)})}}
+/* era 6: the bridge from the film. Heimdall, an original pixel watchman (16x36, faces left) */
+const HC={cl:'#2c3e76',sh:'#1b2a4a',sk:'#e2b48c',be:'#d9d9d4',bk:'#0f0f0f',wd:'#7a5a34',st:'#c9c9c6',gd:'#c9a227',hn:'#efe6cf'};
+function heim(fx,fy,o){const L0=fx-8,T=fy-36,F=o.face==='L';const P=(x,y,w,h,c)=>R(F?L0+x:L0+16-x-w,T+y,w,h,c);
+  const hy=o.pose==='nod'?1:0,sw=o.fr?1:0,sx=(o.pose==='pass'||o.pose==='ask')?14:1;
+  if(o.pose!=='stop'){P(sx,-3,1,3,HC.st);P(sx,0,1,36,HC.wd)}
+  P(3,13,10,11,HC.cl);P(2,24,12,8,HC.cl);P(2+sw,32,11,1,HC.cl);P(11,13,2,11,HC.sh);P(12,24,2,9,HC.sh);
+  P(3,21,10,1,HC.sh);P(7,21,2,1,HC.gd);P(12,22,3,2,HC.hn);P(14,21,1,1,HC.gd);
+  P(5,33,2,2,HC.sh);P(9,33,2,2,HC.sh);P(4,35,3,1,HC.bk);P(9,35,3,1,HC.bk);
+  P(5,2+hy,6,2,HC.sh);P(4,4+hy,8,9,HC.sh);P(4,6+hy,5,5,HC.sk);P(3,8+hy,1,1,HC.sk);
+  P(5,8+hy,1,1,o.blink?HC.sk:HC.bk);P(4,10+hy,5,3,HC.be);
+  if(o.pose==='pass'){P(-3,15,6,2,HC.sh);P(-5,15,2,2,HC.sk)}
+  else if(o.pose==='stop'){P(-8,18,22,1,HC.wd);P(-10,18,2,1,HC.st);P(2,14,2,4,HC.sh);P(9,14,2,4,HC.sh);P(1,17,2,2,HC.sk);P(9,17,2,2,HC.sk)}
+  else if(o.pose==='ask'){P(1,6,2,9,HC.sh);P(1,4,2,2,HC.sk);const bx=-8,by=-12;P(bx,by,9,10,'#ffffff');P(bx,by,9,1,HC.sh);P(bx,by+9,9,1,HC.sh);P(bx,by,1,10,HC.sh);P(bx+8,by,1,10,HC.sh);P(bx+5,by+10,2,2,HC.sh);
+    [[3,2,3,1],[2,3,1,1],[6,3,1,1],[5,4,1,1],[4,5,1,1],[4,7,1,1]].forEach(([x,y,w,h])=>P(bx+x,by+y,w,h,HC.sh))}
+  else{P(2,14,2,7,HC.sh);P(1,20,2,2,HC.sk)}}
+const CARD=[['#ffffff','#b9bdc8','#c9d0e6'],['#98302f','#6f2221','#d38d8c'],['#8a8a88','#6a6a68','#c4c4c2'],['#1f6b4f','#174f3a','#7fb49b']];
+function card6(x,y,k){x=Math.round(x);y=Math.round(y);const c=CARD[k];R(x,y,7,9,c[1]);R(x+1,y+1,5,7,c[0]);R(x+2,y+3,3,1,c[2]);R(x+2,y+5,2,1,c[2])}
+let gateK=-1,gateT=0;
+function drawBridge(t){const GX=161,DY=118;
+  const LN=(x0,y0,x1,y1,c)=>{const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0));for(let k=0;k<=n;k++)R(Math.round(x0+(x1-x0)*k/n),Math.round(y0+(y1-y0)*k/n),1,1,c)};
+  // sky
+  R(0,0,320,124,'#f2f4f9');R(0,0,320,46,'#e8ecf6');R(0,46,320,30,'#edf0f7');
+  // far skyline: glass towers, a crane
+  const TW=[[36,44,12],[50,30,9],[62,58,14],[80,40,11],[94,26,8],[200,50,13],[216,36,10],[229,68,12],[244,46,14],[262,30,9]];
+  for(const [x,h,w] of TW){R(x,112-h,w,h,'#d6dcec');R(x,112-h,w,1,'#c7cfe4');for(let wy=112-h+3;wy<110;wy+=4)for(let wx=x+2;wx<x+w-1;wx+=3)R(wx,wy,1,2,'#e7ebf5')}
+  R(232,112-68-14,1,14,'#b9c2da');R(222,112-68-14,22,1,'#b9c2da');R(242,112-68-13,1,5,'#b9c2da');
+  // water with the skyline reflected
+  R(0,124,320,56,'#cfd7ea');for(const [x,h,w] of TW)R(x,126,w,Math.min(18,h/3|0),'#c6cfe5');
+  for(let i=0;i<14;i++){const x=(i*47+Math.floor(t*6))%330-10;R(x,134+(i%4)*11,8,1,'#e4e9f4')}
+  // quays
+  R(0,112,34,68,'#d9dde6');R(0,112,34,1,'#b9c2da');R(280,112,40,68,'#d9dde6');R(280,112,40,1,'#b9c2da');
+  // your clients: two modern low buildings with glass fronts
+  R(2,86,14,26,'#ffffff');R(2,86,14,2,'#1b2a4a');R(4,90,10,18,'#c9d6ea');for(let y=93;y<108;y+=5)R(4,y,10,1,'#ffffff');
+  R(18,94,14,18,'#eef0f7');R(18,94,14,2,'#2c3e76');R(20,98,10,6,'#c9d6ea');R(23,106,4,6,'#1b2a4a');
+  // your office: a glass tower with solar panels on the roof
+  R(283,58,34,54,'#2c3e76');R(283,58,34,2,'#1b2a4a');for(let y=62;y<104;y+=5)for(let x=286;x<315;x+=5)R(x,y,4,3,'#8fa0d6');R(296,102,8,10,'#1b2a4a');R(297,103,6,9,'#c9d6ea');
+  for(let k=0;k<3;k++){R(286+k*10,54,8,3,'#1b2a4a');R(287+k*10,55,6,1,'#3a4a80')}
+  // deck: a slim steel slab with a glass railing and an LED line
+  R(30,104,252,8,'rgba(143,160,214,.18)');R(30,103,252,1,'#8fa0d6');for(let x=30;x<282;x+=21)R(x,103,1,9,'#b9c2da');
+  R(30,DY-6,252,6,'rgba(0,0,0,0)');R(30,DY,252,3,'#1b2a4a');R(30,DY+3,252,1,(Math.floor(t*2)%2)?'#5f86d6':C.acc);
+  for(const px of [80,242])R(px,DY+4,3,12,'#2c3e76');
+  // the gate is the pylon of a cable-stayed bridge; data runs along the cables
+  R(GX-15,34,3,84,'#1b2a4a');R(GX+12,34,3,84,'#1b2a4a');R(GX-17,75,34,3,'#1b2a4a');R(GX-15,34,30,3,'#1b2a4a');
+  const ends=[42,70,98,124,198,224,252,272];
+  for(const ex of ends){const sx=ex<GX?GX-14:GX+13;LN(sx,38,ex,DY,'#9aa8d4')}
+  for(let k=0;k<6;k++){const ex=ends[k%ends.length],sx=ex<GX?GX-14:GX+13;const f=((t*.6+k*.17)%1);R(Math.round(sx+(ex-sx)*f),Math.round(38+(DY-38)*f),1,1,C.acc)}
+  const lamp=gateK<0?'#c9d0e6':gateK===0?'#1f6b4f':gateK===1?'#98302f':'#8a8a88';R(GX-4,70,8,3,lamp);
+  // piles beside the gate: red (wrong) right, grey (missing) left
+  let nx=0,nq=0;for(const td of s.todo){if(CASES[td[0]]==='q')nq++;else nx++}
+  for(let j=0;j<Math.min(12,nx);j++)card6(184+(j%3)*8,DY-10-Math.floor(j/3)*9,1);
+  for(let j=0;j<Math.min(12,nq);j++)card6(130-(j%3)*8,DY-10-Math.floor(j/3)*9,2);
+  // invoices on the deck
+  let atGate=null;
+  for(let i=VIZ.length-1;i>=0;i--){const v=VIZ[i];v.t+=1/60;const tg=(GX-4-30)/70;let x,y=DY-9;
+    if(v.t<tg)x=30+70*v.t;else if(v.t<tg+.45){x=GX-4;atGate=v}
+    else if(v.k===0||v.k===4){x=GX-4+90*(v.t-tg-.45);if(x>290){VIZ.splice(i,1);continue}}
+    else{const e=Math.min(1,(v.t-tg-.45)/.5);const tx=v.k===1?190:126;x=GX-4+(tx-GX+4)*e;y=DY-9-Math.sin(e*Math.PI)*12;if(e>=1){VIZ.splice(i,1);continue}}
+    card6(x,y,v.k===4?(v.t>=tg+.15?(s.e28?1:3):0):v.t>=tg+.15&&v.k>0?v.k:v.t>=tg+.15?3:0)}
+  if(atGate){gateK=atGate.k===4?0:atGate.k;gateT=t}else if(t-gateT>.6)gateK=-1;
+  const fr=Math.floor(t*1.6)%2,blink=(t%4.1)<.12;const o={face:'L',pose:'idle',fr,blink};
+  if(gateK===0){o.face='R';o.pose='pass'}else if(gateK===1)o.pose='stop';else if(gateK===2)o.pose='ask';
+  if(s.heim)heim(GX,DY,o);else robot(GX-6,DY,t,0);
+  // from 2028 a second watchman stands at your books: the tax authority
+  if(s.e28){const ty=s.audTy;s.audTy='veteran';auditor(268,DY,'L',0,false,true);s.audTy=ty}
+  // calendar
+  const yr=String(Math.min(Math.ceil(E().y0+E().yrs)-1,Math.floor(year())));R(232,10,44,30,'#f8f8f6');R(232,10,44,6,C.acc);for(let i=0;i<4;i++)digit(yr[i],238+i*9,22);
+  // the eye opens over the whole bridge
+  if(s.phase==='eye'||s.phase==='finale'||(s.phase==='free'&&s.era===6&&s.te>=E().dur)){const k=s.phase==='eye'?Math.min(1,audT/2.2):1;const hh=Math.round(16*k);
+    for(let dx=-46;dx<=46;dx++){const h=Math.round(hh*Math.sqrt(1-(dx/47)**2));if(h>0)R(GX+dx,44-h,1,2*h,'#f8f8f6');R(GX+dx,44-h-1,1,1,'#1b2a4a');R(GX+dx,44+h,1,1,'#1b2a4a')}
+    if(hh>4){disc(GX,44,Math.min(11,hh-2),'#2c3e76');disc(GX,44,Math.min(5,hh-6>0?5:2),'#0f0f0f');R(GX+3,40,2,2,'#f8f8f6')}}
+  drawAuditor();
+}
+function plant(x,y){R(x,y-10,10,10,'#8a5a3a');R(x+1,y-11,8,1,'#6b4a2a');R(x+4,y-26,2,16,'#2f6b3f');R(x-2,y-24,6,4,'#3f8a4f');R(x+6,y-20,6,4,'#3f8a4f');R(x-1,y-16,5,3,'#2f6b3f');R(x+6,y-30,5,5,'#3f8a4f')}
+function desk(x,y,w){R(x,y,w,4,C.wood);R(x,y+4,w,1,C.woodD);R(x+3,y+5,3,150-y-5,C.woodD);R(x+w-6,y+5,3,150-y-5,C.woodD)}
+function draw(){
+  if(s.era===6){drawBridge(s.t);arm=Math.max(0,arm-.08);return}
+  const t=s.t,e2=s.era>=2,e3=s.era===3,e4=s.era>=4,e5=s.era===5;
+  R(0,0,320,150,e4?'#eceeec':e3?'#e3e5ea':e2?'#e9e7e1':C.wall);R(0,104,320,1,C.wall2);R(0,146,320,4,C.base);R(0,150,320,30,e4?'#5d6470':e3?'#8e98aa':e2?'#b9bcc4':C.floor);
+  if(e4){for(let x=0;x<320;x+=20)R(x,150,1,30,'#535a66');R(0,165,320,1,'#535a66');plant(300,146)}
+  else if(e3){for(let y=152;y<180;y+=4)for(let x=(y/4)%2*4;x<320;x+=8)R(x,y,1,1,'#7f899b');R(0,101,320,1,'#8a8f99');for(let x=40;x<320;x+=60)R(x,101,2,3,'#6a6f79')}
+  else if(!e2){for(let x=0;x<320;x+=24)R(x+((x/24)%2?12:0),150,1,30,C.plank);R(0,163,320,1,C.plank)}else{for(let x=0;x<320;x+=16)R(x,150,1,30,'#aeb1b9');for(let y=158;y<180;y+=8)R(0,y,320,1,'#aeb1b9')}
+  // window with the far bridge and a small watchman
+  R(14,20,62,62,C.mark);R(17,23,56,56,C.sky);R(17,58,56,21,C.hill);for(let x=17;x<73;x++){const h=Math.round(4+3*Math.sin(x*.21));R(x,58-h,1,h,C.hill)}
+  R(17,64,56,2,C.acc);for(let x=21;x<73;x+=9)R(x,66,2,6,C.acc);R(43,57,1,7,C.mark);R(49,57,1,7,C.mark);R(42,56,9,1,C.mark);R(46,60,2,4,C.acc);R(46,59,2,1,C.skin);
+  R(44,23,2,56,C.mark);R(17,50,56,2,C.mark);R(12,82,66,3,C.base);
+  // clock
+  disc(112,26,9,C.mark);disc(112,26,7,'#f8f8f6');const a=t*Math.PI*2/60,b=t*Math.PI*2/720;for(let i=0;i<6;i++)R(112+Math.round(Math.sin(a)*i),26-Math.round(Math.cos(a)*i),1,1,C.ink);for(let i=0;i<4;i++)R(112+Math.round(Math.sin(b)*i),26-Math.round(Math.cos(b)*i),1,1,C.acc);
+  // calendar
+  const yr=String(Math.min(Math.ceil(E().y0+E().yrs)-1,Math.floor(year())));R(232,16,44,40,'#f8f8f6');R(232,16,44,8,C.acc);R(240,13,2,6,C.mark);R(266,13,2,6,C.mark);
+  for(let i=0;i<4;i++)digit(yr[i],238+i*9,30);for(let r=0;r<2;r++)for(let c=0;c<6;c++)R(236+c*6,44+r*5,3,2,'#c9c9c6');
+  if(e4&&s.up.cloud){R(160,62,34,16,'#f8f8f6');disc(170,72,5,'#c9d6ea');disc(178,69,6,'#c9d6ea');disc(186,72,5,'#c9d6ea');R(166,72,24,4,'#c9d6ea')}
+  if(s.vat||e2){R(160,40,40,18,'#f8f8f6');R(160,40,40,3,C.acc);R(164,46,14,2,C.mark);R(164,50,24,1,'#c9c9c6');R(164,53,20,1,'#c9c9c6');R(184,45,10,5,C.acc)} // btw poster
+  // cabinets, ledger or printer
+  const cab=x=>{R(x,104,26,46,C.metal);for(let i=0;i<3;i++){R(x+2,107+i*14,22,12,C.metalD);R(x+10,112+i*14,6,2,'#c9c9c6')}};
+  cab(14);if(s.up.arch)cab(42);
+  if(!e2){R(12,98,30,6,C.mark);R(14,96,13,3,'#f8f8f6');R(28,96,13,3,'#f8f8f6');const lines=Math.min(5,Math.floor(s.done/24)+1);for(let i=0;i<lines;i++)R(15+((i%2)*14),97,10-(i%3)*2,1,C.pline);R(26,95,2,9,C.mark)}
+  else if(e4){R(14,62,26,42,'#2a2c34');for(let i=0;i<5;i++){R(16,65+i*8,22,6,'#3a3c44');R(18,67+i*8,2,2,Math.floor(t*3+i*1.7)%3?'#1f6b4f':'#5fd08f');R(22,67+i*8,2,2,Math.floor(t*5+i)%4?'#3a3c44':C.acc)}}
+  else if(e3){R(13,94,28,10,'#3a3c44');R(15,96,10,4,'#5a5d66');R(28,96,10,2,'#8a8f99');R(30,92,8,3,C.paper);const pl=Math.min(10,Math.floor(s.done/30));for(let i=0;i<pl;i++)R(17,104+i,20,1,i%2?'#f2f2ee':C.paper)}
+  else{R(13,95,28,9,C.beige);R(15,97,24,2,C.ink);const pl=Math.min(40,Math.floor(s.done/8));for(let i=0;i<pl;i++){R(17,94-i,20,1,i%2?'#f2f2ee':C.paper);R(16,94-i,1,1,'#c9c9c6');R(37,94-i,1,1,'#c9c9c6')}}
+  // staff layout: front row beside the main desk, back row along the wall; slots never overlap
+  const SLOTS=[[212,126],[262,126],[237,96],[287,96],[186,96],[88,96]];
+  const staff=Math.min(clerks(),SLOTS.length);
+  const drawStaff=(i)=>{const [x,y]=SLOTS[i];const back=y<100;
+    if(back){R(x-4,y,48,3,C.wood);R(x-4,y+3,48,1,C.woodD);R(x-2,y+4,2,4,C.woodD);R(x+40,y+4,2,4,C.woodD)}else desk(x-4,y,50);
+    const ph=(t*clerkRate()*3+i*.37)%1,hair=HAIR[(i+1)%HAIR.length],bl=((t+i)%5.1)<.15;
+    if(!e2){clerk(x+8,y-38,hair,ph<.5,bl,false,false,i%2===0);typewriter(x-2,y-12,(t*clerkRate()+i*.31)%1,s.up.elec)}
+    else if(e4){clerk(x+10,y-42,hair,ph<.5,bl,false,i%3===0,i%2===0);lcd(x+6,y,(t*clerkRate()+i*.31)%1,true)}
+    else if(e3){clerk(x+10,y-42,hair,ph<.5,bl,false,i%3===0,i%2===0);pc95(x+7,y,(t*clerkRate()+i*.31)%1,0,true)}
+    else if(i<s.up.clerk&&!s.up.pcs){clerk(x+8,y-38,hair,ph<.5,bl,false,false,i%2===0);typewriter(x-2,y-12,(t*clerkRate()+i*.31)%1,s.up.elec)}
+    else{clerk(x+10,y-42,hair,ph<.5,bl,false,i%3===0,i%2===0);pc(x+7,y,Math.floor((t*clerkRate()*4+i)%6),(t*clerkRate()+i*.31)%1,0,true)}};
+  for(let i=0;i<staff;i++)if(SLOTS[i][1]<100)drawStaff(i);
+  const D=118;desk(84,D,118);
+  const stack=Math.min(16,Math.ceil(Math.max(0,s.tray-(fill.on?fill.rows:0))/(e2?4:2)));R(88,D-2,26,2,C.woodD);for(let i=0;i<stack;i++)R(90+(i%2),D-3-i,22,1,i%2?'#e6e6e2':C.paper);
+  const blink=(t%4.3)<.15;
+  if(!e2){
+    if(s.up.calc){R(176,D-11,18,11,C.tw);R(178,D-8,14,1,C.twL);R(178,D-5,14,1,C.twL);R(180,D-17,10,6,C.paper);R(186,D-12,4,2,'#c9c9c6')}
+    clerk(136,D-40,HAIR[0],arm>0,blink,false);typewriter(126,D-12,s.keys/keysPer(),s.up.elec);
+  }else if(e4){
+    clerk(136,D-44,HAIR[2%HAIR.length],arm>0,blink,false,true,true);lcd(124,D,(t*autoRate()*.5)%1,false);laptop(170,D);R(112,D-4,10,4,'#2a2c34');
+  }else if(e3){
+    clerk(136,D-44,HAIR[0],arm>0,blink,false,true);pc95(126,D,fill.on?Math.min(1,fill.rows/pkgBatch()):Math.max(0,sweep),arm,false);R(166,D-30,12,30,'#d6d6d0');R(168,D-26,8,1,'#9aa0ad');R(168,D-22,8,1,'#9aa0ad');R(172,D-8,3,3,s.up.pent?'#1f6b4f':'#6a6f79');R(112,D-3,8,3,'#d6d6d0');
+  }else{
+    clerk(136,D-44,HAIR[1],arm>0,blink,false,true,true);
+    const rows=fill.on?Math.min(7,1+Math.floor(fill.rows/4)):Math.floor(s.done/3)%7;
+    pc(126,D,rows,s.keys/keysPer(),fill.on?Math.min(1,fill.rows/sheetRows()):Math.max(0,sweep),false);
+    if(s.up.macro){const on=macroFlash>0||(macroT>5.5&&Math.floor(s.t*6)%2);R(162,D-30,6,3,on?'#e0a030':'#6b5a3a');R(161,D-31,8,1,C.beigeD);if(macroFlash>0){const k=1-macroFlash;for(let i=0;i<7;i++){if(i<=k*7)R(130,D-30+i*3,26,1,'#e0a030')}}}
+    if(s.era===2&&SHEETS[s.sheet].swap&&!s.up.disk){R(168,D-6,10,6,floppyFull()?'#98302f':C.mark);R(170,D-6,6,2,'#c9c9c6')}
+  }
+  for(let i=0;i<staff;i++)if(SLOTS[i][1]>=100)drawStaff(i);
+  for(let i=flies.length-1;i>=0;i--){const f=flies[i];f.t+=1/60;const k=Math.min(1,f.t/.6);const sx=142,sy=D-30;const x=sx+(28-sx)*k,y=sy+(92-sy)*k-Math.sin(k*Math.PI)*24;R(x,y,6,8,C.paper);R(x+1,y+2,4,1,C.pline);R(x+1,y+4,3,1,C.pline);if(k>=1)flies.splice(i,1)}
+  if(e5){const n=1+s.up.agents;for(let i=0;i<n;i++)robot(16+i*34,170,t,i)}
+  drawAuditor();
+  arm=Math.max(0,arm-.08);sweep=Math.max(0,sweep-.03);macroFlash=Math.max(0,macroFlash-.025);
+}
+
+
+/* ================= the tax auditor's visit ================= */
+let audT=0;
+const AUD={walk:2.6,grab:3.6,turn:4.1,end:4.6,tx:122};
+function tickAudit(dt){if(s.phase==='eye'){audT+=dt;if(audT>=4.2){const left6=[...s.errs[6]].filter(c=>c!=='0').length-(s.caught6||0);const f=AUDIT(6,'veteran').fine;s.fin6={n:Math.max(0,left6),f:Math.max(0,left6)*f};s.fines+=s.fin6.f;s.hours=Math.max(0,s.hours-s.fin6.f);s.foundE[6]=(s.caught6||0)+s.fin6.n;s.phase='finale';openModal();save()}return}if(s.phase!=='audit')return;const before=audT;audT+=dt;
+  if(audT<AUD.walk&&Math.floor(audT*4)!==Math.floor(before*4))snd('step');
+  if(before<AUD.walk+.1&&audT>=AUD.walk+.1)snd('paper');
+  if(audT>=AUD.end){s.phase='review';s.rev={stage:'ask'};openModal();save()}}
+function auditor(fx,fy,face,frame,reach,front){ // 16x44, feet at fx,fy; three types
+  const ty=s.audTy,L0=fx-8,T=fy-44,F=face==='L';const P=(x,y,w,h,c)=>R(F?L0+x:L0+16-x-w,T+y,w,h,c);
+  const young=ty==='young',gour=ty==='gourmand';
+  const suit=young?'#2c3e76':gour?'#6b5a4a':'#5f6b73',suitD=young?'#1b2a4a':gour?'#54463a':'#4a545b',hat=young?'#7a5a34':'#2a2c34',bag=young?'#98302f':'#6b4a2a';
+  const hatOn=!young;
+  if(front){if(hatOn){P(3,0,10,4,hat);P(1,4,14,1,hat)}else{P(4,3,8,3,hat)}P(4,5,8,8,C.skin);P(5,8,2,1,C.ink);P(9,8,2,1,C.ink);if(!young){P(5,7,6,1,C.ink);P(6,11,4,1,'#5a3a2a')}
+    P(2,13,12,15,suit);P(7,13,2,7,'#f8f8f6');P(7,14,2,5,C.mark);if(gour){P(0,18,16,9,suit);P(7,18,2,3,C.mark);P(0,25,16,1,suitD);P(7,25,2,1,'#c9a227')}P(0,14,2,12,suitD);P(14,14,2,12,suitD);P(0,26,2,2,C.skin);P(14,26,2,2,C.skin);
+    P(13,28,7,6,bag);P(15,27,3,1,bag);P(4,28,3,14,suitD);P(9,28,3,14,suitD);P(3,42,4,2,C.ink);P(9,42,4,2,C.ink);return}
+  if(hatOn){P(4,0,8,4,hat);P(1,4,14,1,hat)}else{P(5,3,8,3,hat);P(11,5,2,4,hat)}P(5,5,7,8,C.skin);P(4,9,1,2,C.skin);P(5,8,1,1,C.ink);if(!young){P(4,7,4,1,C.ink);P(5,11,3,1,'#5a3a2a')}if(hatOn)P(11,5,1,6,hat);
+  P(3,13,10,15,suit);P(11,13,2,15,suitD);P(5,13,2,5,'#f8f8f6');P(5,14,1,4,C.mark);if(gour){P(0,17,6,10,suit);P(0,25,6,1,suitD)}
+  if(reach){P(1,7,3,8,suitD);P(0,5,3,2,C.skin)}else{P(3,14,3,12,suitD);P(3,26,3,2,C.skin)}
+  if(young){P(12,27,6,5,bag);P(13,26,4,1,'#f8f8f6')}else{P(12,26,7,7,bag);P(14,25,3,1,bag);P(13,28,5,1,'#8a6a3a')}
+  if(frame){P(4,28,3,14,suitD);P(9,28,3,13,suitD);P(3,42,4,2,C.ink);P(10,41,4,2,C.ink)}else{P(6,28,3,14,suitD);P(7,28,3,14,suit);P(5,42,5,2,C.ink)}
+}
+function drawAuditor(){
+  if(s.phase!=='audit'&&s.phase!=='review')return;const t=s.phase==='audit'?audT:AUD.end;const fy=168;
+  if(t<AUD.walk){const x=Math.round(340+(AUD.tx-340)*(t/AUD.walk));auditor(x,fy,'L',Math.floor(t*6)%2,false)}
+  else if(t<AUD.grab){auditor(AUD.tx,fy,'L',0,true);
+    const nT=2+s.era*2,gap=.75/nT;for(let i=0;i<nT;i++){const k=Math.max(0,Math.min(1,(t-AUD.walk-.1-i*gap)/.4));if(k<=0)continue;const sx=100,sy=110,ex=AUD.tx+6,ey=fy-14;
+      const x=sx+(ex-sx)*k,y=sy+(ey-sy)*k-Math.sin(k*Math.PI)*16;if(k<1){R(x,y,6,8,C.paper);R(x+1,y+2,4,1,C.pline)}}}
+  else if(t<AUD.turn)auditor(AUD.tx,fy,'R',0,false);
+  else auditor(AUD.tx,fy,'L',0,false,true);
+}
+/* ================= loop ================= */
+let last=performance.now(),saveT=0,clerkAcc=0,macroT=0,autoAcc=0;
+function step(dt){
+  if(!playing())return;
+  s.t+=dt;s.te+=dt;
+  {const tr=(s.tr[s.era]=s.tr[s.era]||[]);if(!tr.length||s.te-tr[tr.length-1][0]>=1)tr.push([Math.round(s.te*10)/10,s.earned])}
+  if(s.phase==='play'&&s.te>=E().dur&&s.era===6){s.phase='eye';audT=0;Music.duck(true);banner('drr');snd('warn');return}
+  if(s.phase==='play'&&s.te>=E().dur&&s.ev){evMiss();s.ev=null}
+  if(s.phase==='play'&&s.te>=E().dur){if(s.era===3){if(s.up.y2k)banner('y2kOk');else{s.errs[3]=[...s.errs[3]].map(c=>c==='0'&&Math.random()<.1?'y':c).join('');banner('y2kBug');snd('warn')}}s.phase='audit';s.audTy=pickAuditor();s.audB=3+Math.floor(Math.random()*4);audT=0;fillEnd();Music.duck(true);return}
+  s.trayF+=inflow()*dt;while(s.trayF>=1){s.trayF-=1;s.tray++}
+  {const r=clients()*RETAINER*dt;s.hours+=r;s.earned+=r} // vaste klanten betalen een vast bedrag per maand, los van je tempo
+  if(s.swapping>0){s.swapping-=dt;if(s.swapping<=0){s.swapping=0;s.floppy=0}return}
+  if(specFix>0){specFix-=dt;if(specFix<=0&&s.stale){s.stale=false;banner('fixed')}}
+  if(floppyFull()){if(banKey!=='floppy'&&s.swapping<=0)banner('floppy');return} // the swap button must always be reachable
+  if(s.era===6&&!s.heim){
+    if(s.phase==='play'){autoAcc+=autoRate5()*dt;while(autoAcc>=1&&s.tray>=1&&s.phase==='play'){autoAcc-=1;agentBook()}if(s.tray<1)autoAcc=Math.min(autoAcc,1)}
+    if(!s.card)nextCard();evTick(dt);
+    if(s.up.revs&&clerks()){clerkAcc+=clerks()*.4*dt;while(clerkAcc>=1&&s.card){clerkAcc-=1;const c=s.card,wrong=c[2]!==c[3];judge(wrong?Math.random()>.9:Math.random()>.01,true)}clerkAcc=Math.min(clerkAcc,1)}
+    if(!s.p26){s.p26=true;banner('p26a')}
+    if(!s.h26&&year()>=2026.16){s.h26=true;banner('h26')}
+    if(!s.t26&&year()>=2026.25){s.t26=true;banner('t26')}
+    if(!s.e28&&year()>=2028){s.e28=true;banner('e28a');snd('warn')}
+    if(!s.v28&&year()>=2028.5){s.v28=true;banner('v28')}
+    return}
+  if(s.era===6){
+    if(s.phase==='play'){autoAcc+=heimRate()*dt;while(autoAcc>=1&&s.tray>=1){autoAcc-=1;heimOne()}if(s.tray<1)autoAcc=Math.min(autoAcc,1)}
+    for(let i=s.wait.length-1;i>=0;i--)if(s.te>=s.wait[i][1]){s.wait.splice(i,1);bookAdvice()}
+    evTick(dt);
+    if(clerks()){clerkAcc+=clerks()*.1*dt;while(clerkAcc>=1&&s.todo.length){clerkAcc-=1;handleTodo(true)}clerkAcc=Math.min(clerkAcc,1)}
+    if(!s.p26){s.p26=true;banner('p26')}
+    if(!s.h26&&year()>=2026.16){s.h26=true;banner('h26')}
+    if(!s.t26&&year()>=2026.25){s.t26=true;banner('t26')}
+    if(!s.e28&&year()>=2028){s.e28=true;banner('e28');snd('warn')}
+    if(!s.v28&&year()>=2028.5){s.v28=true;banner('v28')}
+    return}
+  if(s.era===5){
+    autoAcc+=autoRate5()*dt;while(autoAcc>=1&&s.tray>=1){autoAcc-=1;agentBook()}if(s.tray<1)autoAcc=Math.min(autoAcc,1);
+    if(!s.card)nextCard();evTick(dt);
+    if(s.up.revs&&clerks()){clerkAcc+=clerks()*.4*dt;while(clerkAcc>=1&&s.card){clerkAcc-=1;const c=s.card,wrong=c[2]!==c[3];judge(wrong?Math.random()>.9:Math.random()>.01,true)}clerkAcc=Math.min(clerkAcc,1)}
+    if(!s.m20&&year()>=2020.34){s.m20=true;s.maskOn=true;s.maskStale=s.up.spec?.3:1;if(s.up.prompt)s.maskStale*=.5;s.risk[5]=s.errs[5].length;banner(s.up.spec?'m20Spec':'m20');snd('warn')}
+    if(!s.m22&&year()>=2023){s.m22=true;s.maskOn=false;s.maskStale=s.up.spec?.3:1;if(s.up.prompt)s.maskStale*=.5;banner('m22');snd('warn')}
+    if(!s.v22&&year()>=2022.94){s.v22=true;banner('v22')}
+    if(!s.b24&&year()>=2024.1){s.b24=true;banner('b24')}
+    if(!s.v25&&year()>=2025.19){s.v25=true;banner('v25')}
+    return}
+  if(s.era===4){
+    autoAcc+=autoRate()*dt;
+    while(autoAcc>=1&&s.tray>=1){autoAcc-=1;
+      if(Math.random()<ERPS[s.erp].exc){s.tray--;s.exq++;continue}
+      const cat=newCat();let ch='0';if(s.rules[cat]!==RIGHT[cat])ch='d';else if(s.up.ocr&&!s.up.valid&&Math.random()<.03*(s.up.einv?.4:1))ch='o';book(ch)}
+    if(s.tray<1)autoAcc=Math.min(autoAcc,1);
+    if(clerks()){clerkAcc+=clerks()*clerkRate()*dt;while(clerkAcc>=1&&s.exq>=1){clerkAcc-=1;book(Math.random()<(s.up.spec?.05:.3)?'c':'0',true)}if(s.exq<1)clerkAcc=Math.min(clerkAcc,1)}
+    events();return}
+  const free=()=>s.tray-(fill.on?fill.rows:0); // rows claimed by a running fill-down stay with the fill
+  if(clerks()){clerkAcc+=clerks()*clerkRate()*dt;while(clerkAcc>=1&&free()>=1&&!floppyFull()){clerkAcc-=1;book(errFor('clerk'))}if(free()<1)clerkAcc=Math.min(clerkAcc,1)}
+  if(s.era>=2){
+    if(fillCd>0)fillCd=Math.max(0,fillCd-dt);
+    if(fill.on&&fill.src==='in'&&!held)fillEnd();
+    if(fill.on){fill.acc+=dt;while(fill.acc>=.06){fill.acc-=.06;if(fill.rows>=fillMax()){fillEnd();break}if(s.tray-fill.rows>=1){fill.rows++;fill.wait=false;if(fill.rows%3===0)snd('fill')}else{fill.wait=true;fill.acc=0;break}}}
+    if(s.era===2&&s.up.macro){macroT+=dt;if(macroT>=7){macroT=0;const n=Math.min(Math.floor(sheetRows()/2),s.tray-(fill.on?fill.rows:0));if(n>0){commitFill(n,1.5,true);macroFlash=1;floatTxt(tpl(L.macroRun,{n}),'macro')}}}
+  }
+  events();
+}
+function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;step(dt);tickAudit(dt);draw();ui();hints();saveT+=dt;if(saveT>3){saveT=0;save()}requestAnimationFrame(frame)}
+
+/* ================= input ================= */
+$('tap').addEventListener('pointerdown',e=>{e.preventDefault();tap()});
+cv.addEventListener('pointerdown',()=>tap());
+const F=$('fill');F.addEventListener('pointerdown',e=>{e.preventDefault();try{F.setPointerCapture(e.pointerId)}catch(x){}held=true;fillStart();if(fill.on)fill.src='in'});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>F.addEventListener(ev,release));
+/* a hold must never get stuck: any release anywhere, leaving the window or switching tabs ends it */
+let held=false;function release(){held=false;fillEnd()}
+['pointerup','pointercancel','blur'].forEach(ev=>addEventListener(ev,()=>{if(fill.on&&fill.src==='in')release()}));
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&fill.on)release()});
+F.addEventListener('contextmenu',e=>e.preventDefault());
+addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;if($('modal').classList.contains('show'))return;const tg=e.target;
+  if(s.era===6&&s.heim&&s.started&&s.phase==='play'&&(e.key==='1'||e.key==='2')){e.preventDefault();if(e.key==='1')handleTodo();else forceTodo();return}
+  if((s.era===5||(s.era===6&&!s.heim))&&s.started&&s.phase==='play'&&(e.key==='3'||e.key==='4')){e.preventDefault();judgeEv(e.key==='3');return}
+  if((s.era===5||(s.era===6&&!s.heim))&&s.started&&s.phase==='play'&&(e.key==='1'||e.key==='2')){e.preventDefault();judge(e.key==='1');return}
+  if(s.era>=3&&s.era<5&&s.started&&['1','2','3','4'].slice(0,s.era===4&&s.svc?4:3).includes(e.key)){e.preventDefault();chooseCode(['n','v','eu','rc'][+e.key-1]);return}
+  if(e.code==='Space'&&s.era>=2&&s.era<4&&s.started){e.preventDefault();if(!e.repeat){held=true;fillStart();if(fill.on)fill.src='in'}return}
+  if(tg&&tg.tagName==='BUTTON'&&(e.key==='Enter'||e.key===' '))return;
+  if(s.era>=3)return;
+  if(e.key.length===1||e.key==='Enter'||e.key==='Backspace'){if(!s.started)return;e.preventDefault();tap()}});
+addEventListener('keyup',e=>{if(e.code==='Space')release()});
+document.querySelectorAll('.cbtns button').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();chooseCode(b.dataset.c)}));
+$('bStart').onclick=startGame;
+$('bHandle').onclick=()=>{if(s.started&&s.phase==='play'&&s.era===6)handleTodo()};$('bForce').onclick=()=>{if(s.started&&s.phase==='play'&&s.era===6)forceTodo()};
+$('bEvOk').onclick=()=>judgeEv(true);$('bEvBad').onclick=()=>judgeEv(false);
+$('bOk').onclick=()=>{if(s.started&&s.phase==='play'&&(s.era===5||!s.heim))judge(true)};$('bBad').onclick=()=>{if(s.started&&s.phase==='play'&&(s.era===5||!s.heim))judge(false)};
+/* start at a later era: a typical office from the eras before, then the shop that opens the chosen era */
+const KITS={2:{up:{clerk:3,calc:1,arch:1,elec:1,spec:1},cli0:25,hours:75,earned:170},
+  3:{up:{clerk:3,calc:1,arch:1,elec:1,spec:1,staff:1,pcs:1,mem:1,printer:1,eyes:1,cell:1,ads2:3},sheet:'exsel',cli0:70,hours:400,earned:900},
+  4:{up:{clerk:3,calc:1,arch:1,elec:1,spec:1,staff:1,pcs:1,mem:1,printer:1,eyes:1,cell:1,ads2:3,staff3:1,keys:1,fiche:1,net:1,eumod:1,y2k:1,ads3:4},sheet:'exsel',pkg:'sage',cli0:150,hours:800,earned:3000},
+  6:{up:{clerk:3,calc:1,arch:1,elec:1,spec:1,staff:1,pcs:1,mem:1,printer:1,eyes:1,cell:1,ads2:3,staff3:1,keys:1,fiche:1,net:1,eumod:1,y2k:1,ads3:4,feed:1,ocr:1,valid:1,cloud:1,einv:1,ads4:4,agents:2,revs:1,prompt:1,model:1,ads5:5},sheet:'exsel',pkg:'sage',erp:'onlijn',agent:'copi',cli0:900,hours:40000,earned:60000},
+  5:{up:{clerk:3,calc:1,arch:1,elec:1,spec:1,staff:1,pcs:1,mem:1,printer:1,eyes:1,cell:1,ads2:3,staff3:1,keys:1,fiche:1,net:1,eumod:1,y2k:1,ads3:4,feed:1,ocr:1,valid:1,cloud:1,einv:1,ads4:4},sheet:'exsel',pkg:'sage',erp:'onlijn',cli0:450,hours:4000,earned:12000}};
+function startAt(n){lastPick=null;const k=KITS[n];const l=s.lang,sn=s.snd,mu=s.mus;s=fresh();s.lang=l;s.snd=sn;s.mus=mu;
+  Object.assign(s.up,k.up);s.sheet=k.sheet||null;s.pkg=k.pkg||null;s.cli0=k.cli0;s.hours=k.hours;s.earned=k.earned;s.v69=s.vat=s.r78=true;if(n>=4){s.eu=s.euro=s.y2kW=true}if(n>=6){s.agent=k.agent;s.m20=s.m22=s.v22=s.b24=s.v25=true}if(n>=5){s.erp=k.erp;s.svc=s.e02=s.e06=s.e13=true;s.rules={be:'n',food:'v',eu:'eu',svc:'rc'}}
+  s.era=n-1;s.te=E().dur;s.started=true;s.phase='shop';hist.length=0;flies.length=0;fill.on=false;fillCd=0;
+  $('ovIntro').classList.remove('show');if(s.mus)Music.start(n-1);text();openModal();save()}
+$('ovIntro').querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>startAt(+b.dataset.jump));
+$('bNL').onclick=()=>{s.lang='nl';text();save()};$('bEN').onclick=()=>{s.lang='en';text();save()};
+$('bSnd').onclick=()=>{s.snd=!s.snd;text();save()};
+$('bMus').onclick=()=>{s.mus=!s.mus;if(s.mus)Music.start(s.era);else Music.stop();text();save()};
+addEventListener('pointerdown',()=>{if(s.started&&s.mus&&!Music.playing())Music.start(s.era)},{once:false});
+document.addEventListener('visibilitychange',()=>{if(!AC)return;if(document.hidden)AC.suspend();else AC.resume()});
+function reset(){const l=s.lang,sn=s.snd,mu=s.mus;s=fresh();s.lang=l;s.snd=sn;s.mus=mu;Music.theme(1);hist.length=0;flies.length=0;fill.on=false;fillCd=0;banClose();$('modal').classList.remove('show');$('ovEra').classList.remove('show');$('ovIntro').classList.add('show');text();save()}
+let sure=0;$('bReset').onclick=()=>{if(performance.now()-sure<3000){reset();sure=0}else{sure=performance.now();$('bReset').textContent=L.sure;setTimeout(()=>{$('bReset').textContent=L.reset},3000)}};
+
+text();
+if(!s.started)$('ovIntro').classList.add('show');
+requestAnimationFrame(frame);
+
+if(TEST)window.G={AUDITF:e=>AUDIT(e,'veteran').fine,judgeEv,get ev(){return s.ev},pickNoHeim,retry6,startAt,pickHeim,handleTodo,forceTodo,heimRate,pickAgent,judge,AGENTS,pickErp,renderRules,tickAudit,pickPkg,chooseCode,setTy(t){s.audTy=t},setAud(v){audT=v},get s(){return s},set s(v){s=v},fresh,start:startGame,tap,step,fillStart,fillEnd,buy:id=>buy(E().ups.find(u=>u.id===id)),visibleUps,doReview,act,pickSheet,E,get fillCd(){return fillCd},get fill(){return fill},fixRate,swapFloppy,floppyFull,text,openModal};
+}
+</script>
+</body>
+</html>
