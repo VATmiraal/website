@@ -569,7 +569,7 @@ const FIXC=10,RETAINER=.04;
 /* the sample grows with the work: 5% of the era's invoices in era 1, 10% in era 2, and so on (at least 10) */
 const AUDIT=(e,ty)=>{const n=(s.errs[e]||'').length,base=Math.max(10,Math.round(n*Math.min(.1,.05*e)));
   /* from era 5 the volumes are so large that a fixed fine stops mattering: the fine follows what an invoice is worth */
-  const fine=e>=5?Math.max(30*e,Math.round((e===5?12:25)*hoursPer())):30*e;
+  const fine=e>=5?Math.max(30*e,Math.round((e===5?12:25)*hoursPer()*(e===6?VOL6:1))):30*e;
   const a={fine,lunch:[0,Math.round(fine/2),fine],sample:[base,Math.max(1,Math.round(base*.3)),Math.max(1,Math.round(base*.1))],noLunch:false};
   /* the young one does not lunch: he checks invoices until his sandwiches run out, about 5% of the era per sandwich (3 to 6 sandwiches) */
   if(ty==='young'){const y=Math.min(n,Math.max(10,Math.round(n*.05*(s.audB||4))));a.sample=[y,y,y];a.noLunch=true}
@@ -586,7 +586,7 @@ const ERA={
     ups:[{id:'ads2',cost:n=>Math.round(90*Math.pow(1.45,n)),max:15},{id:'mem',cost:()=>180,max:1},{id:'printer',cost:()=>200,max:1},{id:'staff',cost:n=>Math.round(150*Math.pow(1.6,n)),max:2},{id:'pcs',cost:()=>275,max:1},{id:'disk',cost:()=>150,max:1,need:s=>SHEETS[s.sheet].swap},{id:'cell',cost:()=>200,max:1,need:s=>!s.up.spec},{id:'macro',cost:()=>450,max:1,need:s=>SHEETS[s.sheet].macro},{id:'eyes',cost:()=>120,max:1}]},
  3:{dur:120,cpi:8,per:.22,y0:1990,yrs:10,
     ups:[{id:'ads3',cost:n=>Math.round(350*Math.pow(1.45,n)),max:15},{id:'keys',cost:()=>400,max:1},{id:'fiche',cost:()=>500,max:1},{id:'net',cost:()=>650,max:1},{id:'pent',cost:()=>800,max:1},{id:'eumod',cost:()=>400,max:1,need:s=>s.eu},{id:'maint',cost:()=>600,max:1,need:s=>!s.up.spec&&year()>=1995},{id:'y2k',cost:()=>500,max:1,need:s=>year()>=1997}]},
- 6:{dur:120,cpi:24,per:.1,y0:2026,yrs:4.5,
+ 6:{dur:120,cpi:24*30,per:.1*30,y0:2026,yrs:4.5,
     ups:[{id:'ads6',cost:n=>Math.round(16000*Math.pow(1.45,n)),max:15},{id:'cap',cost:n=>Math.round(16000*Math.pow(2.2,n)),max:Infinity,need:s=>s.heim},{id:'ctrl',cost:()=>8000,max:1,need:s=>s.heim},{id:'crit',cost:()=>12000,max:1,need:s=>s.heim&&year()>=2026.5},{id:'mail',cost:()=>20000,max:1,need:s=>s.heim&&year()>=2027.5},{id:'app',cost:()=>20000,max:1,need:s=>s.heim&&year()>=2028.5},{id:'reader',cost:()=>32000,max:1,need:s=>s.heim},{id:'prompt',cost:()=>8000,max:1,need:s=>!s.heim},{id:'rag',cost:()=>12000,max:1,need:s=>!s.heim},{id:'revs',cost:()=>6000,max:1,need:s=>!s.heim},{id:'peppol',cost:()=>10000,max:1}]},
  5:{dur:120,cpi:20,per:.1,y0:2020,yrs:6,
     ups:[{id:'ads5',cost:n=>Math.round(1500*Math.pow(1.45,n)),max:15},{id:'agents',cost:n=>Math.round(1500*Math.pow(2,n)),max:3},{id:'revs',cost:()=>1500,max:1},{id:'prompt',cost:()=>2000,max:1},{id:'model',cost:()=>4000,max:1},{id:'rag',cost:()=>3000,max:1,need:s=>year()>=2023},{id:'peppol',cost:()=>2500,max:1,need:s=>year()>=2024.1}]},
@@ -606,14 +606,18 @@ const RIGHT={be:'n',food:'v',eu:'eu',svc:'rc'};
 /* era 6: Heimdall. Every invoice passes the gate: klopt, klopt niet (with the legal reason), or a fact is missing.
    Case types: x = supplier invoice wrong (credit note), p = booking proposal wrong (adjust), q = fact missing (ask the client) */
 const CASES=['x','x','x','x','p','p','q','q','q','p','e','e','x','p','x'];const PCASES=[4,5,9,13];
-const heimRate=()=>40*(1+s.up.cap)*(s.up.peppol?1.25:1)*(s.up.reader?1.5:1);
+/* era 6 at a realistic scale: VOL6 times more invoices per client, each worth VOL6 times less.
+   To-dos, dossier events, advice fees and fines keep their absolute size */
+const VOL6=30;
+const heimRate=()=>40*VOL6*(1+s.up.cap)*(s.up.peppol?1.25:1)*(s.up.reader?1.5:1);
 const WAIT={x:8,q:5,p:0};
 const ADV=4; // a handled to-do earns the booking plus four times its value in advice
-function bookAdvice(){book('0',true);const a=ADV*hoursPer();s.hours+=a;s.earned+=a}
+function bookAdvice(){book('0',true);const a=ADV*hoursPer()*(s.era===6?VOL6:1);s.hours+=a;s.earned+=a}
 /* with firm and client file settings Heimdall already knows the vehicle types, private use and the pro rata of each client */
 const KNOWN=[6,7,9];
 function heimOne(){s.tray--;const r=Math.random();let c=-1;
-  if(r<.028){const y=year(),q=Math.random();c=y>=2026.16&&y<2026.5&&q<.3?12:y>=2026.25&&q<.45?14:Math.floor(Math.random()*4)}else if(r<.046)c=PCASES[Math.floor(Math.random()*4)];else if(r<.058)c=6+Math.floor(Math.random()*3);
+  const rr=r*VOL6;
+  if(rr<.028){const y=year(),q=Math.random();c=y>=2026.16&&y<2026.5&&q<.3?12:y>=2026.25&&q<.45?14:Math.floor(Math.random()*4)}else if(rr<.046)c=PCASES[Math.floor(Math.random()*4)];else if(rr<.058)c=6+Math.floor(Math.random()*3);
   if(c>=0&&s.up.ctrl&&KNOWN.includes(c))c=-1;
   if(c<0){s.hc.ok++;book('0',true);viz(0);return}
   const ty=CASES[c];if(ty==='q')s.hc.q++;else s.hc.x++;viz(ty==='q'?2:1);
@@ -629,8 +633,8 @@ function forceTodo(){const t=s.todo.shift();if(!t)return;if(CASES[t[0]]==='e')s.
 const VIZ=[];function viz(k){if(VIZ.length<14&&Math.random()<Math.min(1,2.2/Math.max(1,heimRate())))VIZ.push({x:30,k,t:0})}
 /* dossier events: no invoice, but they still have to be booked. Revision of deducted VAT on a building, the definitive pro rata at year-end, a credit note received */
 const EVK=['rev','pro'],EVADV5=5,EVADV6=20;
-function bookEvent(m){const a=m*hoursPer();s.hours+=a;s.earned+=a}
-function evMiss(){s.errs[s.era]+='A';if(s.era===6&&!s.heim&&s.e28)fineLive(HEAVY)}
+function bookEvent(m){const a=m*hoursPer()*(s.era===6?VOL6:1);s.hours+=a;s.earned+=a}
+function evMiss(){s.errs[s.era]+='A';if(s.era===6&&!s.heim&&s.e28)fineLive(HEAVY,true)}
 function evTick(dt){if(s.phase!=='play')return;s.evT=(s.evT??10)-dt;
   if(s.ev&&s.te-s.ev.t>14){evMiss();lastEv={res:'expired',k:s.ev.k,t:performance.now()};s.ev=null}
   if(s.era===5&&!s.brxEv&&year()>=2021&&!s.ev){s.brxEv=true;s.ev={k:'brx',t:s.te};s.evT=Math.max(s.evT,10);if(!s.ev1){s.ev1=true;banner('ev1')}return}
@@ -652,7 +656,7 @@ const HEAVY=3,errW=ch=>ch==='A'?HEAVY:1;
 const CATW5={be:.5,food:1,eu:1.5,svc:2,mask:1};
 const right5=cat=>cat==='hotel'?'h6':cat==='pdf'?'pdf':cat==='uk'?'imp':HARD[cat]?HARD[cat][0]:cat==='mask'?(s.maskOn?'v':'n'):RIGHT[cat];
 function newCat5(){if(s.era===6){const y=year(),q=Math.random();if(y>=2026.16&&y<2026.5&&q<.03)return'hotel';if(y>=2026.25&&q<.05)return'pdf'}if(year()>=2021&&Math.random()<.03)return'uk';{const h=Math.random();if(h<.015)return'car';if(h<.025)return'mix';if(h<.03)return'abc';if(h<.04)return'exm'}if(year()>=2020.34&&Math.random()<(s.maskOn?.08:.04))return'mask';const r=Math.random();return r<.1?'svc':r<.27?'eu':r<.47?'food':'be'}
-const autoRate5=()=>AGENTS[s.agent].auto*(1+s.up.agents)*(s.up.model?2:1)*(s.up.peppol?1.25:1);
+const autoRate5=()=>(s.era===6?VOL6:1)*AGENTS[s.agent].auto*(1+s.up.agents)*(s.up.model?2:1)*(s.up.peppol?1.25:1);
 function hEff(cat){if(HARD[cat])return 1;return Math.max(s.era===6?.015:0,s.h5[cat])*(s.up.rag?.5:1)*(s.up.peppol&&(cat==='be'||cat==='food')?.5:1)}
 function agentBook(){const cat=newCat5(),right=right5(cat);let code=right;
   if(HARD[cat])code=HARD[cat][1];
@@ -663,7 +667,7 @@ function agentBook(){const cat=newCat5(),right=right5(cat);let code=right;
   const idx=s.errs[s.era].length;const ch=code===right?'0':HARD[cat]?'A':'a';book(ch);s.recent.push([idx,cat,code,right,Math.floor(Math.random()*9)]);if(s.recent.length>60)s.recent.shift();
   if(s.era===6){viz(code===right?0:4);if(code!==right&&s.e28)fineLive(errW(ch))}}
 /* without Heimdall, from 2028 the tax authority sees every invoice: every confident error is fined at once, and repeat infringements weigh heavier */
-let fineFx=0;function fineLive(w){const n=s.caught6||0;const f=Math.round(AUDIT(6,'veteran').fine*(1+n/3)*(w||1));s.caught6=n+1;s.fines+=f;s.hours-=f;
+let fineFx=0;function fineLive(w,abs){const n=s.esc6||0;const k=abs?1:VOL6;const f=Math.round(AUDIT(6,'veteran').fine/k*(1+n/(3*VOL6))*(w||1));s.esc6=n+(abs?VOL6:1);s.caught6=(s.caught6||0)+1;s.fines+=f;s.hours-=f;
   if(performance.now()-fineFx>350){fineFx=performance.now();floatTxt(-f,'fine')}
   if(s.hours<0&&s.phase==='play'){s.phase='bankrupt';fill.on=false;Music.duck(true);snd('warn');openModal();save()}}
 function setErr5(idx,ch){const e=s.errs[s.era];if(idx<e.length)s.errs[s.era]=e.slice(0,idx)+ch+e.slice(idx+1)}
@@ -692,7 +696,7 @@ const inflow=()=>clients()*E().per;
 function keysPer(){if(s.era===3)return 1;if(s.era===1)return 6-(s.up.calc?2:0)-(s.up.elec?1:0)+(s.vat&&!s.up.spec?1:0);return SHEETS[s.sheet].keys}
 function clerks(){return s.era===1?s.up.clerk:s.up.clerk+s.up.staff+(s.era>=3?s.up.staff3:0)}
 function clerkRate(){return s.era===1?.25*(s.up.elec?1.5:1):s.era===2?.15*(s.up.pcs?2:1)*(s.up.eyes?.8:1):s.era===3?.2*(s.up.net?2:1)*(s.up.eyes?.8:1):.25*(s.up.cloud?2:1)}
-function hoursPer(){return(1+(s.up.arch?1:0))*(s.up.printer?1.5:1)*(s.era===3?2:1)*(s.era===6?8:s.era>=4?2:1)*Math.pow(1.25,s.era===2?s.up.ads2:s.era===3?s.up.ads3:s.era===4?s.up.ads4:s.era===5?s.up.ads5:s.era===6?s.up.ads6:0)} // a package lets you bill more per invoice
+function hoursPer(){return(1+(s.up.arch?1:0))*(s.up.printer?1.5:1)*(s.era===3?2:1)*(s.era===6?8/VOL6:s.era>=4?2:1)*Math.pow(1.25,s.era===2?s.up.ads2:s.era===3?s.up.ads3:s.era===4?s.up.ads4:s.era===5?s.up.ads5:s.era===6?s.up.ads6:0)} // a package lets you bill more per invoice
 /* era 1 VAT errors: very high right after 1 January 1971, people learn over a few years,
    and the 1978 rate cut (18% to 16%) brings a new spike. A VAT specialist keeps it low throughout. */
 function vatErr1(){if(!s.vat)return 0;if(s.up.spec)return .002;const y=year();let p=y<1975?.55+(.10-.55)*Math.max(0,(y-1971)/4):.10;
@@ -1120,7 +1124,7 @@ function pickPkg(id){lastPick=null;Music.duck(false);
 }
 function pickNoHeim(){lastPick=null;s.h26=s.t26=false;s.ev=null;s.evT=10;lastEv=null;Music.duck(false);if(!s.agent)s.agent='gem';
   try{snap6=JSON.stringify(s);localStorage.setItem('vtth2snap',snap6)}catch(e){}
-  s.heim=false;s.bought=0;s.cli0=clients();s.era=6;s.done=0;s.te=0;s.phase='play';s.rev=null;s.recent=[];s.card=null;s.checked=0;s.caught6=0;s.exq=0;
+  s.heim=false;s.bought=0;s.cli0=clients();s.era=6;s.done=0;s.te=0;s.phase='play';s.rev=null;s.recent=[];s.card=null;s.checked=0;s.caught6=0;s.esc6=0;s.exq=0;
   hist.length=0;flies.length=0;VIZ.length=0;autoAcc=0;clerkAcc=0;
   $('modal').classList.remove('show');snd('buy');Music.theme(5);text();showEra();save();
 }
@@ -1454,7 +1458,7 @@ function step(dt){
   }
   events();
 }
-function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;step(dt);tickAudit(dt);draw();ui();hints();saveT+=dt;if(saveT>3){saveT=0;save()}requestAnimationFrame(frame)}
+function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;step(dt);tickAudit(dt);draw();ui();hints();saveT+=dt;if(saveT>(s.era===6?10:3)){saveT=0;save()}requestAnimationFrame(frame)}
 
 /* ================= input ================= */
 $('tap').addEventListener('pointerdown',e=>{e.preventDefault();tap()});
